@@ -43,39 +43,12 @@ export default function Home() {
 
   return (
     <div className="container mx-auto px-6 py-12 flex flex-col gap-12 max-w-7xl">
-      {/* Hero Section: AI Trading Intelligence Concept */}
-      <section className="relative overflow-hidden pt-8 pb-4">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[300px] bg-gradient-to-b from-amber-500/10 to-transparent blur-[120px] pointer-events-none"></div>
-        
-        <div className="flex flex-col gap-6 relative z-10">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-5xl md:text-6xl font-outfit font-black text-white tracking-tighter leading-[1.1] uppercase italic">
-              AI-Driven <br />
-              <span className="text-[var(--accent-gold)] gold-glow">CFD Intelligence</span>
-            </h1>
-            <p className="text-lg md:text-xl text-[var(--text-secondary)] font-bold max-w-2xl leading-relaxed mt-2">
-              감정이 배제된 수치와 틱데이터 분석의 만남. <br />
-              전 세계 CFD 트레이더를 위한 가장 날카로운 트레이딩 정보공유 커뮤니티, Treia.
-            </p>
-          </div>
-          
-          <div className="flex flex-wrap items-center gap-4 mt-2">
-             <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-green-500/5 border border-green-500/20">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-                <span className="text-[10px] font-black text-green-500 uppercase tracking-widest">Global Liquidity: High</span>
-             </div>
-             <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-500/5 border border-blue-500/20">
-                <div className="w-2 h-2 rounded-full bg-blue-400"></div>
-                <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Market Phase: Volatile Expension</span>
-             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Top Dashboards: Calendar & Telegram */}
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
-         <EconomicCalendar />
+
+      {/* Top Dashboards: Telegram & Calendar */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full items-stretch">
          <TelegramSignals />
+         <EconomicCalendar />
       </section>
 
       {/* Today's Chart (M3) & Setup */}
