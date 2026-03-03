@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UploadCloud, CheckCircle2, TrendingUp, Clock, Activity, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -40,6 +40,29 @@ export default function JournalPage() {
       setErrorMsg(null);
     }
   };
+
+  useEffect(() => {
+    const handlePaste = (e: ClipboardEvent) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          const file = items[i].getAsFile();
+          if (file) {
+            setSelectedImage(file);
+            const url = URL.createObjectURL(file);
+            setPreview(url);
+            setResult(null);
+            setErrorMsg(null);
+            e.preventDefault();
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, []);
 
   const handleUpload = async () => {
     if (!selectedImage) return;
@@ -101,7 +124,7 @@ export default function JournalPage() {
                   <label className="border-2 border-dashed border-gray-700 hover:border-amber-500/50 bg-[#14161B] rounded-2xl p-12 cursor-pointer transition-all flex flex-col items-center justify-center group overflow-hidden relative">
                      <div className="absolute inset-0 bg-amber-500/0 group-hover:bg-amber-500/5 transition-all"></div>
                      <UploadCloud size={48} className="text-gray-500 group-hover:text-amber-500 transition-colors mb-4" />
-                     <p className="text-gray-300 font-bold mb-2">이미지 드래그 & 드롭 하거나 클릭</p>
+                     <p className="text-gray-300 font-bold mb-2">이미지 드래그 & 드롭, 클릭 또는 <span className="text-amber-500 bg-amber-500/10 px-1 rounded">Ctrl+V</span> 붙여넣기</p>
                      <p className="text-gray-600 text-xs">MT4 / MT5 History PNG, JPG만 허용</p>
                      <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
                   </label>
