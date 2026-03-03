@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Bot, BarChart3, LayoutDashboard, ChevronRight, Target, Users, MessageSquare, Flame, Globe } from "lucide-react";
+import { Bot, BarChart3, LayoutDashboard, ChevronRight, Target, Users, Globe } from "lucide-react";
 import Link from "next/link";
 import TradingViewChart from "@/components/TradingViewChart";
 import EducationalPerspectiveCard from "@/components/EducationalPerspectiveCard";
@@ -72,49 +72,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Telegram Real-time Signals Section (Top Level Placement) */}
-      <section className="w-full">
+      {/* Top Dashboards: Calendar & Telegram */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+         <EconomicCalendar />
          <TelegramSignals />
       </section>
 
-      {/* Main Service Cards (4 Grid) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <ServiceCard 
-          href="/curation"
-          title="AI 정보 큐레이션"
-          desc="MQL5, Forex Factory의 실시간 전략과 뉴스를 AI가 한국어로 집약해 드립니다."
-          icon={<Bot size={24} />}
-          accentColor="rgba(255, 193, 7, 0.4)"
-          stat="오늘 15건 실시간 분석"
-        />
-        <ServiceCard 
-          href="/analysis"
-          title="시장 분석"
-          desc="TradingView 차트와 AI 틱데이터 분석으로 최상의 진입 타점을 포착하세요."
-          icon={<BarChart3 size={24} />}
-          accentColor="rgba(59, 130, 246, 0.4)"
-          stat="골드 변동성 경보"
-        />
-        <ServiceCard 
-          href="/ea"
-          title="EA 스토어"
-          desc="승률 70% 이상의 검증된 EA와 프리미엄 인디케이터를 선정해 드립니다."
-          icon={<LayoutDashboard size={24} />}
-          accentColor="rgba(168, 85, 247, 0.4)"
-          stat="신규 EA 2종 등록"
-        />
-        <ServiceCard 
-          href="/community"
-          title="트레이더 광장"
-          desc="전 세계 CFD 트레이더들과 전략을 공유하고 집단 지성을 경험하세요."
-          icon={<Users size={24} />}
-          accentColor="rgba(34, 197, 94, 0.4)"
-          stat="현재 42명 접속 중"
-        />
-      </div>
-
-      {/* Today's Chart (M2) & Setup */}
-      <section className="flex flex-col gap-6">
+      {/* Today's Chart (M3) & Setup */}
+      <section className="flex flex-col gap-6 w-full">
          <div className="flex items-center gap-3 mb-2">
             <Target className="text-[var(--accent-gold)]" size={24} />
             <h2 className="text-2xl font-bold text-white tracking-tight">오늘의 차트 (M3 데이트레이딩)</h2>
@@ -134,83 +99,82 @@ export default function Home() {
          </div>
       </section>
 
-      {/* Community & Market Stats */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         <div className="lg:col-span-2 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-8 flex flex-col gap-6">
-            <div className="flex items-center justify-between">
-               <div className="flex items-center gap-3">
-                  <Flame className="text-orange-500" size={20} />
-                  <h2 className="text-xl font-bold text-white tracking-tight">커뮤니티 실시간 핫 토픽</h2>
-               </div>
-               <Link href="/community" className="text-[10px] font-bold text-gray-500 uppercase tracking-widest hover:text-white transition-all">JOIN DISCUSSION</Link>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-               <TopicCard 
-                 title="XAU/USD 오늘 저녁 NFP 하방 이탈 가능성?" 
-                 author="GoldSniper" 
-                 replies={24} 
-                 source="Forex Factory"
-               />
-               <TopicCard 
-                 title="나스닥 전용 FVG 자동매매 로직 배포 (MT5)" 
-                 author="DevQuant" 
-                 replies={56} 
-                 source="MQL5"
-               />
-               <TopicCard 
-                 title="프랍 펌 도전하시는 분들 리스크 관리 질문" 
-                 author="PropTrader_K" 
-                 replies={12} 
-                 source="Treia"
-               />
-               <TopicCard 
-                 title="유럽 세션 시작 전 골드 횡보 구간 진입" 
-                 author="SessionMaster" 
-                 replies={8} 
-                 source="Forex Factory"
-               />
-            </div>
+      {/* Global Trading News */}
+      <section className="w-full bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-8 flex flex-col gap-6">
+         <div className="flex items-center gap-3 mb-2">
+            <Globe className="text-blue-400" size={20} />
+            <h2 className="text-xl font-bold text-white tracking-tight">글로벌 실시간 외환/골드 뉴스</h2>
          </div>
-
-         <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-500/20 rounded-3xl p-8 flex flex-col gap-6 justify-center text-center">
-            <MessageSquare size={48} className="mx-auto text-blue-400 opacity-50 mb-2" />
-            <h3 className="text-2xl font-black text-white font-outfit uppercase tracking-tighter">CFD 정보공유 중심지</h3>
-            <p className="text-sm text-gray-400 font-medium leading-relaxed">
-              복잡한 EA 설정부터 전략 테스트까지,<br />전문 트레이더와 AI가 실시간으로 답변해 드립니다.
-            </p>
-            <button className="mt-4 w-full py-4 bg-white text-black rounded-xl font-black text-xs uppercase tracking-widest hover:bg-amber-500 transition-all shadow-xl">
-               질문 던지기
-            </button>
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {marketNews.length > 0 ? marketNews.map((news) => (
+              <a key={news.id} href={news.url} target="_blank" rel="noopener noreferrer" className="p-4 rounded-xl border border-gray-800 hover:border-blue-500/30 bg-[#1A1D24] transition-all group flex flex-col gap-2">
+                 <h4 className="text-sm font-bold text-gray-200 group-hover:text-blue-400 transition-colors leading-snug line-clamp-2">{news.headline}</h4>
+                 <span className="text-[12px] text-gray-500 font-medium leading-relaxed">{news.summary}</span>
+              </a>
+            )) : (
+              <div className="col-span-1 lg:col-span-2 p-4 text-center text-gray-500 text-sm">실시간 뉴스를 번역 및 큐레이션 중입니다... (10~20초 소요)</div>
+            )}
          </div>
       </section>
 
-      {/* Content Bottom Grid: Market Highlight & Analysis */}
-      <div className="flex flex-col gap-8">
-         {/* Economic Calendar Highlight */}
-         <section className="flex flex-col gap-6">
-            <EconomicCalendar />
-
-            {/* Global Trading News */}
-            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-8 flex flex-col gap-6">
-               <div className="flex items-center gap-3 mb-2">
-                  <Globe className="text-blue-400" size={20} />
-                  <h2 className="text-xl font-bold text-white tracking-tight">글로벌 실시간 외환/골드 뉴스</h2>
-               </div>
-               <div className="flex flex-col gap-4">
-                  {marketNews.length > 0 ? marketNews.map((news) => (
-                    <a key={news.id} href={news.url} target="_blank" rel="noopener noreferrer" className="p-4 rounded-xl border border-gray-800 hover:border-blue-500/30 bg-[#1A1D24] transition-all group flex items-start gap-4">
-                       <div className="flex-1 flex flex-col gap-2">
-                          <h4 className="text-sm font-bold text-gray-200 group-hover:text-blue-400 transition-colors leading-snug line-clamp-2">{news.headline}</h4>
-                          <span className="text-[12px] text-gray-500 font-medium leading-relaxed">{news.summary}</span>
-                       </div>
-                    </a>
-                  )) : (
-                    <div className="p-4 text-center text-gray-500 text-sm">실시간 뉴스를 번역 및 큐레이션 중입니다... (10~20초 소요)</div>
-                  )}
-               </div>
+      {/* AI Trading Journal Banner */}
+      <section className="w-full">
+         <div className="bg-gradient-to-r from-[#1A1D24] to-[#0F1115] border border-amber-500/30 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 justify-between shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+            
+            <div className="flex flex-col gap-4 relative z-10 w-full md:w-2/3">
+               <h2 className="text-3xl lg:text-4xl font-black text-white italic uppercase flex items-center gap-4 tracking-tighter">
+                  <span className="text-amber-500 bg-amber-500/10 p-3 rounded-xl">
+                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2"/><path d="M4 16v2a2 2 0 0 0 2 2h2"/><path d="M16 4h2a2 2 0 0 1 2 2v2"/><path d="M16 20h2a2 2 0 0 0 2-2v-2"/><path d="M12 11v8l3-3m-6 0l3 3"/></svg>
+                  </span>
+                  AI Trade Journal
+               </h2>
+               <p className="text-gray-400 font-medium leading-relaxed mt-2 text-sm lg:text-base">
+                  방금 끝낸 트레이딩, 길게 적을 필요 없습니다. MT4/MT5 피씨나 모바일 내역 화면을 스크린샷 캡처한 후 <span className="text-amber-500 font-bold bg-amber-500/10 px-1 rounded">Ctrl+V</span>로 붙여넣어 보세요.<br className="hidden md:block" /> AI가 브로커 시간을 한국 시간으로 완벽히 변환하고 상세한 매매 통계표를 1초 만에 완성해 줍니다.
+               </p>
             </div>
-         </section>
+            <div className="relative z-10 w-full md:w-auto">
+               <Link href="/journal" className="inline-flex w-full md:w-auto items-center justify-center px-8 py-5 bg-white text-black font-black uppercase tracking-widest rounded-xl hover:bg-amber-500 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,191,0,0.4)]">
+                  매매일지 자동 생성하기
+               </Link>
+            </div>
+         </div>
+      </section>
+
+      {/* Main Service Cards (4 Grid) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full opacity-80 hover:opacity-100 transition-opacity">
+        <ServiceCard 
+          href="/curation"
+          title="AI 정보 큐레이션"
+          desc="실시간 전략과 뉴스를 AI가 한국어로 집약해 드립니다."
+          icon={<Bot size={24} />}
+          accentColor="rgba(255, 193, 7, 0.4)"
+          stat="오늘 15건 분석"
+        />
+        <ServiceCard 
+          href="/analysis"
+          title="시장 분석"
+          desc="TradingView 및 틱데이터 분석으로 진입 타점을 포착하세요."
+          icon={<BarChart3 size={24} />}
+          accentColor="rgba(59, 130, 246, 0.4)"
+          stat="변동성 경보"
+        />
+        <ServiceCard 
+          href="/ea"
+          title="EA 스토어"
+          desc="검증된 EA와 프리미엄 인디케이터를 선정해 드립니다."
+          icon={<LayoutDashboard size={24} />}
+          accentColor="rgba(168, 85, 247, 0.4)"
+          stat="신규 2종"
+        />
+        <ServiceCard 
+          href="/community"
+          title="트레이더 광장"
+          desc="CFD 트레이더들과 전략을 공유하고 집단 지성을 경험하세요."
+          icon={<Users size={24} />}
+          accentColor="rgba(34, 197, 94, 0.4)"
+          stat="42명 접속"
+        />
       </div>
     </div>
   );
@@ -236,17 +200,6 @@ function ServiceCard({ href, title, desc, icon, accentColor, stat }: { href: str
   );
 }
 
-function TopicCard({ title, author, replies, source }: { title: string; author: string; replies: number; source: string }) {
-  return (
-    <div className="p-4 rounded-2xl bg-[#14161B] border border-gray-800 hover:border-gray-700 transition-all cursor-pointer group">
-       <span className="text-[9px] font-bold text-blue-500 uppercase tracking-widest mb-2 block">{source}</span>
-       <h4 className="text-xs font-bold text-gray-200 group-hover:text-white transition-colors mb-4 line-clamp-1">{title}</h4>
-       <div className="flex items-center justify-between text-[10px] text-gray-500 font-medium">
-          <span className="flex items-center gap-1"><Users size={10} /> {author}</span>
-          <span className="flex items-center gap-1"><MessageSquare size={10} /> {replies}</span>
-       </div>
-    </div>
-  );
-}
+
 
 

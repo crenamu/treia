@@ -18,7 +18,7 @@ export async function askGemini(prompt: string): Promise<string> {
 // AI 이미지 분석용 (Vision)
 export async function askGeminiVision(prompt: string, base64Image: string, mimeType: string = 'image/jpeg'): Promise<string> {
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
