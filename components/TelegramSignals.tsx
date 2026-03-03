@@ -62,7 +62,7 @@ export default function TelegramSignals() {
           messages.map((msg, index) => (
             <div key={msg.id || index} className="p-4 rounded-2xl bg-[#1A1D24] border border-gray-800 hover:border-blue-500/30 transition-all flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-black tracking-widest text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-sm uppercase">{msg.sender}</span>
+                <span className="text-[10px] font-black tracking-widest text-[#FFC107] bg-[#FFC107]/10 px-2 py-0.5 rounded-sm uppercase">Treia 관점 공유</span>
                 <span className="text-[10px] text-gray-500 font-medium flex items-center gap-1">
                   <Clock size={10} />
                   {new Date(msg.date * 1000).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
