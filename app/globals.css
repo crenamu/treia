@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--bg-dark);
+  --color-foreground: var(--text-primary);
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-outfit: var(--font-outfit), sans-serif;
+}
+
+:root {
+  --bg-dark: #0F1115;
+  --bg-card: #181B21;
+  --bg-card-hover: #22262E;
+  --accent-gold: #FFC107;
+  --accent-gold-dim: #CCAC00;
+  --text-primary: #FFFFFF;
+  --text-secondary: #9CA3AF;
+  --border-color: #2D3340;
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    @apply antialiased selection:bg-amber-500/30;
+  }
+}
+
+@layer utilities {
+  .animate-ticker {
+    animation: ticker 120s linear infinite;
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .glass-effect {
+    background: rgba(24, 27, 33, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .gold-glow {
+    text-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: #2D3340;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3D4454;
+}
+
+/* Custom Typography */
+h1, h2, h3, h4, .font-outfit {
+  @apply font-bold tracking-tight;
+  font-family: var(--font-outfit);
+}

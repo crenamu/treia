@@ -1,11 +1,11 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Bot, BarChart3, LayoutDashboard, ChevronRight, Zap, Target, Users, MessageSquare, Flame, Globe } from "lucide-react";
+import { Bot, BarChart3, LayoutDashboard, ChevronRight, Target, Users, MessageSquare, Flame, Globe } from "lucide-react";
 import Link from "next/link";
 import TradingViewChart from "@/components/TradingViewChart";
 import EducationalPerspectiveCard from "@/components/EducationalPerspectiveCard";
 import EconomicCalendar from "@/components/EconomicCalendar";
-
+import TelegramSignals from "@/components/TelegramSignals";
 interface CuratedNews {
   id: number;
   headline: string;
@@ -72,6 +72,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Telegram Real-time Signals Section (Top Level Placement) */}
+      <section className="w-full">
+         <TelegramSignals />
+      </section>
+
       {/* Main Service Cards (4 Grid) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <ServiceCard 
@@ -112,18 +117,18 @@ export default function Home() {
       <section className="flex flex-col gap-6">
          <div className="flex items-center gap-3 mb-2">
             <Target className="text-[var(--accent-gold)]" size={24} />
-            <h2 className="text-2xl font-bold text-white tracking-tight">오늘의 차트 (M2 데이트레이딩)</h2>
+            <h2 className="text-2xl font-bold text-white tracking-tight">오늘의 차트 (M3 데이트레이딩)</h2>
          </div>
          
          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             <div className="xl:col-span-2 w-full aspect-video rounded-3xl bg-[#0F1115] border border-gray-800 overflow-hidden relative group shadow-2xl">
-               <TradingViewChart levels={marketLevels} interval="2" />
+               <TradingViewChart levels={marketLevels} interval="3" />
             </div>
             <div className="xl:col-span-1 h-full min-h-[400px] flex flex-col justify-center text-left">
                <EducationalPerspectiveCard 
                   levels={marketLevels}
                   scenarios={scenarios}
-                  analysis="분석 데이터에 기반한 핵심 지지/저항 레벨입니다. 2분봉(M2) 기준 매물대가 집중된 $5,373 및 $5,352 구간에서의 프라이스 액션(Price Action)이 오늘 데이트레이딩의 핵심입니다."
+                  analysis="분석 데이터에 기반한 핵심 지지/저항 레벨입니다. 3분봉(M3) 기준 매물대가 집중된 $5,373 및 $5,352 구간에서의 프라이스 액션(Price Action)이 오늘 데이트레이딩의 핵심입니다."
                />
             </div>
          </div>
@@ -180,10 +185,10 @@ export default function Home() {
          </div>
       </section>
 
-      {/* Content Bottom Grid: Market Highlight & AI Summary */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {/* Content Bottom Grid: Market Highlight & Analysis */}
+      <div className="flex flex-col gap-8">
          {/* Economic Calendar Highlight */}
-         <section className="lg:col-span-7 flex flex-col gap-6">
+         <section className="flex flex-col gap-6">
             <EconomicCalendar />
 
             {/* Global Trading News */}
@@ -203,41 +208,6 @@ export default function Home() {
                   )) : (
                     <div className="p-4 text-center text-gray-500 text-sm">실시간 뉴스를 번역 및 큐레이션 중입니다... (10~20초 소요)</div>
                   )}
-               </div>
-            </div>
-         </section>
-
-         {/* AI Summary Section Section */}
-         <section className="lg:col-span-5 flex flex-col gap-6">
-            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-8 flex flex-col gap-8 h-full">
-               <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                     <Zap className="text-blue-400" size={20} />
-                     <h2 className="text-xl font-bold text-white tracking-tight">최신 AI 요약 (NEW)</h2>
-                  </div>
-                  <Link href="/curation" className="text-[10px] font-black text-blue-400 uppercase tracking-widest hover:text-blue-300">SEE ALL</Link>
-               </div>
-
-               <div className="flex flex-col gap-6">
-                  <SummaryItem 
-                     source="MQL5 Articles"
-                     time="2시간 전"
-                     title="머신러닝을 활용한 그리드 매매 시스템 최적화"
-                     category="실전전략"
-                  />
-                  <SummaryItem 
-                     source="Forex Factory"
-                     time="5시간 전"
-                     title="골드 주봉 차트에서의 하락 다이버전스 포착"
-                     category="기술적분석"
-                  />
-               </div>
-
-               <div className="mt-auto p-4 rounded-2xl bg-amber-500/5 border border-amber-500/10 flex flex-col gap-2">
-                  <p className="text-[10px] text-amber-500 font-bold tracking-widest uppercase italic">AI TIP</p>
-                  <p className="text-[11px] text-gray-500 leading-relaxed font-medium">
-                     &quot;오늘 저녁 NFP 발표 전까지는 횡보세가 예상되므로, 큰 포지션 진입보다는 관망을 추천합니다.&quot;
-                  </p>
                </div>
             </div>
          </section>
@@ -280,27 +250,3 @@ function TopicCard({ title, author, replies, source }: { title: string; author: 
 }
 
 
-interface SummaryItemProps {
-  source: string;
-  time: string;
-  title: string;
-  category: string;
-}
-
-function SummaryItem({ source, time, title, category }: SummaryItemProps) {
-  return (
-    <article className="p-5 rounded-2xl border border-gray-800 hover:border-amber-500/30 bg-[#22262E]/50 group cursor-pointer transition-all">
-       <div className="flex items-center justify-between mb-3">
-          <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[10px] font-bold tracking-widest">{source}</span>
-          <span className="text-[10px] text-gray-600 font-bold uppercase">{time}</span>
-       </div>
-       <h3 className="text-sm font-bold text-gray-200 group-hover:text-amber-500 transition-colors leading-snug mb-3">
-          [AI 요약] {title}
-       </h3>
-       <div className="flex items-center gap-2">
-          <span className="px-2 py-0.5 rounded-md bg-gray-800 text-[10px] text-gray-500 font-bold uppercase tracking-tighter">#{category}</span>
-          <span className="px-2 py-0.5 rounded-md bg-gray-800 text-[10px] text-gray-500 font-bold uppercase tracking-tighter">#GOLD</span>
-       </div>
-    </article>
-  );
-}

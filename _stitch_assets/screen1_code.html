@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Treia Main Dashboard - Insight Focus</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --bg-dark: #0f1115;
+            --bg-card: #161920;
+            --bg-card-hover: #1e222b;
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --accent-blue: #3b82f6;
+            --accent-blue-dim: #1e40af;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --border-color: #272a33;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            background-color: #1a1d24;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .ticker {
+            display: flex;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .chart-grid {
+            background-image: linear-gradient(#272a33 1px, transparent 1px), linear-gradient(90deg, #272a33 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+<div class="ticker-wrap relative z-20">
+<div class="ticker text-xs font-mono text-gray-400">
+<div class="flex items-center gap-8 px-4">
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> 21:30 USD CPI (YoY) Exp: 3.1% Prev: 3.2%</span>
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-yellow-500"></span> 23:00 USD New Home Sales</span>
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> 03:00 USD FOMC Meeting Minutes</span>
+<span class="flex items-center gap-2 text-green-400">XAU/USD 2034.52 ▲ +0.45%</span>
+<span class="flex items-center gap-2 text-red-400">EUR/USD 1.0823 ▼ -0.12%</span>
+<span class="flex items-center gap-2 text-green-400">NAS100 17892.4 ▲ +1.20%</span>
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> 21:30 USD CPI (YoY) Exp: 3.1% Prev: 3.2%</span>
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-yellow-500"></span> 23:00 USD New Home Sales</span>
+<span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> 03:00 USD FOMC Meeting Minutes</span>
+<span class="flex items-center gap-2 text-green-400">XAU/USD 2034.52 ▲ +0.45%</span>
+<span class="flex items-center gap-2 text-red-400">EUR/USD 1.0823 ▼ -0.12%</span>
+<span class="flex items-center gap-2 text-green-400">NAS100 17892.4 ▲ +1.20%</span>
+</div>
+</div>
+<div class="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-[var(--bg-dark)] to-transparent pointer-events-none"></div>
+</div>
+<div class="flex flex-1 overflow-hidden">
+<nav class="w-16 lg:w-64 bg-[#12141a] border-r border-[var(--border-color)] flex flex-col justify-between py-6">
+<div>
+<div class="px-4 lg:px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+<span class="material-symbols-outlined text-white text-lg font-bold">query_stats</span>
+</div>
+<span class="text-xl font-bold tracking-tight hidden lg:block text-white">Treia</span>
+</div>
+<div class="flex flex-col gap-1 px-3">
+<a class="flex items-center gap-4 px-3 py-3 rounded-lg bg-[var(--accent-blue-dim)] text-blue-100 border border-blue-800/50" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium text-sm hidden lg:block">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-[var(--bg-card-hover)] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-medium text-sm hidden lg:block">AI Curation</span>
+</a>
+<a class="flex items-center gap-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-[var(--bg-card-hover)] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-medium text-sm hidden lg:block">Market Insight</span>
+</a>
+<a class="flex items-center gap-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-[var(--bg-card-hover)] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">extension</span>
+<span class="font-medium text-sm hidden lg:block">EA &amp; Indicators</span>
+</a>
+<a class="flex items-center gap-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-[var(--bg-card-hover)] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="font-medium text-sm hidden lg:block">Beginner Guide</span>
+</a>
+</div>
+</div>
+<div class="px-3">
+<div class="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 rounded-xl p-4 hidden lg:block">
+<div class="flex items-center gap-2 mb-2 text-indigo-200">
+<span class="material-symbols-outlined text-sm">rocket_launch</span>
+<span class="text-xs font-semibold">Pro Plan</span>
+</div>
+<p class="text-xs text-gray-400 mb-3">Get advanced tick analysis.</p>
+<button class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium rounded transition-colors">Upgrade</button>
+</div>
+<div class="mt-4 flex items-center gap-4 px-3 py-2 text-gray-400 hover:text-white cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium text-sm hidden lg:block">Settings</span>
+</div>
+</div>
+</nav>
+<main class="flex-1 overflow-y-auto bg-[var(--bg-dark)] relative">
+<div class="max-w-[1600px] mx-auto p-6 lg:p-8">
+<header class="flex justify-between items-end mb-8">
+<div>
+<h1 class="text-2xl font-bold text-white mb-1">Market Overview</h1>
+<p class="text-sm text-gray-400">AI-driven insights for XAU/USD &amp; Macro Events</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="hidden md:flex items-center bg-[#1a1d24] rounded-lg px-3 py-2 border border-[var(--border-color)]">
+<span class="material-symbols-outlined text-gray-400 text-sm mr-2">calendar_month</span>
+<span class="text-sm text-gray-200">Feb 27, 2026</span>
+</div>
+<button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors shadow-lg shadow-blue-900/20">
+<span class="material-symbols-outlined text-sm">add</span>
+                            New Analysis
+                        </button>
+</div>
+</header>
+<div class="grid grid-cols-12 gap-6 h-[calc(100vh-200px)] min-h-[600px]">
+<div class="col-span-12 xl:col-span-8 flex flex-col gap-6">
+<div class="bg-[var(--bg-card)] rounded-xl border border-[var(--border-color)] flex-1 flex flex-col overflow-hidden shadow-2xl">
+<div class="px-5 py-4 border-b border-[var(--border-color)] flex justify-between items-center bg-[#1a1d24]">
+<div class="flex items-center gap-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-bold text-white text-lg">XAU/USD</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">GOLD</span>
+</div>
+<span class="text-xs text-gray-400">FOMC Impact Analysis • M5 Timeframe</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-1.5 rounded hover:bg-gray-700 text-gray-400 hover:text-white"><span class="material-symbols-outlined text-lg">fullscreen</span></button>
+<button class="p-1.5 rounded hover:bg-gray-700 text-gray-400 hover:text-white"><span class="material-symbols-outlined text-lg">camera_alt</span></button>
+</div>
+</div>
+<div class="flex-1 relative bg-[#13151a] chart-grid">
+<div class="absolute top-4 left-4 z-10 flex flex-col">
+<span class="text-2xl font-mono font-bold text-green-400">2,034.52</span>
+<span class="text-xs text-gray-400 font-mono">Vol: 12.4K</span>
+</div>
+<svg class="w-full h-full absolute inset-0 pointer-events-none" preserveAspectRatio="none">
+<rect fill="#ef4444" height="10%" rx="1" width="1.5%" x="10%" y="40%"></rect>
+<line stroke="#ef4444" stroke-width="1" x1="10.75%" x2="10.75%" y1="35%" y2="55%"></line>
+<rect fill="#22c55e" height="5%" rx="1" width="1.5%" x="13%" y="45%"></rect>
+<line stroke="#22c55e" stroke-width="1" x1="13.75%" x2="13.75%" y1="42%" y2="52%"></line>
+<rect fill="#22c55e" height="8%" rx="1" width="1.5%" x="16%" y="43%"></rect>
+<line stroke="#22c55e" stroke-width="1" x1="16.75%" x2="16.75%" y1="38%" y2="54%"></line>
+<rect fill="url(#eventGradient)" height="100%" width="40%" x="30%" y="0"></rect>
+<line stroke="#3b82f6" stroke-dasharray="4 4" stroke-width="1" x1="50%" x2="50%" y1="0" y2="100%"></line>
+<rect fill="#ef4444" height="25%" rx="1" width="1.5%" x="48%" y="30%"></rect>
+<line stroke="#ef4444" stroke-width="1" x1="48.75%" x2="48.75%" y1="20%" y2="65%"></line>
+<rect fill="#22c55e" height="20%" rx="1" width="1.5%" x="51%" y="50%"></rect>
+<line stroke="#22c55e" stroke-width="1" x1="51.75%" x2="51.75%" y1="45%" y2="75%"></line>
+<defs>
+<linearGradient id="eventGradient" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0%" stop-color="rgba(59, 130, 246, 0)"></stop>
+<stop offset="50%" stop-color="rgba(59, 130, 246, 0.1)"></stop>
+<stop offset="100%" stop-color="rgba(59, 130, 246, 0)"></stop>
+</linearGradient>
+</defs>
+</svg>
+<div class="absolute top-[10%] left-[50%] -translate-x-1/2 bg-blue-600/20 text-blue-300 border border-blue-500/50 px-3 py-1 rounded text-xs backdrop-blur-sm">
+                                    FOMC Announcement
+                                </div>
+<div class="absolute bottom-[20%] left-[55%] bg-green-900/40 text-green-300 border border-green-500/30 px-2 py-1 rounded text-[10px] backdrop-blur-sm">
+                                    AI: Strong Buy Signal
+                                </div>
+<div class="absolute bottom-4 right-4 bg-[#1a1d24]/90 backdrop-blur border border-gray-700 p-4 rounded-lg w-72 shadow-xl">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-blue-400 text-sm">smart_toy</span>
+<span class="text-xs font-bold text-gray-200">AI Pattern Analysis</span>
+</div>
+<p class="text-xs text-gray-400 leading-relaxed">
+                                        Historically, when CPI exceeds expectations by &gt;0.2%, Gold dips initially (fakeout) then rallies 80% of the time within 30 mins.
+                                    </p>
+<div class="mt-3 flex gap-2">
+<span class="text-[10px] px-2 py-0.5 bg-green-500/10 text-green-400 border border-green-500/20 rounded">Bullish Bias</span>
+<span class="text-[10px] px-2 py-0.5 bg-gray-700 text-gray-300 border border-gray-600 rounded">Confidence: 82%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4 h-32">
+<div class="bg-[var(--bg-card)] rounded-xl border border-[var(--border-color)] p-4 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="text-xs text-gray-400 font-medium">Volatility (ATR)</span>
+<span class="material-symbols-outlined text-yellow-500 text-lg">warning</span>
+</div>
+<div>
+<div class="text-xl font-bold text-white">24.5 pips</div>
+<div class="text-xs text-red-400 mt-1">High Risk Zone</div>
+</div>
+</div>
+<div class="bg-[var(--bg-card)] rounded-xl border border-[var(--border-color)] p-4 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="text-xs text-gray-400 font-medium">Volume Delta</span>
+<span class="material-symbols-outlined text-blue-500 text-lg">bar_chart</span>
+</div>
+<div>
+<div class="text-xl font-bold text-white">+1,204</div>
+<div class="text-xs text-green-400 mt-1">Buying Pressure</div>
+</div>
+</div>
+<div class="bg-[var(--bg-card)] rounded-xl border border-[var(--border-color)] p-4 flex flex-col justify-between group cursor-pointer hover:border-blue-500/50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-xs text-gray-400 font-medium">Tick History</span>
+<span class="material-symbols-outlined text-gray-500 group-hover:text-blue-400 text-lg transition-colors">history</span>
+</div>
+<div>
+<div class="text-xl font-bold text-white">Download</div>
+<div class="text-xs text-gray-500 group-hover:text-gray-300 mt-1">CSV Format</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-12 xl:col-span-4 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold text-white flex items-center gap-2">
+                                Recent AI Curation
+                                <span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+</span>
+</h2>
+<button class="text-xs text-blue-400 hover:text-blue-300">View All</button>
+</div>
+<div class="flex-1 bg-[#12141a] rounded-xl border border-[var(--border-color)] p-1 overflow-y-auto scrollbar-hide">
+<div class="p-4 border-b border-[var(--border-color)] hover:bg-[#1a1d24] transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-1 rounded text-[10px] font-semibold bg-green-500/10 text-green-400 border border-green-500/20">Beginner</span>
+<span class="text-[10px] text-gray-500">2h ago • MQL5</span>
+</div>
+<h3 class="font-bold text-gray-200 text-sm mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">Complete Guide to Moving Average Crossovers for Gold Scalping</h3>
+<div class="bg-[#1e222b] rounded p-3 mb-2">
+<div class="flex gap-2 mb-1">
+<span class="material-symbols-outlined text-indigo-400 text-sm shrink-0">auto_awesome</span>
+<span class="text-xs font-semibold text-indigo-300">AI Summary</span>
+</div>
+<p class="text-xs text-gray-400 leading-relaxed line-clamp-3">
+                                        1. Uses EMA 50 &amp; 200 on M15 timeframe for trend confirmation.<br/>
+                                        2. Avoid entries during low liquidity sessions (Asian session).<br/>
+                                        3. Stop loss should be placed below the recent swing low.
+                                    </p>
+</div>
+<div class="flex gap-2 mt-2">
+<span class="text-[10px] text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">#Scalping</span>
+<span class="text-[10px] text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">#Technical</span>
+</div>
+</div>
+<div class="p-4 border-b border-[var(--border-color)] hover:bg-[#1a1d24] transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-1 rounded text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">Intermediate</span>
+<span class="text-[10px] text-gray-500">5h ago • ForexFactory</span>
+</div>
+<h3 class="font-bold text-gray-200 text-sm mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">"Supply &amp; Demand" Zones: How Institutional Traders Trap Retail</h3>
+<div class="bg-[#1e222b] rounded p-3 mb-2">
+<div class="flex gap-2 mb-1">
+<span class="material-symbols-outlined text-indigo-400 text-sm shrink-0">auto_awesome</span>
+<span class="text-xs font-semibold text-indigo-300">AI Summary</span>
+</div>
+<p class="text-xs text-gray-400 leading-relaxed line-clamp-3">
+                                        1. Identify "fresh" zones that price hasn't retested yet.<br/>
+                                        2. Look for strong impulsive moves away from the zone.<br/>
+                                        3. Wait for price to return and show rejection wicks.
+                                    </p>
+</div>
+<div class="flex gap-2 mt-2">
+<span class="text-[10px] text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">#SMC</span>
+<span class="text-[10px] text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">#PriceAction</span>
+</div>
+</div>
+<div class="p-4 hover:bg-[#1a1d24] transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-1 rounded text-[10px] font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">Advanced</span>
+<span class="text-[10px] text-gray-500">1d ago • QuantConnect</span>
+</div>
+<h3 class="font-bold text-gray-200 text-sm mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">Python Algo: Mean Reversion on XAUUSD during NY Session</h3>
+<div class="bg-[#1e222b] rounded p-3 mb-2">
+<div class="flex gap-2 mb-1">
+<span class="material-symbols-outlined text-indigo-400 text-sm shrink-0">auto_awesome</span>
+<span class="text-xs font-semibold text-indigo-300">AI Summary</span>
+</div>
+<p class="text-xs text-gray-400 leading-relaxed line-clamp-3">
+                                        1. Backtest results show 12% monthly ROI with max DD 4%.<br/>
+                                        2. Relies on Z-score calculation of price vs VWAP.<br/>
+                                        3. Code provided for QuantConnect Lean engine.
+                                    </p>
+</div>
+<div class="flex gap-2 mt-2">
+<span class="text-[10px] text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">#Algo</span>
+<span class="text-[10px] text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded">#Python</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
