@@ -28,8 +28,8 @@ export async function askGeminiVision(prompt: string, base64Image: string, mimeT
             parts: [
               { text: prompt },
               {
-                inline_data: {
-                  mime_type: mimeType,
+                inlineData: {
+                  mimeType: mimeType,
                   data: base64Image
                 }
               }
