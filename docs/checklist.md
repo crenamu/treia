@@ -1,56 +1,19 @@
-# 트레이아(Treia) 체크리스트 (Checklist)
+# 트레이아(Treia) 공정표 (Checklist)
 
-## Phase 1: 프로젝트 기초 구축 및 환경 설정 (2.28 15:35) - [X]
+## 1. 완료된 작업 (Done) ✅
 
-- [x] Next.js 14 프로젝트 초기화 (pnpm 사용)
-- [x] Tailwind CSS 기반 디자인 시스템 (globals.css) 구성
-- [x] 환경 변수 (.env.local) 설정 및 API 키 관리 체계 수립
-- [x] 필수 폴더 구조 (/app, /components, /lib) 생성
-- [x] Firebase SDK 초기화 (/lib/firebase.ts)
-- [x] Gemini SDK 설정 및 유틸리티 (/lib/gemini.ts)
-- [x] Finnhub API 연동 유틸리티 (/lib/finnhub.ts)
+- [x] pnpm 기반 프로젝트 초기화 및 Vercel 배포 완료
+- [x] MT5 H1 데이터 Firebase Storage 자동 동기화봇 (`cloud_sync.mjs`) 개발
+- [x] Vercel 로딩 속도 최적화 (ISR 캐싱, 틱 분석 삭제)
+- [x] 텔레그램 시그널 디자인 적용 및 최신 메시지 순서 교정
+- [x] 오늘의 차트 구역 높이 정렬 (`h-[580px]`)
 
-## Phase 2: 코어 컴포넌트 및 기본 레이아웃 (2.28 16:00) - [X]
+## 2. 진행 중인 작업 (In Progress) 🏗️
 
-- [x] 상단 내비게이션 및 사이드바 (Nav/Logo/Status)
-- [x] 공통 UI 컴포넌트 (Card, Button, Badge)
-- [x] 메인 대시보드 페이지 (/app/page.tsx)
-- [x] 다크 테마 및 골드 포인트 스타일링 최적화
-- [x] 반응형 그리드 시스템 레이아웃 구축
+- [ ] 텔레그램 실시간 웹훅 Or 파일 동기화 방식 전환
+- [ ] 불필요한 메인 페이지 섹션 정삭 (뉴스, 저널 등 삭제 예정)
 
-## Phase 3: 기능별 페이지 구현 (2.28 16:15) - [X]
+## 3. 향후 작업 (To-do) 📅
 
-- [x] AI 정보 큐레이션 목록 및 상세 페이지 (/app/curation)
-- [x] AI 시장 분석 인터페이스 (/app/analysis) (위젯 연동)
-- [x] EA 및 인디케이터 데이터 바인딩 (/app/ea)
-- [x] 입문 가이드 로드맵 시각화 (/app/guide)
-- [x] Framer Motion을 활용한 애니메이션 효과
-
-## Phase 4: 데이터 연동 및 AI 고도화 (진행 중)
-
-- [x] TradingView Widget을 통한 고품질 실시간 가격 연동 (Gold/Nasdaq/BTC)
-- [x] 경제 일정 연동 (오류 수정 완료)
-- [x] 단독 데이터베이스 `treia` 구축 및 프리픽스 기반 데이터 관리 체계 수립 (2026.03.01)
-- [x] **멀티 타임프레임(MTF) 엔진 구축**: D, H1, M2, M1 역사적 데이터를 분석하여 통합 매물대 지도 생성.
-- [x] Investing.com RSS 피드 한국어 외환/선물 뉴스 파이프라인 (2026.03.03) API 연동 완료
-- [x] **Telegram Webhook API**: MT5/서버 발송 신호를 수신해 메인 페이지 상단 `<TelegramSignals>` 실시간 표기 (2026.03.03 완료)
-- [x] **OCR 매매일지 자동 생성기**: Gemini Vision API(1.5 Flash)를 통해 MT4/MT5 거래내역 스크린샷 이미지 업로드 시 KST(한국시간) 환산 및 통계형 매매일지 자동 작성 기능 완료.
-
-## Phase 6: 매매일지 고도화 및 보관소 구축 (진행 중) - (2026.03.04)
-
-- [ ] Firebase Firestore `treia_journals` 컬렉션 스키마 설계 및 생성
-- [ ] AI 분석 결과 DB 저장 기능 구현 (`/api/journal/save`)
-- [ ] 사용자별 매매일지 목록 조회 기능
-- [ ] 누적 통계 대시보드 (총 수익, 승률, 최대 수익/손실 등) 구현
-- [ ] 저장 성공 알림 및 UI 피드백 최적화
-
----
-
----
-
-**업데이트 이력**:
-
-- 2026.03.01 13:35: 단독 DB `treia` 적용 완료
-- 2026.03.03 15:40: Telegram 백엔드 수신 폴링, 웹훅 API 완성. UI 레이아웃을 상단으로 변경 완료.
-- 2026.03.03 20:30: 텔레그램 `Treia_Reader_Bot` 도입으로 Privacy 정책 우회 수신 완벽 성공.
-- 2026.03.03 20:30: 인베스팅 닷컴 캘린더 URL 파라미터 버그 픽스 및 OCR Gemini 1.5 Flash 모델 업데이트 완료.
+- [ ] 데이트레이딩용 매물대 박스 차트 오버레이 정밀 제어
+- [ ] Vercel 캐시 무효화 버튼 개발 (로컬 데이터 강제 업데이트용)

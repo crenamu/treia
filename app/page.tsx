@@ -60,17 +60,21 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-white tracking-tight">오늘의 차트 (M3 데이트레이딩)</h2>
          </div>
          
-         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-            <div className="xl:col-span-2 w-full aspect-video rounded-3xl bg-[#0F1115] border border-gray-800 overflow-hidden relative group shadow-2xl">
+         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-stretch">
+            <div className="xl:col-span-2 w-full h-[580px] rounded-3xl bg-[#0F1115] border border-gray-800 overflow-hidden relative group shadow-2xl">
                <TradingViewChart levels={marketLevels} interval="3" />
             </div>
-            <div className="xl:col-span-1 h-full min-h-[400px] flex flex-col gap-6 text-left">
-               <VolumeProfileBox />
-               <EducationalPerspectiveCard 
-                  levels={marketLevels}
-                  scenarios={scenarios}
-                  analysis="분석 데이터에 기반한 핵심 지지/저항 레벨입니다. 3분봉(M3) 기준 매물대가 집중된 $5,373 및 $5,352 구간에서의 프라이스 액션(Price Action)이 오늘 데이트레이딩의 핵심입니다."
-               />
+            <div className="xl:col-span-1 h-[580px] flex flex-col gap-6 text-left">
+               <div className="flex-1 overflow-hidden">
+                  <VolumeProfileBox />
+               </div>
+               <div className="flex-1 overflow-hidden">
+                  <EducationalPerspectiveCard 
+                     levels={marketLevels}
+                     scenarios={scenarios}
+                     analysis="분석 데이터에 기반한 핵심 지지/저항 레벨입니다. 3분봉(M3) 기준 매물대가 집중된 $5,373 및 $5,352 구간에서의 프라이스 액션(Price Action)이 오늘 데이트레이딩의 핵심입니다."
+                  />
+               </div>
             </div>
          </div>
       </section>
