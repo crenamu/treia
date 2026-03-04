@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic'; // 캐시 무효화 (항상 최신 Telegram 업데이트 강제)
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
 
 export async function GET() {
   try {

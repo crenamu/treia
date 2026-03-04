@@ -36,7 +36,7 @@ export async function askGeminiVision(prompt: string, base64Image: string, mimeT
             ]
           }
         ],
-        generationConfig: { temperature: 0.2, maxOutputTokens: 2000 }
+        generationConfig: { temperature: 0.2, maxOutputTokens: 8192 }
       })
     }
   );

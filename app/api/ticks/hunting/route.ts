@@ -8,7 +8,7 @@ const COMMON_FILES_DIR = 'C:\\Users\\crena\\AppData\\Roaming\\MetaQuotes\\Termin
 export async function GET() {
   try {
     if (!fs.existsSync(COMMON_FILES_DIR)) {
-      return NextResponse.json({ success: false, message: 'MT5 공용 폴더를 찾을 수 없습니다.' });
+      return NextResponse.json({ success: false, message: '로컬 PC 데이터를 클라우드에 연동해주세요. (현재 Vercel 클라우드 서버 상태)' });
     }
 
     const files = fs.readdirSync(COMMON_FILES_DIR);
