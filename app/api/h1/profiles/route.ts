@@ -5,8 +5,7 @@ import readline from 'readline';
 import { storage } from '@/lib/firebase';
 import { ref, getDownloadURL } from 'firebase/storage';
 
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
+export const revalidate = 3600; // 1시간 단위 캐싱 (초단위 렌더링 로딩 지연 해결)
 
 const COMMON_FILES_DIR = 'C:\\Users\\crena\\AppData\\Roaming\\MetaQuotes\\Terminal\\Common\\Files';
 
@@ -43,7 +42,7 @@ export async function GET() {
     if (!fileStream) {
        try {
            const url = await getDownloadURL(ref(storage, 'treia_data/treia_h1_base_latest.csv'));
-           const res = await fetch(url + `&t=${Date.now()}`, { cache: 'no-store' });
+           const res = await fetch(url);
            if (!res.ok) throw new Error("클라우드 데이터를 가져올 수 없습니다.");
            fileContent = await res.text();
            const bytes = Buffer.byteLength(fileContent, 'utf8');
