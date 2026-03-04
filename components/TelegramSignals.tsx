@@ -12,6 +12,8 @@ interface TelegramMsg {
 export default function TelegramSignals() {
   const [messages, setMessages] = useState<TelegramMsg[]>([]);
   const [loading, setLoading] = useState(true);
+  const [lastSync, setLastSync] = useState<Date>(new Date());
+
 
   useEffect(() => {
     const fetchSignals = async () => {
@@ -21,6 +23,7 @@ export default function TelegramSignals() {
         if (json.success && json.data) {
           setMessages(json.data);
         }
+        setLastSync(new Date());
       } catch (err) {
         console.error("Failed to fetch Telegram signals:", err);
       } finally {
@@ -35,7 +38,7 @@ export default function TelegramSignals() {
   }, []);
 
   return (
-    <div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden h-full min-h-[500px] max-h-[500px]">
+    <div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden h-[500px]">
       {/* Background Gradient */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[50px] pointer-events-none rounded-full"></div>
 
@@ -44,9 +47,12 @@ export default function TelegramSignals() {
           <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
             <Send className="text-blue-400" size={18} />
           </div>
-          <div>
-            <h2 className="text-lg font-bold text-white tracking-tight leading-tight">실시간 텔레그램 시그널</h2>
-            <p className="text-[11px] text-gray-500 font-medium">MT5에서 발송된 리얼타임 데이터 (새로고침: 30초)</p>
+          <div className="flex-1">
+            <h2 className="text-lg font-bold text-white tracking-tight leading-tight flex items-center gap-2">
+              실시간 텔레그램 시그널 
+              <span className="text-[9px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">동기화: {lastSync.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+            </h2>
+            <p className="text-[11px] text-gray-500 font-medium mt-0.5">MT5에서 발송된 최신 메시지 (주기: 30초)</p>
           </div>
         </div>
       </div>

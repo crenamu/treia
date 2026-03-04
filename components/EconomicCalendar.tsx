@@ -49,7 +49,7 @@ export default function EconomicCalendar() {
   });
 
   return (
-    <div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden h-full min-h-[500px] max-h-[500px]">
+    <div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden h-[500px]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2 px-2">
         <div className="flex items-center gap-2">
           <Calendar size={16} className="text-[#FFC107]" />

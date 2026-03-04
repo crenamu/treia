@@ -210,9 +210,9 @@ export default function JournalPage() {
                           {isSaving ? '저장 중...' : saveSuccess ? '✓ 영구 저장 완료' : '클라우드 DB에 저장'}
                         </button>
                      </div>
-                     <div className="overflow-x-auto custom-scrollbar pb-2">
-                        <table className="w-full text-left border-collapse min-w-[600px]">
-                           <thead>
+                     <div className="overflow-x-auto overflow-y-auto max-h-[400px] custom-scrollbar pb-2">
+                        <table className="w-full text-left border-collapse min-w-[600px] relative">
+                           <thead className="sticky top-0 bg-[#0F1115] z-10 shadow-md">
                               <tr className="border-b border-gray-800 text-[10px] text-gray-500 font-black uppercase tracking-widest">
                                  <th className="p-4 font-bold text-blue-400">SYM</th>
                                  <th className="p-4">Type/Lot</th>
