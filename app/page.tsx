@@ -7,7 +7,6 @@ import EducationalPerspectiveCard from "@/components/EducationalPerspectiveCard"
 import VolumeProfileBox from "@/components/VolumeProfileBox";
 import EconomicCalendar from "@/components/EconomicCalendar";
 import TelegramSignals from "@/components/TelegramSignals";
-import StopHuntingTracker from "@/components/StopHuntingTracker";
 
 interface CuratedNews {
   id: number;
@@ -53,10 +52,6 @@ export default function Home() {
          <EconomicCalendar />
       </section>
 
-      {/* Tick Data Analysis */}
-      <section className="w-full">
-         <StopHuntingTracker />
-      </section>
 
       {/* Today's Chart (M3) & Setup */}
       <section className="flex flex-col gap-6 w-full mt-4">

@@ -57,21 +57,15 @@ async function sync() {
     const files = fs.readdirSync(COMMON_FILES_DIR);
     
     // H1 데이터 동기화 (가장 최근 생성된 파일만)
-    // 1시간봉은 자주 변하지 않으므로 변경 여부(mtime) 체크 로직과 함께 주기를 늦춤
     const h1Files = files.filter(f => f.startsWith('treia_h1_base_')).sort((a,b) => b.localeCompare(a));
     if (h1Files.length > 0) {
         // H1은 "1시간" 이상 지났거나 파일 해시태그(mtime)가 바뀌었을 때만 업로드
         await uploadFile(h1Files[0], 'treia_h1_base_latest.csv');
     }
-
-    // 틱 데이터 동기화 (가장 최근 생성된 파일만)
-    const tickFiles = files.filter(f => f.startsWith('treia_gold_ticks')).sort((a,b) => b.localeCompare(a));
-    if (tickFiles.length > 0) {
-        // 틱 데이터는 mtime 체크를 우회하거나 넉넉히 받아 실시간 반영
-        await uploadFile(tickFiles[0], 'treia_gold_ticks_latest.csv', true);
-    }
 }
 
-console.log("🚀 Treia 실시간 클라우드 동기화 봇 작동 시작 (주기: 60초)");
-sync();
-setInterval(sync, 60000);
+console.log("🚀 Treia 클라우드 동기화 성공 (1시간봉 매물대 데이터)");
+sync().then(() => {
+    console.log("종료합니다.");
+    process.exit(0);
+});
