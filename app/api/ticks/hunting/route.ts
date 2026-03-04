@@ -2,73 +2,82 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
+import { storage } from '@/lib/firebase';
+import { ref, getDownloadURL } from 'firebase/storage';
+
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 const COMMON_FILES_DIR = 'C:\\Users\\crena\\AppData\\Roaming\\MetaQuotes\\Terminal\\Common\\Files';
 
 export async function GET() {
   try {
-    if (!fs.existsSync(COMMON_FILES_DIR)) {
-      return NextResponse.json({ success: false, message: '로컬 PC 데이터를 클라우드에 연동해주세요. (현재 Vercel 클라우드 서버 상태)' });
-    }
-
-    const files = fs.readdirSync(COMMON_FILES_DIR);
-    const tickFiles = files.filter(f => f.startsWith('treia_gold_ticks')).sort((a,b) => b.localeCompare(a));
-    
-    // 1. 오래된 파일 정리 (1일(24시간) 초과 데이터 자동 삭제)
-    const now = Date.now();
+    let fileStream: fs.ReadStream | null = null;
+    let fileContent: string = '';
+    let fileSizeMB = '0.00';
     let deletedCount = 0;
-    tickFiles.forEach(file => {
-      const filePath = path.join(COMMON_FILES_DIR, file);
-      const stats = fs.statSync(filePath);
-      const daysOld = (now - stats.mtimeMs) / (1000 * 60 * 60 * 24);
-      // 저장 용량 고려, 3일 이상(또는 1일 이상) 지난 틱 데이터는 자동 삭제
-      if (daysOld > 2) {
-        fs.unlinkSync(filePath);
-        deletedCount++;
-      }
-    });
 
-    const activeFiles = fs.readdirSync(COMMON_FILES_DIR).filter(f => f.startsWith('treia_gold_ticks')).sort((a,b) => b.localeCompare(a));
-    if (activeFiles.length === 0) {
-      return NextResponse.json({ success: false, message: '분석할 틱 데이터가 없습니다.' });
+    if (fs.existsSync(COMMON_FILES_DIR)) {
+      // 로컬 환경: 파일 탐색 및 자동 정리
+      const files = fs.readdirSync(COMMON_FILES_DIR);
+      const tickFiles = files.filter(f => f.startsWith('treia_gold_ticks')).sort((a,b) => b.localeCompare(a));
+      
+      const now = Date.now();
+      tickFiles.forEach(file => {
+        const filePath = path.join(COMMON_FILES_DIR, file);
+        const stats = fs.statSync(filePath);
+        const daysOld = (now - stats.mtimeMs) / (1000 * 60 * 60 * 24);
+        if (daysOld > 2) {
+          fs.unlinkSync(filePath);
+          deletedCount++;
+        }
+      });
+
+      const activeFiles = fs.readdirSync(COMMON_FILES_DIR).filter(f => f.startsWith('treia_gold_ticks')).sort((a,b) => b.localeCompare(a));
+      if (activeFiles.length > 0) {
+        const targetFile = path.join(COMMON_FILES_DIR, activeFiles[0]);
+        fileStream = fs.createReadStream(targetFile);
+        const fileStats = fs.statSync(targetFile);
+        fileSizeMB = (fileStats.size / (1024 * 1024)).toFixed(2);
+      }
     }
 
-    // 가장 최근 파일 선택 (오늘)
-    const targetFile = path.join(COMMON_FILES_DIR, activeFiles[0]);
-    const fileStats = fs.statSync(targetFile);
-    const fileSizeMB = (fileStats.size / (1024 * 1024)).toFixed(2);
-    
-    // 2. 틱 데이터 스트림 처리 및 휩소(Stop Hunt) 패턴 찾기
-    const fileStream = fs.createReadStream(targetFile);
-    const rl = readline.createInterface({
-      input: fileStream,
-      crlfDelay: Infinity
-    });
+    if (!fileStream) {
+       // 로컬에 파일이 없거나 Vercel 클라우드 환경인 경우 Firebase Storage에서 다운로드
+       try {
+           const url = await getDownloadURL(ref(storage, 'treia_data/treia_gold_ticks_latest.csv'));
+           const res = await fetch(url + `&t=${Date.now()}`, { cache: 'no-store' });
+           if (!res.ok) throw new Error("클라우드 데이터를 가져올 수 없습니다.");
+           fileContent = await res.text();
+           const bytes = Buffer.byteLength(fileContent, 'utf8');
+           fileSizeMB = (bytes / (1024 * 1024)).toFixed(2);
+       } catch (e) {
+           return NextResponse.json({ success: false, message: '로컬 PC 데이터를 클라우드에 아직 연동하지 않았거나 데이터가 없습니다.' });
+       }
+    }
 
-    const minuteBuckets: { [minute: string]: { ticks: any[], high: number, low: number, volume: number } } = {};
-    
+    // 2. 데이터 파싱
+    const minuteBuckets: { [minute: string]: { ticks: {time: string, price: number}[], high: number, low: number, volume: number } } = {};
     let totalTicks = 0;
-    for await (const line of rl) {
-      if (line.startsWith('Timestamp')) continue; // 헤더 무시
-      
-      const [timestamp, bid, ask, last, vol] = line.split(',');
-      if (!timestamp) continue;
-      
-      // last 가격이 0.00이면 bid 가격을 사용
-      let price = parseFloat(last);
-      if (!price || price === 0) {
-         price = parseFloat(bid);
-      }
-      if (!price) continue;
-      
-      const minutePrefix = timestamp.substring(0, 16); // "2026.03.04 01:00" 분 단위 그룹화
 
+    const processLine = (line: string) => {
+      if (line.startsWith('Timestamp') || line.trim() === '') return;
+      const parts = line.split(',');
+      if (parts.length < 5) return;
+      const timestamp = parts[0];
+      const bid = parts[1];
+      const last = parts[3];
+      const vol = parts[4];
+      
+      let price = parseFloat(last);
+      if (!price || price === 0) price = parseFloat(bid);
+      if (!price) return;
+      
+      const minutePrefix = timestamp.substring(0, 16); 
       if (!minuteBuckets[minutePrefix]) {
         minuteBuckets[minutePrefix] = { ticks: [], high: price, low: price, volume: 0 };
       }
-      
       const bucket = minuteBuckets[minutePrefix];
-      // 차트용 타임스탬프 (HH:MM:SS)
       const timeStr = timestamp.split(' ')[1];
 
       bucket.ticks.push({ time: timeStr, price });
@@ -76,7 +85,17 @@ export async function GET() {
       if (price < bucket.low) bucket.low = price;
       bucket.volume += parseInt(vol || '1', 10);
       totalTicks++;
+    };
+
+    if (fileStream) {
+       const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
+       for await (const line of rl) processLine(line);
+    } else {
+       const lines = fileContent.split('\n');
+       for (const line of lines) processLine(line);
     }
+
+
 
     // 3. 변동성 (Stop Hunting) 점수 계산 및 가장 움직임이 컸던 1분 추출
     let topHuntWindow = null;
@@ -111,7 +130,8 @@ export async function GET() {
       data: topHuntWindow
     });
 
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ success: false, error: errorMsg }, { status: 500 });
   }
 }

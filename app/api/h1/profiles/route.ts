@@ -2,70 +2,90 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
+import { storage } from '@/lib/firebase';
+import { ref, getDownloadURL } from 'firebase/storage';
+
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 const COMMON_FILES_DIR = 'C:\\Users\\crena\\AppData\\Roaming\\MetaQuotes\\Terminal\\Common\\Files';
 
 export async function GET() {
   try {
-    if (!fs.existsSync(COMMON_FILES_DIR)) {
-      return NextResponse.json({ success: false, message: '로컬 PC 데이터를 클라우드에 연동해주세요. (현재 Vercel 클라우드 서버 상태)' });
-    }
-
-    const files = fs.readdirSync(COMMON_FILES_DIR);
-    const h1Files = files.filter(f => f.startsWith('treia_h1_base_')).sort((a,b) => b.localeCompare(a));
-    
-    // 1. 오래된 기준 H1 파일 정리 (최근 2개 유지, 나머지는 자동 삭제)
+    let fileStream: fs.ReadStream | null = null;
+    let fileContent: string = '';
+    let fileSizeKB = '0.00';
+    let baseFilename = 'cloud_data.csv';
     let deletedCount = 0;
-    if (h1Files.length > 2) {
-      for (let i = 2; i < h1Files.length; i++) {
-        const filePath = path.join(COMMON_FILES_DIR, h1Files[i]);
-        fs.unlinkSync(filePath);
-        deletedCount++;
+
+    if (fs.existsSync(COMMON_FILES_DIR)) {
+      const files = fs.readdirSync(COMMON_FILES_DIR);
+      const h1Files = files.filter(f => f.startsWith('treia_h1_base_')).sort((a,b) => b.localeCompare(a));
+      
+      if (h1Files.length > 2) {
+        for (let i = 2; i < h1Files.length; i++) {
+          const filePath = path.join(COMMON_FILES_DIR, h1Files[i]);
+          fs.unlinkSync(filePath);
+          deletedCount++;
+        }
+      }
+
+      const activeFiles = fs.readdirSync(COMMON_FILES_DIR).filter(f => f.startsWith('treia_h1_base_')).sort((a,b) => b.localeCompare(a));
+      if (activeFiles.length > 0) {
+        baseFilename = activeFiles[0];
+        const targetFile = path.join(COMMON_FILES_DIR, activeFiles[0]);
+        fileStream = fs.createReadStream(targetFile);
+        const fileStats = fs.statSync(targetFile);
+        fileSizeKB = (fileStats.size / 1024).toFixed(2);
       }
     }
 
-    const activeFiles = fs.readdirSync(COMMON_FILES_DIR).filter(f => f.startsWith('treia_h1_base_')).sort((a,b) => b.localeCompare(a));
-    if (activeFiles.length === 0) {
-      return NextResponse.json({ success: false, message: '분석할 H1 베이스 데이터(최근 1달치)가 없습니다. MT5에서 스크립트를 먼저 실행해주세요.' });
+    if (!fileStream) {
+       try {
+           const url = await getDownloadURL(ref(storage, 'treia_data/treia_h1_base_latest.csv'));
+           const res = await fetch(url + `&t=${Date.now()}`, { cache: 'no-store' });
+           if (!res.ok) throw new Error("클라우드 데이터를 가져올 수 없습니다.");
+           fileContent = await res.text();
+           const bytes = Buffer.byteLength(fileContent, 'utf8');
+           fileSizeKB = (bytes / 1024).toFixed(2);
+           baseFilename = 'treia_h1_base_latest.csv';
+       } catch (e) {
+           return NextResponse.json({ success: false, message: '로컬 PC 데이터를 클라우드에 아직 연동하지 않았거나 데이터가 없습니다.' });
+       }
     }
-
-    // 가장 최근 파일 선택 (주말 마감 후 생성한 파일)
-    const targetFile = path.join(COMMON_FILES_DIR, activeFiles[0]);
-    const fileStats = fs.statSync(targetFile);
-    const fileSizeKB = (fileStats.size / 1024).toFixed(2);
-    
-    // 2. 1시간봉(H1) 데이터 파싱하여 가장 매물대(Volume)가 두터운 'Price Node' 찾기
-    const fileStream = fs.createReadStream(targetFile);
-    const rl = readline.createInterface({
-      input: fileStream,
-      crlfDelay: Infinity
-    });
 
     const priceNodes: { [priceLevel: string]: number } = {};
     let totalKCandles = 0;
 
-    for await (const line of rl) {
-      if (line.startsWith('Time')) continue; // 헤더 무시
+    const processLine = (line: string) => {
+      if (line.startsWith('Time') || line.trim() === '') return;
+      const parts = line.split(',');
+      if (parts.length < 6) return;
       
-      const [time, openStr, highStr, lowStr, closeStr, volStr] = line.split(',');
-      if (!time) continue;
-
-      // 트레이딩 편의성을 위해 가격을 소수점 1자리(정수형태)로 그룹핑 (예: 2501.52 -> 2501.5)
+      const time = parts[0];
+      const closeStr = parts[4];
+      const volStr = parts[5];
+      
+      if (!time) return;
       const close = parseFloat(closeStr);
       const volume = parseInt(volStr, 10);
       
-      if (!close || isNaN(close)) continue;
+      if (!close || isNaN(close)) return;
       
-      // 소수점 1자리로 반올림하여 1달 치 가격대를 "버킷(Bucket)"으로 묶음
       const priceBucket = Math.round(close * 10) / 10;
       const bucketStr = priceBucket.toFixed(1);
 
-      if (!priceNodes[bucketStr]) {
-        priceNodes[bucketStr] = 0;
-      }
-      
-      priceNodes[bucketStr] += volume; // 해당 가격대에서 터진 거래량을 누적
+      if (!priceNodes[bucketStr]) priceNodes[bucketStr] = 0;
+      priceNodes[bucketStr] += volume;
       totalKCandles++;
+    };
+
+    if (fileStream) {
+       const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
+       for await (const line of rl) processLine(line);
+    } else {
+       const lines = fileContent.split('\n');
+       for (const line of lines) processLine(line);
     }
 
     // 3. 누적된 매물대 중 가장 거래량이 터진 상위 5개(Top Volume Nodes) 찾기
@@ -81,7 +101,7 @@ export async function GET() {
       success: true,
       message: `성공적으로 분석했습니다. (파일 크기: ${fileSizeKB}KB, 총 ${totalKCandles}개의 1시간 캔들, 삭제된 과거 파일: ${deletedCount}개)`,
       data: {
-         baseFilename: activeFiles[0],
+         baseFilename: baseFilename,
          topVolumeNodes: sortedByPrice
       }
     });
