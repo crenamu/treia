@@ -32,13 +32,10 @@ export default function TelegramSignals() {
     };
 
     fetchSignals();
-    // 30초마다 갱신
-    const interval = setInterval(fetchSignals, 30000);
-    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden h-[500px]">
+    <div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden h-[300px]">
       {/* Background Gradient */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[50px] pointer-events-none rounded-full"></div>
 
@@ -50,9 +47,9 @@ export default function TelegramSignals() {
           <div className="flex-1">
             <h2 className="text-lg font-bold text-white tracking-tight leading-tight flex items-center gap-2">
               실시간 텔레그램 시그널 
-              <span className="text-[9px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">동기화: {lastSync.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+              <span className="text-[9px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">최근 동기화: {lastSync.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
             </h2>
-            <p className="text-[11px] text-gray-500 font-medium mt-0.5">MT5에서 발송된 최신 메시지 (주기: 30초)</p>
+            <p className="text-[11px] text-gray-500 font-medium mt-0.5">MT5에서 발송된 최신 메시지</p>
           </div>
         </div>
       </div>
