@@ -5,6 +5,8 @@ import { Calendar } from "lucide-react";
 export default function EconomicCalendar() {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<'today' | 'tomorrow' | 'thisweek'>('today');
+
 
   useEffect(() => {
     // 자체 API 라우트를 호출하여 Forex Factory 데이터를 Gemini가 번역한 결과로 가져옵니다.
@@ -14,16 +16,7 @@ export default function EconomicCalendar() {
         const res = await fetch('/api/calendar');
         const json = await res.json();
         if (json.success && json.data) {
-          // 어제 이전 일정은 제외 (오늘 0시 0분 이후만 남김)
-          const now = new Date();
-          now.setHours(0, 0, 0, 0);
-          
-          const filtered = json.data.filter((item: any) => {
-             const eventDate = new Date(item.date);
-             return eventDate.getTime() >= now.getTime();
-          });
-          
-          setData(filtered);
+          setData(json.data);
         }
       } catch (error) {
         console.error("Failed to load calendar", error);
@@ -34,12 +27,44 @@ export default function EconomicCalendar() {
     fetchCalendar();
   }, []);
 
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const dayAfterTomorrow = new Date(tomorrow);
+  dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 1);
+
+  const filteredData = data.filter((item) => {
+    const eventDate = new Date(item.date);
+    if (filter === 'today') {
+      return eventDate >= now && eventDate < tomorrow;
+    } else if (filter === 'tomorrow') {
+      return eventDate >= tomorrow && eventDate < dayAfterTomorrow;
+    } else {
+      // thisweek: 오늘 이후의 모든 남은 이번 주 일정
+      return eventDate >= now;
+    }
+  });
+
   return (
     <div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-6 flex flex-col gap-4 relative overflow-hidden h-[500px]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2 px-2">
         <div className="flex items-center gap-2">
           <Calendar size={16} className="text-[#FFC107]" />
-          <h4 className="font-bold text-xs uppercase tracking-widest text-[#FFC107]">이번 주 핵심 경제지표 (★★★★★)</h4>
+          <h4 className="font-bold text-xs uppercase tracking-widest text-[#FFC107]">핵심 경제지표 (★★★★★)</h4>
+        </div>
+        <div className="flex border border-gray-700/50 rounded-lg overflow-hidden shrink-0">
+          {(['today', 'tomorrow', 'thisweek'] as const).map(f => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-3 py-1.5 text-[10px] font-bold uppercase transition-colors ${filter === f ? 'bg-[#FFC107] text-black' : 'bg-[#1A1D24] text-gray-400 hover:bg-gray-800'}`}
+            >
+              {f === 'today' ? '오늘' : f === 'tomorrow' ? '내일' : '이번 주'}
+            </button>
+          ))}
         </div>
       </div>
       
@@ -48,13 +73,13 @@ export default function EconomicCalendar() {
           <div className="flex items-center justify-center h-full text-center text-amber-500 text-xs animate-pulse">
             Gemini AI가 글로벌 경제지표를 번역 및 큐레이션 중입니다...
           </div>
-        ) : data.length === 0 ? (
+        ) : filteredData.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center text-gray-500 text-xs p-6">
-            이번 주 발표 예정인 핵심 지표(별 3개)가 없습니다.
+            선택하신 기간에 발표 예정인 핵심 지표(별 3개)가 없습니다.
           </div>
         ) : (
           <div className="flex flex-col gap-2">
-            {data.map((item, idx) => {
+            {filteredData.map((item, idx) => {
               const dateObj = new Date(item.date);
               const isToday = dateObj.toDateString() === new Date().toDateString();
 
