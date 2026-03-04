@@ -29,6 +29,8 @@ export default function JournalPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ParsedResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -38,6 +40,7 @@ export default function JournalPage() {
       setPreview(url);
       setResult(null);
       setErrorMsg(null);
+      setSaveSuccess(false);
     }
   };
 
@@ -54,6 +57,7 @@ export default function JournalPage() {
             setPreview(url);
             setResult(null);
             setErrorMsg(null);
+            setSaveSuccess(false);
             e.preventDefault();
             break;
           }
@@ -91,6 +95,36 @@ export default function JournalPage() {
        setErrorMsg('네트워크 또는 서버 에러가 발생했습니다.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveToDB = async () => {
+    if (!result) return;
+    setIsSaving(true);
+    
+    try {
+      // Firebase User ID나 고유 세션 ID (임시적으로 'demo-user')
+      const payload = {
+         ...result,
+         userId: 'demo-user',
+      };
+
+      const res = await fetch('/api/journal/save', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+         setSaveSuccess(true);
+      } else {
+         setErrorMsg('DB 저장 실패: ' + data.error);
+      }
+    } catch (e) {
+      console.error(e);
+      setErrorMsg('DB 저장 중 오류 발생');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -160,7 +194,21 @@ export default function JournalPage() {
 
                   {/* 거래 내역 테이블 */}
                   <div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-6 overflow-hidden">
-                     <h3 className="text-xl font-bold text-white mb-6 pl-2 tracking-tight">상세 거래 로그</h3>
+                     <div className="flex items-center justify-between mb-6 pl-2">
+                        <h3 className="text-xl font-bold text-white tracking-tight">상세 거래 로그</h3>
+                        
+                        <button
+                          onClick={handleSaveToDB}
+                          disabled={isSaving || saveSuccess}
+                          className={`px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all ${
+                            saveSuccess 
+                              ? 'bg-green-500/10 text-green-500 border border-green-500/20' 
+                              : 'bg-amber-500 text-black hover:bg-amber-600 disabled:opacity-50'
+                          }`}
+                        >
+                          {isSaving ? '저장 중...' : saveSuccess ? '✓ 영구 저장 완료' : '클라우드 DB에 저장'}
+                        </button>
+                     </div>
                      <div className="overflow-x-auto custom-scrollbar pb-2">
                         <table className="w-full text-left border-collapse min-w-[600px]">
                            <thead>
