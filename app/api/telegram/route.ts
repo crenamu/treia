@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export const revalidate = 10; // 10초마다 갱신 허용
+export const dynamic = 'force-dynamic'; // 캐시 무효화 (항상 최신 Telegram 업데이트 강제)
 
 export async function GET() {
   try {
@@ -11,8 +11,10 @@ export async function GET() {
     }
 
     // Telegram Bot API의 getUpdates 메서드를 폴링하여 최신 메시지를 가져옵니다.
-    // MT5가 텔레그램 채널이나 그룹에 메시지를 쏘면, 봇이 그것을 감지하여 읽어옵니다.
-    const res = await fetch(`https://api.telegram.org/bot${token}/getUpdates?limit=5`);
+    // 캐싱을 완전히 방지하기 위해 쿼리에 타임스탬프를 추가합니다.
+    const res = await fetch(`https://api.telegram.org/bot${token}/getUpdates?limit=5&t=${Date.now()}`, {
+      cache: 'no-store'
+    });
     const json = await res.json();
 
     if (!json.ok) {

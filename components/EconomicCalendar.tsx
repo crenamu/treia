@@ -14,7 +14,16 @@ export default function EconomicCalendar() {
         const res = await fetch('/api/calendar');
         const json = await res.json();
         if (json.success && json.data) {
-          setData(json.data);
+          // 어제 이전 일정은 제외 (오늘 0시 0분 이후만 남김)
+          const now = new Date();
+          now.setHours(0, 0, 0, 0);
+          
+          const filtered = json.data.filter((item: any) => {
+             const eventDate = new Date(item.date);
+             return eventDate.getTime() >= now.getTime();
+          });
+          
+          setData(filtered);
         }
       } catch (error) {
         console.error("Failed to load calendar", error);
