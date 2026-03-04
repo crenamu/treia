@@ -6,13 +6,14 @@ import TradingViewChart from "@/components/TradingViewChart";
 import EducationalPerspectiveCard from "@/components/EducationalPerspectiveCard";
 import EconomicCalendar from "@/components/EconomicCalendar";
 import TelegramSignals from "@/components/TelegramSignals";
+import StopHuntingTracker from "@/components/StopHuntingTracker";
+
 interface CuratedNews {
   id: number;
   headline: string;
   summary: string;
   url: string;
 }
-
 export default function Home() {
   const [marketNews, setMarketNews] = useState<CuratedNews[]>([]);
 
@@ -51,8 +52,13 @@ export default function Home() {
          <EconomicCalendar />
       </section>
 
+      {/* Tick Data Analysis */}
+      <section className="w-full">
+         <StopHuntingTracker />
+      </section>
+
       {/* Today's Chart (M3) & Setup */}
-      <section className="flex flex-col gap-6 w-full">
+      <section className="flex flex-col gap-6 w-full mt-4">
          <div className="flex items-center gap-3 mb-2">
             <Target className="text-[var(--accent-gold)]" size={24} />
             <h2 className="text-2xl font-bold text-white tracking-tight">오늘의 차트 (M3 데이트레이딩)</h2>
