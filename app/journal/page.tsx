@@ -88,11 +88,12 @@ export default function JournalPage() {
       if (data.success) {
         setResult(data.data);
       } else {
-        setErrorMsg(data.message || '분석 중 오류가 발생했습니다.');
+        const detailError = data.error ? `\n(상세: ${data.error})` : '';
+        setErrorMsg((data.message || '분석 중 오류가 발생했습니다.') + detailError);
       }
     } catch (error) {
        console.error(error);
-       setErrorMsg('네트워크 또는 서버 에러가 발생했습니다.');
+       setErrorMsg('네트워크 또는 서버 에러가 발생했습니다. 파일 크기나 타임아웃을 확인하세요.');
     } finally {
       setLoading(false);
     }
