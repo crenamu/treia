@@ -23,15 +23,27 @@ const storage = getStorage(app);
 
 const COMMON_FILES_DIR = 'C:\\Users\\crena\\AppData\\Roaming\\MetaQuotes\\Terminal\\Common\\Files';
 
+const fileHashes = new Map();
+
 async function uploadFile(actualFilename, storageName) {
     const filePath = path.join(COMMON_FILES_DIR, actualFilename);
     if (!fs.existsSync(filePath)) return;
     
     try {
+        const stats = fs.statSync(filePath);
+        const lastModified = stats.mtimeMs;
+
+        // 이전에 올린 시간과 같으면 (수정되지 않았으면) 업로드 안 함 -> 요금 폭탄 방지!
+        if (fileHashes.get(storageName) === lastModified) {
+            return; 
+        }
+
         const content = fs.readFileSync(filePath, 'utf-8');
         const fileRef = ref(storage, `treia_data/${storageName}`);
         await uploadString(fileRef, content);
-        console.log(`[${new Date().toLocaleTimeString()}] ✅ ${storageName} 동기화 완료 (${(content.length/1024).toFixed(2)} KB)`);
+        
+        fileHashes.set(storageName, lastModified); // 올린 시간 기억
+        console.log(`[${new Date().toLocaleTimeString()}] ✅ ${storageName} 실시간 동기화 완료 (${(content.length/1024).toFixed(2)} KB)`);
     } catch (e) {
         console.error(`[${new Date().toLocaleTimeString()}] ❌ ${storageName} 업로드 에러:`, e.message);
     }
@@ -39,7 +51,6 @@ async function uploadFile(actualFilename, storageName) {
 
 async function sync() {
     if (!fs.existsSync(COMMON_FILES_DIR)) {
-        console.log("MT5 공용 폴더가 없어 동기화를 대기합니다.");
         return;
     }
     const files = fs.readdirSync(COMMON_FILES_DIR);
@@ -51,7 +62,7 @@ async function sync() {
     }
 
     // 틱 데이터 동기화 (가장 최근 생성된 파일만)
-    const tickFiles = files.filter(f => f.startsWith('treia_gold_ticks_')).sort((a,b) => b.localeCompare(a));
+    const tickFiles = files.filter(f => f.startsWith('treia_gold_ticks')).sort((a,b) => b.localeCompare(a));
     if (tickFiles.length > 0) {
         await uploadFile(tickFiles[0], 'treia_gold_ticks_latest.csv');
     }
