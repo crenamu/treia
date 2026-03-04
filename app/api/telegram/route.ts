@@ -13,8 +13,9 @@ export async function GET() {
     }
 
     // Telegram Bot API의 getUpdates 메서드를 폴링하여 최신 메시지를 가져옵니다.
-    // 캐싱을 완전히 방지하기 위해 쿼리에 타임스탬프를 추가합니다.
-    const res = await fetch(`https://api.telegram.org/bot${token}/getUpdates?limit=5&t=${Date.now()}`, {
+    // 캐싱을 완전히 방지하기 위해 쿼리에 타임스탬프를 추가하고, 
+    // offset=-50 과 limit=50을 주어 가장 최신의 밀려있는 메시지부터 받도록 합니다.
+    const res = await fetch(`https://api.telegram.org/bot${token}/getUpdates?offset=-50&limit=50&t=${Date.now()}`, {
       cache: 'no-store'
     });
     const json = await res.json();
@@ -27,7 +28,8 @@ export async function GET() {
     const updates = json.result || [];
     
     // 가장 최신 메시지 순으로 파싱 (최대 5개)
-    const messages = updates.map((u: Record<string, any>) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const messages = updates.map((u: any) => {
       const msg = u.message || u.channel_post;
       if (!msg) return null;
       return {

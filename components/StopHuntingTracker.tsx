@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
-import { Activity, Target, Trash2 } from "lucide-react";
+import { Activity, Target } from "lucide-react";
 
 interface Tick {
   time: string;
@@ -20,7 +20,6 @@ interface HuntData {
 export default function StopHuntingTracker() {
   const [data, setData] = useState<HuntData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [msg, setMsg] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,13 +28,9 @@ export default function StopHuntingTracker() {
         const json = await res.json();
         if (json.success && json.data) {
           setData(json.data);
-          setMsg(json.message);
-        } else {
-          setMsg(json.message || "데이터를 분석할 수 없습니다.");
         }
       } catch (err) {
         console.error(err);
-        setMsg("로딩 에러");
       } finally {
         setLoading(false);
       }
@@ -55,7 +50,7 @@ export default function StopHuntingTracker() {
           </div>
           <div>
             <h2 className="text-lg font-bold text-white tracking-tight leading-tight">오늘의 세력 사냥 (Stop Hunting) 포착</h2>
-            <p className="text-[11px] text-gray-500 font-medium">{msg || "MT5 실시간 틱 데이터 기반 자동 분석 중..."}</p>
+            <p className="text-[11px] text-gray-500 font-medium">MT5 실시간 틱 데이터 기반 라이브 분석 진행 중 (1시간 내 최고 변동성 구간)</p>
           </div>
         </div>
         {!loading && (
@@ -91,9 +86,9 @@ export default function StopHuntingTracker() {
              </div>
           </div>
           
-          <div className="h-[200px] w-full bg-black/40 rounded-xl border border-gray-800 relative mt-2 pt-4 px-2 overflow-hidden flex items-end">
+          <div className="h-[100px] w-full bg-black/40 rounded-xl border border-gray-800 relative mt-2 pt-2 px-2 overflow-hidden flex items-end">
              {/* Simple SVG Chart */}
-             <svg width="100%" height="100%" preserveAspectRatio="none" className="absolute pb-4 px-1" style={{ top: 0, left: 0 }}>
+             <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pb-4 px-1">
                <defs>
                  <linearGradient id="huntGrad" x1="0" y1="0" x2="0" y2="1">
                    <stop offset="0%" stopColor="rgba(239, 68, 68, 0.4)" />
@@ -106,20 +101,22 @@ export default function StopHuntingTracker() {
                    <polyline
                      fill="none"
                      stroke="#ef4444"
-                     strokeWidth="2"
+                     strokeWidth="0.5"
                      points={data.ticks.map((t, i) => {
                        const x = (i / (data.ticks.length - 1)) * 100;
-                       const y = 100 - ((t.price - data.low) / (data.high - data.low) * 100);
-                       return `${x}%,${y}%`;
+                       // NaN 방지
+                       const range = data.high - data.low || 1; 
+                       const y = 100 - ((t.price - data.low) / range * 100);
+                       return `${x},${y}`;
                      }).join(' ')}
                      className="drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]"
                    />
                  </>
                )}
              </svg>
-             <div className="w-full flex justify-between text-[10px] font-mono text-gray-600 mb-1 z-10 px-2 opacity-50">
+             <div className="w-full flex justify-between text-[9px] font-mono text-gray-600 mb-1 z-10 px-2 opacity-50 relative pointer-events-none">
                 <span>{data.ticks[0]?.time}</span>
-                <span className="text-red-500/50">"기관의 유동성 사냥(Stop Hunt) 궤적"</span>
+                <span className="text-red-500/50">Stop Hunt Tracking...</span>
                 <span>{data.ticks[data.ticks.length-1]?.time}</span>
              </div>
           </div>
