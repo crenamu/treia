@@ -4,6 +4,7 @@ import { Bot, BarChart3, LayoutDashboard, ChevronRight, Target, Users, Globe } f
 import Link from "next/link";
 import TradingViewChart from "@/components/TradingViewChart";
 import EducationalPerspectiveCard from "@/components/EducationalPerspectiveCard";
+import VolumeProfileBox from "@/components/VolumeProfileBox";
 import EconomicCalendar from "@/components/EconomicCalendar";
 import TelegramSignals from "@/components/TelegramSignals";
 import StopHuntingTracker from "@/components/StopHuntingTracker";
@@ -68,7 +69,8 @@ export default function Home() {
             <div className="xl:col-span-2 w-full aspect-video rounded-3xl bg-[#0F1115] border border-gray-800 overflow-hidden relative group shadow-2xl">
                <TradingViewChart levels={marketLevels} interval="3" />
             </div>
-            <div className="xl:col-span-1 h-full min-h-[400px] flex flex-col justify-center text-left">
+            <div className="xl:col-span-1 h-full min-h-[400px] flex flex-col gap-6 text-left">
+               <VolumeProfileBox />
                <EducationalPerspectiveCard 
                   levels={marketLevels}
                   scenarios={scenarios}
