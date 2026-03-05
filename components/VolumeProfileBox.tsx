@@ -50,7 +50,7 @@ export default function VolumeProfileBox() {
   const maxVol = Math.max(...data.topVolumeNodes.map(n => n.volume));
 
   return (
-    <div className="bg-[#1A1D24] p-6 rounded-2xl border border-amber-500/20 flex flex-col gap-4 shadow-lg shadow-amber-500/5 h-full">
+    <div className="bg-[#1A1D24] p-6 rounded-2xl border border-amber-500/20 flex flex-col gap-4 shadow-lg shadow-amber-500/5">
       <div className="flex items-center gap-2 mb-2 border-b border-gray-800 pb-4 shrink-0">
         <Target className="text-amber-500" size={18} />
         <div>

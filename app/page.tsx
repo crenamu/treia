@@ -64,17 +64,13 @@ export default function Home() {
             <div className="xl:col-span-2 w-full h-[580px] rounded-3xl bg-[#0F1115] border border-gray-800 overflow-hidden relative group shadow-2xl">
                <TradingViewChart levels={marketLevels} interval="3" />
             </div>
-            <div className="xl:col-span-1 h-[580px] flex flex-col gap-6 text-left">
-               <div className="flex-1 overflow-y-auto custom-scrollbar rounded-2xl">
-                  <VolumeProfileBox />
-               </div>
-               <div className="flex-1 overflow-y-auto custom-scrollbar rounded-2xl">
-                  <EducationalPerspectiveCard 
-                     levels={marketLevels}
-                     scenarios={scenarios}
-                     analysis="준비된 핵심 지지/저항 레벨입니다. 주요 매물대가 집중된 $5,373 및 $5,352 구간에서의 시장 반응(Price Action)을 관찰하는 것이 오늘의 중심 관점입니다."
-                  />
-               </div>
+            <div className="xl:col-span-1 h-[580px] overflow-y-auto custom-scrollbar flex flex-col gap-6 text-left pr-2">
+               <VolumeProfileBox />
+               <EducationalPerspectiveCard 
+                  levels={marketLevels}
+                  scenarios={scenarios}
+                  analysis="준비된 핵심 지지/저항 레벨입니다. 주요 매물대가 집중된 $5,373 및 $5,352 구간에서의 시장 반응(Price Action)을 관찰하는 것이 오늘의 중심 관점입니다."
+               />
             </div>
          </div>
       </section>
