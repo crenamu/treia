@@ -41,14 +41,14 @@ export async function GET() {
 
     if (!fileStream) {
        try {
-           const url = await getDownloadURL(ref(storage, 'treia_data/treia_h1_base_latest.csv'));
+           const url = await getDownloadURL(ref(storage, 'treia/treia_h1_base_latest.csv'));
            const res = await fetch(url);
            if (!res.ok) throw new Error("클라우드 데이터를 가져올 수 없습니다.");
            fileContent = await res.text();
            const bytes = Buffer.byteLength(fileContent, 'utf8');
            fileSizeKB = (bytes / 1024).toFixed(2);
            baseFilename = 'treia_h1_base_latest.csv';
-       } catch (e) {
+       } catch {
            return NextResponse.json({ success: false, message: '로컬 PC 데이터를 클라우드에 아직 연동하지 않았거나 데이터가 없습니다.' });
        }
     }

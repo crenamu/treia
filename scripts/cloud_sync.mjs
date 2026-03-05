@@ -40,7 +40,7 @@ async function uploadFile(actualFilename, storageName, forceUpdate = false) {
         }
 
         const content = fs.readFileSync(filePath, 'utf-8');
-        const fileRef = ref(storage, `treia_data/${storageName}`);
+        const fileRef = ref(storage, `treia/${storageName}`);
         await uploadString(fileRef, content);
         
         fileHashes.set(storageName, lastModified); // 올린 시간 기억
