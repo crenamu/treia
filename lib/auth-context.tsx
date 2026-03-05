@@ -10,7 +10,8 @@ import {
   signInWithEmailAndPassword,
   updateProfile
 } from 'firebase/auth';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 export type UserRole = 'member' | 'admin' | 'guest';
 
@@ -36,11 +37,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        setRole('member'); // 현재는 모두 동일 등급으로 통합
-        setTier(1);        // 현재는 모두 동일 티어로 통합
+        // Treia 전용 DB(db)에 접속 정보 업데이트 (Prefix 정책 대응)
+        try {
+          const userRef = doc(db, 'users', currentUser.uid);
+          await setDoc(userRef, {
+            email: currentUser.email,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
+            lastLogin: serverTimestamp(),
+            app: 'treia' 
+          }, { merge: true });
+          
+          const userSnap = await getDoc(userRef);
+          if (userSnap.exists()) {
+            const userData = userSnap.data();
+            setRole(userData.role || 'member');
+            setTier(userData.tier || 1);
+          }
+        } catch (err) {
+          console.error("User metadata sync error:", err);
+          setRole('member');
+          setTier(1);
+        }
       } else {
         setUser(null);
         setRole('guest');
