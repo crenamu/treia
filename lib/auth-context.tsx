@@ -78,6 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Login Error:", error);
+      throw error; // 에러를 던져야 UI에서 인지합니다.
     }
   };
 

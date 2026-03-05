@@ -59,9 +59,10 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
     setLoading(true);
     try {
       await login();
-      onClose();
-    } catch {
-      setError("구글 로그인 중 오류가 발생했습니다.");
+      // 성공 시 state 업데이트를 위해 0.5초 정도 대기 후 닫기
+      setTimeout(() => onClose(), 500);
+    } catch (_err) {
+      setError("구글 로그인 중 오류가 발생했습니다. 팝업이 차단되었는지 확인해 주세요.");
     } finally {
       setLoading(false);
     }
