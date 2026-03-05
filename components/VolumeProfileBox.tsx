@@ -50,16 +50,16 @@ export default function VolumeProfileBox() {
   const maxVol = Math.max(...data.topVolumeNodes.map(n => n.volume));
 
   return (
-    <div className="bg-[#1A1D24] p-6 rounded-2xl border border-amber-500/20 flex flex-col gap-4 shadow-lg shadow-amber-500/5">
-      <div className="flex items-center gap-2 mb-2 border-b border-gray-800 pb-4">
+    <div className="bg-[#1A1D24] p-6 rounded-2xl border border-amber-500/20 flex flex-col gap-4 shadow-lg shadow-amber-500/5 h-full">
+      <div className="flex items-center gap-2 mb-2 border-b border-gray-800 pb-4 shrink-0">
         <Target className="text-amber-500" size={18} />
         <div>
-           <h3 className="text-sm font-bold text-white tracking-widest uppercase">핵심 매물대 박스 (Volume Nodes)</h3>
-           <p className="text-[10px] text-gray-500 font-medium">최근 3개월 H1 캔들 기준 강력 지지 및 저항선</p>
+           <h3 className="text-sm font-bold text-white tracking-widest uppercase">핵심 매물대 구간 (Volume Nodes)</h3>
+           <p className="text-[10px] text-gray-500 font-medium">과거 데이터 분석을 통한 지지 및 저항 레벨</p>
         </div>
       </div>
       
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 overflow-y-auto pr-1 custom-scrollbar">
         {data.topVolumeNodes.map((node, i) => (
           <div key={i} className="flex flex-col gap-1">
             <div className="flex justify-between items-center text-xs">

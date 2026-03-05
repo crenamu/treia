@@ -28,7 +28,7 @@ export default function Home() {
       .catch(console.error);
   }, []);
 
-  // Today's Chart Levels based on actual MT5 History
+  // Today's Chart Levels based on market data analysis
   const marketLevels = [
     { price: 5377.1, label: "Day High (Resistance)", type: 'major' as const },
     { price: 5373.1, label: "Session POC", type: 'major' as const },
@@ -65,14 +65,14 @@ export default function Home() {
                <TradingViewChart levels={marketLevels} interval="3" />
             </div>
             <div className="xl:col-span-1 h-[580px] flex flex-col gap-6 text-left">
-               <div className="flex-1 overflow-hidden">
+               <div className="flex-1 overflow-y-auto custom-scrollbar rounded-2xl">
                   <VolumeProfileBox />
                </div>
-               <div className="flex-1 overflow-hidden">
+               <div className="flex-1 overflow-y-auto custom-scrollbar rounded-2xl">
                   <EducationalPerspectiveCard 
                      levels={marketLevels}
                      scenarios={scenarios}
-                     analysis="분석 데이터에 기반한 핵심 지지/저항 레벨입니다. 3분봉(M3) 기준 매물대가 집중된 $5,373 및 $5,352 구간에서의 프라이스 액션(Price Action)이 오늘 데이트레이딩의 핵심입니다."
+                     analysis="준비된 핵심 지지/저항 레벨입니다. 주요 매물대가 집중된 $5,373 및 $5,352 구간에서의 시장 반응(Price Action)을 관찰하는 것이 오늘의 중심 관점입니다."
                   />
                </div>
             </div>

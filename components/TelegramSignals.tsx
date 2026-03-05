@@ -46,10 +46,10 @@ export default function TelegramSignals() {
           </div>
           <div className="flex-1">
             <h2 className="text-lg font-bold text-white tracking-tight leading-tight flex items-center gap-2">
-              실시간 텔레그램 시그널 
+              실시간 관점 공유 
               <span className="text-[9px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">최근 동기화: {lastSync.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
             </h2>
-            <p className="text-[11px] text-gray-500 font-medium mt-0.5">MT5에서 발송된 최신 메시지</p>
+            <p className="text-[11px] text-gray-500 font-medium mt-0.5">데이터를 기반으로 공유된 실시간 인사이트</p>
           </div>
         </div>
       </div>

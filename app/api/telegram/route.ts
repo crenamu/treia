@@ -36,7 +36,7 @@ export async function GET() {
         id: msg.message_id,
         text: msg.text || '',
         date: msg.date,
-        sender: msg.chat?.title || msg.from?.first_name || 'MT5 Signal'
+        sender: msg.chat?.title || msg.from?.first_name || 'Treia'
       };
     }).filter(Boolean).reverse().slice(0, 5); // null 제거 후 뒤집기
 

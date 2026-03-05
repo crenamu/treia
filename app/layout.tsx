@@ -72,15 +72,15 @@ export default function RootLayout({
                       <span className="text-xl font-outfit font-black text-white tracking-tighter uppercase italic">Treia</span>
                    </div>
                    <p className="text-sm text-[var(--text-secondary)] max-w-sm leading-relaxed font-medium">
-                      12년의 트레이딩 경험과 틱데이터 AI 분석이 만나 탄생한 가장 신뢰할 수 있는 트레이딩 가이드 플랫폼입니다.
+                                             데이터 기반 분석과 AI 기술이 결합된 교육용 트레이딩 인사이트 플랫폼입니다.
                    </p>
                 </div>
                 <FooterLinks title="서비스" links={["AI 큐레이션", "시장 분석", "EA / 인디케이터", "입문 가이드"]} />
                 <FooterLinks title="고객지원" links={["공지사항", "이용약관", "개인정보처리방침", "문의하기"]} />
              </div>
              <div className="container mx-auto px-6 mt-16 pt-8 border-t border-gray-900 text-center">
-                <p className="text-[10px] text-gray-600 mb-4 px-4 leading-relaxed font-bold uppercase tracking-widest">
-                   ⚠️ 본 서비스는 정보 제공 목적이며 투자의 책임은 사용자에게 있습니다. 수입을 보장하지 않습니다.
+                <p className="text-[10px] text-gray-600 mb-4 px-4 leading-relaxed font-medium uppercase tracking-widest">
+                   ⚠️ 본 서비스는 교육 및 정보 제공만을 목적으로 하며, 실제 투자 권유나 금전적 수익을 보장하지 않습니다. 모든 투자의 판단과 책임은 투자자 본인에게 있습니다.
                 </p>
                 <p className="text-[10px] text-gray-700 font-bold tracking-widest uppercase">© 2026 Treia. All rights reserved.</p>
              </div>
