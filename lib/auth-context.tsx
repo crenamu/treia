@@ -40,9 +40,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        // Treia 전용 DB(db)에 접속 정보 업데이트 (Prefix 정책 대응)
+        // Treia 전용 DB(db)에 접속 정보 업데이트 (Prefix 정책 대응: treia_users)
         try {
-          const userRef = doc(db, 'users', currentUser.uid);
+          const userRef = doc(db, 'treia_users', currentUser.uid);
           await setDoc(userRef, {
             email: currentUser.email,
             displayName: currentUser.displayName,
