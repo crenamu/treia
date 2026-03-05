@@ -110,7 +110,7 @@ export default function Home() {
                   AI Trade Journal
                </h2>
                <p className="text-gray-400 font-medium leading-relaxed mt-2 text-sm lg:text-base">
-                  방금 끝낸 트레이딩, 길게 적을 필요 없습니다. MT4/MT5 피씨나 모바일 내역 화면을 스크린샷 캡처한 후 <span className="text-amber-500 font-bold bg-amber-500/10 px-1 rounded">Ctrl+V</span>로 붙여넣어 보세요.<br className="hidden md:block" /> AI가 브로커 시간을 한국 시간으로 완벽히 변환하고 상세한 매매 통계표를 1초 만에 완성해 줍니다.
+                  방금 끝낸 트레이딩, 길게 적을 필요 없습니다. 사용 중인 플랫폼의 내역 화면을 스크린샷 캡처한 후 <span className="text-amber-500 font-bold bg-amber-500/10 px-1 rounded">Ctrl+V</span>로 붙여넣어 보세요.<br className="hidden md:block" /> AI가 브로커 시간을 한국 시간으로 완벽히 변환하고 상세한 매매 통계표를 1초 만에 완성해 줍니다.
                </p>
             </div>
             <div className="relative z-10 w-full md:w-auto">
@@ -150,7 +150,7 @@ export default function Home() {
         <ServiceCard 
           href="/community"
           title="트레이더 광장"
-          desc="CFD 트레이더들과 전략을 공유하고 집단 지성을 경험하세요."
+          desc="멤버들과 전략을 공유하고 집단 지성을 경험하세요."
           icon={<Users size={24} />}
           accentColor="rgba(34, 197, 94, 0.4)"
           stat="42명 접속"
