@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase';
-import { collection, getDocs, query, where, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 export async function GET() {
   try {
@@ -8,8 +8,7 @@ export async function GET() {
     const q = query(
       educationRef,
       where('app', '==', 'treia'),
-      where('isPublished', '==', true),
-      limit(10)
+      where('isPublished', '==', true)
     );
 
     const querySnapshot = await getDocs(q);
