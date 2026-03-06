@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { ArrowLeft, Clock, Share2, Bookmark, GraduationCap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -60,19 +60,22 @@ export default function EducationDetailPage() {
 
   return (
     <main className="min-h-screen bg-[#0A0B0F] text-white pb-24">
-      {/* Top Banner / Hero */}
-      <div className="relative w-full h-[50vh] min-h-[400px]">
-        <Image 
-          src={article.thumbnail} 
-          alt={article.title}
-          fill
-          className="object-cover opacity-60 grayscale-[0.5]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0F] via-[#0A0B0F]/20 to-transparent"></div>
+      {/* Hero Header Selection */}
+      <div className="relative w-full h-[60vh] min-h-[500px] overflow-hidden bg-[#14161B]">
+        {article.thumbnail && (
+          <Image 
+            src={article.thumbnail} 
+            alt="" 
+            fill
+            priority
+            className="object-cover opacity-50 z-0"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0F] via-[#0A0B0F]/40 to-transparent z-10"></div>
         
-        <div className="absolute bottom-0 left-0 w-full">
-          <div className="container mx-auto px-6 pb-12 max-w-4xl">
-            <Link href="/education" className="inline-flex items-center gap-2 text-amber-500/80 hover:text-amber-500 mb-8 transition-all font-bold group">
+        <div className="absolute bottom-0 left-0 w-full z-20">
+          <div className="container mx-auto px-6 pb-16 max-w-4xl">
+            <Link href="/education" className="inline-flex items-center gap-2 text-amber-500 hover:text-white mb-8 transition-all font-bold group">
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
               <span className="text-sm">Back to Insights</span>
             </Link>

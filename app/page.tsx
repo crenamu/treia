@@ -72,9 +72,46 @@ export default function Home() {
          <EconomicCalendar />
       </section>
 
+      {/* NEW: Education Insights Moved Up */}
+      <div className="flex flex-col gap-8 w-full">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 text-amber-500 mb-1">
+              <GraduationCap size={16} />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Premium Insights</span>
+            </div>
+            <h2 className="text-3xl font-black tracking-tighter text-white">트레이아 인사이트</h2>
+          </div>
+          <Link href="/education" className="text-xs font-bold text-gray-500 hover:text-amber-500 transition-colors flex items-center gap-2 group">
+            전체 보기 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {insightArticles.length > 0 ? (
+            insightArticles.map((article) => (
+              <Link href={`/education/${article.id}`} key={article.id}>
+                <ArticleCard 
+                  title={article.title}
+                  category={article.category}
+                  summary={article.excerpt}
+                  imageUrl={article.thumbnail}
+                  date={new Date(article.createdAt.seconds * 1000).toLocaleDateString()}
+                  source={article.source || "Treia Official"}
+                  difficulty={article.difficulty || "입문"}
+                />
+              </Link>
+            ))
+          ) : (
+            [1, 2, 3, 4].map((i) => (
+              <div key={i} className="bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
+            ))
+          )}
+        </div>
+      </div>
 
       {/* Today's Chart (M3) & Setup */}
-      <section className="flex flex-col gap-6 w-full mt-4">
+      <section className="flex flex-col gap-6 w-full mt-12">
          <div className="flex items-center gap-3 mb-2">
             <Target className="text-[var(--accent-gold)]" size={24} />
             <h2 className="text-2xl font-bold text-white tracking-tight">오늘의 차트 (M3 데이트레이딩)</h2>
