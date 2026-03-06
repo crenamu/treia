@@ -9,7 +9,6 @@ export async function GET() {
       educationRef,
       where('app', '==', 'treia'),
       where('isPublished', '==', true),
-      orderBy('createdAt', 'desc'),
       limit(4)
     );
 
