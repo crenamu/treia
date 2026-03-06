@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Clock, Tag, Share2, Bookmark, GraduationCap, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Clock, Share2, Bookmark, GraduationCap, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
@@ -19,7 +19,6 @@ interface Article {
 
 export default function EducationDetailPage() {
   const { id } = useParams();
-  const router = useRouter();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -69,13 +68,13 @@ export default function EducationDetailPage() {
           fill
           className="object-cover opacity-60 grayscale-[0.5]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0F] via-[#0A0B0F]/40 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0F] via-[#0A0B0F]/20 to-transparent"></div>
         
         <div className="absolute bottom-0 left-0 w-full">
           <div className="container mx-auto px-6 pb-12 max-w-4xl">
-            <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors group">
+            <Link href="/education" className="inline-flex items-center gap-2 text-amber-500/80 hover:text-amber-500 mb-8 transition-all font-bold group">
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-              <span>Back to Insights</span>
+              <span className="text-sm">Back to Insights</span>
             </Link>
             
             <div className="flex items-center gap-3 mb-4">
@@ -114,10 +113,11 @@ export default function EducationDetailPage() {
             <article className="prose prose-invert prose-amber max-w-none">
               <ReactMarkdown 
                 components={{
-                  h3: ({node, ...props}) => <h3 className="text-2xl font-bold text-white mt-12 mb-6 border-l-4 border-amber-500 pl-4" {...props} />,
-                  p: ({node, ...props}) => <p className="text-gray-400 leading-relaxed text-lg mb-6 font-medium" {...props} />,
-                  li: ({node, ...props}) => <li className="text-gray-400 mb-2" {...props} />,
-                  strong: ({node, ...props}) => <strong className="text-amber-500 font-bold" {...props} />,
+                  h3: ({...props}) => <h3 className="text-2xl md:text-3xl font-black text-white mt-20 mb-10 border-l-8 border-amber-500 pl-6 leading-tight tracking-tighter" {...props} />,
+                  p: ({...props}) => <p className="text-gray-400 leading-[1.8] text-lg md:text-xl mb-10 font-medium tracking-tight opacity-90" {...props} />,
+                  li: ({...props}) => <li className="text-gray-300 mb-4 text-base md:text-lg leading-relaxed list-disc marker:text-amber-500" {...props} />,
+                  strong: ({...props}) => <strong className="text-amber-400 font-black px-1" {...props} />,
+                  ul: ({...props}) => <ul className="mb-10 pl-6 space-y-4" {...props} />,
                 }}
               >
                 {article.content}
