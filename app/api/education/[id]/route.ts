@@ -4,10 +4,10 @@ import { doc, getDoc } from 'firebase/firestore';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     // treia 전용 데이터베이스 인스턴스에서 문서 가져오기
     const docRef = doc(db, 'treia_education', id);
