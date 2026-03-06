@@ -20,23 +20,29 @@ interface Article {
 export default function EducationDetailPage() {
   const { id } = useParams();
   const [article, setArticle] = useState<Article | null>(null);
+  const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchArticle = async () => {
+    const fetchData = async () => {
       try {
         const res = await fetch(`/api/education/${id}`);
         const data = await res.json();
-        if (data.error) throw new Error(data.error);
         setArticle(data);
-      } catch (error) {
-        console.error("Error fetching article:", error);
+
+        // 연관 기사 불러오기 (최신 4개 중 현재 게시물 제외 2개 선택)
+        const relRes = await fetch('/api/education');
+        const relData = await relRes.json();
+        if (Array.isArray(relData)) {
+          setRelatedArticles(relData.filter(a => a.id !== id).slice(0, 2));
+        }
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
-
-    if (id) fetchArticle();
+    if (id) fetchData();
   }, [id]);
 
   if (loading) {
@@ -89,7 +95,7 @@ export default function EducationDetailPage() {
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-tight mb-6 [word-break:keep-all]">
               {article.title}
             </h1>
             
@@ -127,15 +133,15 @@ export default function EducationDetailPage() {
               </ReactMarkdown>
             </article>
 
-            {/* Bottom Disclaimer */}
-            <div className="mt-20 p-8 rounded-3xl bg-gray-900/30 border border-amber-500/10 flex gap-4">
-              <AlertTriangle className="text-amber-500 shrink-0" size={24} />
+            {/* Bottom Disclaimer 보정: 면책 고지 -> 투자 유의사항 */}
+            <div className="mt-20 p-8 rounded-3xl bg-[#14161B] border border-gray-800 flex gap-5 shadow-2xl shadow-black/40 outline outline-1 outline-amber-500/10">
+              <AlertTriangle className="text-amber-500 shrink-0 mt-1" size={28} />
               <div>
-                <h4 className="text-sm font-bold text-white mb-2">면책 고지 (Investment Disclaimer)</h4>
-                <p className="text-xs text-gray-500 leading-relaxed">
-                  본 콘텐츠는 정보 제공 및 교육 목적으로만 작성되었으며, 특정 금융 상품의 매수 또는 매도를 권유하지 않습니다. 
+                <h4 className="text-lg font-black text-white mb-3 tracking-tight">투자 유의사항 (Investment Disclaimer)</h4>
+                <p className="text-sm text-gray-500 leading-relaxed font-medium [word-break:keep-all] opacity-80">
+                  트레이아에서 제공하는 모든 인사이트는 정보 제공 및 교육 목적을 위해 작성되었으며, 특정 금융 상품의 매수·매도를 권유하지 않습니다. 
                   모든 투자의 책임은 투자자 본인에게 있으며, 과거의 실적이 미래의 수익을 보장하지 않습니다. 
-                  CFD 거래는 원금 손실의 위험이 크므로 신중하게 판단하시기 바랍니다.
+                  금융 거래는 원금 손실의 위험이 크므로 본인의 판단 하에 신중하게 접근하시기 바랍니다.
                 </p>
               </div>
             </div>
@@ -161,11 +167,29 @@ export default function EducationDetailPage() {
                 </Link>
               </div>
               
-              <div className="mt-8 p-6 rounded-3xl border border-gray-800 bg-[#14161B]">
-                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Related Insights</h4>
-                <div className="space-y-4">
-                   <div className="text-sm font-bold text-gray-300 hover:text-amber-500 cursor-pointer transition-colors">CFD 레버리지와 증거금의 이해</div>
-                   <div className="text-sm font-bold text-gray-300 hover:text-amber-500 cursor-pointer transition-colors">볼륨 프로파일 매매 기법</div>
+              <div className="mt-8 p-8 rounded-3xl border border-gray-800 bg-[#14161B] shadow-lg shadow-black/20">
+                <h4 className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em] mb-8 border-b border-gray-800/50 pb-4">
+                  Related Insights
+                </h4>
+                <div className="flex flex-col gap-8">
+                  {relatedArticles.length > 0 ? (
+                    relatedArticles.map((rel) => (
+                      <Link 
+                        key={rel.id} 
+                        href={`/education/${rel.id}`}
+                        className="group/item flex flex-col gap-2 transition-all"
+                      >
+                        <span className="text-[9px] font-black text-amber-500/70 uppercase tracking-widest group-hover/item:text-amber-500 transition-colors">
+                          {rel.category}
+                        </span>
+                        <span className="text-[15px] font-bold text-gray-400 group-hover/item:text-white leading-snug transition-all line-clamp-2 [word-break:keep-all] tracking-tight">
+                          {rel.title}
+                        </span>
+                      </Link>
+                    ))
+                  ) : (
+                    <p className="text-xs text-gray-500 font-bold py-2">관련 내용이 없습니다.</p>
+                  )}
                 </div>
               </div>
             </div>

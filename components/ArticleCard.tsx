@@ -26,16 +26,28 @@ export default function ArticleCard({
   return (
     <div className="group relative bg-[#14161B] border border-gray-800/50 hover:border-amber-500/30 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col h-full shadow-2xl shadow-black/20">
       {/* Image Section */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-gray-900">
-        <Image 
-          src={imageUrl || "https://images.unsplash.com/photo-1611974714652-960205d8bc11?auto=format&fit=crop&q=80&w=800"} 
-          alt="" // Alt text overlap prevent
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out grayscale-[20%] group-hover:grayscale-0"
-        />
+      <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-[#1D2129] to-[#0A0B0F]">
+        {imageUrl ? (
+          <Image 
+            src={imageUrl} 
+            alt="" 
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out grayscale-[20%] group-hover:grayscale-0"
+          />
+        ) : (
+          /* Placeholder Pattern if no image */
+          <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity">
+            <div className="absolute inset-0" style={{ 
+              backgroundImage: `radial-gradient(circle at 2px 2px, #f59e0b 1px, transparent 0)`,
+              backgroundSize: '24px 24px' 
+            }}></div>
+            <div className="flex items-center justify-center h-full">
+               <Sparkles size={48} className="text-amber-500/30" />
+            </div>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#14161B] via-transparent to-transparent opacity-80"></div>
         
-        {/* Category Badge - Over Image */}
         <div className="absolute top-5 left-5 flex items-center gap-2">
           <div className="px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur-xl border border-white/5 text-[9px] font-black text-amber-500 uppercase tracking-widest shadow-xl">
             {category}
@@ -58,10 +70,10 @@ export default function ArticleCard({
         </div>
 
         <div className="flex flex-col gap-3.5">
-          <h3 className="font-bold text-lg md:text-xl text-white leading-[1.3] group-hover:text-amber-500 transition-colors line-clamp-2 tracking-tight">
+          <h3 className="font-bold text-lg md:text-xl text-white leading-[1.4] group-hover:text-amber-500 transition-colors line-clamp-2 tracking-tight [word-break:keep-all]">
             {title}
           </h3>
-          <p className="text-xs text-gray-500 leading-relaxed line-clamp-3 font-medium opacity-80">
+          <p className="text-xs text-gray-500 leading-relaxed line-clamp-3 font-medium opacity-80 [word-break:keep-all]">
             {summary}
           </p>
         </div>
