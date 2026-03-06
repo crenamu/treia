@@ -9,14 +9,17 @@ export async function GET() {
       educationRef,
       where('app', '==', 'treia'),
       where('isPublished', '==', true),
-      limit(4)
+      limit(10)
     );
 
     const querySnapshot = await getDocs(q);
     const articles = querySnapshot.docs.map(doc => ({
       id: doc.id,
-      ...doc.data(),
+      ...(doc.data() as any),
     }));
+
+    // 최신순 정렬
+    articles.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
     return NextResponse.json(articles);
   } catch (error) {
