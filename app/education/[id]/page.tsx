@@ -67,15 +67,17 @@ export default function EducationDetailPage() {
   return (
     <main className="min-h-screen bg-[#0A0B0F] text-white pb-24">
       {/* Hero Header Selection */}
-      <div className="relative w-full h-[60vh] min-h-[500px] overflow-hidden bg-[#14161B]">
+      <div className="relative w-full h-[60vh] min-h-[500px] overflow-hidden bg-[#0A0B0F]">
         {article.thumbnail && (
-          <Image 
-            src={article.thumbnail} 
-            alt="" 
-            fill
-            priority
-            className="object-cover opacity-50 z-0"
-          />
+          <div className="absolute inset-0">
+            <Image 
+              src={article.thumbnail} 
+              alt="" 
+              fill
+              priority
+              className="object-cover opacity-50 transition-opacity duration-1000"
+            />
+          </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0F] via-[#0A0B0F]/40 to-transparent z-10"></div>
         
