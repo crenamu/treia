@@ -183,16 +183,17 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {insightArticles.length > 0 ? (
             insightArticles.map((article) => (
-              <ArticleCard 
-                key={article.id}
-                title={article.title}
-                category={article.category}
-                summary={article.excerpt}
-                imageUrl={article.thumbnail}
-                date={new Date(article.createdAt.seconds * 1000).toLocaleDateString()}
-                source={article.source || "Treia Official"}
-                difficulty={article.difficulty || "입문"}
-              />
+              <Link href={`/education/${article.id}`} key={article.id}>
+                <ArticleCard 
+                  title={article.title}
+                  category={article.category}
+                  summary={article.excerpt}
+                  imageUrl={article.thumbnail}
+                  date={new Date(article.createdAt.seconds * 1000).toLocaleDateString()}
+                  source={article.source || "Treia Official"}
+                  difficulty={article.difficulty || "입문"}
+                />
+              </Link>
             ))
           ) : (
             // 로딩 상태 혹은 빈 상태 표시

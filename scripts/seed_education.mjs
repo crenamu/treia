@@ -31,21 +31,12 @@ const db = getFirestore(app, "treia");
 
 const seedEducation = async () => {
   const educationRef = collection(db, "treia_education");
-  const title = "[브로커 가이드] 안전한 트레이딩 환경: 브로커 선택 기준과 팩트 체크";
-
-  const q = query(educationRef, where("title", "==", title));
-  const querySnapshot = await getDocs(q);
-
-  if (!querySnapshot.empty) {
-    console.log("이미 존재하는 포스팅입니다.");
-    process.exit(0);
-  }
-
-  const post = {
-    title,
-    category: "브로커 가이드",
-    excerpt: "해외 브로커에 대한 오해와 진실, 그리고 안전한 거래 환경을 스스로 판별하기 위한 5가지 객관적 기준을 제시합니다.",
-    content: `
+  const posts = [
+    {
+      title: "[브로커 가이드] 안전한 트레이딩 환경: 브로커 선택 기준과 팩트 체크",
+      category: "브로커 가이드",
+      excerpt: "해외 브로커에 대한 오해와 진실, 그리고 안전한 거래 환경을 스스로 판별하기 위한 5가지 객관적 기준을 제시합니다.",
+      content: `
 ### 1. 브로커 본체와 유통 경로의 분리
 많은 트레이더들이 특정 해외 브로커를 위험하다고 오해하는 이유는, 브로커 자체의 결함보다는 **중간 단계에서 활동하는 불법 다단계 영업직**들의 행태 때문인 경우가 많습니다. 
 글로벌 금융 규제 기관(FCA 등)에 가입된 브로커는 시스템적 안정성을 갖추고 있으나, 이를 이용해 "고수익 보장"이나 "지인 모집 인센티브"를 홍보하는 조직은 반드시 피해야 합니다.
@@ -64,20 +55,49 @@ const seedEducation = async () => {
 - **독립적 선택**: 트레이아는 위에서 제시한 객관적 기준에 부합하는 환경에서만 매매 데이터를 추출하며, 사용자는 제공된 기준을 바탕으로 본인에게 가장 적합한 증권사를 **직접 비교하고 선택**해야 합니다.
 - **리스크 고지**: 해외 브로커는 국내와 비교해 적은 시드머니로 레버리지를 활용할 수 있는 장점이 있으나, 예금자 보호 범위 등 국가별 법적 보호 체계가 다를 수 있음을 반드시 인지해야 합니다.
     `,
-    thumbnail: "https://images.unsplash.com/photo-1611974714652-960205d8bc11?auto=format&fit=crop&q=80&w=800",
-    isPublished: true,
-    order: 1,
-    createdAt: serverTimestamp(),
-    app: "treia",
-  };
+      thumbnail: "https://images.unsplash.com/photo-1611974714652-960205d8bc11?auto=format&fit=crop&q=80&w=800",
+      isPublished: true,
+      order: 1,
+      createdAt: serverTimestamp(),
+      app: "treia",
+    },
+    {
+      title: "[레버리지] 리스크와 기회의 양날의 검: 레버리지와 증거금 효율적 관리법",
+      category: "리스크 관리",
+      excerpt: "트레이딩의 규모를 결정짓는 레버리지의 원리와 증거금 관리의 중요성을 통해 계좌의 안전을 지키는 실전 원칙을 알아봅니다.",
+      content: `
+### 1. 레버리지(Leverage)의 정의: 자본의 효율적 운용
+레버리지는 지렛대라는 뜻으로, 트레이더가 보유한 증거금(Margin)을 담보로 브로커로부터 자금을 조달하여 실제 자본보다 더 큰 규모의 포지션을 운영하는 방식입니다. 
+- **특징**: 해외 브로커는 국내 증권사보다 상대적으로 높은 레버리지를 지원하며, 이는 적은 자본으로도 글로벌 자산(골드 등)의 변동성을 활용할 수 있는 기회를 제공합니다.
 
-  try {
-    await addDoc(educationRef, post);
-    console.log("교육 콘텐츠 시딩 완료!");
-    process.exit(0);
-  } catch (error) {
-    console.error("Error seeding education:", error);
-    process.exit(1);
+### 2. 증거금(Margin)과 마진콜(Margin Call)의 관계
+포지션을 진입하고 유지하기 위해 필요한 최소한의 자본을 **증거금**이라 합니다. 시장의 변동성이 커져 가용 자산이 브로커가 요구하는 최소 수준 이하로 떨어질 경우, 시스템이 포지션을 강제로 종료하는 **마진콜**이 발생할 수 있습니다.
+- **리스크 인지**: 레버리지가 높을수록 수익률도 극대화되지만, 단 한 번의 예외적인 시장 충격에도 원금 전체가 소멸될 수 있는 극도의 위험성을 수반한다는 사실을 명확히 인지해야 합니다.
+
+### 3. 실전적 리스크 관리 원칙
+투명하고 지속 가능한 매매를 위해 트레이아는 다음의 원칙을 권장합니다.
+1. **적정 포지션 규모(Lot) 산출**: 전체 계좌 잔고의 2~3%를 초과하는 손익 변동이 발생하지 않도록 로트 크기를 엄격히 제어해야 합니다.
+2. **손절매(Stop Loss)의 생활화**: 레버리지 환경에서 손절매는 선택이 아닌 필수입니다. 예상치 못한 변동성으로부터 자본을 보호하는 유일한 물리적 안전장치입니다.
+3. **자금의 목적별 분리**: 트레이딩 자금은 반드시 손실을 감내할 수 있는 여유 자금으로만 운영하여 심리적 압박으로 인한 잘못된 판단을 방지해야 합니다.
+      `,
+      thumbnail: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800",
+      isPublished: true,
+      order: 2,
+      createdAt: serverTimestamp(),
+      app: "treia",
+    }
+  ];
+
+  for (const post of posts) {
+    const q = query(educationRef, where("title", "==", post.title));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      await addDoc(educationRef, post);
+      console.log(`포스팅 추가 완료: ${post.title}`);
+    } else {
+      console.log(`이미 존재하는 포스팅입니다: ${post.title}`);
+    }
   }
 };
 
