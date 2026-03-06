@@ -20,10 +20,13 @@ export default function EducationListPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 정식 API를 통해 Firestore의 데이터를 가져옵니다.
     fetch('/api/education')
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) setArticles(data);
+        if (Array.isArray(data)) {
+          setArticles(data);
+        }
       })
       .catch(console.error)
       .finally(() => setLoading(false));

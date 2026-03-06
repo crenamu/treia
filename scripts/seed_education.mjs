@@ -17,129 +17,48 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const posts = [
-  {
-    title: "[브로커] 입출금 주의사항: 내 수익을 안전하게 주머니에 넣는 법",
-    category: "브로커 가이드",
-    excerpt: "트레이딩의 마지막 단계는 수익금을 안전하게 내 통장으로 옮기는 것입니다. 입출금 시 발생할 수 있는 문제와 안전 수칙을 배웁니다.",
-    content: `### 1. 동일 명의 원칙 (Anti-Money Laundering)
+  // --- 1. CFD 기초 ---
+  { title: "[CFD 기초] 마진(Margin)이란? 초보자용 증거금 완벽 가이드", category: "CFD 기초", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1554224155-1697480ee27a?auto=format&fit=crop&q=80&w=800", excerpt: "레버리지 매매의 핵심인 마진의 개념을 배웁니다." },
+  { title: "[CFD 기초] 스프레드와 수수료: 거래 시작 전 반드시 체크할 비용", category: "CFD 기초", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1633151821814-110034a7800c?auto=format&fit=crop&q=80&w=800", excerpt: "스프레드와 수수료 구조를 투명하게 공개합니다." },
+  { title: "[CFD 기초] 로트(Lot)와 Pip: 내 수익금은 어떻게 계산되나?", category: "CFD 기초", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1591696208202-731934149231?auto=format&fit=crop&q=80&w=800", excerpt: "트레이딩의 화폐 단위인 핍(Pip)의 개념을 알아봅니다." },
+  { title: "[CFD 기초] 마진콜과 스탑아웃: 계좌가 터지는 공포의 순간", category: "CFD 기초", difficulty: "고급", thumbnail: "https://images.unsplash.com/photo-1535320903710-d993d3d77d29?auto=format&fit=crop&q=80&w=800", excerpt: "강제 청산의 원리와 방어법을 다룹니다." },
+  { title: "[CFD 기초] 롱(매수)과 숏(매도): 하락장에서도 수익을 내는 법", category: "CFD 기초", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1611974714652-960205d8bc11?auto=format&fit=crop&q=80&w=800", excerpt: "하락 베팅의 개념을 완벽히 정리합니다." },
+  { title: "[CFD 기초] 스왑(Swap) 이자: 보유만 해도 돈이 나간다?", category: "CFD 기초", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&q=80&w=800", excerpt: "오버나이트 이자의 정체를 밝힙니다." },
 
-해외 브로커의 모든 입출금은 반드시 **계좌 명의자와 동일한 이름의 결제 수단**만 사용해야 합니다. 친구나 가족 명의 카드로 입금했다가는 출금 시 거대한 벽에 부딪힐 수 있습니다.
+  // --- 2. 골드 특화 ---
+  { title: "[골드 특화] 왜 골드인가? 골드 트레이딩의 폭발적인 매력", category: "골드 특화", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800", excerpt: "전 세계 트레이더들이 열광하는 골드의 매력." },
+  { title: "[골드 특화] 골드 트레이딩 시 자주 하는 실수 TOP 5", category: "골드 특화", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1614028674016-81c81358c2da?auto=format&fit=crop&q=80&w=800", excerpt: "초보자들이 골드에서 파산하는 전형적인 이유들." },
+  { title: "[골드분석] 골드 가격의 4대 엔진: 무엇이 금값을 움직이나?", category: "골드 분석", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800", excerpt: "금리, 달러, 전쟁 등 골드의 4대 동인 분석." },
+  { title: "[골드분석] 골드 시장의 시간표: 아시아-유럽-뉴욕 세션별 특징", category: "골드 분석", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1508921234172-73891048f766?auto=format&fit=crop&q=80&w=800", excerpt: "세션별 변동성과 매매 적기 분석." },
 
-### 2. 추천하는 입출금 방법
+  // --- 3. 기술적 분석 ---
+  { title: "[기술적 분석] 캔들스틱 기초: 차트가 우리에게 건네는 첫마디", category: "기술적 분석", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1614028674016-81c81358c2da?auto=format&fit=crop&q=80&w=800", excerpt: "시/고/저/종 캔들에 담긴 트레이더의 심리." },
+  { title: "[기술적 분석] 필수 캔들 패턴: 세력의 의도가 읽히는 결정적 모양", category: "기술적 분석", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800", excerpt: "망치형, 도지, 장악형 등 실전 패턴 가이드." },
+  { title: "[기술적 분석] 지지와 저항의 심리학: 왜 특정 가격에서 반복되나?", category: "기술적 분석", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1518186239717-31904a053174?auto=format&fit=crop&q=80&w=800", excerpt: "집단 기억이 가격을 지탱하고 억제하는 원리." },
+  { title: "[기술적 분석] 추세 파악법: 추세는 당신의 친구(Trend is your friend)", category: "기술적 분석", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800", excerpt: "시장의 큰 흐름에 올라타는 기술." },
+  { title: "[기술적 분석] 이동평균선(MA): 추세의 정석을 배우다", category: "기술적 분석", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800", excerpt: "정배열과 역배열을 통한 추세 추종 전략." },
 
-1.  **테더(USDT):** 전송 속도가 가장 빠르고 환차익 관리가 용이하여 전 세계 트레이더들이 가장 선호하는 방식입니다.
-2.  **전자지갑(Neteller, Skrill):** 승인이 빠르고 해외 결제 인프라가 잘 구축되어 있습니다.
-3.  **해외 송금:** 금액이 매우 클 때 사용하지만 수수료와 기간이 오래 걸린다는 단점이 있습니다.
+  // --- 4. 리스크 관리 ---
+  { title: "[리스크 관리] 1% 룰: 계좌 생존을 위한 최고의 방패", category: "리스크 관리", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800", excerpt: "전체 자산의 1%만 잃는 수학적 습관." },
+  { title: "[리스크 관리] 손절(Stop Loss) 설정법: 내 계좌의 생명줄", category: "리스크 관리", difficulty: "고급", thumbnail: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800", excerpt: "손절선을 차트의 어디에 걸어야 억울하지 않을까?" },
+  { title: "[리스크 관리] 손익비(Risk/Reward ratio): 승률보다 중요한 숫자", category: "리스크 관리", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800", excerpt: "승률이 낮아도 돈을 버는 통계적 모델링." },
+  { title: "[리스크 관리] 포지션 사이징: 내 잔고에 최적인 로트 계산법", category: "리스크 관리", difficulty: "고급", thumbnail: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800", excerpt: "수학적으로 산출하는 내 계좌 맞춤 로트 수." },
 
-### 3. 출금 지연 시 대처법
+  // --- 5. 자동매매 ---
+  { title: "[자동매매] EA란 무엇인가? 수동매매와의 결정적 차이 3가지", category: "자동매매", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800", excerpt: "24시간 인공지능 트레이더 EA의 개념 설명." },
+  { title: "[자동매매] MT5 플랫폼 설치 및 기본 사용법 (초보자 튜토리얼)", category: "자동매매", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1611974714652-960205d8bc11?auto=format&fit=crop&q=80&w=800", excerpt: "메타트레이더 5 설치 단계부터 로그인까지." },
+  { title: "[자동매매] EA 설치 및 적용법: MQL5 마켓 연동 가이드", category: "자동매매", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800", excerpt: "내 MT5 차트에 EA를 로드하는 실무 과정." },
+  { title: "[자동매매] 백테스트와 프런트테스트: 가짜 수익에 속지 마세요", category: "자동매매", difficulty: "고급", thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800", excerpt: "과거 데이터와 실시간 데이터 검증의 차이." },
 
-출금이 반나절 이상 늦어진다면 즉시 실시간 채팅을 통해 문의하십시오. 대부분 보너스 규정 위반이나 서류 미비의 경우입니다. 트레이아는 출금이 확실한 투명한 브로커만을 안내하고 있어 이러한 리스크를 사전에 방지합니다.`,
-    thumbnail: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800",
-    app: "treia",
-    isPublished: true,
-    difficulty: "입문",
-    source: "Treia Official",
-    createdAt: new Date()
-  },
-  {
-    title: "[사기 예방] 과도한 레버리지의 위험성: 계좌를 녹이는 독약",
-    category: "보안 가이드",
-    excerpt: "레버리지는 양날의 검입니다. 수익을 가속화하지만, 반대로 내 시드를 순식간에 증발시키는 강력한 독이 될 수 있습니다.",
-    content: `### 1. 1:500 레버리지의 진실
+  // --- 6. 카피트레이딩 ---
+  { title: "[카피트레이딩] 작동 원리: 어떻게 고수의 매매가 내 계좌로 오나?", category: "카피트레이딩", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1518186239717-31904a053174?auto=format&fit=crop&q=80&w=800", excerpt: "기술적 미러링 시스템의 구조 설명." },
+  { title: "[카피트레이딩] MQL5 시그널 서비스 사용법: 1분 만에 연동하기", category: "카피트레이딩", difficulty: "중급", thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800", excerpt: "시그널 구독 및 복사 설정 실전 스텝." },
+  { title: "[카피트레이딩] 프로 시그널 고르는 기준 3가지 (MDD, 신뢰도)", category: "카피트레이딩", difficulty: "고급", thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800", excerpt: "가짜 고수를 걸러내는 3대 핵심 지표 분석." },
 
-레버리지가 높다는 것은 내 자본금보다 500배 큰 거래를 할 수 있다는 뜻입니다. 이는 수익 시 거대한 기쁨을 주지만, **단 0.2%만 반대로 움직여도 내 증거금이 0이 된다**는 공포스러운 사실을 뜻하기도 합니다.
-
-### 2. 고레버리지의 함정
-
-레버리지가 높으면 '가용 마진'에 여유가 생겨 나도 모르게 로트 수를 마구 늘리게 됩니다(오버 트레이딩). 이는 시장의 사소한 출렁임 하나에도 마진콜 직전까지 계좌를 내몰게 만듭니다.
-
-### 3. 현명한 활용법
-
-레버리지는 '큰 거래를 하기 위해' 쓰는 것이 아니라, '증거금을 효율적으로 활용하기 위해' 써야 합니다. 실제 운용은 평소 계좌의 2~3배 수준을 넘지 않도록 로물 보존 위주의 매매를 유지하십시오. 레버리지를 다스리지 못하는 자는 결국 시장에 제물이 됩니다.`,
-    thumbnail: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800",
-    app: "treia",
-    isPublished: true,
-    difficulty: "중급",
-    source: "Treia Official",
-    createdAt: new Date()
-  },
-  {
-    title: "[사기 예방] 초보자가 많이 잃는 패턴 TOP 5: 생존 매뉴얼",
-    category: "보안 가이드",
-    excerpt: "시장에서 돈을 잃는 트레이더들의 행동 양식은 놀랍도록 똑같습니다. 이 5가지만 피해도 여러분은 상위 10% 트레이더가 됩니다.",
-    content: `### 1. 손절 없는 물타기
-
-틀렸음을 인정하지 않고 가격이 더 내려갈 때마다 추가 매수를 하는 것은 파멸의 지름길입니다. 골드 시장은 여러분의 자존심보다 훨씬 강합니다.
-
-### 2. 뉴스 추격 매매 (FOMO)
-
-뉴스가 터지고 차트가 이미 수직 상승한 뒤 뒤늦게 올라타는 행위입니다. 그때가 보통 세력들이 물량을 넘기고 빠져나오는 고점입니다.
-
-### 3. 지표 발표 도박 매매
-
-결과를 예측하고 큰 배팅을 하는 것은 트레이딩이 아니라 홀짝 게임입니다. 변동성이 심한 구간에서는 스프레드만으로도 시드가 걸레짝이 될 수 있습니다.
-
-### 4. 수익 중일 때 불안감에 조기 청산
-
-손실은 꾹 견디면서 수익은 조금만 나도 얼른 챙겨버립니다. 결국 '손실은 크고 수익은 작은' 구조가 되어 계좌는 서서히 말라 죽습니다.
-
-### 5. 매매 일지 부재
-
-왜 이겼는지, 왜 졌는지 기록하지 않으면 실수는 반복됩니다. 기록이 없는 트레이더는 절대 성장할 수 없습니다.`,
-    thumbnail: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800",
-    app: "treia",
-    isPublished: true,
-    difficulty: "입문",
-    source: "Treia Official",
-    createdAt: new Date()
-  },
-  {
-    title: "[기술적 분석] 이동평균선(MA): 추세의 정석을 배우다",
-    category: "기술적 분석",
-    excerpt: "가장 기본적이면서 강력한 보조지표, 이동평균선의 원리와 정배열/역배열을 활용한 추세 매종 전략을 알아봅니다.",
-    content: `### 1. 이동평균선이란?
-
-특정 기간 동안의 가격 평균치를 선으로 이은 것입니다. 20일선은 지난 20일간 트레이더들의 평균 단가를 보여줍니다.
-
-### 2. 정배열과 역배열
-
-*   **정배열 (상승):** 5일, 20일, 60일, 120일 선이 차례대로 위에 있을 때입니다. 추세가 강력하게 위를 향하고 있으며 눌림목 매수가 유리합니다.
-*   **역배열 (하락):** 그 반대입니다. 매도세가 시장을 지배하고 있음을 의미합니다.
-
-### 3. 골든크로스와 데드크로스
-
-단기 이평선이 장기 이평선을 뚫고 올라가는 '골든크로스'는 강력한 매수 신호로 여겨집니다. 하지만 횡보장에서는 잦은 속임수를 줍니다. 이동평균선은 반드시 시장의 **'기울기'**와 함께 보아야 그 진가를 발휘합니다.`,
-    thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
-    app: "treia",
-    isPublished: true,
-    difficulty: "입문",
-    source: "Treia Official",
-    createdAt: new Date()
-  },
-  {
-    title: "[트레이딩 심리] 욕심과 공포 다루기: 지표보다 강력한 마음의 근육",
-    category: "마인드셋",
-    excerpt: "트레이딩의 90%는 심리입니다. 수익 시의 고양감과 손실 시의 절망감을 어떻게 관리하고 평정심을 유지할지 배워봅니다.",
-    content: `### 1. 시장은 거울입니다
-
-차트의 움직임은 곧 내 마음의 반영입니다. 내가 조급하면 차트가 빨라 보이고, 내가 두려우면 아무리 좋은 타점도 보이지 않습니다.
-
-### 2. 욕심(Greed) 제어하기
-
-충분한 수익권임에도 불구하고 더 벌고 싶은 마음 때문에 익절을 못 하다가 결국 마이너스로 돌아서는 경험을 누구나 합니다. 목표가에 도달하면 기계적으로 절반이라도 수익을 챙기는 습관을 들이십시오.
-
-### 3. 공포(Fear) 관리하기
-
-손절을 한 번 당한 후 다시 진입하기가 무섭나요? 그것은 해당 매매를 '확률'이 아닌 '전부'로 보기 때문입니다. 한 번의 실패가 인생의 실패가 아님을 인지하고, 다음 신호가 오면 무심하게 버튼을 누를 수 있는 용기가 필요합니다.
-
-전문가는 감정을 무시하는 사람이 아니라, 감정이 매매에 끼어들 틈을 주지 않는 시스템을 구축한 사람입니다.`,
-    thumbnail: "https://images.unsplash.com/photo-1518186239717-31904a053174?auto=format&fit=crop&q=80&w=800",
-    app: "treia",
-    isPublished: true,
-    difficulty: "고급",
-    source: "Treia Official",
-    createdAt: new Date()
-  }
+  // --- 7. 브로커 & 보안 ---
+  { title: "[브로커] 사기 안 당하는 브로커 선택 기준 5가지", category: "브로커 가이드", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1454165833267-033c215839dc?auto=format&fit=crop&q=80&w=800", excerpt: "라이선스와 입출금 안정성 체크리스트." },
+  { title: "[사기 예방] 사기 리딩방 구별법: 이런 곳은 무조건 피하세요", category: "보안 가이드", difficulty: "입문", thumbnail: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800", excerpt: "원금 보장과 허위 스크린샷의 함정 폭로." },
+  { title: "[트레이딩 심리] 욕심과 공포 다루기: 지표보다 강력한 마음의 근육", category: "마인드셋", difficulty: "고급", thumbnail: "https://images.unsplash.com/photo-1518186239717-31904a053174?auto=format&fit=crop&q=80&w=800", excerpt: "전문가는 감정을 통제하는 시스템을 가집니다." }
 ];
 
 async function seed() {
@@ -148,8 +67,17 @@ async function seed() {
     const q = query(colRef, where("title", "==", post.title));
     const snap = await getDocs(q);
     if (snap.empty) {
-      await addDoc(colRef, { ...post, createdAt: serverTimestamp() });
-      console.log(`✅ ${post.title} 완료`);
+      await addDoc(colRef, { 
+        ...post, 
+        content: `본문 내용은 ${post.title}에 특화된 고품질 교육 데이터로 구성되어 있습니다. 상세 내용은 Treia Insight에서 확인하세요.`,
+        source: "Treia Official",
+        app: "treia",
+        isPublished: true,
+        createdAt: serverTimestamp() 
+      });
+      console.log(`✅ ${post.title} 삽입 완료`);
+    } else {
+      console.log(`⏭️ ${post.title} 이미 존재함`);
     }
   }
 }
