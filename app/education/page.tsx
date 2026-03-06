@@ -10,7 +10,7 @@ interface InsightArticle {
   category: string;
   excerpt: string;
   thumbnail?: string;
-  createdAt: { seconds: number };
+  createdAt?: { seconds: number; _seconds?: number } | string | null;
   difficulty?: "입문" | "중급" | "고급";
   source?: string;
 }
@@ -83,7 +83,14 @@ export default function EducationListPage() {
                   category={article.category}
                   summary={article.excerpt}
                   imageUrl={article.thumbnail}
-                  date={new Date(article.createdAt.seconds * 1000).toLocaleDateString()}
+                  date={article.createdAt
+                    ? (() => {
+                        const c = article.createdAt;
+                        if (typeof c === 'string') return new Date(c).toLocaleDateString('ko-KR');
+                        const sec = (c as any)._seconds ?? (c as any).seconds;
+                        return sec ? new Date(sec * 1000).toLocaleDateString('ko-KR') : '-';
+                      })()
+                    : '-'}
                   source={article.source || "Treia Official"}
                   difficulty={article.difficulty || "입문"}
                 />

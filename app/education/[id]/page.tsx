@@ -12,7 +12,7 @@ interface Article {
   category: string;
   content: string;
   thumbnail: string;
-  createdAt: { seconds: number };
+  createdAt?: { seconds: number; _seconds?: number } | string | null;
   source?: string;
   difficulty?: string;
 }
@@ -99,7 +99,14 @@ export default function EducationDetailPage() {
                 {article.category}
               </span>
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest flex items-center gap-1">
-                <Clock size={12} /> {new Date(article.createdAt.seconds * 1000).toLocaleDateString()}
+                <Clock size={12} /> {article.createdAt
+                  ? (() => {
+                      const c = article.createdAt;
+                      if (typeof c === 'string') return new Date(c).toLocaleDateString('ko-KR');
+                      const sec = (c as any)._seconds ?? (c as any).seconds;
+                      return sec ? new Date(sec * 1000).toLocaleDateString('ko-KR') : '';
+                    })()
+                  : ''}
               </span>
             </div>
             
