@@ -46,7 +46,7 @@ const posts = [
 ### 4. 결론: 트레이아의 선택 기준
 
 트레이아는 특정 브로커를 추천하지 않습니다. 다만, 제가 12년간 직접 사용하며 **입출금 사고가 없었고, 주문 체결이 안정적이며, 합리적인 스프레드를 유지하는 곳**을 기준으로 안내를 드립니다. 브로커 선택은 트레이딩의 50%를 결정하는 중요한 기초입니다.`,
-    thumbnail: "https://images.unsplash.com/photo-1611974714652-960205d8bc11?auto=format&fit=crop&q=80&w=800",
+    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800", // 유효한 금융 이미지
     app: "treia",
     isPublished: true,
     difficulty: "입문",

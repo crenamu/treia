@@ -39,29 +39,29 @@ export default function Ticker() {
       containerRef.current.appendChild(script);
     }
 
-    // 2. Fetch Real Economic Calendar (High Impact Upcoming)
+    // 2. Fetch Real Economic Calendar (Internal API - Gemini Translated)
     async function fetchCalendar() {
-      const data = await getEconomicCalendar();
-      const now = new Date();
-      const upcoming = data.map((item: { country: string; event: string; time: string; impact: string }) => ({
-        label: `${item.country} ${item.event}`,
-        // 날짜와 시간을 함께 표시 (예: 02/28 23:00 KST)
-        value: `${new Date(item.time).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' })} ${new Date(item.time).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}`,
-        isImpact: item.impact === 'high',
-        isUpcoming: true,
-        time: new Date(item.time)
-      }))
-      .filter((item: { time: Date }) => {
-        // 현재 시간 기준 7일 이내의 일정만 표시 (범위 확대)
-        const diffHours = (item.time.getTime() - now.getTime()) / (1000 * 60 * 60);
-        return diffHours > -2 && diffHours < 168;
-      });
-
-      setCalendarItems(upcoming);
+      try {
+        const res = await fetch('/api/calendar');
+        const json = await res.json();
+        
+        if (json.success && Array.isArray(json.data)) {
+          const upcoming = json.data.map((item: any) => ({
+            label: `${item.country} ${item.title}`,
+            value: `${new Date(item.date).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' })} ${new Date(item.date).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}`,
+            isImpact: true,
+            isUpcoming: true,
+            time: new Date(item.date)
+          }));
+          setCalendarItems(upcoming);
+        }
+      } catch (err) {
+        console.error("Ticker Calendar Error:", err);
+      }
     }
 
     fetchCalendar();
-    const interval = setInterval(fetchCalendar, 300000); // 5분마다 갱신
+    const interval = setInterval(fetchCalendar, 600000); // 10분마다 갱신 (너무 잦은 호출 방지)
     return () => clearInterval(interval);
   }, []);
 

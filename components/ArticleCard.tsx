@@ -1,4 +1,5 @@
 'use client'
+import { useState } from "react";
 import { Bookmark, ArrowUpRight, Sparkles, Clock } from "lucide-react";
 import Image from "next/image";
 
@@ -23,16 +24,19 @@ export default function ArticleCard({
   date,
   isAI = false 
 }: ArticleCardProps) {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <div className="group relative bg-[#14161B] border border-gray-800/50 hover:border-amber-500/30 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col h-full shadow-2xl shadow-black/20">
       {/* Image Section */}
       <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-[#1D2129] to-[#0A0B0F]">
-        {imageUrl ? (
+        {imageUrl && !imageError ? (
           <Image 
             src={imageUrl} 
             alt="" 
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out grayscale-[20%] group-hover:grayscale-0"
+            onError={() => setImageError(true)}
           />
         ) : (
           /* Placeholder Pattern if no image */
