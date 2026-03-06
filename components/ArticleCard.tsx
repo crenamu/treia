@@ -25,6 +25,8 @@ export default function ArticleCard({
   isAI = false 
 }: ArticleCardProps) {
   const [imageError, setImageError] = useState(false);
+  // Unsplash URL에서 쿼리 파라미터 제거 (Next.js Image 호환)
+  const cleanImageUrl = imageUrl ? imageUrl.split('?')[0] : undefined;
 
   return (
     <div className="group relative bg-[#14161B] border border-gray-800/50 hover:border-amber-500/30 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col h-full shadow-2xl shadow-black/20">

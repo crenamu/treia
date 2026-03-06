@@ -17,8 +17,18 @@ export async function GET() {
       ...(doc.data() as any),
     }));
 
-    // 최신순 정렬
-    articles.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    // sectionId 기준 정렬 (1-1, 1-2 ... 8-6 순서)
+    articles.sort((a, b) => {
+      const parseId = (id: string) => {
+        if (!id) return [99, 99];
+        const parts = id.split('-').map(Number);
+        return [parts[0] || 99, parts[1] || 99];
+      };
+      const [acat, asec] = parseId(a.sectionId);
+      const [bcat, bsec] = parseId(b.sectionId);
+      if (acat !== bcat) return acat - bcat;
+      return asec - bsec;
+    });
 
     return NextResponse.json(articles);
   } catch (error) {
