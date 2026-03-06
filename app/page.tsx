@@ -1,12 +1,13 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Bot, BarChart3, LayoutDashboard, ChevronRight, Target, Users, Globe } from "lucide-react";
+import { ArrowRight, BarChart3, ChevronRight, Globe, GraduationCap, Target, Bot, LayoutDashboard } from 'lucide-react';
 import Link from "next/link";
 import TradingViewChart from "@/components/TradingViewChart";
 import EducationalPerspectiveCard from "@/components/EducationalPerspectiveCard";
 import VolumeProfileBox from "@/components/VolumeProfileBox";
 import EconomicCalendar from "@/components/EconomicCalendar";
 import TelegramSignals from "@/components/TelegramSignals";
+import ArticleCard from '@/components/ArticleCard';
 
 interface CuratedNews {
   id: number;
@@ -14,16 +15,35 @@ interface CuratedNews {
   summary: string;
   url: string;
 }
+interface InsightArticle {
+  id: string;
+  title: string;
+  category: string;
+  excerpt: string;
+  thumbnail?: string;
+  createdAt: { seconds: number };
+  difficulty?: "입문" | "중급" | "고급";
+  source?: string;
+}
+
 export default function Home() {
   const [marketNews, setMarketNews] = useState<CuratedNews[]>([]);
+  const [insightArticles, setInsightArticles] = useState<InsightArticle[]>([]);
 
   useEffect(() => {
+    // 마켓 뉴스 로드
     fetch('/api/news/gold')
       .then(res => res.json())
       .then(res => {
-        if (res.success) {
-          setMarketNews(res.data);
-        }
+        if (res.success) setMarketNews(res.data);
+      })
+      .catch(console.error);
+
+    // 교육 인사이트 로드
+    fetch('/api/education')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) setInsightArticles(data);
       })
       .catch(console.error);
   }, []);
@@ -143,14 +163,44 @@ export default function Home() {
           accentColor="rgba(168, 85, 247, 0.4)"
           stat="신규 2종"
         />
-        <ServiceCard 
-          href="/community"
-          title="트레이더 광장"
-          desc="멤버들과 전략을 공유하고 집단 지성을 경험하세요."
-          icon={<Users size={24} />}
-          accentColor="rgba(34, 197, 94, 0.4)"
-          stat="42명 접속"
-        />
+      </div>
+
+      {/* 교육 인사이트 섹션 추가 */}
+      <div className="mt-20 mb-12">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <div className="flex items-center gap-2 text-amber-500 font-bold text-xs uppercase tracking-[0.2em] mb-3">
+              <GraduationCap size={16} />
+              <span>Premium Insights</span>
+            </div>
+            <h2 className="text-3xl font-black text-white tracking-tight">트레이아 인사이트</h2>
+          </div>
+          <Link href="/education" className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-white transition-colors group">
+            전체 보기 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {insightArticles.length > 0 ? (
+            insightArticles.map((article) => (
+              <ArticleCard 
+                key={article.id}
+                title={article.title}
+                category={article.category}
+                summary={article.excerpt}
+                imageUrl={article.thumbnail}
+                date={new Date(article.createdAt.seconds * 1000).toLocaleDateString()}
+                source={article.source || "Treia Official"}
+                difficulty={article.difficulty || "입문"}
+              />
+            ))
+          ) : (
+            // 로딩 상태 혹은 빈 상태 표시
+            [1, 2, 3, 4].map((i) => (
+              <div key={i} className="bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

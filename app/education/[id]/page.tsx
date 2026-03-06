@@ -1,0 +1,174 @@
+'use client'
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { ArrowLeft, Clock, Tag, Share2, Bookmark, GraduationCap, AlertTriangle } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
+
+interface Article {
+  id: string;
+  title: string;
+  category: string;
+  content: string;
+  thumbnail: string;
+  createdAt: { seconds: number };
+  source?: string;
+  difficulty?: string;
+}
+
+export default function EducationDetailPage() {
+  const { id } = useParams();
+  const router = useRouter();
+  const [article, setArticle] = useState<Article | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const res = await fetch(`/api/education/${id}`);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        setArticle(data);
+      } catch (error) {
+        console.error("Error fetching article:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchArticle();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0A0B0F] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!article) {
+    return (
+      <div className="min-h-screen bg-[#0A0B0F] text-white flex flex-col items-center justify-center gap-4">
+        <h1 className="text-2xl font-bold">글을 찾을 수 없습니다.</h1>
+        <Link href="/" className="text-amber-500 flex items-center gap-2">
+          <ArrowLeft size={16} /> 홈으로 돌아가기
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-[#0A0B0F] text-white pb-24">
+      {/* Top Banner / Hero */}
+      <div className="relative w-full h-[50vh] min-h-[400px]">
+        <Image 
+          src={article.thumbnail} 
+          alt={article.title}
+          fill
+          className="object-cover opacity-60 grayscale-[0.5]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0F] via-[#0A0B0F]/40 to-transparent"></div>
+        
+        <div className="absolute bottom-0 left-0 w-full">
+          <div className="container mx-auto px-6 pb-12 max-w-4xl">
+            <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors group">
+              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+              <span>Back to Insights</span>
+            </Link>
+            
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-[10px] font-bold text-amber-500 uppercase tracking-widest">
+                {article.category}
+              </span>
+              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest flex items-center gap-1">
+                <Clock size={12} /> {new Date(article.createdAt.seconds * 1000).toLocaleDateString()}
+              </span>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-tight mb-6">
+              {article.title}
+            </h1>
+            
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-black font-black text-xs">T</div>
+                <span className="text-xs font-bold text-gray-300">{article.source || "Treia Official"}</span>
+              </div>
+              <div className="h-4 w-px bg-gray-800"></div>
+              <div className="flex gap-4">
+                <Share2 size={18} className="text-gray-500 hover:text-white cursor-pointer transition-colors" />
+                <Bookmark size={18} className="text-gray-500 hover:text-white cursor-pointer transition-colors" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="container mx-auto px-6 mt-12 max-w-4xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          {/* Main Content */}
+          <div className="lg:col-span-8">
+            <article className="prose prose-invert prose-amber max-w-none">
+              <ReactMarkdown 
+                components={{
+                  h3: ({node, ...props}) => <h3 className="text-2xl font-bold text-white mt-12 mb-6 border-l-4 border-amber-500 pl-4" {...props} />,
+                  p: ({node, ...props}) => <p className="text-gray-400 leading-relaxed text-lg mb-6 font-medium" {...props} />,
+                  li: ({node, ...props}) => <li className="text-gray-400 mb-2" {...props} />,
+                  strong: ({node, ...props}) => <strong className="text-amber-500 font-bold" {...props} />,
+                }}
+              >
+                {article.content}
+              </ReactMarkdown>
+            </article>
+
+            {/* Bottom Disclaimer */}
+            <div className="mt-20 p-8 rounded-3xl bg-gray-900/30 border border-amber-500/10 flex gap-4">
+              <AlertTriangle className="text-amber-500 shrink-0" size={24} />
+              <div>
+                <h4 className="text-sm font-bold text-white mb-2">면책 고지 (Investment Disclaimer)</h4>
+                <p className="text-xs text-gray-500 leading-relaxed">
+                  본 콘텐츠는 정보 제공 및 교육 목적으로만 작성되었으며, 특정 금융 상품의 매수 또는 매도를 권유하지 않습니다. 
+                  모든 투자의 책임은 투자자 본인에게 있으며, 과거의 실적이 미래의 수익을 보장하지 않습니다. 
+                  CFD 거래는 원금 손실의 위험이 크므로 신중하게 판단하시기 바랍니다.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="lg:col-span-4 space-y-8">
+            <div className="sticky top-24">
+              <div className="p-8 rounded-3xl bg-amber-500 text-black">
+                <GraduationCap size={32} className="mb-4" />
+                <h3 className="text-xl font-black leading-tight mb-4">
+                  검증된 신호로<br />안전하게 시작하세요
+                </h3>
+                <p className="text-sm font-bold opacity-80 mb-8">
+                  트레이아의 모든 인사이트는 MQL5 공식 시그널을 통해 실시간으로 공유됩니다.
+                </p>
+                <Link 
+                  href="https://www.mql5.com" 
+                  target="_blank"
+                  className="block w-full py-4 bg-black text-white text-center rounded-2xl font-black hover:bg-gray-900 transition-colors"
+                >
+                  시그널 구독하기
+                </Link>
+              </div>
+              
+              <div className="mt-8 p-6 rounded-3xl border border-gray-800 bg-[#14161B]">
+                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Related Insights</h4>
+                <div className="space-y-4">
+                   <div className="text-sm font-bold text-gray-300 hover:text-amber-500 cursor-pointer transition-colors">CFD 레버리지와 증거금의 이해</div>
+                   <div className="text-sm font-bold text-gray-300 hover:text-amber-500 cursor-pointer transition-colors">볼륨 프로파일 매매 기법</div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+  );
+}

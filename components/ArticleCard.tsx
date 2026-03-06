@@ -1,5 +1,6 @@
 'use client'
-import { Bookmark, Link as LinkIcon, Sparkles } from "lucide-react";
+import { Bookmark, ArrowUpRight, Sparkles, Clock } from "lucide-react";
+import Image from "next/image";
 
 interface ArticleCardProps {
   title: string;
@@ -7,41 +8,81 @@ interface ArticleCardProps {
   summary: string;
   difficulty: "입문" | "중급" | "고급";
   category: string;
+  imageUrl?: string;
+  date?: string;
   isAI?: boolean;
 }
 
-export default function ArticleCard({ title, source, summary, difficulty, category, isAI = false }: ArticleCardProps) {
+export default function ArticleCard({ 
+  title, 
+  source, 
+  summary, 
+  difficulty, 
+  category, 
+  imageUrl, 
+  date,
+  isAI = false 
+}: ArticleCardProps) {
   return (
-    <div className="group p-6 rounded-2xl bg-[#14161B] border border-gray-800 hover:border-blue-500/30 transition-all flex flex-col gap-4 relative">
-       <div className="flex items-center justify-between mb-2">
+    <div className="group relative bg-[#14161B] border border-gray-800 hover:border-amber-500/30 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col h-full">
+      {/* Image Section */}
+      <div className="relative aspect-[16/10] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
+        <Image 
+          src={imageUrl || "https://images.unsplash.com/photo-1611974714652-960205d8bc11?auto=format&fit=crop&q=80&w=800"} 
+          alt={title}
+          fill
+          className="object-cover group-hover:scale-110 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#14161B] via-transparent to-transparent opacity-60"></div>
+        
+        {/* Category Badge */}
+        <div className="absolute top-4 left-4 flex items-center gap-2">
+          <div className="px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] font-bold text-white uppercase tracking-wider">
+            {category}
+          </div>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="p-6 flex flex-col flex-grow gap-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="px-2 py-0.5 rounded bg-gray-800 text-gray-400 text-[10px] font-bold tracking-widest">{source}</div>
+            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{source}</span>
             {isAI && (
-              <div className="flex items-center gap-1 text-[9px] font-bold text-blue-400 uppercase tracking-tighter">
-                <Sparkles size={10} /> AI SUMMARIZED
+              <div className="flex items-center gap-1 text-[9px] font-bold text-amber-500 uppercase tracking-tighter">
+                <Sparkles size={10} /> AI Analysis
               </div>
             )}
           </div>
-          <Bookmark size={14} className="text-gray-700 hover:text-yellow-500 cursor-pointer transition-colors" />
-       </div>
-       <div className="flex flex-col gap-3">
-          <h3 className="font-outfit font-bold text-lg text-gray-100 leading-snug group-hover:text-blue-400 transition-colors uppercase tracking-tight">{title}</h3>
-          <p className="text-xs text-gray-500 leading-relaxed line-clamp-3 font-medium">{summary}</p>
-       </div>
-       <div className="mt-4 pt-4 border-t border-gray-800/50 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-             <span className="text-[10px] text-gray-600 font-bold uppercase tracking-wider">{category}</span>
-             <span className="w-1 h-1 rounded-full bg-gray-800"></span>
-             <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-               difficulty === '입문' ? 'bg-green-500/10 text-green-500' : 
-               difficulty === '중급' ? 'bg-blue-500/10 text-blue-500' : 
-               'bg-red-500/10 text-red-400'
-             }`}>
-                {difficulty}
-             </span>
+          <Bookmark size={14} className="text-gray-700 hover:text-amber-500 cursor-pointer transition-colors" />
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="font-bold text-lg text-white leading-tight group-hover:text-amber-500 transition-colors line-clamp-2 tracking-tight">
+            {title}
+          </h3>
+          <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 font-medium">
+            {summary}
+          </p>
+        </div>
+
+        <div className="mt-auto pt-6 flex items-center justify-between border-t border-gray-800/50">
+          <div className="flex items-center gap-4 text-[10px] font-bold text-gray-600">
+            <div className="flex items-center gap-1">
+              <Clock size={12} />
+              <span>{date || "Just now"}</span>
+            </div>
+            <span className={`px-2 py-0.5 rounded ${
+              difficulty === '입문' ? 'bg-green-500/10 text-green-500' : 
+              difficulty === '중급' ? 'bg-blue-500/10 text-blue-500' : 
+              'bg-red-500/10 text-red-500'
+            }`}>
+              {difficulty}
+            </span>
           </div>
-          <LinkIcon size={14} className="text-gray-700 group-hover:text-blue-500 transition-colors" />
-       </div>
+          <ArrowUpRight size={16} className="text-gray-700 group-hover:text-amber-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+        </div>
+      </div>
     </div>
   );
 }
