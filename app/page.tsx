@@ -87,24 +87,26 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex overflow-x-auto gap-6 pb-4 snap-x border-t border-b border-transparent hover:border-b-gray-800/20 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {insightArticles.length > 0 ? (
             insightArticles.map((article) => (
-              <Link href={`/education/${article.id}`} key={article.id}>
-                <ArticleCard 
-                  title={article.title}
-                  category={article.category}
-                  summary={article.excerpt}
-                  imageUrl={article.thumbnail}
-                  date={new Date(article.createdAt.seconds * 1000).toLocaleDateString()}
-                  source={article.source || "Treia Official"}
-                  difficulty={article.difficulty || "입문"}
-                />
-              </Link>
+              <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
+                <Link href={`/education/${article.id}`} className="block h-full">
+                  <ArticleCard 
+                    title={article.title}
+                    category={article.category}
+                    summary={article.excerpt}
+                    imageUrl={article.thumbnail}
+                    date={article.createdAt ? new Date(article.createdAt.seconds * 1000).toLocaleDateString() : ''}
+                    source={article.source || "Treia Official"}
+                    difficulty={(article.difficulty as any) || "입문"}
+                  />
+                </Link>
+              </div>
             ))
           ) : (
             [1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
+              <div key={i} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] shrink-0 bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
             ))
           )}
         </div>
@@ -217,25 +219,26 @@ export default function Home() {
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex overflow-x-auto gap-6 pb-4 snap-x border-t border-b border-transparent hover:border-b-gray-800/20 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {insightArticles.length > 0 ? (
             insightArticles.map((article) => (
-              <Link href={`/education/${article.id}`} key={article.id}>
-                <ArticleCard 
-                  title={article.title}
-                  category={article.category}
-                  summary={article.excerpt}
-                  imageUrl={article.thumbnail}
-                  date={new Date(article.createdAt.seconds * 1000).toLocaleDateString()}
-                  source={article.source || "Treia Official"}
-                  difficulty={article.difficulty || "입문"}
-                />
-              </Link>
+              <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
+                <Link href={`/education/${article.id}`} className="block h-full">
+                  <ArticleCard 
+                    title={article.title}
+                    category={article.category}
+                    summary={article.excerpt}
+                    imageUrl={article.thumbnail}
+                    date={article.createdAt ? new Date(article.createdAt.seconds * 1000).toLocaleDateString() : ''}
+                    source={article.source || "Treia Official"}
+                    difficulty={(article.difficulty as any) || "입문"}
+                  />
+                </Link>
+              </div>
             ))
           ) : (
-            // 로딩 상태 혹은 빈 상태 표시
             [1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
+              <div key={i} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] shrink-0 bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
             ))
           )}
         </div>

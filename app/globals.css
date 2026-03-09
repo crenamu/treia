@@ -70,3 +70,12 @@ h1, h2, h3, h4, .font-outfit {
   @apply font-bold tracking-tight;
   font-family: var(--font-outfit);
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
