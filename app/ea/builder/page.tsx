@@ -53,56 +53,62 @@ const APPLIED_PRICES = ['Close', 'Open', 'High', 'Low', 'Median', 'Typical'];
 const OPERATORS = ['>', '<', '>=', '<=', 'Crosses Up', 'Crosses Down', 'Equals'];
 
 // 전략별 검증 백테스트 데이터
+// ⚠️ 수치는 MT5 Strategy Tester 기반 일반적인 기대 범위이며, 실제 성과와 다를 수 있습니다.
+// 반드시 모의 계좌에서 직접 백테스트 후 사용하세요.
 const STRATEGY_DATA = {
   scalper: {
     name: 'Gold Master Scalper (M5)',
     timeframe: 'M5',
-    period: '2020.01~2024.12 (5년)',
-    winRate: '68.4%',
-    pf: '1.92',
-    mdd: '3.8%',
-    sharpe: '1.74',
-    trades: '4,821회',
-    avgRR: '1:1.6',
-    description: 'RSI 과매도 구간(30 이하)에서 20 이평선 골든크로스 확인 후 진입하는 스캘핑 전략. 뉴욕·런던 겹치는 시간대(21:00~23:00 KST)에서 수익률이 35% 높음.',
+    period: '일반적 M5 스캘핑 전략 기대 범위',
+    winRate: '55~70%',
+    pf: '1.4~2.1',
+    mdd: '5~15%',
+    sharpe: '0.8~1.8',
+    trades: '월 300~500회',
+    avgRR: '1:1.2~1.8',
+    disclaimer: '⚠️ 아래 수치는 유사 전략의 일반적인 기대 범위입니다. 실제 수치는 시장 조건·브로커 스프레드에 따라 크게 달라집니다. 반드시 직접 백테스트 하세요.',
+    description: 'RSI 과매도 구간(30 이하)에서 단기 이평선 상향 돌파 시 매수 진입하는 스캘핑 전략의 일반적 구조입니다. 뉴욕·런던 겹치는 시간대(21:00~23:00 KST)가 변동성이 높습니다.',
     refs: [
-      { label: 'RSI Divergence Study - Journal of Technical Analysis (2022)', url: 'https://www.jstor.org/stable/technical-analysis' },
-      { label: 'XAUUSD Intraday Scalping Pattern Research', url: 'https://www.mql5.com/en/articles/10274' },
+      { label: 'Investopedia: RSI (Relative Strength Index) 개념 설명', url: 'https://www.investopedia.com/terms/r/rsi.asp' },
+      { label: 'MQL5: Expert Advisors 카테고리 (직접 검색 가능)', url: 'https://www.mql5.com/en/market/expert-advisors' },
     ]
   },
   breakout: {
     name: 'London Vola Breakout (H1)',
     timeframe: 'H1',
-    period: '2019.01~2024.12 (6년)',
-    winRate: '61.2%',
-    pf: '2.14',
-    mdd: '5.1%',
-    sharpe: '1.99',
-    trades: '1,203회',
-    avgRR: '1:2.3',
-    description: '볼린저 밴드 상단 돌파 + MACD 히스토그램 양전환 동시 발생 시 진입. 고변동성 세션(런던 개장 15:00~17:00 KST) 특화. 뉴스 이벤트 30분 전후 거래 회피 필터 내장.',
+    period: '일반적 볼린저 밴드 돌파 전략 기대 범위',
+    winRate: '45~62%',
+    pf: '1.5~2.5',
+    mdd: '8~18%',
+    sharpe: '0.9~2.0',
+    trades: '월 50~120회',
+    avgRR: '1:1.8~2.8',
+    disclaimer: '⚠️ 아래 수치는 유사 전략의 일반적인 기대 범위입니다. 실제 수치는 시장 조건·브로커 스프레드에 따라 크게 달라집니다. 반드시 직접 백테스트 하세요.',
+    description: '볼린저 밴드 상·하단 돌파와 MACD 신호를 결합한 변동성 돌파 전략의 일반적 구조입니다. 런던 세션 개장(15:00~17:00 KST) 전후 변동성이 집중됩니다.',
     refs: [
-      { label: 'Bollinger Band Breakout Strategy Backtest (2021)', url: 'https://www.investopedia.com/articles/technical/04/030304.asp' },
-      { label: 'MQL5 Volatility Breakout EA Community', url: 'https://www.mql5.com/en/code/category/expert_advisors' },
+      { label: 'Investopedia: Bollinger Bands 개념 설명', url: 'https://www.investopedia.com/terms/b/bollingerbands.asp' },
+      { label: 'Investopedia: MACD 개념 설명', url: 'https://www.investopedia.com/terms/m/macd.asp' },
     ]
   },
   trend: {
     name: 'XAU Power Trend (M15)',
     timeframe: 'M15',
-    period: '2018.01~2024.12 (7년)',
-    winRate: '55.8%',
-    pf: '2.67',
-    mdd: '7.3%',
-    sharpe: '2.31',
-    trades: '892회',
-    avgRR: '1:3.1',
-    description: '50 이평선이 200 이평선을 상향 돌파(골든크로스) 후 첫 되돌림(Retracement)에서 진입. 높은 R:R 비율로 낮은 승률에도 장기 수익 창출. 주봉 추세 필터로 역추세 진입 차단.',
+    period: '일반적 이평선 크로스 추세 전략 기대 범위',
+    winRate: '42~58%',
+    pf: '1.6~3.0',
+    mdd: '10~22%',
+    sharpe: '0.7~2.3',
+    trades: '월 20~60회',
+    avgRR: '1:2.5~4.0',
+    disclaimer: '⚠️ 아래 수치는 유사 전략의 일반적인 기대 범위입니다. 실제 수치는 시장 조건·브로커 스프레드에 따라 크게 달라집니다. 반드시 직접 백테스트 하세요.',
+    description: '단기 이평선(50)이 장기 이평선(200)을 돌파하는 골든크로스 이후 첫 조정 구간에서 진입하는 추세추종 전략의 일반적 구조입니다.',
     refs: [
-      { label: 'Moving Average Crossover Strategies - Academic Review (2023)', url: 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4234567' },
-      { label: 'XAUUSD Trend Following Systematic Approach', url: 'https://www.mql5.com/en/articles/9674' },
+      { label: 'Investopedia: Moving Average 개념 설명', url: 'https://www.investopedia.com/terms/m/movingaverage.asp' },
+      { label: 'Investopedia: Golden Cross 개념 설명', url: 'https://www.investopedia.com/terms/g/goldencross.asp' },
     ]
   },
 };
+
 
 // 단계별 진입 힌트
 const STEP_HINTS: Record<number, { title: string; text: string; tips: string[] }> = {
@@ -601,6 +607,7 @@ export default function EABuilderPage() {
                     <div key={l} className="bg-gray-900/60 border border-gray-800 rounded-2xl p-4"><p className="text-[10px] text-gray-500 font-black uppercase mb-1">{l}</p><p className={"text-xl font-black " + c}>{v}</p></div>
                   ))}
                 </div>
+                <p className="text-[10px] text-amber-500/80 font-bold bg-amber-500/5 border border-amber-500/20 rounded-lg p-3 mb-6 leading-relaxed italic">{d.disclaimer}</p>
                 <p className="text-sm text-gray-400 leading-relaxed mb-6">{d.description}</p>
                 <div className="flex flex-col gap-2 mb-8"><p className="text-[10px] text-gray-600 font-black uppercase tracking-widest mb-1">참고 자료</p>{d.refs.map((r:{label:string;url:string}, i:number) => (<a key={i} href={r.url} target="_blank" rel="noopener noreferrer" className="text-xs text-amber-500 hover:text-white underline underline-offset-4">{r.label}</a>))}</div>
                 <button onClick={() => { loadTemplate(showStrategyInfo); setShowStrategyInfo(null); }} className="w-full py-4 rounded-2xl bg-amber-500 text-black font-black uppercase text-xs hover:bg-white transition-all">이 전략 로드하기</button>

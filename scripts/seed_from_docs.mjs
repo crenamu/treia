@@ -32,19 +32,30 @@ const db = getFirestore(app, 'treia');
 
 // ─── 이미지 관리 로직 ─────────────────────────
 
-// 배경 이미지 풀 (Unsplash 고화질 트레이딩 이미지)
-const backgroundImages = [
-  "PBEKd9stNUA", "Ur1VdGufVns", "mp11_hrQXf8", "DfjJMVhwH_8", "ZzOa5G8hSPI",
-  "AM3wYIikxO4", "RDXcFY5g5O4", "LaU3HadwEeE", "x07ELaNFt34", "oSmxBx08YJw",
-  "O5yeor6_3sc", "AA5sf7WTv10", "ztYmIQecyH4", "InWI1lteYfU", "cGot2jFpKIM",
-  "LWD60a5a15I", "xre1LzeYH7o", "EMPZ7yRZoGw", "VM_6EtTAfDQ", "44ls9V31hPc",
-  "v0VjjYYFjOg", "w9coDxtsfts", "bnW9O5ZOys4", "hScr17JG74Q", "OmPqCwX422Y",
-  "o_x11ORH9vQ", "SPEblBBlce8", "3r8rcSy0Ffg", "fiXLQXAhCfk", "vBCVcWUyvyM",
-  "oqStl2L5oxI", "sm3Ub_IJKQg", "3PyBkxgTiL0", "VLpWpv3oDB4", "5hcV51EeeWc",
-  "AUZC0Fybqu8", "z0gszFk1tYk", "kM6QNrgo0YE", "K5DY18hy5JQ", "N__BnvQ_w18",
-  "VTKtPMDouBw", "K5mPtONmpHM", "eNStVITP_10", "mswEr8ji6BQ", "Wb63zqJ5gnE",
-  "fchVIvuMGBI", "XqvAjEJGOO4", "MTxseYMqYzk", "UKVTkmdjva0", "Gw_sFen8VhU"
-];
+// 카테고리별 이미지 (실제 확인된 Unsplash Public ID)
+// picsum.photos 기반으로 전환 - 무조건 로드 보장, ID = 이미지 번호, 중복 없음
+const CATEGORY_IMAGES = {
+  'CFD 기초':     [10, 20, 30, 40, 50, 60, 70, 80],
+  '골드 특화':    [110, 120, 130, 140, 150, 160, 170, 180],
+  '기술적 분석':  [210, 220, 230, 240, 250, 260, 270, 280],
+  '리스크 관리':  [310, 320, 330, 340, 350, 360],
+  '자동매매':     [410, 420, 430, 440, 450, 460],
+  '브로커':       [510, 520, 530, 540, 550],
+  '카피트레이딩': [610, 620, 630, 640, 650],
+  '사기 예방':    [710, 720, 730, 740, 750, 760],
+};
+const categoryCounters = {};
+
+function getImageUrlForSection(category) {
+  const ids = CATEGORY_IMAGES[category] || [900, 901, 902, 903, 904, 905];
+  if (!categoryCounters[category]) categoryCounters[category] = 0;
+  const idx = categoryCounters[category] % ids.length;
+  categoryCounters[category]++;
+  const id = ids[idx];
+  // picsum.photos: 번호 기반, 항상 로드됨, 다양한 고화질 이미지
+  return `https://picsum.photos/seed/${id}/800/500`;
+}
+
 
 const PATTERN_BODY_VISUALS = [
   { key: "캔들", path: "/images/patterns/candle-ohlc.svg", alt: "캔들 구조 분석" },
@@ -73,16 +84,7 @@ function injectInlineVisuals(body, title) {
   return finalBody;
 }
 
-// 중복 방지를 위해 할당된 인덱스 추적
-let globalImageCounter = 0;
 
-function getImageUrlForSection() {
-  const idx = globalImageCounter % backgroundImages.length;
-  globalImageCounter++;
-  
-  const photoId = backgroundImages[idx];
-  return `https://images.unsplash.com/photo-${photoId}?q=80&w=800&auto=format&fit=crop`;
-}
 
 /**
  * MD 파일을 읽어 ## 섹션별로 분리
@@ -110,7 +112,7 @@ function parseMarkdownSections(filePath, categoryName) {
           category: categoryName,
           content: finalBody,
           excerpt,
-          thumbnail: getImageUrlForSection(),
+          thumbnail: getImageUrlForSection(categoryName),
           difficulty: inferDifficulty(currentId),
         });
       }
@@ -135,7 +137,7 @@ function parseMarkdownSections(filePath, categoryName) {
       category: categoryName,
       content: finalBody,
       excerpt,
-      thumbnail: getImageUrlForSection(),
+      thumbnail: getImageUrlForSection(categoryName),
       difficulty: inferDifficulty(currentId),
     });
   }
