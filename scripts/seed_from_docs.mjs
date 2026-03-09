@@ -67,19 +67,33 @@ const PATTERN_BODY_VISUALS = [
 const usedSvgs = new Set();
 
 function injectInlineVisuals(body, title) {
-  let finalBody = body;
+  // 1순위: 가장 정확한 매칭 (문서의 제목에 핵심 키워드가 있는 경우 최우선 할당)
   for (const v of PATTERN_BODY_VISUALS) {
-    if (!usedSvgs.has(v.path) && (body.includes(v.key) || title.includes(v.key))) {
+    if (!usedSvgs.has(v.path) && title.includes(v.key)) {
       usedSvgs.add(v.path);
-      const paragraphs = body.split("\n\n");
-      if (paragraphs.length >= 2) {
-        paragraphs[1] = `${paragraphs[1]}\n\n<img src="${v.path}" alt="${v.alt}" />\n`;
-        finalBody = paragraphs.join("\n\n");
-        break; // Inject only one SVG per document
-      }
+      return applyVisual(body, v);
     }
   }
-  return finalBody;
+
+  // 2순위: 문맥 매칭 (본문 내 키워드가 여러 번(최소 2번 이상) 쓰인 핵심 주제인 경우)
+  for (const v of PATTERN_BODY_VISUALS) {
+    const occurCount = (body.split(v.key).length - 1);
+    if (!usedSvgs.has(v.path) && occurCount >= 2) {
+      usedSvgs.add(v.path);
+      return applyVisual(body, v);
+    }
+  }
+
+  return body;
+}
+
+function applyVisual(body, v) {
+  const p = body.split("\n\n");
+  if (p.length >= 2) {
+    p[1] = `${p[1]}\n\n![${v.alt}](${v.path})\n`; 
+    return p.join("\n\n");
+  }
+  return body + `\n\n![${v.alt}](${v.path})\n`;
 }
 
 

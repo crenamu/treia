@@ -70,7 +70,7 @@ const STRATEGY_DATA = {
     description: 'RSI 과매도 구간(30 이하)에서 단기 이평선 상향 돌파 시 매수 진입하는 스캘핑 전략의 일반적 구조입니다. 뉴욕·런던 겹치는 시간대(21:00~23:00 KST)가 변동성이 높습니다.',
     refs: [
       { label: 'Investopedia: RSI (Relative Strength Index) 개념 설명', url: 'https://www.investopedia.com/terms/r/rsi.asp' },
-      { label: 'MQL5: Expert Advisors 카테고리 (직접 검색 가능)', url: 'https://www.mql5.com/en/market/expert-advisors' },
+      { label: 'MQL5: Expert Advisors 카테고리 (직접 검색 가능)', url: 'https://www.mql5.com/en/market/mt5/expert' },
     ]
   },
   breakout: {
