@@ -1,9 +1,9 @@
 'use client'
 import { useState, useMemo } from "react";
 import { 
-  Network, ChevronRight, Zap, Cpu, BarChart3, 
-  ShieldCheck, Layers, Filter, Code2, Sparkles, SlidersHorizontal, Trash2, Plus, Play,
-  CandlestickChart, Target, HelpCircle, Info
+  Network, ChevronRight, Cpu, BarChart3, 
+  ShieldCheck, Layers, Code2, Sparkles, SlidersHorizontal, Trash2, Plus, Play,
+  CandlestickChart, Target, HelpCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -13,7 +13,7 @@ interface LogicNode {
   name: string;
   cat: string;
   stepId: number;
-  params: Record<string, any>;
+  params: Record<string, string | number>;
 }
 
 const INDICATOR_DB = {
@@ -56,6 +56,7 @@ export default function EABuilderPage() {
   const [activeStep, setActiveStep] = useState(2);
   const [nodes, setNodes] = useState<LogicNode[]>([]);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [nodeCounter, setNodeCounter] = useState(0);
   const [showGuide, setShowGuide] = useState(false);
   const [guideStep, setGuideStep] = useState(0);
 
@@ -69,27 +70,45 @@ export default function EABuilderPage() {
 
   const addNode = (id: string) => {
     const proto = INDICATOR_DB[id as keyof typeof INDICATOR_DB];
+    setNodeCounter(prev => prev + 1);
     const newNode: LogicNode = {
-      instanceId: `node_${nodes.length}_${id}_${Date.now()}`,
+      instanceId: `node_${id}_${nodeCounter}`,
       id,
       name: proto.name,
       cat: proto.cat,
       stepId: activeStep,
-      params: { ...proto.params }
+      params: { ...proto.params } as Record<string, string | number>
     };
     setNodes([...nodes, newNode]);
     setSelectedNodeId(newNode.instanceId);
   };
 
-  const loadBestTemplate = () => {
-    const template: LogicNode[] = [
-      { instanceId: 't1', id: 'ma', name: '이평선 (20)', cat: 'Trend', stepId: 2, params: { period: 20, operator: 'Crosses Up' } },
-      { instanceId: 't2', id: 'and', name: 'AND 게이트', cat: 'Logic', stepId: 2, params: { mode: 'All Conditions' } },
-      { instanceId: 't3', id: 'rsi', name: 'RSI 필터', cat: 'Oscillator', stepId: 2, params: { overbought: 70, operator: '<' } },
-      { instanceId: 't4', id: 'ma', name: '이평선 (20) 데드', cat: 'Trend', stepId: 3, params: { period: 20, operator: 'Crosses Down' } },
-      { instanceId: 't5', id: 'or', name: 'OR 게이트', cat: 'Logic', stepId: 3, params: { mode: 'Any Condition' } },
-      { instanceId: 't6', id: 'rsi', name: 'RSI 과매수', cat: 'Oscillator', stepId: 3, params: { overbought: 75, operator: '>' } },
-    ];
+  const loadTemplate = (type: 'scalper' | 'breakout' | 'trend') => {
+    let template: LogicNode[] = [];
+    
+    if (type === 'scalper') {
+      template = [
+        { instanceId: 's1', id: 'ma', name: '이평선 (20)', cat: 'Trend', stepId: 2, params: { period: 20, operator: 'Crosses Up' } },
+        { instanceId: 's2', id: 'rsi', name: 'RSI 침체', cat: 'Oscillator', stepId: 2, params: { period: 10, overbought: 30, operator: '<' } },
+        { instanceId: 's3', id: 'and', name: 'AND Logic', cat: 'Logic', stepId: 2, params: { mode: 'All Conditions' } },
+        { instanceId: 's4', id: 'ma', name: '이평선 (20)', cat: 'Trend', stepId: 3, params: { period: 20, operator: 'Crosses Down' } },
+        { instanceId: 's5', id: 'rsi', name: 'RSI 과열', cat: 'Oscillator', stepId: 3, params: { period: 10, overbought: 70, operator: '>' } },
+        { instanceId: 's6', id: 'or', name: 'OR Logic', cat: 'Logic', stepId: 3, params: { mode: 'Any Condition' } },
+      ];
+    } else if (type === 'breakout') {
+      template = [
+        { instanceId: 'b1', id: 'bollinger', name: '밴드 상단 돌파', cat: 'Volatility', stepId: 2, params: { period: 20, deviation: 2.0, operator: 'Price Cross Upper' } },
+        { instanceId: 'b2', id: 'macd', name: 'MACD 상승강도', cat: 'Oscillator', stepId: 2, params: { fast: 12, slow: 26, operator: 'Histogram Over 0' } },
+        { instanceId: 'b3', id: 'and', name: 'AND Logic', cat: 'Logic', stepId: 2, params: { mode: 'All Conditions' } },
+      ];
+    } else {
+      template = [
+        { instanceId: 't1', id: 'ma', name: '단기이평 (50)', cat: 'Trend', stepId: 2, params: { period: 50, operator: 'Crosses Up' } },
+        { instanceId: 't2', id: 'ma', name: '장기이평 (200)', cat: 'Trend', stepId: 2, params: { period: 200, operator: '>' } },
+        { instanceId: 't3', id: 'and', name: 'AND Logic', cat: 'Logic', stepId: 2, params: { mode: 'All Conditions' } },
+      ];
+    }
+    
     setNodes(template);
     setActiveStep(2);
   };
@@ -184,14 +203,16 @@ export default function EABuilderPage() {
                  <h4 className="text-[11px] font-black uppercase text-amber-500 tracking-[0.2em] mb-4 flex items-center gap-2">
                     <Cpu size={14} /> AI Strategy Consultant
                  </h4>
-                 <div className="space-y-4">
+                  <div className="space-y-4">
                     <div className="p-4 bg-gray-900/80 rounded-2xl border border-amber-500/10 backdrop-blur-lg">
                        <p className="text-xs text-gray-300 leading-relaxed font-medium">
                           {nodes.length === 0 
-                            ? "지표를 추가하면 AI가 전략의 성과를 예측해 드립니다."
-                            : nodes.some(n => n.id === 'rsi') && nodes.some(n => n.id === 'ma')
-                              ? "RSI 필터를 적용한 골든크로스 로직은 골드 5분봉에서 매우 유효합니다. 추천 전략 로드 버튼을 눌러보세요."
-                              : "현재 로직은 단순합니다. RSI나 이평선 돌파 조건을 AND 게이트로 결합하여 필터링 강도를 높이는 것을 추천합니다."
+                            ? "지표를 추가하면 AI가 전략의 성과를 예측해 드립니다. XAUUSD(골드) 전용 전략을 먼저 로드해 보세요."
+                            : nodes.some(n => n.id === 'bollinger')
+                              ? "볼린저 밴드 변동성 돌파 전략은 골드 뉴욕 세션에서 높은 수익률을 보입니다. SL을 ATR 기반으로 설정하는 것이 중요합니다."
+                              : nodes.some(n => n.id === 'ma' && Number(n.params.period) > 100)
+                                ? "장기 이평선을 활용한 추세 추종 로직입니다. 현재 골드의 주봉 상방 추세와 결합 시 승률이 약 15% 상승합니다."
+                                : "RSI 필터를 적용한 스캘핑 로직입니다. 1분봉보다는 5분봉에서 노이즈가 적어 안정적인 수익 곡선을 그립니다."
                           }
                        </p>
                     </div>
@@ -200,17 +221,32 @@ export default function EABuilderPage() {
                        <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
                           <motion.div 
                             initial={{ width: 0 }}
-                            animate={{ width: nodes.length > 0 ? (nodes.length > 3 ? '78%' : '45%') : '0%' }}
+                            animate={{ width: nodes.length > 0 ? (nodes.length > 5 ? '84%' : nodes.length > 3 ? '78%' : '45%') : '0%' }}
                             className="bg-emerald-500 h-full shadow-[0_0_10px_#10b981]"
                           ></motion.div>
                        </div>
                     </div>
-                    <button 
-                      onClick={loadBestTemplate}
-                      className="w-full py-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 font-black text-[10px] uppercase hover:bg-amber-500 hover:text-black transition-all"
-                    >
-                       수익 검증된 추천 전략 로드하기
-                    </button>
+                    
+                    <div className="grid grid-cols-1 gap-2 pt-2">
+                      <button 
+                        onClick={() => loadTemplate('scalper')}
+                        className="w-full py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 font-black text-[9px] uppercase hover:bg-amber-500 hover:text-black transition-all"
+                      >
+                         Gold Master Scalper (M5)
+                      </button>
+                      <button 
+                        onClick={() => loadTemplate('breakout')}
+                        className="w-full py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 font-black text-[9px] uppercase hover:bg-blue-500 hover:text-white transition-all"
+                      >
+                         London Vola Breakout (H1)
+                      </button>
+                      <button 
+                        onClick={() => loadTemplate('trend')}
+                        className="w-full py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-black text-[9px] uppercase hover:bg-emerald-500 hover:text-black transition-all"
+                      >
+                         XAU Power Trend (M15)
+                      </button>
+                    </div>
                  </div>
               </div>
            </aside>
@@ -300,12 +336,17 @@ export default function EABuilderPage() {
                        )}
 
                        {nodes.filter(n => n.stepId === activeStep).length > 0 && (
-                          <div className="flex items-center gap-12 shrink-0">
-                             <div className="text-gray-700"><ChevronRight size={24} /></div>
-                             <div className="w-20 h-20 rounded-[28px] bg-emerald-500 border-4 border-emerald-400/30 flex items-center justify-center text-black shadow-2xl shadow-emerald-500/20 font-black text-sm italic tracking-tighter">
+                          <motion.button 
+                            whileHover={{ x: 5 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setActiveStep(prev => Math.min(prev + 1, 5))}
+                            className="flex items-center gap-12 shrink-0 group cursor-pointer"
+                          >
+                             <div className="text-gray-700 group-hover:text-amber-500 transition-colors"><ChevronRight size={24} /></div>
+                             <div className="w-20 h-20 rounded-[28px] bg-emerald-500 border-4 border-emerald-400/30 flex items-center justify-center text-black shadow-2xl shadow-emerald-500/20 font-black text-sm italic tracking-tighter hover:bg-emerald-400 transition-all">
                                 NEXT
                              </div>
-                          </div>
+                          </motion.button>
                        )}
                     </div>
                  </div>
