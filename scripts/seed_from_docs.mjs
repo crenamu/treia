@@ -34,50 +34,48 @@ const db = getFirestore(app, 'treia');
 
 // 카테고리별 이미지 (실제 확인된 Unsplash Public ID)
 // picsum.photos 기반으로 전환 - 무조건 로드 보장, ID = 이미지 번호, 중복 없음
-const CATEGORY_IMAGES = {
-  'CFD 기초':     [10, 20, 30, 40, 50, 60, 70, 80],
-  '골드 특화':    [110, 120, 130, 140, 150, 160, 170, 180],
-  '기술적 분석':  [210, 220, 230, 240, 250, 260, 270, 280],
-  '리스크 관리':  [310, 320, 330, 340, 350, 360],
-  '자동매매':     [410, 420, 430, 440, 450, 460],
-  '브로커':       [510, 520, 530, 540, 550],
-  '카피트레이딩': [610, 620, 630, 640, 650],
-  '사기 예방':    [710, 720, 730, 740, 750, 760],
-};
-const categoryCounters = {};
+let uniqueImageId = Math.floor(Math.random() * 10000);
 
 function getImageUrlForSection(category) {
-  const ids = CATEGORY_IMAGES[category] || [900, 901, 902, 903, 904, 905];
-  if (!categoryCounters[category]) categoryCounters[category] = 0;
-  const idx = categoryCounters[category] % ids.length;
-  categoryCounters[category]++;
-  const id = ids[idx];
-  // picsum.photos: 번호 기반, 항상 로드됨, 다양한 고화질 이미지
-  return `https://picsum.photos/seed/${id}/800/500`;
+  uniqueImageId++;
+  return `https://picsum.photos/seed/treia_edu_${uniqueImageId}/800/500`;
 }
 
-
 const PATTERN_BODY_VISUALS = [
-  { key: "캔들", path: "/images/patterns/candle-ohlc.svg", alt: "캔들 구조 분석" },
+  { key: "장악형", path: "/images/patterns/bullish-engulfing.svg", alt: "상승 장악형 패턴" },
+  { key: "하락 장악", path: "/images/patterns/bearish-engulfing.svg", alt: "하락 장악형 패턴" },
   { key: "돌파", path: "/images/patterns/breakout-up.svg", alt: "저항선 상향 돌파 시나리오" },
-  { key: "교차", path: "/images/patterns/golden-cross.svg", alt: "이평선 골든크로스 시그널" },
-  { key: "RSI", path: "/images/patterns/tech-analysis.svg", alt: "RSI 과매수/과매도 지표" },
-  { key: "리스크", path: "/images/patterns/risk-management.svg", alt: "리스크 관리 매트릭스" },
-  { key: "골드", path: "/images/patterns/gold-spec.svg", alt: "XAUUSD 거래 사양" }
+  { key: "캔들", path: "/images/patterns/candle-ohlc.svg", alt: "캔들 구조 분석" },
+  { key: "CFD", path: "/images/patterns/cfd.svg", alt: "CFD의 구조" },
+  { key: "카피", path: "/images/patterns/copytrading.svg", alt: "카피트레이딩 알고리즘" },
+  { key: "도지", path: "/images/patterns/doji.svg", alt: "도지(Doji) 패턴" },
+  { key: "자동", path: "/images/patterns/ea-logic.svg", alt: "EA 자동매매 로직" },
+  { key: "피보나치", path: "/images/patterns/fibonacci.svg", alt: "피보나치 되돌림" },
+  { key: "골드", path: "/images/patterns/gold-spec.svg", alt: "XAUUSD 골드 특성" },
+  { key: "크로스", path: "/images/patterns/golden-cross.svg", alt: "골든크로스" },
+  { key: "망치", path: "/images/patterns/hammer.svg", alt: "망치형 패턴" },
+  { key: "레버리지", path: "/images/patterns/leverage.svg", alt: "레버리지 원리" },
+  { key: "마진", path: "/images/patterns/margin.svg", alt: "마진 콜 기준" },
+  { key: "샛별", path: "/images/patterns/morning-star.svg", alt: "샛별형 캔들" },
+  { key: "리스크", path: "/images/patterns/risk-management.svg", alt: "리스크 관리 기법" },
+  { key: "사기", path: "/images/patterns/scam-prevention.svg", alt: "스캠 방지책" },
+  { key: "스프레드", path: "/images/patterns/spread.svg", alt: "스프레드 메커니즘" },
+  { key: "스탑", path: "/images/patterns/stoploss.svg", alt: "스탑로스 설정" },
+  { key: "RSI", path: "/images/patterns/tech-analysis.svg", alt: "기술적 분석 지표" }
 ];
 
-/**
- * 아티클 본문 내 SVG 자동 삽입 로직
- */
+const usedSvgs = new Set();
+
 function injectInlineVisuals(body, title) {
   let finalBody = body;
   for (const v of PATTERN_BODY_VISUALS) {
-    if (body.includes(v.key) || title.includes(v.key)) {
+    if (!usedSvgs.has(v.path) && (body.includes(v.key) || title.includes(v.key))) {
+      usedSvgs.add(v.path);
       const paragraphs = body.split("\n\n");
       if (paragraphs.length >= 2) {
-        paragraphs[1] = `${paragraphs[1]}\n\n![${v.alt}](${v.path})\n`;
+        paragraphs[1] = `${paragraphs[1]}\n\n<img src="${v.path}" alt="${v.alt}" />\n`;
         finalBody = paragraphs.join("\n\n");
-        break;
+        break; // Inject only one SVG per document
       }
     }
   }

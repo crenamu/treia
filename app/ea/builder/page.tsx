@@ -347,204 +347,146 @@ export default function EABuilderPage() {
                     </div>
                  </div>
 
-                 {/* Node Flow Area */}
-                 <div className="flex-grow p-10 flex items-center justify-center gap-8 overflow-x-auto relative scrollbar-hide">
-                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-                    
-                    <div className="flex items-center gap-12 relative z-10 min-w-max px-20">
-                       <div className="w-16 h-16 rounded-full border-4 border-gray-800 flex items-center justify-center text-gray-600 bg-[#14161B] shadow-xl shrink-0">
-                          <Play size={24} />
-                       </div>
-
-                       <AnimatePresence mode="popLayout">
-                          {nodes.filter(n => n.stepId === activeStep).map((node, idx) => (
-                             <motion.div 
-                               key={node.instanceId}
-                               layout
-                               initial={{ opacity: 0, x: -50 }}
-                               animate={{ opacity: 1, x: 0 }}
-                               exit={{ opacity: 0, scale: 0.5 }}
-                               onClick={() => setSelectedNodeId(node.instanceId)}
-                               className={`group relative p-6 rounded-[28px] border-2 transition-all cursor-pointer min-w-[200px] shadow-2xl ${
-                                 selectedNodeId === node.instanceId 
-                                   ? 'bg-amber-500 border-amber-500 text-black scale-105 z-20' 
-                                   : 'bg-[#1C2128] border-gray-800 text-white hover:border-gray-500'
-                               }`}
-                             >
-                                <span className={`text-[9px] font-black uppercase mb-2 block ${selectedNodeId === node.instanceId ? 'text-black/60' : 'text-amber-500'}`}>
+                 {/* Node Flow Area (Practical List View) */}
+                 <div className="flex-grow p-6 md:p-10 flex flex-col gap-4 overflow-y-auto bg-[#0B0D10]/50 relative">
+                    <AnimatePresence mode="popLayout">
+                       {nodes.filter(n => n.stepId === activeStep).map((node, idx) => (
+                          <motion.div 
+                            key={node.instanceId}
+                            layout
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="flex flex-col md:flex-row md:items-center gap-6 bg-[#1C2128] border border-gray-800/80 p-5 rounded-[20px] shadow-lg group hover:border-gray-600 transition-colors"
+                          >
+                             <div className="flex flex-col gap-1 w-48 shrink-0">
+                                <span className={`text-[10px] font-black uppercase tracking-widest ${node.cat === 'Logic' ? 'text-blue-500' : 'text-amber-500'}`}>
                                    {node.cat}
                                 </span>
-                                <h4 className="font-black text-base tracking-tight mb-3 leading-none">{node.name}</h4>
-                                <div className={`flex flex-wrap gap-1.5 ${selectedNodeId === node.instanceId ? 'text-black/80' : 'text-gray-500'}`}>
-                                   {Object.entries(node.params).slice(0, 3).map(([k, v]) => (
-                                      <span key={k} className="text-[9px] bg-black/10 px-2 py-1 rounded-lg font-bold border border-black/5 whitespace-nowrap">{k}:{v}</span>
-                                   ))}
-                                </div>
-                                <button 
-                                  onClick={(e) => { e.stopPropagation(); removeNode(node.instanceId); }}
-                                  className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
-                                >
-                                   <Trash2 size={14} />
-                                </button>
-                                {idx < nodes.filter(n => n.stepId === activeStep).length - 1 && (
-                                   <div className="absolute -right-12 top-1/2 -translate-y-1/2 text-gray-700">
-                                      <ChevronRight size={24} />
+                                <h4 className="font-black text-sm text-white">{node.name}</h4>
+                             </div>
+
+                             <div className="flex-grow flex flex-wrap gap-4 items-center">
+                                {Object.entries(node.params).map(([key, value]) => (
+                                   <div key={key} className="flex items-center gap-2 bg-gray-900/50 px-3 py-1.5 rounded-xl border border-gray-800/50">
+                                      <span className="text-[10px] font-bold text-gray-500 uppercase">{key}</span>
+                                      {typeof value === 'number' ? (
+                                        <input 
+                                          type="number" 
+                                          className="bg-transparent text-amber-500 font-black text-sm w-16 outline-none text-center"
+                                          value={value}
+                                          onChange={(e) => updateNodeParam(node.instanceId, key, Number(e.target.value))}
+                                        />
+                                      ) : key === 'applied' ? (
+                                        <select 
+                                          className="bg-transparent text-white font-bold text-xs outline-none cursor-pointer"
+                                          value={value}
+                                          onChange={(e) => updateNodeParam(node.instanceId, key, e.target.value)}
+                                        >
+                                          {APPLIED_PRICES.map(p => <option className="bg-gray-900" key={p} value={p}>{p}</option>)}
+                                        </select>
+                                      ) : key === 'operator' ? (
+                                        <select 
+                                          className="bg-transparent text-emerald-400 font-black text-sm outline-none cursor-pointer text-center"
+                                          value={value}
+                                          onChange={(e) => updateNodeParam(node.instanceId, key, e.target.value)}
+                                        >
+                                          {OPERATORS.map(o => <option className="bg-gray-900" key={o} value={o}>{o}</option>)}
+                                        </select>
+                                      ) : (
+                                        <input 
+                                          className="bg-transparent text-white font-bold text-xs w-20 outline-none"
+                                          value={value}
+                                          onChange={(e) => updateNodeParam(node.instanceId, key, e.target.value)}
+                                        />
+                                      )}
                                    </div>
-                                )}
-                             </motion.div>
-                          ))}
-                       </AnimatePresence>
-
-                       {nodes.filter(n => n.stepId === activeStep).length === 0 && (
-                          <div className="flex flex-col items-center gap-6 text-gray-700">
-                             <div className="w-24 h-24 rounded-[40px] border-4 border-dashed border-gray-800 flex items-center justify-center animate-pulse">
-                                <Plus size={40} />
+                                ))}
                              </div>
-                             <p className="text-base font-black tracking-tight uppercase opacity-50">드래그 앤 드롭으로 전략 설계를 시작하세요</p>
+
+                             <button 
+                               onClick={() => removeNode(node.instanceId)}
+                               className="w-10 h-10 rounded-full flex items-center justify-center text-gray-600 hover:text-red-500 hover:bg-red-500/10 transition-colors shrink-0 md:ml-auto"
+                             >
+                                <Trash2 size={18} />
+                             </button>
+                          </motion.div>
+                       ))}
+                    </AnimatePresence>
+
+                    {nodes.filter(n => n.stepId === activeStep).length === 0 && (
+                       <div className="flex-grow flex flex-col items-center justify-center gap-6 text-gray-700 py-20">
+                          <div className="w-20 h-20 rounded-full border-4 border-dashed border-gray-800 flex items-center justify-center animate-[spin_10s_linear_infinite]">
+                             <Plus size={32} />
                           </div>
-                       )}
-
-                       {nodes.filter(n => n.stepId === activeStep).length > 0 && activeStep < 4 && (
-                          <motion.button 
-                            whileHover={{ x: 5 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => goToStep(Math.min(activeStep + 1, 5))}
-                            className="flex items-center gap-12 shrink-0 group cursor-pointer"
-                          >
-                             <div className="text-gray-700 group-hover:text-amber-500 transition-colors"><ChevronRight size={24} /></div>
-                             <div className="w-20 h-20 rounded-[28px] bg-emerald-500 border-4 border-emerald-400/30 flex items-center justify-center text-black shadow-2xl shadow-emerald-500/20 font-black text-sm italic tracking-tighter hover:bg-emerald-400 transition-all">
-                                NEXT
-                             </div>
-                          </motion.button>
-                       )}
-                    </div>
+                          <p className="text-sm font-black tracking-tight uppercase opacity-50">상단 버튼을 눌러 로직을 추가하세요</p>
+                       </div>
+                    )}
                  </div>
               </div>
 
               {activeStep === 4 ? (
-                <div className="h-auto bg-[#14161B] border border-amber-500/20 rounded-[32px] p-8 flex flex-col gap-6 shrink-0">
+                <div className="h-auto bg-[#14161B] border border-amber-500/20 rounded-[32px] p-8 flex flex-col gap-6 shrink-0 mt-4">
                   <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-amber-500 flex items-center gap-2"><ShieldCheck size={14} /> 포지션 사이징 계산기 (Position Sizing)</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                     <div className="flex flex-col gap-2"><label className="text-[10px] font-black text-gray-500 uppercase">계좌 잔액 ($)</label><input type="number" className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-3 text-sm font-black text-amber-500 focus:border-amber-500 outline-none" value={riskState.balance} onChange={e => { const b=Number(e.target.value); setRiskState(p=>({...p,balance:b,riskAmount:b*p.riskPct/100,lotSize:p.slPips>0?parseFloat((b*p.riskPct/100/p.slPips).toFixed(2)):0})); }} /></div>
                     <div className="flex flex-col gap-2"><label className="text-[10px] font-black text-gray-500 uppercase">리스크 비율 (%)</label><input type="number" step="0.1" min="0.1" max="5" className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-3 text-sm font-black text-amber-500 focus:border-amber-500 outline-none" value={riskState.riskPct} onChange={e => { const r=Number(e.target.value); setRiskState(p=>({...p,riskPct:r,riskAmount:p.balance*r/100,lotSize:p.slPips>0?parseFloat((p.balance*r/100/p.slPips).toFixed(2)):0})); }} /></div>
                     <div className="flex flex-col gap-2"><label className="text-[10px] font-black text-gray-500 uppercase">손절 (pips)</label><input type="number" className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-3 text-sm font-black text-amber-500 focus:border-amber-500 outline-none" value={riskState.slPips} onChange={e => { const sl=Number(e.target.value); setRiskState(p=>({...p,slPips:sl,riskAmount:p.balance*p.riskPct/100,lotSize:sl>0?parseFloat((p.balance*p.riskPct/100/sl).toFixed(2)):0})); }} /></div>
-                    <div className="flex flex-col gap-2"><label className="text-[10px] font-black text-gray-500 uppercase">계산 결과</label><div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl px-4 py-3"><p className="text-[10px] text-gray-400 mb-1">위험 금액: <span className="text-amber-500 font-black"></span></p><p className="text-base font-black text-emerald-400">Lot: {riskState.slPips>0?((riskState.balance*riskState.riskPct/100)/riskState.slPips).toFixed(2):"0.00"}</p></div></div>
+                    <div className="flex flex-col gap-2"><label className="text-[10px] font-black text-gray-500 uppercase">계산 결과</label><div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl px-4 py-3"><p className="text-[10px] text-gray-400 mb-1">위험 금액: <span className="text-amber-500 font-black">${riskState.riskAmount.toFixed(2)}</span></p><p className="text-base font-black text-emerald-400">Lot: {riskState.slPips>0?((riskState.balance*riskState.riskPct/100)/riskState.slPips/10).toFixed(2):"0.00"}</p></div></div>
                   </div>
                   <div className="grid grid-cols-3 gap-4 text-[10px] text-gray-500">
                     <div className="p-3 bg-gray-900/50 rounded-xl border border-gray-800"><p className="font-black text-amber-500 mb-1">1% 룰</p><p>연속 10회 손실에도 계좌 90% 보존. 복구 가능성 유지의 핵심 원칙.</p></div>
-                    <div className="p-3 bg-gray-900/50 rounded-xl border border-gray-800"><p className="font-black text-amber-500 mb-1">골드 pip 가치</p><p>XAUUSD 0.01lot = 1pip당 .10. 0.1lot = .00. 1 lot = /pip.</p></div>
+                    <div className="p-3 bg-gray-900/50 rounded-xl border border-gray-800"><p className="font-black text-amber-500 mb-1">골드 pip 가치</p><p>XAUUSD 0.01lot = 1pip당 $0.10. 0.1lot = $1.00. 1 lot = $10/pip.</p></div>
                     <div className="p-3 bg-gray-900/50 rounded-xl border border-gray-800"><p className="font-black text-amber-500 mb-1">권장 R:R 비율</p><p>손절 30pips → 목표 최소 45pips (1:1.5). 승률 50%에도 수익 창출.</p></div>
                   </div>
                 </div>
               ) : (
-              <div className="h-1/3 min-h-[220px] bg-[#14161B] border border-gray-800/50 rounded-[32px] flex overflow-hidden shrink-0">
-                 <div className="w-2/5 border-r border-gray-800/50 p-8 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 flex items-center gap-2">
-                        <SlidersHorizontal size={14} /> 정밀 파라미터 제어
+                <div className="h-48 bg-[#14161B] border border-gray-800/50 rounded-[32px] p-8 flex flex-col lg:flex-row items-center justify-between gap-8 shrink-0 relative overflow-hidden mt-4">
+                   <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(45deg, transparent 40%, rgba(245,158,11,1) 40%, rgba(245,158,11,1) 60%, transparent 60%)', backgroundSize: '10px 10px' }}></div>
+                   
+                   <div className="flex flex-col gap-1 z-10 w-full lg:w-1/3">
+                      <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 flex items-center gap-2 mb-2">
+                         <BarChart3 size={14} /> Expected Performance (AI Sim)
                       </h3>
-                      {selectedNode && (
-                        <div className="px-3 py-1 bg-amber-500/10 text-amber-500 border border-amber-500/30 rounded-lg text-[9px] font-black uppercase">
-                          Selected: {selectedNode.id}
-                        </div>
-                      )}
-                    </div>
-
-                    {selectedNode ? (
-                       <div className="grid grid-cols-2 gap-6">
-                          {Object.entries(selectedNode.params).map(([key, value]) => (
-                             <div key={key} className="flex flex-col gap-2.5">
-                                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest px-1">{key}</label>
-                                
-                                {typeof value === 'number' ? (
-                                  <div className="flex items-center gap-3">
-                                    <input 
-                                      type="number" 
-                                      className="w-16 bg-gray-900 border border-gray-800 rounded-xl px-3 py-2 text-xs font-black text-amber-500 focus:border-amber-500 outline-none transition-all"
-                                      value={value}
-                                      onChange={(e) => updateNodeParam(selectedNode.instanceId, key, Number(e.target.value))}
-                                    />
-                                    <input 
-                                      type="range" 
-                                      className="flex-grow accent-amber-500 bg-gray-800 rounded-lg appearance-none cursor-pointer h-1.5"
-                                      min="1" max="200" value={value}
-                                      onChange={(e) => updateNodeParam(selectedNode.instanceId, key, Number(e.target.value))}
-                                    />
-                                  </div>
-                                ) : key === 'applied' ? (
-                                  <select 
-                                    className="w-full bg-gray-900 border border-gray-800 rounded-xl px-3 py-2.5 text-xs font-bold text-white outline-none cursor-pointer focus:border-amber-500"
-                                    value={value}
-                                    onChange={(e) => updateNodeParam(selectedNode.instanceId, key, e.target.value)}
-                                  >
-                                    {APPLIED_PRICES.map(p => <option key={p} value={p}>{p}</option>)}
-                                  </select>
-                                ) : key === 'operator' ? (
-                                  <select 
-                                    className="w-full bg-gray-900 border border-gray-800 rounded-xl px-3 py-2.5 text-xs font-bold text-white outline-none cursor-pointer focus:border-amber-500"
-                                    value={value}
-                                    onChange={(e) => updateNodeParam(selectedNode.instanceId, key, e.target.value)}
-                                  >
-                                    {OPERATORS.map(o => <option key={o} value={o}>{o}</option>)}
-                                  </select>
-                                ) : (
-                                  <input 
-                                    className="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-xs font-bold text-white outline-none focus:border-amber-500"
-                                    value={value}
-                                    onChange={(e) => updateNodeParam(selectedNode.instanceId, key, e.target.value)}
-                                  />
-                                )}
-                             </div>
-                          ))}
-                       </div>
-                    ) : (
-                       <div className="flex-grow flex flex-col items-center justify-center gap-4 border-2 border-dashed border-gray-800 rounded-[28px] opacity-40">
-                          <HelpCircle size={32} />
-                          <p className="text-xs font-bold uppercase tracking-widest">지표 노드를 선택하세요</p>
-                       </div>
-                    )}
-                 </div>
-
-                 {/* Performance Outlook */}
-                 <div className="w-3/5 p-8 flex flex-col gap-6">
-                    <div className="flex items-center justify-between">
-                       <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 flex items-center gap-2">
-                          <BarChart3 size={14} /> Expected Performance (Backtest Sim)
-                       </h3>
-                       <div className="flex gap-10">
-                          <div className="flex flex-col items-end">
-                             <span className="text-[10px] text-gray-600 font-black uppercase tracking-tighter mb-1">Profit Factor</span>
-                             <span className="text-2xl font-black text-amber-500">
-                                {nodes.length > 3 ? "1.92" : nodes.length > 1 ? "1.84" : nodes.length === 1 ? "1.05" : "0.00"}
-                             </span>
-                          </div>
-                          <div className="flex flex-col items-end">
-                             <span className="text-[10px] text-gray-600 font-black uppercase tracking-tighter mb-1">Max Drawdown</span>
-                             <span className={`text-2xl font-black ${nodes.length > 0 ? 'text-red-500' : 'text-gray-500'}`}>
-                                {nodes.length > 0 ? "3.8%" : "0.0%"}
-                             </span>
-                          </div>
-                       </div>
-                    </div>
-                    
-                    <div className="flex-grow flex items-end gap-1.5 px-4 mb-2">
-                       {Array.from({ length: 30 }).map((_, i) => (
-                          <motion.div 
-                            key={i}
-                            initial={{ height: 10 }}
-                            animate={{ 
-                              height: nodes.length > 0 
-                                ? `${40 + Math.sin((i+nodes.length)*0.5) * 40}%` 
-                                : '10%' 
-                            }}
-                            className={`flex-grow rounded-t-lg transition-all duration-700 ${
-                              nodes.length > 0 ? 'bg-gradient-to-t from-emerald-500/20 to-emerald-500' : 'bg-gray-800'
-                            }`}
-                          ></motion.div>
-                       ))}
-                    </div>
-                 </div>
-              </div>
+                      <div className="flex gap-10">
+                         <div className="flex flex-col">
+                            <span className="text-[10px] text-gray-600 font-black uppercase tracking-tighter mb-1">Profit Factor</span>
+                            <span className="text-3xl font-black text-amber-500 leading-none">
+                               {nodes.length > 3 ? "1.92" : nodes.length > 1 ? "1.84" : nodes.length === 1 ? "1.05" : "0.00"}
+                            </span>
+                         </div>
+                         <div className="flex flex-col">
+                            <span className="text-[10px] text-gray-600 font-black uppercase tracking-tighter mb-1">Max Drawdown</span>
+                            <span className={`text-3xl font-black leading-none ${nodes.length > 0 ? 'text-red-500' : 'text-gray-500'}`}>
+                               {nodes.length > 0 ? "3.8%" : "0.0%"}
+                            </span>
+                         </div>
+                      </div>
+                   </div>
+                   
+                   <div className="flex-grow flex items-end gap-1.5 px-4 h-full w-full z-10">
+                      {Array.from({ length: 40 }).map((_, i) => (
+                         <motion.div 
+                           key={i}
+                           initial={{ height: 10 }}
+                           animate={{ height: nodes.length > 0 ? `${30 + Math.sin((i+nodes.length)*0.3) * 60}%` : '5%' }}
+                           className={`flex-grow rounded-t-sm transition-all duration-1000 ${
+                             nodes.length > 0 ? 'bg-gradient-to-t from-emerald-500/20 to-emerald-500' : 'bg-gray-800'
+                           }`}
+                         ></motion.div>
+                      ))}
+                   </div>
+                  
+                   {nodes.filter(n => n.stepId === activeStep).length > 0 && activeStep < 4 && (
+                      <button 
+                        onClick={() => goToStep(Math.min(activeStep + 1, 5))}
+                        className="hidden lg:flex z-10 w-24 h-full rounded-[20px] bg-amber-500 text-black font-black flex-col items-center justify-center gap-2 hover:bg-white transition-colors group"
+                      >
+                         <span className="text-xs italic uppercase tracking-tighter">Next Step</span>
+                         <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
+                      </button>
+                   )}
+                </div>
               )}
            </main>
         </div>
