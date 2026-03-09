@@ -25,44 +25,10 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// ─── 데이터베이스 초기화 ─────────────────────────
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app, 'treia');
 
-// 카테고리별 썸네일 베이스 키워드 (Unsplash 고품질 이미지 사용)
-const categoryMeta = {
-  "CFD 기초": {
-    keywords: ["trading", "stocks", "wallstreet"],
-    defaultDifficulty: "입문",
-  },
-  "골드 특화": {
-    keywords: ["gold", "investment", "chart"],
-    defaultDifficulty: "중급",
-  },
-  "기술적 분석": {
-    keywords: ["candlestick", "analysis", "finance"],
-    defaultDifficulty: "중급",
-  },
-  "리스크 관리": {
-    keywords: ["shield", "security", "risk"],
-    defaultDifficulty: "초급",
-  },
-  "자동매매": {
-    keywords: ["robot", "code", "ai"],
-    defaultDifficulty: "중급",
-  },
-  "카피트레이딩": {
-    keywords: ["social-trading", "people", "success"],
-    defaultDifficulty: "입문",
-  },
-  "브로커": {
-    keywords: ["business", "office", "bank"],
-    defaultDifficulty: "입문",
-  },
-  "사기 예방": {
-    keywords: ["scam", "danger", "warning"],
-    defaultDifficulty: "초급",
-  },
-};
 
 // ─── 이미지 풀 설정 (사용자 요청에 따라 부적절한 이미지 배제 및 트레이딩 특화) ─────────────────────────
 const tradingUnsplashIds = [
@@ -73,15 +39,42 @@ const tradingUnsplashIds = [
   "1550751827-4bd374c3f58b", "1502481851512-e9e2529bfbf9", "1534078362425-387b1c3e3906"
 ];
 
-// SVG 캔들 패턴 매핑
+// 전문 시각화 SVG 매핑 (새로 생성된 10종 + 기존 캔들)
 const PATTERN_IMAGES = {
-  "캔들": "/images/patterns/doji.svg",
+  // 캔들 패턴 (기존)
   "도지": "/images/patterns/doji.svg",
   "망치형": "/images/patterns/hammer.svg",
   "상승장악형": "/images/patterns/bullish-engulfing.svg",
   "하락장악형": "/images/patterns/bearish-engulfing.svg",
   "장악형": "/images/patterns/bullish-engulfing.svg",
-  "샛별형": "/images/patterns/morning-star.svg"
+  "샛별형": "/images/patterns/morning-star.svg",
+  
+  // 거래 기초 & 심화 (신규)
+  "CFD": "/images/patterns/cfd.svg",
+  "레버리지": "/images/patterns/leverage.svg",
+  "마진": "/images/patterns/margin.svg",
+  "증거금": "/images/patterns/margin.svg",
+  "스프레드": "/images/patterns/spread.svg",
+  "수수료": "/images/patterns/spread.svg",
+  "피보나치": "/images/patterns/fibonacci.svg",
+  "리스크": "/images/patterns/risk-management.svg",
+  "자금 관리": "/images/patterns/risk-management.svg",
+  "카피트레이딩": "/images/patterns/copytrading.svg",
+  "골드": "/images/patterns/gold-spec.svg",
+  "금": "/images/patterns/gold-spec.svg",
+  "손절": "/images/patterns/stoploss.svg",
+  "스탑로스": "/images/patterns/stoploss.svg",
+  "자동매매": "/images/patterns/ea-logic.svg",
+  "EA": "/images/patterns/ea-logic.svg",
+  "알고리즘": "/images/patterns/ea-logic.svg",
+  "MT5": "/images/patterns/ea-logic.svg",
+  "로직": "/images/patterns/ea-logic.svg",
+  "기법": "/images/patterns/tech-analysis.svg",
+  "분석": "/images/patterns/tech-analysis.svg",
+  "지표": "/images/patterns/tech-analysis.svg",
+  "사기": "/images/patterns/scam-prevention.svg",
+  "주의사항": "/images/patterns/scam-prevention.svg",
+  "피하세요": "/images/patterns/scam-prevention.svg"
 };
 
 function getImageUrlForSection(title, categoryName) {

@@ -1,0 +1,26 @@
+
+    <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+        </marker>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <rect width="400" height="400" fill="#0f172a" />
+      <g filter="url(#glow)">
+        
+    <path d="M50 100 L150 150 L250 120 L350 180" stroke="#94a3b8" stroke-width="4" fill="none" />
+    <line x1="50" y1="200" x2="350" y2="200" stroke="#ef4444" stroke-width="6" stroke-dasharray="10" />
+    <text x="60" y="230" fill="#ef4444" font-weight="bold">STOP LOSS EXIT</text>
+    <circle cx="350" cy="180" r="10" fill="#94a3b8" />
+    <path d="M350 180 L350 300" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow)" />
+  
+      </g>
+    </svg>
+  
