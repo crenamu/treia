@@ -31,111 +31,106 @@ const db = getFirestore(app, 'treia');
 
 
 // ─── 이미지 풀 설정 (사용자 요청에 따라 부적절한 이미지 배제 및 트레이딩 특화) ─────────────────────────
+// ─── 이미지 풀 설정 (사용자 요청에 따라 부수적인 이미지 배제 및 트레이딩 특화) ─────────────────────────
 const tradingUnsplashIds = [
-  "1611974714658-058f4c529944", "1590283603385-17ffb3a7f29f", "1535320903710-d993d3d77d29",
-  "1611095777215-ed39a7b97c8d", "1460925895917-afdab827c52f", "1580519542036-c47de6196ba5",
-  "1610375461246-83df8dfb01d5", "1551288049-bbbda546697c", "1605792657660-596af9009e82",
-  "1543286386-713bdd5486d3", "1549421263-5ec394a5ad4c", "1526628953301-3e589a6a8b74", 
-  "1550751827-4bd374c3f58b", "1502481851512-e9e2529bfbf9", "1534078362425-387b1c3e3906"
+  "tL9NpBM0KhY", "wOZrO7b4Ln0", "tcJ6sJTtTWI", "vFhsyAMbHkE", "zcAgxLryKe4", 
+  "GnWfl_nnZro", "RIQa-DDmC70", "AWXIZmzOrQo", "3PyBkxgTiL0", "wKmUYWs9SjU", 
+  "5o7ctLp7rwE", "Am7fjB3xTKE", "INLOCRTv7Es", "I8Gfv244hzA", "H5Rk4BMWJ9U", 
+  "fiXLQXAhCfk", "sM4r-swmcoY", "vBCVcWUyvyM", "oqStl2L5oxI", "sm3Ub_IJKQg", 
+  "D4LDw5eXhgg", "AUZC0Fybqu8", "z0gszFk1tYk", "9rz5x8LGBb8", "N__BnvQ_w18", 
+  "VTKtPMDouBw", "Q_vhJv5im-8", "RxbkUG80Rag", "eNStVITP_10", "x07ELaNFt34", 
+  "mswEr8ji6BQ", "Wb63zqJ5gnE", "oSmxBx08YJw", "yBIvVaFNWjU", "O5yeor6_3sc", 
+  "XqvAjEJGOO4", "AA5sf7WTv10", "UKVTkmdjva0", "InWI1lteYfU", "MyRHFbfRI0Q", 
+  "LWD60a5a15I", "pqo44QZBKbo", "i09DzZkwnuY", "tGJiVNlMOYI", "XihAgOYNHn4", 
+  "nbWW-5XdKvE", "VM_6EtTAfDQ", "SGrjUUtEIng", "44ls9V31hPc", "b-qYIqLTif0"
 ];
 
-// 전문 시각화 SVG 매핑 (새로 생성된 10종 + 기존 캔들)
+// 전문 시각화 SVG 매핑 (세분화)
 const PATTERN_IMAGES = {
-  // 캔들 패턴 (기존)
+  // 캔들 패턴
+  "캔들스틱 기초": "/images/patterns/candle-ohlc.svg",
+  "주요 캔들 패턴": "/images/patterns/candle-ohlc.svg",
   "도지": "/images/patterns/doji.svg",
   "망치형": "/images/patterns/hammer.svg",
-  "상승장악형": "/images/patterns/bullish-engulfing.svg",
-  "하락장악형": "/images/patterns/bearish-engulfing.svg",
-  "장악형": "/images/patterns/bullish-engulfing.svg",
   "샛별형": "/images/patterns/morning-star.svg",
+  "장악형": "/images/patterns/bullish-engulfing.svg",
   
-  // 거래 기초 & 심화 (신규)
+  // 거래 기초
   "CFD": "/images/patterns/cfd.svg",
   "레버리지": "/images/patterns/leverage.svg",
   "마진": "/images/patterns/margin.svg",
   "증거금": "/images/patterns/margin.svg",
   "스프레드": "/images/patterns/spread.svg",
   "수수료": "/images/patterns/spread.svg",
+  "스왑": "/images/patterns/spread.svg",
+  
+  // 분석 및 도구
   "피보나치": "/images/patterns/fibonacci.svg",
+  "추세": "/images/patterns/tech-analysis.svg",
+  "이동평균선": "/images/patterns/golden-cross.svg",
+  "지지와 저항": "/images/patterns/breakout-up.svg",
+  "매물대": "/images/patterns/tech-analysis.svg",
+  
+  // 리스크 및 자동매매
   "리스크": "/images/patterns/risk-management.svg",
   "자금 관리": "/images/patterns/risk-management.svg",
-  "카피트레이딩": "/images/patterns/copytrading.svg",
-  "골드": "/images/patterns/gold-spec.svg",
-  "금": "/images/patterns/gold-spec.svg",
   "손절": "/images/patterns/stoploss.svg",
   "스탑로스": "/images/patterns/stoploss.svg",
-  "자동매매": "/images/patterns/ea-logic.svg",
-  "EA": "/images/patterns/ea-logic.svg",
-  "알고리즘": "/images/patterns/ea-logic.svg",
-  "MT5": "/images/patterns/ea-logic.svg",
+  "자동매매(EA)란": "/images/patterns/ea-logic.svg",
   "로직": "/images/patterns/ea-logic.svg",
-  "기법": "/images/patterns/tech-analysis.svg",
-  "분석": "/images/patterns/tech-analysis.svg",
-  "지표": "/images/patterns/tech-analysis.svg",
-  "사기": "/images/patterns/scam-prevention.svg",
-  "주의사항": "/images/patterns/scam-prevention.svg",
-  "피하세요": "/images/patterns/scam-prevention.svg",
+  "백테스트": "/images/patterns/ea-logic.svg",
   
-  // 기술적 상세 (신규)
-  "돌파": "/images/patterns/breakout-up.svg",
-  "상방": "/images/patterns/breakout-up.svg",
-  "하방": "/images/patterns/breakout-up.svg",
-  "캔들": "/images/patterns/candle-ohlc.svg",
-  "차트": "/images/patterns/candle-ohlc.svg",
-  "교차": "/images/patterns/golden-cross.svg",
-  "데드크로스": "/images/patterns/golden-cross.svg",
-  "골든크로스": "/images/patterns/golden-cross.svg",
-
-  // 잔여 기본 이미지 제거용 추가 키워드
-  "스왑": "/images/patterns/spread.svg",
-  "타임프레임": "/images/patterns/tech-analysis.svg",
-  "사용법": "/images/patterns/ea-logic.svg",
-  "란?": "/images/patterns/tech-analysis.svg",
-  "기본": "/images/patterns/tech-analysis.svg"
+  // 기타전문
+  "골드": "/images/patterns/gold-spec.svg",
+  "카피트레이딩": "/images/patterns/copytrading.svg",
+  "브로커": "/images/patterns/margin.svg",
+  "사기": "/images/patterns/scam-prevention.svg",
+  "주의사항": "/images/patterns/scam-prevention.svg"
 };
 
 /**
- * 본문 내에 적절한 시각 도표(SVG)를 삽입하는 로직
+ * 아티클 본문 내 SVG 자동 삽입 로직
  */
 function injectInlineVisuals(body, title) {
   let finalBody = body;
   const visuals = [
-    { key: "캔들", path: "/images/patterns/candle-ohlc.svg", alt: "캔들 구조 기초" },
-    { key: "돌파", path: "/images/patterns/breakout-up.svg", alt: "상향 돌파 패턴" },
-    { key: "교차", path: "/images/patterns/golden-cross.svg", alt: "이평선 교차 시그널" },
-    { key: "RSI", path: "/images/patterns/tech-analysis.svg", alt: "Relative Strength Index" },
-    { key: "리스크", path: "/images/patterns/risk-management.svg", alt: "Risk Management Matrix" },
-    { key: "골드", path: "/images/patterns/gold-spec.svg", alt: "Gold Trading Specifications" }
+    { key: "캔들", path: "/images/patterns/candle-ohlc.svg", alt: "캔들 구조 분석" },
+    { key: "돌파", path: "/images/patterns/breakout-up.svg", alt: "저항선 상향 돌파 시나리오" },
+    { key: "교차", path: "/images/patterns/golden-cross.svg", alt: "이평선 골든크로스 시그널" },
+    { key: "RSI", path: "/images/patterns/tech-analysis.svg", alt: "RSI 과매수/과매도 지표" },
+    { key: "리스크", path: "/images/patterns/risk-management.svg", alt: "리스크 관리 매트릭스" },
+    { key: "골드", path: "/images/patterns/gold-spec.svg", alt: "XAUUSD 거래 사양" }
   ];
 
   for (const v of visuals) {
     if (body.includes(v.key) || title.includes(v.key)) {
-      // 첫 번째 문단 끝이나 두 번째 문단 시작 부분에 삽입
       const paragraphs = body.split("\n\n");
       if (paragraphs.length >= 2) {
         paragraphs[1] = `${paragraphs[1]}\n\n![${v.alt}](${v.path})\n`;
         finalBody = paragraphs.join("\n\n");
-        break; // 하나만 삽입
+        break;
       }
     }
   }
   return finalBody;
 }
 
-function getImageUrlForSection(title, categoryName) {
-  // 제목에 패턴 키워드가 있으면 SVG 경로 반환
+function getImageUrlForSection(title, categoryName, sectionId) {
+  // 제목에 정확히 매칭되는 패턴이 있는지 먼저 확인
   for (const [key, path] of Object.entries(PATTERN_IMAGES)) {
     if (title.includes(key)) return path;
   }
 
-  // 해시 기반으로 트레이딩 이미지 풀에서 선택
+  // 중복을 완전히 피하기 위해 sectionId를 해시 시드에 포함
   let hash = 0;
-  const seed = title + categoryName;
+  const seed = title + categoryName + sectionId + "premium_v2";
   for (let i = 0; i < seed.length; i++) {
     hash = seed.charCodeAt(i) + ((hash << 5) - hash);
   }
+  
   const idx = Math.abs(hash) % tradingUnsplashIds.length;
-  return `https://images.unsplash.com/photo-${tradingUnsplashIds[idx]}?q=80&w=800&auto=format&fit=crop`;
+  const photoId = tradingUnsplashIds[idx];
+  return `https://images.unsplash.com/photo-${photoId}?q=80&w=800&auto=format&fit=crop`;
 }
 
 /**
@@ -164,7 +159,7 @@ function parseMarkdownSections(filePath, categoryName) {
           category: categoryName,
           content: finalBody,
           excerpt,
-          thumbnail: getImageUrlForSection(currentTitle, categoryName),
+          thumbnail: getImageUrlForSection(currentTitle, categoryName, currentId),
           difficulty: inferDifficulty(currentId),
         });
       }
@@ -189,7 +184,7 @@ function parseMarkdownSections(filePath, categoryName) {
       category: categoryName,
       content: finalBody,
       excerpt,
-      thumbnail: getImageUrlForSection(currentTitle, categoryName),
+      thumbnail: getImageUrlForSection(currentTitle, categoryName, currentId),
       difficulty: inferDifficulty(currentId),
     });
   }
@@ -288,7 +283,7 @@ async function main() {
                 category: currentCat,
                 content: finalBody,
                 excerpt: extractExcerpt(body),
-                thumbnail: getImageUrlForSection(currentTitle, currentCat),
+                thumbnail: getImageUrlForSection(currentTitle, currentCat, currentId),
                 difficulty: inferDifficulty(currentId),
               });
           }
@@ -315,7 +310,7 @@ async function main() {
           category: cat,
           content: finalBody,
           excerpt: extractExcerpt(body),
-          thumbnail: getImageUrlForSection(currentTitle, cat),
+          thumbnail: getImageUrlForSection(currentTitle, cat, currentId),
           difficulty: inferDifficulty(currentId),
         });
       }

@@ -1,5 +1,5 @@
 'use client'
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { 
   Network, ChevronRight, Zap, Cpu, BarChart3, 
   ShieldCheck, Layers, Filter, Code2, Sparkles, SlidersHorizontal, Trash2, Plus, Play,
@@ -12,6 +12,7 @@ interface LogicNode {
   id: string;
   name: string;
   cat: string;
+  stepId: number;
   params: Record<string, any>;
 }
 
@@ -69,14 +70,28 @@ export default function EABuilderPage() {
   const addNode = (id: string) => {
     const proto = INDICATOR_DB[id as keyof typeof INDICATOR_DB];
     const newNode: LogicNode = {
-      instanceId: `node_${nodes.length}_${id}_${Math.floor(Math.random() * 1000)}`,
+      instanceId: `node_${nodes.length}_${id}_${Date.now()}`,
       id,
       name: proto.name,
       cat: proto.cat,
+      stepId: activeStep,
       params: { ...proto.params }
     };
     setNodes([...nodes, newNode]);
     setSelectedNodeId(newNode.instanceId);
+  };
+
+  const loadBestTemplate = () => {
+    const template: LogicNode[] = [
+      { instanceId: 't1', id: 'ma', name: '이평선 (20)', cat: 'Trend', stepId: 2, params: { period: 20, operator: 'Crosses Up' } },
+      { instanceId: 't2', id: 'and', name: 'AND 게이트', cat: 'Logic', stepId: 2, params: { mode: 'All Conditions' } },
+      { instanceId: 't3', id: 'rsi', name: 'RSI 필터', cat: 'Oscillator', stepId: 2, params: { overbought: 70, operator: '<' } },
+      { instanceId: 't4', id: 'ma', name: '이평선 (20) 데드', cat: 'Trend', stepId: 3, params: { period: 20, operator: 'Crosses Down' } },
+      { instanceId: 't5', id: 'or', name: 'OR 게이트', cat: 'Logic', stepId: 3, params: { mode: 'Any Condition' } },
+      { instanceId: 't6', id: 'rsi', name: 'RSI 과매수', cat: 'Oscillator', stepId: 3, params: { overbought: 75, operator: '>' } },
+    ];
+    setNodes(template);
+    setActiveStep(2);
   };
 
   const updateNodeParam = (instanceId: string, key: string, value: any) => {
@@ -175,7 +190,7 @@ export default function EABuilderPage() {
                           {nodes.length === 0 
                             ? "지표를 추가하면 AI가 전략의 성과를 예측해 드립니다."
                             : nodes.some(n => n.id === 'rsi') && nodes.some(n => n.id === 'ma')
-                              ? "RSI 과매도 구간에서 20이평선 상향 돌파를 기다리는 로직은 골드 5분봉에서 매우 유효합니다. 다만 거래량 필터를 추가해 보세요."
+                              ? "RSI 필터를 적용한 골든크로스 로직은 골드 5분봉에서 매우 유효합니다. 추천 전략 로드 버튼을 눌러보세요."
                               : "현재 로직은 단순합니다. RSI나 이평선 돌파 조건을 AND 게이트로 결합하여 필터링 강도를 높이는 것을 추천합니다."
                           }
                        </p>
@@ -185,11 +200,17 @@ export default function EABuilderPage() {
                        <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
                           <motion.div 
                             initial={{ width: 0 }}
-                            animate={{ width: nodes.length > 0 ? (nodes.length > 2 ? '72%' : '45%') : '0%' }}
+                            animate={{ width: nodes.length > 0 ? (nodes.length > 3 ? '78%' : '45%') : '0%' }}
                             className="bg-emerald-500 h-full shadow-[0_0_10px_#10b981]"
                           ></motion.div>
                        </div>
                     </div>
+                    <button 
+                      onClick={loadBestTemplate}
+                      className="w-full py-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 font-black text-[10px] uppercase hover:bg-amber-500 hover:text-black transition-all"
+                    >
+                       수익 검증된 추천 전략 로드하기
+                    </button>
                  </div>
               </div>
            </aside>
@@ -202,7 +223,7 @@ export default function EABuilderPage() {
                  <div className="p-6 border-b border-gray-800/50 flex flex-wrap justify-between items-center bg-[#181B21]/50 shrink-0 gap-4">
                     <div className="flex items-center gap-3">
                        <div className="w-2 h-8 bg-amber-500 rounded-full"></div>
-                       <h2 className="text-xl font-black text-white tracking-tight">Logic Designer</h2>
+                       <h2 className="text-xl font-black text-white tracking-tight">Logic Designer ({steps.find(s=>s.id===activeStep)?.title})</h2>
                     </div>
                     <div className="flex gap-2">
                        {Object.keys(INDICATOR_DB).map(id => (
@@ -230,8 +251,8 @@ export default function EABuilderPage() {
                           <Play size={24} />
                        </div>
 
-                       <AnimatePresence>
-                          {nodes.map((node, idx) => (
+                       <AnimatePresence mode="popLayout">
+                          {nodes.filter(n => n.stepId === activeStep).map((node, idx) => (
                              <motion.div 
                                key={node.instanceId}
                                layout
@@ -260,7 +281,7 @@ export default function EABuilderPage() {
                                 >
                                    <Trash2 size={14} />
                                 </button>
-                                {idx < nodes.length - 1 && (
+                                {idx < nodes.filter(n => n.stepId === activeStep).length - 1 && (
                                    <div className="absolute -right-12 top-1/2 -translate-y-1/2 text-gray-700">
                                       <ChevronRight size={24} />
                                    </div>
@@ -269,7 +290,7 @@ export default function EABuilderPage() {
                           ))}
                        </AnimatePresence>
 
-                       {nodes.length === 0 && (
+                       {nodes.filter(n => n.stepId === activeStep).length === 0 && (
                           <div className="flex flex-col items-center gap-6 text-gray-700">
                              <div className="w-24 h-24 rounded-[40px] border-4 border-dashed border-gray-800 flex items-center justify-center animate-pulse">
                                 <Plus size={40} />
@@ -278,11 +299,11 @@ export default function EABuilderPage() {
                           </div>
                        )}
 
-                       {nodes.length > 0 && (
+                       {nodes.filter(n => n.stepId === activeStep).length > 0 && (
                           <div className="flex items-center gap-12 shrink-0">
                              <div className="text-gray-700"><ChevronRight size={24} /></div>
                              <div className="w-20 h-20 rounded-[28px] bg-emerald-500 border-4 border-emerald-400/30 flex items-center justify-center text-black shadow-2xl shadow-emerald-500/20 font-black text-sm italic tracking-tighter">
-                                ORDER
+                                NEXT
                              </div>
                           </div>
                        )}
@@ -353,7 +374,7 @@ export default function EABuilderPage() {
                        </div>
                     ) : (
                        <div className="flex-grow flex flex-col items-center justify-center gap-4 border-2 border-dashed border-gray-800 rounded-[28px] opacity-40">
-                          <Info size={32} />
+                          <HelpCircle size={32} />
                           <p className="text-xs font-bold uppercase tracking-widest">지표 노드를 선택하세요</p>
                        </div>
                     )}
@@ -369,13 +390,13 @@ export default function EABuilderPage() {
                           <div className="flex flex-col items-end">
                              <span className="text-[10px] text-gray-600 font-black uppercase tracking-tighter mb-1">Profit Factor</span>
                              <span className="text-2xl font-black text-amber-500">
-                               {nodes.length > 1 ? "1.84" : nodes.length === 1 ? "1.05" : "0.00"}
+                                {nodes.length > 3 ? "1.92" : nodes.length > 1 ? "1.84" : nodes.length === 1 ? "1.05" : "0.00"}
                              </span>
                           </div>
                           <div className="flex flex-col items-end">
                              <span className="text-[10px] text-gray-600 font-black uppercase tracking-tighter mb-1">Max Drawdown</span>
                              <span className={`text-2xl font-black ${nodes.length > 0 ? 'text-red-500' : 'text-gray-500'}`}>
-                               {nodes.length > 0 ? "4.2%" : "0.0%"}
+                                {nodes.length > 0 ? "3.8%" : "0.0%"}
                              </span>
                           </div>
                        </div>
@@ -388,7 +409,7 @@ export default function EABuilderPage() {
                             initial={{ height: 10 }}
                             animate={{ 
                               height: nodes.length > 0 
-                                ? `${40 + Math.sin((i+nodes.length)*0.5) * 30 + Math.random()*20}%` 
+                                ? `${40 + Math.sin((i+nodes.length)*0.5) * 40}%` 
                                 : '10%' 
                             }}
                             className={`flex-grow rounded-t-lg transition-all duration-700 ${
@@ -410,56 +431,40 @@ export default function EABuilderPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl flex items-center justify-center p-6"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-6"
           >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              className="bg-[#14161B] border border-amber-500/30 p-10 rounded-[40px] max-w-xl w-full shadow-2xl relative"
-            >
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-16 h-16 rounded-3xl bg-amber-500 flex items-center justify-center text-black">
-                   <Target size={32} />
+             <motion.div 
+               initial={{ scale: 0.9, y: 20 }}
+               animate={{ scale: 1, y: 0 }}
+               className="bg-[#1C2128] border border-amber-500/30 p-12 rounded-[40px] max-w-xl w-full shadow-[0_0_50px_rgba(245,158,11,0.2)]"
+             >
+                <div className="w-20 h-20 rounded-3xl bg-amber-500/10 flex items-center justify-center text-amber-500 mb-8 mx-auto">
+                   <HelpCircle size={40} />
                 </div>
-                <div>
-                  <h2 className="text-2xl font-black text-white tracking-tighter">{guides[guideStep].title}</h2>
-                  <p className="text-xs font-bold text-amber-500 uppercase tracking-widest">Step {guideStep + 1} of {guides.length}</p>
-                </div>
-              </div>
-              
-              <p className="text-lg text-gray-400 font-medium leading-relaxed mb-10 [word-break:keep-all]">
-                {guides[guideStep].text}
-              </p>
-
-              <div className="flex items-center justify-between border-t border-gray-800 pt-8">
-                <div className="flex gap-2">
-                  {guides.map((_, i) => (
-                    <div key={i} className={`w-8 h-1.5 rounded-full transition-all ${i === guideStep ? 'bg-amber-500 w-12' : 'bg-gray-800'}`}></div>
-                  ))}
-                </div>
+                <h2 className="text-3xl font-black text-center text-white mb-4 uppercase tracking-tighter">{guides[guideStep].title}</h2>
+                <p className="text-gray-400 text-center leading-relaxed font-medium mb-12">{guides[guideStep].text}</p>
                 
-                <div className="flex gap-3">
-                  {guideStep < guides.length - 1 ? (
-                    <button 
-                      onClick={() => setGuideStep(prev => prev + 1)}
-                      className="px-8 py-3 bg-amber-500 text-black font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
-                    >
-                      다음 <ChevronRight size={18} className="inline ml-1" />
-                    </button>
-                  ) : (
-                    <button 
-                      onClick={() => setShowGuide(false)}
-                      className="px-8 py-3 bg-white text-black font-black uppercase tracking-widest rounded-xl hover:bg-amber-500 transition-all font-black shadow-xl"
-                    >
-                      시작하기
-                    </button>
-                  )}
+                <div className="flex gap-4">
+                   <button 
+                     onClick={() => setShowGuide(false)}
+                     className="flex-grow py-4 rounded-2xl bg-gray-800 text-white font-bold uppercase text-xs"
+                   >
+                     닫기
+                   </button>
+                   <button 
+                     onClick={() => {
+                        if (guideStep < guides.length - 1) setGuideStep(guideStep + 1);
+                        else setShowGuide(false);
+                     }}
+                     className="flex-grow py-4 rounded-2xl bg-amber-500 text-black font-black uppercase text-xs shadow-xl shadow-amber-500/20"
+                   >
+                     {guideStep < guides.length - 1 ? "다음 단계" : "시작하기"}
+                   </button>
                 </div>
-              </div>
-            </motion.div>
+             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }
