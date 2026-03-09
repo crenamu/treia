@@ -67,11 +67,50 @@ export default function Home() {
     <div className="container mx-auto px-6 py-12 flex flex-col gap-12 max-w-7xl">
 
 
-      {/* Top Dashboards: Telegram & Calendar */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full items-stretch">
          <TelegramSignals />
          <EconomicCalendar />
       </section>
+
+      {/* 텔래그램 아래로 이동된 교육 인사이트 */}
+      <div className="flex flex-col gap-8 w-full py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 text-amber-500 mb-1">
+              <GraduationCap size={16} />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Premium Insights</span>
+            </div>
+            <h2 className="text-3xl font-black tracking-tighter text-white">트레이아 인사이트</h2>
+          </div>
+          <Link href="/education" className="text-xs font-bold text-gray-500 hover:text-amber-500 transition-colors flex items-center gap-2 group">
+            전체 보기 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+
+        <InsightCarousel>
+          {insightArticles.length > 0 ? (
+            insightArticles.map((article) => (
+              <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
+                <Link href={`/education/${article.id}`} className="block h-full">
+                  <ArticleCard 
+                    title={article.title}
+                    category={article.category}
+                    summary={article.excerpt}
+                    imageUrl={article.thumbnail}
+                    date={article.createdAt ? new Date(article.createdAt.seconds * 1000).toLocaleDateString() : ''}
+                    source={article.source || "Treia Official"}
+                    difficulty={(article.difficulty as "입문" | "중급" | "고급") || "입문"}
+                  />
+                </Link>
+              </div>
+            ))
+          ) : (
+            [1, 2, 3, 4].map((i) => (
+              <div key={i} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] shrink-0 bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
+            ))
+          )}
+        </InsightCarousel>
+      </div>
 
 
 
@@ -175,45 +214,7 @@ export default function Home() {
         />
       </div>
 
-      {/* 교육 인사이트 섹션 추가 */}
-      <div className="mt-20 mb-12">
-        <div className="flex items-end justify-between mb-8">
-          <div>
-            <div className="flex items-center gap-2 text-amber-500 font-bold text-xs uppercase tracking-[0.2em] mb-3">
-              <GraduationCap size={16} />
-              <span>Premium Insights</span>
-            </div>
-            <h2 className="text-3xl font-black text-white tracking-tight">트레이아 인사이트</h2>
-          </div>
-          <Link href="/education" className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-white transition-colors group">
-            전체 보기 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-        
-        <InsightCarousel>
-          {insightArticles.length > 0 ? (
-            insightArticles.map((article) => (
-              <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
-                <Link href={`/education/${article.id}`} className="block h-full">
-                  <ArticleCard 
-                    title={article.title}
-                    category={article.category}
-                    summary={article.excerpt}
-                    imageUrl={article.thumbnail}
-                    date={article.createdAt ? new Date(article.createdAt.seconds * 1000).toLocaleDateString() : ''}
-                    source={article.source || "Treia Official"}
-                    difficulty={(article.difficulty as "입문" | "중급" | "고급") || "입문"}
-                  />
-                </Link>
-              </div>
-            ))
-          ) : (
-            [1, 2, 3, 4].map((i) => (
-              <div key={i} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] shrink-0 bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
-            ))
-          )}
-        </InsightCarousel>
-      </div>
+
     </div>
   );
 }
