@@ -74,15 +74,13 @@ function injectInlineVisuals(body, title) {
 }
 
 // 중복 방지를 위해 할당된 인덱스 추적
-let articleCounter = 0;
+let globalImageCounter = 0;
 
-function getImageUrlForSection(title, categoryName, sectionId) {
-  // 중복을 완전히 배제하기 위해 순차적으로 할당하거나 더 고유한 해시 사용
-  // 여기서는 sectionId를 숫자로 변환하여 고유 인덱스 생성
-  const parts = sectionId.split("-").map(Number);
-  const uniqueIdx = (parts[0] * 10 + (parts[1] || 0)) % backgroundImages.length;
+function getImageUrlForSection() {
+  const idx = globalImageCounter % backgroundImages.length;
+  globalImageCounter++;
   
-  const photoId = backgroundImages[uniqueIdx];
+  const photoId = backgroundImages[idx];
   return `https://images.unsplash.com/photo-${photoId}?q=80&w=800&auto=format&fit=crop`;
 }
 
@@ -112,7 +110,7 @@ function parseMarkdownSections(filePath, categoryName) {
           category: categoryName,
           content: finalBody,
           excerpt,
-          thumbnail: getImageUrlForSection(currentTitle, categoryName, currentId),
+          thumbnail: getImageUrlForSection(),
           difficulty: inferDifficulty(currentId),
         });
       }
@@ -137,7 +135,7 @@ function parseMarkdownSections(filePath, categoryName) {
       category: categoryName,
       content: finalBody,
       excerpt,
-      thumbnail: getImageUrlForSection(currentTitle, categoryName, currentId),
+      thumbnail: getImageUrlForSection(),
       difficulty: inferDifficulty(currentId),
     });
   }
@@ -236,7 +234,7 @@ async function main() {
                 category: currentCat,
                 content: finalBody,
                 excerpt: extractExcerpt(body),
-                thumbnail: getImageUrlForSection(currentTitle, currentCat, currentId),
+                thumbnail: getImageUrlForSection(),
                 difficulty: inferDifficulty(currentId),
               });
           }
@@ -263,7 +261,7 @@ async function main() {
           category: cat,
           content: finalBody,
           excerpt: extractExcerpt(body),
-          thumbnail: getImageUrlForSection(currentTitle, cat, currentId),
+          thumbnail: getImageUrlForSection(),
           difficulty: inferDifficulty(currentId),
         });
       }

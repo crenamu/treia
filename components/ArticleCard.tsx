@@ -39,17 +39,18 @@ export default function ArticleCard({
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out grayscale-[20%] group-hover:grayscale-0"
             onError={() => setImageError(true)}
+            unoptimized={imageUrl.includes('unsplash.com')} // Unsplash는 가끔 Next.js 최적화와 충돌할 수 있음
           />
         ) : (
-          /* Placeholder Pattern if no image */
-          <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity">
-            <div className="absolute inset-0" style={{ 
-              backgroundImage: `radial-gradient(circle at 2px 2px, #f59e0b 1px, transparent 0)`,
-              backgroundSize: '24px 24px' 
-            }}></div>
-            <div className="flex items-center justify-center h-full">
-               <Sparkles size={48} className="text-amber-500/30" />
-            </div>
+          /* Professional Photo Fallback instead of SVG */
+          <div className="absolute inset-0">
+            <Image 
+              src={`https://images.unsplash.com/photo-1611974717482-58a00f7484d0?q=80&w=800&auto=format&fit=crop`} 
+              alt="fallback"
+              fill
+              className="object-cover opacity-40 grayscale group-hover:grayscale-0 transition-all duration-700"
+            />
+            <div className="absolute inset-0 bg-amber-500/10 mix-blend-overlay"></div>
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#14161B] via-transparent to-transparent opacity-80"></div>
