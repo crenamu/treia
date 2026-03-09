@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react";
 import { Bot, ShieldCheck, Download, Monitor, Filter, Star, Info, ChevronRight, Zap } from "lucide-react";
+import Link from "next/link";
 
 interface EADevice {
   id: string;
@@ -109,6 +110,24 @@ export default function EAPage() {
         {filteredEAs.map(ea => (
           <EACard key={ea.id} {...ea} />
         ))}
+      </div>
+
+      {/* EA Builder Banner */}
+      <div className="relative overflow-hidden rounded-[40px] bg-gradient-to-r from-amber-600 to-amber-400 p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8 group shadow-2xl shadow-amber-500/10 hover:shadow-amber-500/20 transition-all cursor-pointer" onClick={() => window.location.href = '/ea/builder'}>
+         <div className="absolute -top-32 -right-32 w-96 h-96 bg-white/20 blur-[120px] rounded-full pointer-events-none group-hover:bg-white/30 transition-all"></div>
+         <div className="z-10 flex flex-col gap-4 text-black max-w-2xl">
+            <h2 className="text-3xl md:text-5xl font-black font-outfit tracking-tight uppercase leading-none">
+               Build Your Own EA
+            </h2>
+            <p className="text-sm md:text-base font-bold opacity-80 leading-relaxed">
+               코딩을 몰라도 괜찮습니다. TREIA의 노코드 EA 제작 도구를 사용해 나만의 트레이딩 전략(지표, 캔들패턴, 지지/저항 등)을 자동화된 봇으로 만들어보세요.
+            </p>
+         </div>
+         <div className="z-10">
+            <Link href="/ea/builder" className="inline-flex items-center gap-2 px-8 py-4 bg-black text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-gray-900 hover:scale-105 transition-all w-full md:w-auto justify-center">
+               제작 도구 열기 <Zap size={18} className="text-amber-500" />
+            </Link>
+         </div>
       </div>
 
       {/* Verification & Guide Section */}

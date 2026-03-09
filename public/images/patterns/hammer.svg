@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" style="background-color: transparent;">
+  <!-- Grid -->
+  <line x1="0" y1="100" x2="200" y2="100" stroke="#334155" stroke-width="1" stroke-dasharray="4" opacity="0.5" />
+  <line x1="100" y1="0" x2="100" y2="200" stroke="#334155" stroke-width="1" stroke-dasharray="4" opacity="0.5" />
+  
+    <!-- Hammer (Long lower wick, small body at the top) -->
+    <line x1="100" y1="50" x2="100" y2="150" stroke="#10B981" stroke-width="3" />
+    <rect x="85" y="50" width="30" height="25" fill="#10B981" />
+  
+</svg>

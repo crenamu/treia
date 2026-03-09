@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" style="background-color: transparent;">
+  <!-- Grid -->
+  <line x1="0" y1="100" x2="200" y2="100" stroke="#334155" stroke-width="1" stroke-dasharray="4" opacity="0.5" />
+  <line x1="100" y1="0" x2="100" y2="200" stroke="#334155" stroke-width="1" stroke-dasharray="4" opacity="0.5" />
+  
+    <!-- Doji (Open and Close are almost identical) -->
+    <!-- Wick -->
+    <line x1="100" y1="40" x2="100" y2="160" stroke="#F59E0B" stroke-width="3" />
+    <!-- Body -->
+    <rect x="85" y="98" width="30" height="4" fill="#F59E0B" />
+  
+</svg>

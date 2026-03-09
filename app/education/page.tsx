@@ -1,6 +1,6 @@
 'use client'
-import { useEffect, useState } from 'react';
-import { ArrowLeft, GraduationCap, Search, Filter } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
+import { ArrowLeft, ChevronLeft, ChevronRight, GraduationCap, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
 import ArticleCard from '@/components/ArticleCard';
 
@@ -79,43 +79,7 @@ export default function EducationListPage() {
         ) : articles.length > 0 ? (
           <div className="flex flex-col gap-16">
             {Array.from(new Set(articles.map(a => a.category))).map(category => (
-              <section key={category} className="flex flex-col gap-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-black text-white flex items-center gap-3">
-                    <span className="w-2 h-8 bg-amber-500 rounded-r-xl inline-block -ml-6"></span>
-                    {category}
-                  </h2>
-                  <button className="text-sm font-bold text-amber-500 hover:text-white transition-colors">
-                    모두 보기
-                  </button>
-                </div>
-                
-                {/* Horizontal Scroll Container */}
-                <div className="flex overflow-x-auto gap-6 pb-8 snap-x border-t border-b border-transparent hover:border-b-gray-800/20 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                  {articles.filter(a => a.category === category).map((article) => (
-                    <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
-                      <Link href={`/education/${article.id}`} className="block h-full">
-                        <ArticleCard 
-                          title={article.title}
-                          category={article.category}
-                          summary={article.excerpt}
-                          imageUrl={article.thumbnail}
-                          date={article.createdAt
-                            ? (() => {
-                                const c = article.createdAt;
-                                if (typeof c === 'string') return new Date(c).toLocaleDateString('ko-KR');
-                                const sec = (c as any)._seconds ?? (c as any).seconds;
-                                return sec ? new Date(sec * 1000).toLocaleDateString('ko-KR') : '-';
-                              })()
-                            : '-'}
-                          source={article.source || "Treia Official"}
-                          difficulty={(article.difficulty as any) || "입문"}
-                        />
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </section>
+              <CategorySection key={category} category={category} articles={articles.filter(a => a.category === category)} />
             ))}
           </div>
         ) : (
@@ -125,5 +89,81 @@ export default function EducationListPage() {
         )}
       </div>
     </div>
+  );
+}
+
+function CategorySection({ category, articles }: { category: string, articles: InsightArticle[] }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -350, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 350, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section className="flex flex-col gap-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-black text-white flex items-center gap-3">
+          <span className="w-2 h-8 bg-amber-500 rounded-r-xl inline-block -ml-6"></span>
+          {category}
+        </h2>
+        <div className="flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-2">
+            <button 
+              onClick={scrollLeft}
+              className="w-10 h-10 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 hover:border-amber-500/50 transition-all"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button 
+              onClick={scrollRight}
+              className="w-10 h-10 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 hover:border-amber-500/50 transition-all"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+          <Link href={`/education?category=${encodeURIComponent(category)}`} className="text-sm font-bold text-amber-500 hover:text-white transition-colors">
+            모두 보기
+          </Link>
+        </div>
+      </div>
+      
+      {/* Horizontal Scroll Container */}
+      <div 
+        ref={scrollRef}
+        className="flex overflow-x-auto gap-6 pb-8 snap-x border-t border-b border-transparent hover:border-b-gray-800/20 scrollbar-hide" 
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {articles.map((article) => (
+          <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
+            <Link href={`/education/${article.id}`} className="block h-full">
+              <ArticleCard 
+                title={article.title}
+                category={article.category}
+                summary={article.excerpt}
+                imageUrl={article.thumbnail}
+                date={article.createdAt
+                  ? (() => {
+                      const c = article.createdAt as { _seconds?: number, seconds?: number };
+                      if (typeof c === 'string') return new Date(c).toLocaleDateString('ko-KR');
+                      const sec = c._seconds ?? c.seconds;
+                      return sec ? new Date(sec * 1000).toLocaleDateString('ko-KR') : '-';
+                    })()
+                  : '-'}
+                source={article.source || "Treia Official"}
+                difficulty={(article.difficulty as "입문" | "중급" | "고급") || "입문"}
+              />
+            </Link>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

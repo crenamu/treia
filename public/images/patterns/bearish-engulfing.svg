@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" style="background-color: transparent;">
+  <!-- Grid -->
+  <line x1="0" y1="100" x2="200" y2="100" stroke="#334155" stroke-width="1" stroke-dasharray="4" opacity="0.5" />
+  <line x1="100" y1="0" x2="100" y2="200" stroke="#334155" stroke-width="1" stroke-dasharray="4" opacity="0.5" />
+  
+    <!-- Small Bullish Candle -->
+    <line x1="60" y1="70" x2="60" y2="120" stroke="#10B981" stroke-width="2" />
+    <rect x="50" y="80" width="20" height="30" fill="#10B981" />
+    
+    <!-- Large Bearish Candle engulfing the previous one -->
+    <line x1="140" y1="30" x2="140" y2="140" stroke="#EF4444" stroke-width="2" />
+    <rect x="125" y="40" width="30" height="90" fill="#EF4444" />
+  
+</svg>
