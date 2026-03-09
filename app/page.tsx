@@ -9,6 +9,7 @@ import EconomicCalendar from "@/components/EconomicCalendar";
 import TelegramSignals from "@/components/TelegramSignals";
 import ArticleCard from '@/components/ArticleCard';
 import InsightCarousel from "@/components/InsightCarousel";
+import EABuilderPreview from "@/components/EABuilderPreview";
 
 interface CuratedNews {
   id: number;
@@ -111,6 +112,9 @@ export default function Home() {
           )}
         </InsightCarousel>
       </div>
+
+      {/* 인사이트 바로 아래 EA 빌더 배치 (심사숙고 결과) */}
+      <EABuilderPreview />
 
 
 

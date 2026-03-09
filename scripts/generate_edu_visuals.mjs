@@ -114,11 +114,42 @@ const templates = {
   `,
   // 10. Automated Trading (EA)
   'ea-logic': `
-    <rect x="100" y="100" width="200" height="200" rx="20" fill="none" stroke="${COLORS.gold}" stroke-width="4" />
-    <path d="M150 150 L250 150 M150 200 L250 200 M150 250 L250 250" stroke="${COLORS.gold}" stroke-width="2" />
-    <circle cx="200" cy="150" r="5" fill="${COLORS.gold}" />
-    <rect x="120" y="80" width="40" height="20" fill="${COLORS.gold}" />
-    <text x="310" y="200" fill="${COLORS.gold}" font-family="monospace">IF (RSI < 30) BUY;</text>
+    <rect x="50" y="50" width="300" height="300" rx="20" fill="none" stroke="${COLORS.gold}" stroke-width="4" />
+    <text x="70" y="100" fill="${COLORS.gold}" font-family="monospace">IF (RSI < 30) {</text>
+    <text x="90" y="140" fill="${COLORS.bull}" font-family="monospace">  BUY_ORDER();</text>
+    <text x="70" y="180" fill="${COLORS.gold}" font-family="monospace">}</text>
+  `,
+  // 13. Breakout Up
+  'breakout-up': `
+    <line x1="50" y1="200" x2="350" y2="200" stroke="${COLORS.white}" stroke-width="4" opacity="0.5" />
+    <text x="50" y="180" fill="${COLORS.white}" font-size="12">RESISTANCE</text>
+    <rect x="100" y="220" width="40" height="60" fill="${COLORS.bull}" />
+    <rect x="180" y="210" width="40" height="70" fill="${COLORS.bull}" />
+    <rect x="260" y="130" width="40" height="60" fill="${COLORS.bull}" stroke="${COLORS.white}" stroke-width="2" />
+    <path d="M280 190 L280 100" stroke="${COLORS.gold}" stroke-width="4" marker-end="url(#arrow)" />
+    <text x="300" y="120" fill="${COLORS.gold}" font-weight="bold">BREAKOUT & CLOSE ABOVE</text>
+  `,
+  // 14. Candle OHLC
+  'candle-ohlc': `
+    <line x1="200" y1="50" x2="200" y2="350" stroke="${COLORS.white}" stroke-width="2" />
+    <rect x="150" y="100" width="100" height="200" fill="${COLORS.bull}" stroke="${COLORS.white}" stroke-width="2" />
+    <line x1="250" y1="300" x2="300" y2="300" stroke="${COLORS.white}" stroke-width="1" />
+    <text x="310" y="305" fill="${COLORS.white}">Open</text>
+    <line x1="250" y1="100" x2="300" y2="100" stroke="${COLORS.white}" stroke-width="1" />
+    <text x="310" y="105" fill="${COLORS.white}">Close</text>
+    <line x1="200" y1="50" x2="250" y2="50" stroke="${COLORS.white}" stroke-width="1" />
+    <text x="260" y="55" fill="${COLORS.white}">High</text>
+    <line x1="200" y1="350" x2="250" y2="350" stroke="${COLORS.white}" stroke-width="1" />
+    <text x="260" y="355" fill="${COLORS.white}">Low</text>
+  `,
+  // 15. Golden Cross
+  'golden-cross': `
+    <path d="M50 300 Q200 250 350 100" stroke="${COLORS.bull}" stroke-width="6" fill="none" />
+    <path d="M50 250 Q200 250 350 230" stroke="${COLORS.gold}" stroke-width="3" fill="none" opacity="0.7" />
+    <circle cx="180" cy="250" r="30" stroke="${COLORS.white}" stroke-width="2" fill="none" stroke-dasharray="4" />
+    <text x="220" y="270" fill="${COLORS.white}" font-weight="bold">GOLDEN CROSS</text>
+    <text x="50" y="330" fill="${COLORS.bull}" font-size="12">Fast MA</text>
+    <text x="50" y="230" fill="${COLORS.gold}" font-size="12">Slow MA</text>
   `
 };
 

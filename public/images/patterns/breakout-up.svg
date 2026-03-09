@@ -15,10 +15,13 @@
       <rect width="400" height="400" fill="#0f172a" />
       <g filter="url(#glow)">
         
-    <rect x="50" y="50" width="300" height="300" rx="20" fill="none" stroke="#f59e0b" stroke-width="4" />
-    <text x="70" y="100" fill="#f59e0b" font-family="monospace">IF (RSI < 30) {</text>
-    <text x="90" y="140" fill="#22c55e" font-family="monospace">  BUY_ORDER();</text>
-    <text x="70" y="180" fill="#f59e0b" font-family="monospace">}</text>
+    <line x1="50" y1="200" x2="350" y2="200" stroke="#ffffff" stroke-width="4" opacity="0.5" />
+    <text x="50" y="180" fill="#ffffff" font-size="12">RESISTANCE</text>
+    <rect x="100" y="220" width="40" height="60" fill="#22c55e" />
+    <rect x="180" y="210" width="40" height="70" fill="#22c55e" />
+    <rect x="260" y="130" width="40" height="60" fill="#22c55e" stroke="#ffffff" stroke-width="2" />
+    <path d="M280 190 L280 100" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow)" />
+    <text x="300" y="120" fill="#f59e0b" font-weight="bold">BREAKOUT & CLOSE ABOVE</text>
   
       </g>
     </svg>

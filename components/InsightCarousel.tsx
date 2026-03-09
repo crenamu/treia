@@ -1,7 +1,7 @@
 'use client';
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useSpring, animate, PanInfo, AnimatePresence } from 'framer-motion';
 
 interface InsightCarouselProps {
   children: React.ReactNode;
@@ -9,114 +9,139 @@ interface InsightCarouselProps {
 
 export default function InsightCarousel({ children }: InsightCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  
   const [isHovered, setIsHovered] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [trackWidth, setTrackWidth] = useState(0);
+  const [viewWidth, setViewWidth] = useState(0);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(true);
 
-  // Auto-scroll logic with precise frame-based speed control
+  const x = useMotionValue(0);
+  
+  // Spring for "Apple-style" smoothness
+  const springConfig = { stiffness: 400, damping: 40, mass: 1 };
+  const springX = useSpring(x, springConfig);
+
+  // Resize handling
   useEffect(() => {
-    let frameId: number;
-    let lastTime = 0;
-    const speed = 40; // Pixels per second
-
-    const animate = (time: number) => {
-      if (!lastTime) lastTime = time;
-      const deltaTime = (time - lastTime) / 1000;
-      lastTime = time;
-
-      if (!isHovered && containerRef.current) {
-        containerRef.current.scrollLeft += speed * deltaTime;
-        
-        // Loop around for an infinite carousel feel
-        if (containerRef.current.scrollLeft >= containerRef.current.scrollWidth - containerRef.current.clientWidth - 1) {
-          containerRef.current.scrollLeft = 0;
-        }
+    const updateWidths = () => {
+      if (trackRef.current && containerRef.current) {
+        setTrackWidth(trackRef.current.scrollWidth);
+        setViewWidth(containerRef.current.offsetWidth);
       }
-      frameId = requestAnimationFrame(animate);
+    };
+    updateWidths();
+    window.addEventListener('resize', updateWidths);
+    return () => window.removeEventListener('resize', updateWidths);
+  }, [children]);
+
+  const maxScroll = useMemo(() => {
+    return Math.max(0, trackWidth - viewWidth);
+  }, [trackWidth, viewWidth]);
+
+  // Update arrow visibility on x change
+  useEffect(() => {
+    return x.on("change", (latest) => {
+      setShowLeft(latest < -10);
+      setShowRight(latest > -maxScroll + 10);
+    });
+  }, [x, maxScroll]);
+
+  // Auto-scroll logic (Slowly move to the left)
+  useEffect(() => {
+    if (isHovered || maxScroll <= 0) return;
+
+    const speed = 0.5; // pixels per frame approx
+    let frameId: number;
+
+    const move = () => {
+      const currentX = x.get();
+      let nextX = currentX - speed;
+      
+      // Loop back if reached the end
+      if (Math.abs(nextX) >= maxScroll) {
+        nextX = 0;
+      }
+      
+      x.set(nextX);
+      frameId = requestAnimationFrame(move);
     };
 
-    frameId = requestAnimationFrame(animate);
+    frameId = requestAnimationFrame(move);
     return () => cancelAnimationFrame(frameId);
-  }, [isHovered]);
+  }, [isHovered, maxScroll, x]);
 
-  const updateScrollButtons = useCallback(() => {
-    if (containerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
-      setCanScrollLeft(scrollLeft > 10);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  }, []);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (el) {
-      el.addEventListener('scroll', updateScrollButtons);
-      return () => el.removeEventListener('scroll', updateScrollButtons);
-    }
-  }, [updateScrollButtons]);
+  const handleDrag = (_: any, info: PanInfo) => {
+    const newX = x.get() + info.delta.x;
+    // Bounds clamping
+    const clampedX = Math.min(0, Math.max(-maxScroll, newX));
+    x.set(clampedX);
+  };
 
   const scrollHandler = (direction: 'left' | 'right') => {
-    if (containerRef.current) {
-      const distance = 420; // Matches typical card width + gap
-      const target = containerRef.current.scrollLeft + (direction === 'left' ? -distance : distance);
-      
-      containerRef.current.scrollTo({
-        left: target,
-        behavior: 'smooth'
-      });
-    }
+    const step = 420; // Card width + gap
+    const currentX = x.get();
+    let targetX = direction === 'left' ? currentX + step : currentX - step;
+    
+    // Boundary check
+    targetX = Math.min(0, Math.max(-maxScroll, targetX));
+    
+    animate(x, targetX, {
+      type: "spring",
+      ...springConfig
+    });
   };
 
   return (
     <div 
-      className="relative w-full group"
+      ref={containerRef}
+      className="relative w-full overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Arrows */}
       <AnimatePresence>
-        {canScrollLeft && (
+        {showLeft && (
           <motion.button 
-            initial={{ opacity: 0, x: 20, scale: 0.8 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 20, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
             whileHover={{ scale: 1.1, backgroundColor: '#f59e0b', color: '#000' }}
-            whileTap={{ scale: 0.9 }}
             onClick={() => scrollHandler('left')}
-            className="absolute -left-6 top-1/2 -translate-y-1/2 z-40 w-14 h-14 rounded-full bg-black/80 border border-amber-500/50 flex items-center justify-center text-amber-500 shadow-[0_0_40px_rgba(0,0,0,0.9)] backdrop-blur-md transition-shadow hover:shadow-amber-500/20"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-black/80 border border-amber-500/50 flex items-center justify-center text-amber-500 shadow-2xl backdrop-blur-md"
           >
-            <ChevronLeft size={32} />
+            <ChevronLeft size={28} />
           </motion.button>
         )}
       </AnimatePresence>
 
       <AnimatePresence>
-        {canScrollRight && (
+        {showRight && (
           <motion.button 
-            initial={{ opacity: 0, x: -20, scale: 0.8 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -20, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
             whileHover={{ scale: 1.1, backgroundColor: '#f59e0b', color: '#000' }}
-            whileTap={{ scale: 0.9 }}
             onClick={() => scrollHandler('right')}
-            className="absolute -right-6 top-1/2 -translate-y-1/2 z-40 w-14 h-14 rounded-full bg-black/80 border border-amber-500/50 flex items-center justify-center text-amber-500 shadow-[0_0_40px_rgba(0,0,0,0.9)] backdrop-blur-md transition-shadow hover:shadow-amber-500/20"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-black/80 border border-amber-500/50 flex items-center justify-center text-amber-500 shadow-2xl backdrop-blur-md"
           >
-            <ChevronRight size={32} />
+            <ChevronRight size={28} />
           </motion.button>
         )}
       </AnimatePresence>
 
-      <div 
-        ref={containerRef}
-        className="flex overflow-x-auto gap-8 pb-12 pt-4 px-2 scrollbar-hide snap-x select-none cursor-grab active:cursor-grabbing" 
-        style={{ 
-          scrollbarWidth: 'none', 
-          msOverflowStyle: 'none',
-          WebkitOverflowScrolling: 'touch',
-          scrollBehavior: 'smooth'
-        }}
+      <motion.div 
+        ref={trackRef}
+        drag="x"
+        dragConstraints={{ left: -maxScroll, right: 0 }}
+        dragElastic={0.1}
+        onDrag={handleDrag}
+        style={{ x: springX }}
+        className="flex gap-8 pb-10 pt-4 px-2 cursor-grab active:cursor-grabbing shrink-0"
       >
         {children}
-      </div>
+      </motion.div>
     </div>
   );
 }

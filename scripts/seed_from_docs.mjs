@@ -74,8 +74,53 @@ const PATTERN_IMAGES = {
   "지표": "/images/patterns/tech-analysis.svg",
   "사기": "/images/patterns/scam-prevention.svg",
   "주의사항": "/images/patterns/scam-prevention.svg",
-  "피하세요": "/images/patterns/scam-prevention.svg"
+  "피하세요": "/images/patterns/scam-prevention.svg",
+  
+  // 기술적 상세 (신규)
+  "돌파": "/images/patterns/breakout-up.svg",
+  "상방": "/images/patterns/breakout-up.svg",
+  "하방": "/images/patterns/breakout-up.svg",
+  "캔들": "/images/patterns/candle-ohlc.svg",
+  "차트": "/images/patterns/candle-ohlc.svg",
+  "교차": "/images/patterns/golden-cross.svg",
+  "데드크로스": "/images/patterns/golden-cross.svg",
+  "골든크로스": "/images/patterns/golden-cross.svg",
+
+  // 잔여 기본 이미지 제거용 추가 키워드
+  "스왑": "/images/patterns/spread.svg",
+  "타임프레임": "/images/patterns/tech-analysis.svg",
+  "사용법": "/images/patterns/ea-logic.svg",
+  "란?": "/images/patterns/tech-analysis.svg",
+  "기본": "/images/patterns/tech-analysis.svg"
 };
+
+/**
+ * 본문 내에 적절한 시각 도표(SVG)를 삽입하는 로직
+ */
+function injectInlineVisuals(body, title) {
+  let finalBody = body;
+  const visuals = [
+    { key: "캔들", path: "/images/patterns/candle-ohlc.svg", alt: "캔들 구조 기초" },
+    { key: "돌파", path: "/images/patterns/breakout-up.svg", alt: "상향 돌파 패턴" },
+    { key: "교차", path: "/images/patterns/golden-cross.svg", alt: "이평선 교차 시그널" },
+    { key: "RSI", path: "/images/patterns/tech-analysis.svg", alt: "Relative Strength Index" },
+    { key: "리스크", path: "/images/patterns/risk-management.svg", alt: "Risk Management Matrix" },
+    { key: "골드", path: "/images/patterns/gold-spec.svg", alt: "Gold Trading Specifications" }
+  ];
+
+  for (const v of visuals) {
+    if (body.includes(v.key) || title.includes(v.key)) {
+      // 첫 번째 문단 끝이나 두 번째 문단 시작 부분에 삽입
+      const paragraphs = body.split("\n\n");
+      if (paragraphs.length >= 2) {
+        paragraphs[1] = `${paragraphs[1]}\n\n![${v.alt}](${v.path})\n`;
+        finalBody = paragraphs.join("\n\n");
+        break; // 하나만 삽입
+      }
+    }
+  }
+  return finalBody;
+}
 
 function getImageUrlForSection(title, categoryName) {
   // 제목에 패턴 키워드가 있으면 SVG 경로 반환
@@ -96,7 +141,7 @@ function getImageUrlForSection(title, categoryName) {
 /**
  * MD 파일을 읽어 ## 섹션별로 분리
  */
-function parseMarkdownSections(filePath, categoryName, catPrefix) {
+function parseMarkdownSections(filePath, categoryName) {
   const content = readFileSync(filePath, "utf-8");
   const lines = content.split("\n");
   const articles = [];
@@ -111,12 +156,13 @@ function parseMarkdownSections(filePath, categoryName, catPrefix) {
       // 이전 섹션 저장
       if (currentId && currentTitle && currentLines.length > 0) {
         const body = currentLines.join("\n").trim();
+        const finalBody = injectInlineVisuals(body, currentTitle);
         const excerpt = extractExcerpt(body);
         articles.push({
           sectionId: currentId,
           title: `[${categoryName}] ${currentTitle}`,
           category: categoryName,
-          content: body,
+          content: finalBody,
           excerpt,
           thumbnail: getImageUrlForSection(currentTitle, categoryName),
           difficulty: inferDifficulty(currentId),
@@ -135,12 +181,13 @@ function parseMarkdownSections(filePath, categoryName, catPrefix) {
   // 마지막 섹션 저장
   if (currentId && currentTitle && currentLines.length > 0) {
     const body = currentLines.join("\n").trim();
+    const finalBody = injectInlineVisuals(body, currentTitle);
     const excerpt = extractExcerpt(body);
     articles.push({
       sectionId: currentId,
       title: `[${categoryName}] ${currentTitle}`,
       category: categoryName,
-      content: body,
+      content: finalBody,
       excerpt,
       thumbnail: getImageUrlForSection(currentTitle, categoryName),
       difficulty: inferDifficulty(currentId),
@@ -234,11 +281,12 @@ async function main() {
         if (match) {
           if (currentId && currentTitle && currentLines.length > 0) {
             const body = currentLines.join("\n").trim();
+            const finalBody = injectInlineVisuals(body, currentTitle);
               allArticles.push({
                 sectionId: currentId,
                 title: `[${currentCat}] ${currentTitle}`,
                 category: currentCat,
-                content: body,
+                content: finalBody,
                 excerpt: extractExcerpt(body),
                 thumbnail: getImageUrlForSection(currentTitle, currentCat),
                 difficulty: inferDifficulty(currentId),
@@ -258,13 +306,14 @@ async function main() {
       // 마지막 섹션
       if (currentId && currentTitle && currentLines.length > 0) {
         const body = currentLines.join("\n").trim();
+        const finalBody = injectInlineVisuals(body, currentTitle);
         const catNum = currentId.split("-")[0];
         const cat = currentCat || catNumberToName[catNum] || "기타";
         allArticles.push({
           sectionId: currentId,
           title: `[${cat}] ${currentTitle}`,
           category: cat,
-          content: body,
+          content: finalBody,
           excerpt: extractExcerpt(body),
           thumbnail: getImageUrlForSection(currentTitle, cat),
           difficulty: inferDifficulty(currentId),

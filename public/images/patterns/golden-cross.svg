@@ -15,10 +15,12 @@
       <rect width="400" height="400" fill="#0f172a" />
       <g filter="url(#glow)">
         
-    <rect x="50" y="50" width="300" height="300" rx="20" fill="none" stroke="#f59e0b" stroke-width="4" />
-    <text x="70" y="100" fill="#f59e0b" font-family="monospace">IF (RSI < 30) {</text>
-    <text x="90" y="140" fill="#22c55e" font-family="monospace">  BUY_ORDER();</text>
-    <text x="70" y="180" fill="#f59e0b" font-family="monospace">}</text>
+    <path d="M50 300 Q200 250 350 100" stroke="#22c55e" stroke-width="6" fill="none" />
+    <path d="M50 250 Q200 250 350 230" stroke="#f59e0b" stroke-width="3" fill="none" opacity="0.7" />
+    <circle cx="180" cy="250" r="30" stroke="#ffffff" stroke-width="2" fill="none" stroke-dasharray="4" />
+    <text x="220" y="270" fill="#ffffff" font-weight="bold">GOLDEN CROSS</text>
+    <text x="50" y="330" fill="#22c55e" font-size="12">Fast MA</text>
+    <text x="50" y="230" fill="#f59e0b" font-size="12">Slow MA</text>
   
       </g>
     </svg>
