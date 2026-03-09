@@ -65,66 +65,28 @@ const categoryMeta = {
 };
 
 // 섹션 번호와 주제에 따른 전문적인 이미지 매핑
-const sectionImageMap = {
-  // CFD 기초
-  "1-1": "https://images.unsplash.com/photo-1611974714658-058f4c529944?q=80&w=800",  // 금융 거래
-  "1-2": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800",  // 레버리지/지렛대
-  "1-3": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=800",  // 마진/담보
-  "1-4": "https://images.unsplash.com/photo-1611095777215-ed39a7b97c8d?q=80&w=800",  // 수수료
-  "1-5": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800",  // 매수매도
-  "1-6": "https://images.unsplash.com/photo-1579621970795-87f9aed197b1?q=80&w=800",  // 스왑 이자
-  "1-7": "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=800",  // 로트 계산
-  "1-8": "https://images.unsplash.com/photo-1590283603905-2465e9d9b433?q=80&w=800",  // 경보/위험
-  // 골드 특화
-  "2-1": "https://images.unsplash.com/photo-1610375461246-83df8dfb01d5?q=80&w=800",  // 골드
-  "2-2": "https://images.unsplash.com/photo-1611974714658-058f4c529944?q=80&w=800",  // 경제지표
-  "2-3": "https://images.unsplash.com/photo-1508921234172-73891048f766?q=80&w=800",  // 세계 시계/세션
-  "2-4": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800",  // 뉴스/지표
-  "2-5": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=800",  // 실수/경고
-  // 기술적 분석
-  "3-1": "https://images.unsplash.com/photo-1526628952-b2d10c47f27a?q=80&w=800",  // 캔들 차트
-  "3-2": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800",  // 캔들 패턴
-  "3-3": "https://images.unsplash.com/photo-1551288049-bbbda546697c?q=80&w=800",  // 지지저항
-  "3-4": "https://images.unsplash.com/photo-1605792657660-596af9009e82?q=80&w=800",  // 매물대
-  "3-5": "https://images.unsplash.com/photo-1452378174528-3090a4bba7b2?q=80&w=800",  // 추세 상승
-  "3-6": "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800",  // 피보나치 황금비
-  "3-7": "https://images.unsplash.com/photo-1543286386-713bdd5486d3?q=80&w=800",  // 이동평균선
-  "3-8": "https://images.unsplash.com/photo-1454165833767-027ffea9e77b?q=80&w=800",  // 타임프레임
-  // 리스크 관리
-  "4-1": "https://images.unsplash.com/photo-1549421263-5ec394a5ad4c?q=80&w=800",  // 1% 룰
-  "4-2": "https://images.unsplash.com/photo-1454165833767-027ffea9e77b?q=80&w=800",  // 손절
-  "4-3": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=800",  // 리스크리워드
-  "4-4": "https://images.unsplash.com/photo-1554224155-1696413575b9?q=80&w=800",  // 포지션 사이징
-  "4-5": "https://images.unsplash.com/photo-1579621970795-87f9aed197b1?q=80&w=800",  // 연속 손실
-  "4-6": "https://images.unsplash.com/photo-1590283603905-2465e9d9b433?q=80&w=800",  // 손절 심리
-  // 자동매매
-  "5-1": "https://images.unsplash.com/photo-1551288049-bbbda546697c?q=80&w=800",  // EA
-  "5-2": "https://images.unsplash.com/photo-1611974714658-058f4c529944?q=80&w=800",  // MT5
-  "5-3": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800",  // EA 설치
-  "5-4": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=800",  // 백테스트
-  "5-5": "https://images.unsplash.com/photo-1543286386-713bdd5486d3?q=80&w=800",  // EA 선택
-  "5-6": "https://images.unsplash.com/photo-1579532566591-943b1e2ca493?q=80&w=800",  // EA 한계
-  // 카피트레이딩
-  "6-1": "https://images.unsplash.com/photo-1551288049-bbbda546697c?q=80&w=800",  // 카피트레이딩
-  "6-2": "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=800",  // MQL5
-  "6-3": "https://images.unsplash.com/photo-1543286386-713bdd5486d3?q=80&w=800",  // 프로바이더 선별
-  "6-4": "https://images.unsplash.com/photo-1610375461246-83df8dfb01d5?q=80&w=800",  // 시작하는 법
-  "6-5": "https://images.unsplash.com/photo-1579532566591-943b1e2ca493?q=80&w=800",  // 리스크
-  "6-6": "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800",  // 로트 비율
-  // 브로커
-  "7-1": "https://images.unsplash.com/photo-1590283603914-723bfca46917?q=80&w=800",  // 브로커
-  "7-2": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800",  // 브로커 선택
-  "7-3": "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800",  // 계좌 종류
-  "7-4": "https://images.unsplash.com/photo-1551288049-bbbda546697c?q=80&w=800",  // 모의계좌
-  "7-5": "https://images.unsplash.com/photo-1554224155-1696413575b9?q=80&w=800",  // 입출금
-  // 사기 예방
-  "8-1": "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?q=80&w=800",  // 사기 경고
-  "8-2": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800",  // 다단계
-  "8-3": "https://images.unsplash.com/photo-1554224155-1696413575b9?q=80&w=800",  // 수익 보장
-  "8-4": "https://images.unsplash.com/photo-1579532566591-943b1e2ca493?q=80&w=800",  // 레버리지 위험
-  "8-5": "https://images.unsplash.com/photo-1543286386-713bdd5486d3?q=80&w=800",  // 실수 패턴
-  "8-6": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=800",  // 심리 조절
-};
+// ─── 이미지 풀 설정 (고품질 트레이딩 & 금융 썸네일) ─────────────────────────
+const unsplashIds = [
+  "1611974789855-9c2a0a7236a3", "1590283603385-17ffb3a7f29f", "1620641788421-7a1c342ea42e", "1535320903710-d993d3d77d29",
+  "1642543492481-44e81e3914a7", "1611974714658-058f4c529944", "1450101499163-c8848c66ca85", "1554224155-6726b3ff858f",
+  "1611095777215-ed39a7b97c8d", "1460925895917-afdab827c52f", "1579621970795-87f9aed197b1", "1580519542036-c47de6196ba5",
+  "1590283603905-2465e9d9b433", "1610375461246-83df8dfb01d5", "1508921234172-73891048f766", "1517245386807-bb43f82c33c4",
+  "1518186285589-2f7649de83e0", "1526628952-b2d10c47f27a", "1551288049-bbbda546697c", "1605792657660-596af9009e82",
+  "1452378174528-3090a4bba7b2", "1543286386-713bdd5486d3", "1454165833767-027ffea9e77b", "1549421263-5ec394a5ad4c",
+  "1526628953301-3e589a6a8b74", "1554224155-1696413575b9", "1579532566591-943b1e2ca493", "1590283603914-723bfca46917",
+  "1512428559087-560fa5ceab42", "1550751827-4bd374c3f58b", "1502481851512-e9e2529bfbf9", "1518186285589-2f7649de83e0",
+  "1524341517789-548773950fb2", "1534078362425-387b1c3e3906", "1550426743-f119e7cf9e46"
+];
+
+// 간단한 문자열 해시 함수로 sectionId에 맞는 고정 인덱스 추출 (재시딩해도 동일 썸네일 유지되도록)
+function getImageUrlForSection(sectionId) {
+  let hash = 0;
+  for (let i = 0; i < sectionId.length; i++) {
+    hash = sectionId.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const idx = Math.abs(hash) % unsplashIds.length;
+  return `https://images.unsplash.com/photo-${unsplashIds[idx]}?q=80&w=800&auto=format&fit=crop`;
+}
 
 /**
  * MD 파일을 읽어 ## 섹션별로 분리
@@ -151,7 +113,7 @@ function parseMarkdownSections(filePath, categoryName, catPrefix) {
           category: categoryName,
           content: body,
           excerpt,
-          thumbnail: sectionImageMap[currentId] || categoryMeta[categoryName]?.thumbnail,
+          thumbnail: getImageUrlForSection(currentId),
           difficulty: inferDifficulty(currentId),
         });
       }
@@ -175,7 +137,7 @@ function parseMarkdownSections(filePath, categoryName, catPrefix) {
       category: categoryName,
       content: body,
       excerpt,
-      thumbnail: sectionImageMap[currentId] || categoryMeta[categoryName]?.thumbnail,
+      thumbnail: getImageUrlForSection(currentId),
       difficulty: inferDifficulty(currentId),
     });
   }
@@ -273,7 +235,7 @@ async function main() {
               category: currentCat,
               content: body,
               excerpt: extractExcerpt(body),
-              thumbnail: sectionImageMap[currentId] || categoryMeta[currentCat]?.thumbnail || "https://images.unsplash.com/photo-1611974714658-058f4c529944?q=80&w=800",
+              thumbnail: getImageUrlForSection(currentId),
               difficulty: inferDifficulty(currentId),
             });
           }
@@ -299,7 +261,7 @@ async function main() {
           category: cat,
           content: body,
           excerpt: extractExcerpt(body),
-          thumbnail: sectionImageMap[currentId] || categoryMeta[cat]?.thumbnail || "https://images.unsplash.com/photo-1611974714658-058f4c529944?q=80&w=800",
+          thumbnail: getImageUrlForSection(currentId),
           difficulty: inferDifficulty(currentId),
         });
       }

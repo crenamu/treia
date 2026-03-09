@@ -68,40 +68,61 @@ export default function EducationListPage() {
         </div>
       </div>
 
-      {/* Grid List */}
+      {/* Categorized Horizontal Scroll Lists */}
       <div className="container mx-auto px-6 py-12 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {loading ? (
-            [1, 2, 3, 4, 5, 6].map(i => (
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5, 6].map(i => (
               <div key={i} className="bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
-            ))
-          ) : articles.length > 0 ? (
-            articles.map((article) => (
-              <Link href={`/education/${article.id}`} key={article.id}>
-                <ArticleCard 
-                  title={article.title}
-                  category={article.category}
-                  summary={article.excerpt}
-                  imageUrl={article.thumbnail}
-                  date={article.createdAt
-                    ? (() => {
-                        const c = article.createdAt;
-                        if (typeof c === 'string') return new Date(c).toLocaleDateString('ko-KR');
-                        const sec = (c as any)._seconds ?? (c as any).seconds;
-                        return sec ? new Date(sec * 1000).toLocaleDateString('ko-KR') : '-';
-                      })()
-                    : '-'}
-                  source={article.source || "Treia Official"}
-                  difficulty={article.difficulty || "입문"}
-                />
-              </Link>
-            ))
-          ) : (
-            <div className="col-span-full py-20 text-center">
-              <p className="text-gray-500 font-bold">등록된 교육 자료가 없습니다.</p>
-            </div>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : articles.length > 0 ? (
+          <div className="flex flex-col gap-16">
+            {Array.from(new Set(articles.map(a => a.category))).map(category => (
+              <section key={category} className="flex flex-col gap-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-black text-white flex items-center gap-3">
+                    <span className="w-2 h-8 bg-amber-500 rounded-r-xl inline-block -ml-6"></span>
+                    {category}
+                  </h2>
+                  <button className="text-sm font-bold text-amber-500 hover:text-white transition-colors">
+                    모두 보기
+                  </button>
+                </div>
+                
+                {/* Horizontal Scroll Container */}
+                <div className="flex overflow-x-auto gap-6 pb-8 snap-x border-t border-b border-transparent hover:border-b-gray-800/20 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                  {articles.filter(a => a.category === category).map((article) => (
+                    <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
+                      <Link href={`/education/${article.id}`} className="block h-full">
+                        <ArticleCard 
+                          title={article.title}
+                          category={article.category}
+                          summary={article.excerpt}
+                          imageUrl={article.thumbnail}
+                          date={article.createdAt
+                            ? (() => {
+                                const c = article.createdAt;
+                                if (typeof c === 'string') return new Date(c).toLocaleDateString('ko-KR');
+                                const sec = (c as any)._seconds ?? (c as any).seconds;
+                                return sec ? new Date(sec * 1000).toLocaleDateString('ko-KR') : '-';
+                              })()
+                            : '-'}
+                          source={article.source || "Treia Official"}
+                          difficulty={(article.difficulty as any) || "입문"}
+                        />
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        ) : (
+          <div className="col-span-full py-20 text-center">
+            <p className="text-gray-500 font-bold">등록된 교육 자료가 없습니다.</p>
+          </div>
+        )}
       </div>
     </div>
   );

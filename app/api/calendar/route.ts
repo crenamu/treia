@@ -36,15 +36,19 @@ export async function GET() {
 목록:
 ${titles.join('\n')}
 `;
-    
-    const translatedText = await askGemini(prompt);
-    // 줄바꿈이나 쉼표로 분리된 결과를 배열로 처리
-    const translatedArr = translatedText.split(/,|\n/).map(s => s.trim()).filter(Boolean);
+    let translatedArr: string[] = [];
+    try {
+      const translatedText = await askGemini(prompt);
+      translatedArr = translatedText.split(/,|\n/).map(s => s.trim()).filter(Boolean);
+    } catch (translateError) {
+      console.warn("Gemini translation failed, using original titles:", translateError);
+      // 실패 시 translatedArr는 빈 상태로 유지하여 이후 로직에서 item.title을 그대로 씀
+    }
 
     // 4. 원본 데이터에 번역본 병합 및 반환 포맷 변환
     const formattedData = highImpact.map((item: any, idx: number) => ({
       id: idx,
-      title: translatedArr[idx] || item.title, // 번역 실패 시 원본
+      title: translatedArr.length > idx && translatedArr[idx] ? translatedArr[idx] : item.title,
       country: item.country,
       date: item.date, // ISO Format
       forecast: item.forecast || '-',
