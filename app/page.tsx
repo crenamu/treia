@@ -8,6 +8,7 @@ import VolumeProfileBox from "@/components/VolumeProfileBox";
 import EconomicCalendar from "@/components/EconomicCalendar";
 import TelegramSignals from "@/components/TelegramSignals";
 import ArticleCard from '@/components/ArticleCard';
+import InsightCarousel from "@/components/InsightCarousel";
 
 interface CuratedNews {
   id: number;
@@ -34,7 +35,7 @@ export default function Home() {
     // 마켓 뉴스 로드
     fetch('/api/news/gold')
       .then(res => res.json())
-      .then(res => {
+      .then((res: { success: boolean; data: CuratedNews[] }) => {
         if (res.success) setMarketNews(res.data);
       })
       .catch(console.error);
@@ -42,7 +43,7 @@ export default function Home() {
     // 교육 인사이트 로드
     fetch('/api/education')
       .then(res => res.json())
-      .then(data => {
+      .then((data: InsightArticle[]) => {
         if (Array.isArray(data)) setInsightArticles(data);
       })
       .catch(console.error);
@@ -72,45 +73,7 @@ export default function Home() {
          <EconomicCalendar />
       </section>
 
-      {/* NEW: Education Insights Moved Up */}
-      <div className="flex flex-col gap-8 w-full">
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2 text-amber-500 mb-1">
-              <GraduationCap size={16} />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Premium Insights</span>
-            </div>
-            <h2 className="text-3xl font-black tracking-tighter text-white">트레이아 인사이트</h2>
-          </div>
-          <Link href="/education" className="text-xs font-bold text-gray-500 hover:text-amber-500 transition-colors flex items-center gap-2 group">
-            전체 보기 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
 
-        <div className="flex overflow-x-auto gap-6 pb-4 snap-x border-t border-b border-transparent hover:border-b-gray-800/20 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {insightArticles.length > 0 ? (
-            insightArticles.map((article) => (
-              <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
-                <Link href={`/education/${article.id}`} className="block h-full">
-                  <ArticleCard 
-                    title={article.title}
-                    category={article.category}
-                    summary={article.excerpt}
-                    imageUrl={article.thumbnail}
-                    date={article.createdAt ? new Date(article.createdAt.seconds * 1000).toLocaleDateString() : ''}
-                    source={article.source || "Treia Official"}
-                    difficulty={(article.difficulty as any) || "입문"}
-                  />
-                </Link>
-              </div>
-            ))
-          ) : (
-            [1, 2, 3, 4].map((i) => (
-              <div key={i} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] shrink-0 bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
-            ))
-          )}
-        </div>
-      </div>
 
       {/* Today's Chart (M3) & Setup */}
       <section className="flex flex-col gap-6 w-full mt-12">
@@ -202,6 +165,14 @@ export default function Home() {
           accentColor="rgba(168, 85, 247, 0.4)"
           stat="신규 2종"
         />
+        <ServiceCard 
+          href="/ea/builder"
+          title="EA 빌더 (도구)"
+          desc="나만의 지표 조합으로 코딩없이 자동매매 봇을 만듭니다."
+          icon={<Bot size={24} />}
+          accentColor="rgba(245, 158, 11, 0.4)"
+          stat="Beta Open"
+        />
       </div>
 
       {/* 교육 인사이트 섹션 추가 */}
@@ -219,7 +190,7 @@ export default function Home() {
           </Link>
         </div>
         
-        <div className="flex overflow-x-auto gap-6 pb-4 snap-x border-t border-b border-transparent hover:border-b-gray-800/20 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <InsightCarousel>
           {insightArticles.length > 0 ? (
             insightArticles.map((article) => (
               <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
@@ -231,7 +202,7 @@ export default function Home() {
                     imageUrl={article.thumbnail}
                     date={article.createdAt ? new Date(article.createdAt.seconds * 1000).toLocaleDateString() : ''}
                     source={article.source || "Treia Official"}
-                    difficulty={(article.difficulty as any) || "입문"}
+                    difficulty={(article.difficulty as "입문" | "중급" | "고급") || "입문"}
                   />
                 </Link>
               </div>
@@ -241,7 +212,7 @@ export default function Home() {
               <div key={i} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] shrink-0 bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
             ))
           )}
-        </div>
+        </InsightCarousel>
       </div>
     </div>
   );

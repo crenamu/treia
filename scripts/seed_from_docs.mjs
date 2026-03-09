@@ -28,64 +28,76 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app, 'treia');
 
-// 카테고리별 썸네일 및 이미지 매핑 (금융 분야에 특화된 이미지)
+// 카테고리별 썸네일 베이스 키워드 (Unsplash 고품질 이미지 사용)
 const categoryMeta = {
   "CFD 기초": {
-    thumbnail: "https://images.unsplash.com/photo-1611974714658-058f4c529944?q=80&w=800",
+    keywords: ["trading", "stocks", "wallstreet"],
     defaultDifficulty: "입문",
   },
   "골드 특화": {
-    thumbnail: "https://images.unsplash.com/photo-1610375461246-83df8dfb01d5?q=80&w=800",
+    keywords: ["gold", "investment", "chart"],
     defaultDifficulty: "중급",
   },
   "기술적 분석": {
-    thumbnail: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800",
+    keywords: ["candlestick", "analysis", "finance"],
     defaultDifficulty: "중급",
   },
   "리스크 관리": {
-    thumbnail: "https://images.unsplash.com/photo-1549421263-5ec394a5ad4c?q=80&w=800",
+    keywords: ["shield", "security", "risk"],
     defaultDifficulty: "초급",
   },
   "자동매매": {
-    thumbnail: "https://images.unsplash.com/photo-1551288049-bbbda546697c?q=80&w=800",
+    keywords: ["robot", "code", "ai"],
     defaultDifficulty: "중급",
   },
   "카피트레이딩": {
-    thumbnail: "https://images.unsplash.com/photo-1543286386-713bdd5486d3?q=80&w=800",
+    keywords: ["social-trading", "people", "success"],
     defaultDifficulty: "입문",
   },
   "브로커": {
-    thumbnail: "https://images.unsplash.com/photo-1590283603914-723bfca46917?q=80&w=800",
+    keywords: ["business", "office", "bank"],
     defaultDifficulty: "입문",
   },
   "사기 예방": {
-    thumbnail: "https://images.unsplash.com/photo-1554224155-1696413575b9?q=80&w=800",
+    keywords: ["scam", "danger", "warning"],
     defaultDifficulty: "초급",
   },
 };
 
-// 섹션 번호와 주제에 따른 전문적인 이미지 매핑
-// ─── 이미지 풀 설정 (고품질 트레이딩 & 금융 썸네일) ─────────────────────────
-const unsplashIds = [
-  "1611974789855-9c2a0a7236a3", "1590283603385-17ffb3a7f29f", "1620641788421-7a1c342ea42e", "1535320903710-d993d3d77d29",
-  "1642543492481-44e81e3914a7", "1611974714658-058f4c529944", "1450101499163-c8848c66ca85", "1554224155-6726b3ff858f",
-  "1611095777215-ed39a7b97c8d", "1460925895917-afdab827c52f", "1579621970795-87f9aed197b1", "1580519542036-c47de6196ba5",
-  "1590283603905-2465e9d9b433", "1610375461246-83df8dfb01d5", "1508921234172-73891048f766", "1517245386807-bb43f82c33c4",
-  "1518186285589-2f7649de83e0", "1526628952-b2d10c47f27a", "1551288049-bbbda546697c", "1605792657660-596af9009e82",
-  "1452378174528-3090a4bba7b2", "1543286386-713bdd5486d3", "1454165833767-027ffea9e77b", "1549421263-5ec394a5ad4c",
-  "1526628953301-3e589a6a8b74", "1554224155-1696413575b9", "1579532566591-943b1e2ca493", "1590283603914-723bfca46917",
-  "1512428559087-560fa5ceab42", "1550751827-4bd374c3f58b", "1502481851512-e9e2529bfbf9", "1518186285589-2f7649de83e0",
-  "1524341517789-548773950fb2", "1534078362425-387b1c3e3906", "1550426743-f119e7cf9e46"
+// ─── 이미지 풀 설정 (사용자 요청에 따라 부적절한 이미지 배제 및 트레이딩 특화) ─────────────────────────
+const tradingUnsplashIds = [
+  "1611974714658-058f4c529944", "1590283603385-17ffb3a7f29f", "1535320903710-d993d3d77d29",
+  "1611095777215-ed39a7b97c8d", "1460925895917-afdab827c52f", "1580519542036-c47de6196ba5",
+  "1610375461246-83df8dfb01d5", "1551288049-bbbda546697c", "1605792657660-596af9009e82",
+  "1543286386-713bdd5486d3", "1549421263-5ec394a5ad4c", "1526628953301-3e589a6a8b74", 
+  "1550751827-4bd374c3f58b", "1502481851512-e9e2529bfbf9", "1534078362425-387b1c3e3906"
 ];
 
-// 간단한 문자열 해시 함수로 sectionId에 맞는 고정 인덱스 추출 (재시딩해도 동일 썸네일 유지되도록)
-function getImageUrlForSection(sectionId) {
-  let hash = 0;
-  for (let i = 0; i < sectionId.length; i++) {
-    hash = sectionId.charCodeAt(i) + ((hash << 5) - hash);
+// SVG 캔들 패턴 매핑
+const PATTERN_IMAGES = {
+  "캔들": "/images/patterns/doji.svg",
+  "도지": "/images/patterns/doji.svg",
+  "망치형": "/images/patterns/hammer.svg",
+  "상승장악형": "/images/patterns/bullish-engulfing.svg",
+  "하락장악형": "/images/patterns/bearish-engulfing.svg",
+  "장악형": "/images/patterns/bullish-engulfing.svg",
+  "샛별형": "/images/patterns/morning-star.svg"
+};
+
+function getImageUrlForSection(title, categoryName) {
+  // 제목에 패턴 키워드가 있으면 SVG 경로 반환
+  for (const [key, path] of Object.entries(PATTERN_IMAGES)) {
+    if (title.includes(key)) return path;
   }
-  const idx = Math.abs(hash) % unsplashIds.length;
-  return `https://images.unsplash.com/photo-${unsplashIds[idx]}?q=80&w=800&auto=format&fit=crop`;
+
+  // 해시 기반으로 트레이딩 이미지 풀에서 선택
+  let hash = 0;
+  const seed = title + categoryName;
+  for (let i = 0; i < seed.length; i++) {
+    hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const idx = Math.abs(hash) % tradingUnsplashIds.length;
+  return `https://images.unsplash.com/photo-${tradingUnsplashIds[idx]}?q=80&w=800&auto=format&fit=crop`;
 }
 
 /**
@@ -113,7 +125,7 @@ function parseMarkdownSections(filePath, categoryName, catPrefix) {
           category: categoryName,
           content: body,
           excerpt,
-          thumbnail: getImageUrlForSection(currentId),
+          thumbnail: getImageUrlForSection(currentTitle, categoryName),
           difficulty: inferDifficulty(currentId),
         });
       }
@@ -137,7 +149,7 @@ function parseMarkdownSections(filePath, categoryName, catPrefix) {
       category: categoryName,
       content: body,
       excerpt,
-      thumbnail: getImageUrlForSection(currentId),
+      thumbnail: getImageUrlForSection(currentTitle, categoryName),
       difficulty: inferDifficulty(currentId),
     });
   }
@@ -229,15 +241,15 @@ async function main() {
         if (match) {
           if (currentId && currentTitle && currentLines.length > 0) {
             const body = currentLines.join("\n").trim();
-            allArticles.push({
-              sectionId: currentId,
-              title: `[${currentCat}] ${currentTitle}`,
-              category: currentCat,
-              content: body,
-              excerpt: extractExcerpt(body),
-              thumbnail: getImageUrlForSection(currentId),
-              difficulty: inferDifficulty(currentId),
-            });
+              allArticles.push({
+                sectionId: currentId,
+                title: `[${currentCat}] ${currentTitle}`,
+                category: currentCat,
+                content: body,
+                excerpt: extractExcerpt(body),
+                thumbnail: getImageUrlForSection(currentTitle, currentCat),
+                difficulty: inferDifficulty(currentId),
+              });
           }
           // 이전에 섹션 번호로 카테고리 결정
           const catNum = match[1].split("-")[0];
@@ -261,7 +273,7 @@ async function main() {
           category: cat,
           content: body,
           excerpt: extractExcerpt(body),
-          thumbnail: getImageUrlForSection(currentId),
+          thumbnail: getImageUrlForSection(currentTitle, cat),
           difficulty: inferDifficulty(currentId),
         });
       }

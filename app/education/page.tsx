@@ -1,8 +1,9 @@
 'use client'
-import { useEffect, useState, useRef } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, GraduationCap, Search, Filter } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, GraduationCap, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
 import ArticleCard from '@/components/ArticleCard';
+import InsightCarousel from '@/components/InsightCarousel';
 
 interface InsightArticle {
   id: string;
@@ -93,20 +94,6 @@ export default function EducationListPage() {
 }
 
 function CategorySection({ category, articles }: { category: string, articles: InsightArticle[] }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -350, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 350, behavior: 'smooth' });
-    }
-  };
-
   return (
     <section className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -115,20 +102,6 @@ function CategorySection({ category, articles }: { category: string, articles: I
           {category}
         </h2>
         <div className="flex items-center gap-6">
-          <div className="hidden md:flex items-center gap-2">
-            <button 
-              onClick={scrollLeft}
-              className="w-10 h-10 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 hover:border-amber-500/50 transition-all"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button 
-              onClick={scrollRight}
-              className="w-10 h-10 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 hover:border-amber-500/50 transition-all"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
           <Link href={`/education?category=${encodeURIComponent(category)}`} className="text-sm font-bold text-amber-500 hover:text-white transition-colors">
             모두 보기
           </Link>
@@ -136,11 +109,7 @@ function CategorySection({ category, articles }: { category: string, articles: I
       </div>
       
       {/* Horizontal Scroll Container */}
-      <div 
-        ref={scrollRef}
-        className="flex overflow-x-auto gap-6 pb-8 snap-x border-t border-b border-transparent hover:border-b-gray-800/20 scrollbar-hide" 
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
+      <InsightCarousel>
         {articles.map((article) => (
           <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
             <Link href={`/education/${article.id}`} className="block h-full">
@@ -163,7 +132,7 @@ function CategorySection({ category, articles }: { category: string, articles: I
             </Link>
           </div>
         ))}
-      </div>
+      </InsightCarousel>
     </section>
   );
 }
