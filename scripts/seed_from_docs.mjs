@@ -34,16 +34,16 @@ const db = getFirestore(app, 'treia');
 
 // 배경 이미지 풀 (Unsplash 고화질 트레이딩 이미지)
 const backgroundImages = [
-  "tL9NpBM0KhY", "wOZrO7b4Ln0", "tcJ6sJTtTWI", "vFhsyAMbHkE", "zcAgxLryKe4", 
-  "GnWfl_nnZro", "RIQa-DDmC70", "AWXIZmzOrQo", "3PyBkxgTiL0", "wKmUYWs9SjU", 
-  "5o7ctLp7rwE", "Am7fjB3xTKE", "INLOCRTv7Es", "I8Gfv244hzA", "H5Rk4BMWJ9U", 
-  "fiXLQXAhCfk", "sM4r-swmcoY", "vBCVcWUyvyM", "oqStl2L5oxI", "sm3Ub_IJKQg", 
-  "D4LDw5eXhgg", "AUZC0Fybqu8", "z0gszFk1tYk", "9rz5x8LGBb8", "N__BnvQ_w18", 
-  "VTKtPMDouBw", "Q_vhJv5im-8", "RxbkUG80Rag", "eNStVITP_10", "x07ELaNFt34", 
-  "mswEr8ji6BQ", "Wb63zqJ5gnE", "oSmxBx08YJw", "yBIvVaFNWjU", "O5yeor6_3sc", 
-  "XqvAjEJGOO4", "AA5sf7WTv10", "UKVTkmdjva0", "InWI1lteYfU", "MyRHFbfRI0Q", 
-  "LWD60a5a15I", "pqo44QZBKbo", "i09DzZkwnuY", "tGJiVNlMOYI", "XihAgOYNHn4", 
-  "nbWW-5XdKvE", "VM_6EtTAfDQ", "SGrjUUtEIng", "44ls9V31hPc", "b-qYIqLTif0"
+  "PBEKd9stNUA", "Ur1VdGufVns", "mp11_hrQXf8", "DfjJMVhwH_8", "ZzOa5G8hSPI",
+  "AM3wYIikxO4", "RDXcFY5g5O4", "LaU3HadwEeE", "x07ELaNFt34", "oSmxBx08YJw",
+  "O5yeor6_3sc", "AA5sf7WTv10", "ztYmIQecyH4", "InWI1lteYfU", "cGot2jFpKIM",
+  "LWD60a5a15I", "xre1LzeYH7o", "EMPZ7yRZoGw", "VM_6EtTAfDQ", "44ls9V31hPc",
+  "v0VjjYYFjOg", "w9coDxtsfts", "bnW9O5ZOys4", "hScr17JG74Q", "OmPqCwX422Y",
+  "o_x11ORH9vQ", "SPEblBBlce8", "3r8rcSy0Ffg", "fiXLQXAhCfk", "vBCVcWUyvyM",
+  "oqStl2L5oxI", "sm3Ub_IJKQg", "3PyBkxgTiL0", "VLpWpv3oDB4", "5hcV51EeeWc",
+  "AUZC0Fybqu8", "z0gszFk1tYk", "kM6QNrgo0YE", "K5DY18hy5JQ", "N__BnvQ_w18",
+  "VTKtPMDouBw", "K5mPtONmpHM", "eNStVITP_10", "mswEr8ji6BQ", "Wb63zqJ5gnE",
+  "fchVIvuMGBI", "XqvAjEJGOO4", "MTxseYMqYzk", "UKVTkmdjva0", "Gw_sFen8VhU"
 ];
 
 const PATTERN_BODY_VISUALS = [
