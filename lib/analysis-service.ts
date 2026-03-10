@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, query, orderBy, limit, onSnapshot, getDocs } from 'firebase/firestore';
+import { collection, query, orderBy, limit, onSnapshot, getDocs, doc } from 'firebase/firestore';
 
 export interface TickAnalysis {
   sentiment: string;
@@ -8,6 +8,13 @@ export interface TickAnalysis {
   signal: string;
   phase: string;
   timestamp: any;
+}
+
+export interface PageAnalysis {
+  marketLevels: { price: number; label: string; type: 'major' | 'minor' }[];
+  scenarios: { title: string; desc: string; color: string }[];
+  mainText: string;
+  updatedAt: any;
 }
 
 export interface MtfLevel {
@@ -78,4 +85,20 @@ export async function getMtfAnalysis(): Promise<MtfAnalysis | null> {
     return snapshot.docs[0].data() as MtfAnalysis;
   }
   return null;
+}
+
+// 페이지 전역 분석 관점 구독 (Market Levels, Scenarios)
+export function subscribePageAnalysis(callback: (data: PageAnalysis | null) => void) {
+  const q = query(
+    collection(db, 'treia_analysis_page'),
+    limit(1)
+  );
+
+  return onSnapshot(q, (snapshot) => {
+    if (!snapshot.empty) {
+      callback(snapshot.docs[0].data() as PageAnalysis);
+    } else {
+      callback(null);
+    }
+  });
 }
