@@ -168,17 +168,16 @@ export default function EducationDetailPage() {
               <div className="p-8 rounded-3xl bg-amber-500 text-black">
                 <GraduationCap size={32} className="mb-4" />
                 <h3 className="text-xl font-black leading-tight mb-4">
-                  검증된 신호로<br />안전하게 시작하세요
+                  나만의 자동매매<br />EA 로직 만들기
                 </h3>
                 <p className="text-sm font-bold opacity-80 mb-8">
-                  트레이아의 모든 인사이트는 MQL5 공식 시그널을 통해 실시간으로 공유됩니다.
+                  검증된 템플릿과 AI 백테스트를 통해 지금 바로 전략을 설계해 보세요.
                 </p>
                 <Link 
-                  href="https://www.mql5.com" 
-                  target="_blank"
+                  href="/ea/builder" 
                   className="block w-full py-4 bg-black text-white text-center rounded-2xl font-black hover:bg-gray-900 transition-colors"
                 >
-                  시그널 구독하기
+                  EA Builder 열기
                 </Link>
               </div>
               

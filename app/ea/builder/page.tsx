@@ -46,6 +46,11 @@ const INDICATOR_DB = {
     name: 'OR Logic Gate',
     cat: 'Logic',
     params: { mode: 'Any Condition' }
+  },
+  stochastic: {
+    name: 'Stochastic Oscillator (스토캐스틱)',
+    cat: 'Oscillator',
+    params: { kPeriod: 5, dPeriod: 3, slowing: 3, overbought: 80, oversold: 20, operator: 'Crosses Up' }
   }
 };
 
@@ -107,6 +112,22 @@ const STRATEGY_DATA = {
       { label: 'Investopedia: Golden Cross 개념 설명', url: 'https://www.investopedia.com/terms/g/goldencross.asp' },
     ]
   },
+  stochastic: {
+    name: 'Stochastic Reversal (M30)',
+    timeframe: 'M30',
+    period: '일반적 스토캐스틱 역추세 전략 기대 범위',
+    winRate: '48~65%',
+    pf: '1.4~2.0',
+    mdd: '8~15%',
+    sharpe: '0.8~1.6',
+    trades: '월 60~120회',
+    avgRR: '1:1.2~2.0',
+    disclaimer: '⚠️ 아래 수치는 유사 전략의 일반적인 기대 범위입니다. 실제 수치는 시장 조건·브로커 스프레드에 따라 크게 달라집니다. 반드시 직접 백테스트 하세요.',
+    description: '스토캐스틱 과대낙폭/과열 구간에서 K선과 D선의 교차 패턴을 확인하여 진입을 노리는 역추세/횡보장 타겟 전략입니다.',
+    refs: [
+      { label: 'Investopedia: Stochastic Oscillator 개념 설명', url: 'https://www.investopedia.com/terms/s/stochasticoscillator.asp' },
+    ]
+  },
 };
 
 
@@ -126,7 +147,7 @@ export default function EABuilderPage() {
   const [nodeCounter, setNodeCounter] = useState(0);
   const [showGuide, setShowGuide] = useState(false);
   const [guideStep, setGuideStep] = useState(0);
-  const [showStrategyInfo, setShowStrategyInfo] = useState<'scalper'|'breakout'|'trend'|null>(null);
+  const [showStrategyInfo, setShowStrategyInfo] = useState<'scalper'|'breakout'|'trend'|'stochastic'|null>(null);
   const [showStepHint, setShowStepHint] = useState<number|null>(null);
   const [riskState, setRiskState] = useState({ balance: 10000, riskPct: 1, slPips: 30, lotSize: 0, riskAmount: 0 });
 
@@ -153,7 +174,7 @@ export default function EABuilderPage() {
     setSelectedNodeId(newNode.instanceId);
   };
 
-  const loadTemplate = (type: 'scalper' | 'breakout' | 'trend') => {
+  const loadTemplate = (type: 'scalper' | 'breakout' | 'trend' | 'stochastic') => {
     let template: LogicNode[] = [];
     
     if (type === 'scalper') {
@@ -171,11 +192,17 @@ export default function EABuilderPage() {
         { instanceId: 'b2', id: 'macd', name: 'MACD 상승강도', cat: 'Oscillator', stepId: 2, params: { fast: 12, slow: 26, operator: 'Histogram Over 0' } },
         { instanceId: 'b3', id: 'and', name: 'AND Logic', cat: 'Logic', stepId: 2, params: { mode: 'All Conditions' } },
       ];
-    } else {
+    } else if (type === 'trend') {
       template = [
         { instanceId: 't1', id: 'ma', name: '단기이평 (50)', cat: 'Trend', stepId: 2, params: { period: 50, operator: 'Crosses Up' } },
         { instanceId: 't2', id: 'ma', name: '장기이평 (200)', cat: 'Trend', stepId: 2, params: { period: 200, operator: '>' } },
         { instanceId: 't3', id: 'and', name: 'AND Logic', cat: 'Logic', stepId: 2, params: { mode: 'All Conditions' } },
+      ];
+    } else if (type === 'stochastic') {
+      template = [
+        { instanceId: 'st1', id: 'stochastic', name: 'Stochastic 교차', cat: 'Oscillator', stepId: 2, params: { kPeriod: 5, dPeriod: 3, oversold: 20, operator: 'Crosses Up' } },
+        { instanceId: 'st2', id: 'bollinger', name: '밴드 하단 이탈', cat: 'Volatility', stepId: 2, params: { period: 20, deviation: 2.0, operator: 'Price Cross Lower' } },
+        { instanceId: 'st3', id: 'and', name: 'AND Logic', cat: 'Logic', stepId: 2, params: { mode: 'All Conditions' } },
       ];
     }
     
@@ -302,18 +329,33 @@ export default function EABuilderPage() {
                        </div>
                     </div>
                     
-                     <div className="grid grid-cols-1 gap-2 pt-2">
-                       <div className="flex gap-1">
-                         <button onClick={() => loadTemplate('scalper')} className="flex-grow py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 font-black text-[9px] uppercase hover:bg-amber-500 hover:text-black transition-all">Gold Master Scalper (M5)</button>
-                         <button onClick={() => setShowStrategyInfo('scalper')} className="px-2.5 py-2 rounded-xl bg-amber-500/5 border border-amber-500/20 text-amber-500 text-[10px] hover:bg-amber-500/20 transition-all" title="검증 데이터 보기">ℹ</button>
+                     <div className="flex flex-col gap-3 pt-2">
+                       <div className="flex flex-col gap-1 w-full text-left">
+                          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest pl-1 mb-0.5">스캘핑 / 데이트레이딩</span>
+                          <div className="flex gap-1">
+                            <button onClick={() => loadTemplate('scalper')} className="flex-grow py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 font-black text-[9px] uppercase hover:bg-amber-500 hover:text-black transition-all">Gold Master Scalper (M5)</button>
+                            <button onClick={() => setShowStrategyInfo('scalper')} className="px-2.5 py-2 rounded-xl bg-amber-500/5 border border-amber-500/20 text-amber-500 text-[10px] hover:bg-amber-500/20 transition-all" title="검증 데이터 보기">ℹ</button>
+                          </div>
                        </div>
-                       <div className="flex gap-1">
-                         <button onClick={() => loadTemplate('breakout')} className="flex-grow py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 font-black text-[9px] uppercase hover:bg-blue-500 hover:text-white transition-all">London Vola Breakout (H1)</button>
-                         <button onClick={() => setShowStrategyInfo('breakout')} className="px-2.5 py-2 rounded-xl bg-blue-500/5 border border-blue-500/20 text-blue-400 text-[10px] hover:bg-blue-500/20 transition-all" title="검증 데이터 보기">ℹ</button>
+                       
+                       <div className="flex flex-col gap-1 w-full text-left">
+                          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest pl-1 mb-0.5">돌파 / 추세추종</span>
+                          <div className="flex gap-1">
+                            <button onClick={() => loadTemplate('breakout')} className="flex-grow py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 font-black text-[9px] uppercase hover:bg-blue-500 hover:text-white transition-all">London Vola Breakout (H1)</button>
+                            <button onClick={() => setShowStrategyInfo('breakout')} className="px-2.5 py-2 rounded-xl bg-blue-500/5 border border-blue-500/20 text-blue-400 text-[10px] hover:bg-blue-500/20 transition-all" title="검증 데이터 보기">ℹ</button>
+                          </div>
+                          <div className="flex gap-1">
+                            <button onClick={() => loadTemplate('trend')} className="flex-grow py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-black text-[9px] uppercase hover:bg-emerald-500 hover:text-black transition-all">XAU Power Trend (M15)</button>
+                            <button onClick={() => setShowStrategyInfo('trend')} className="px-2.5 py-2 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-500 text-[10px] hover:bg-emerald-500/20 transition-all" title="검증 데이터 보기">ℹ</button>
+                          </div>
                        </div>
-                       <div className="flex gap-1">
-                         <button onClick={() => loadTemplate('trend')} className="flex-grow py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-black text-[9px] uppercase hover:bg-emerald-500 hover:text-black transition-all">XAU Power Trend (M15)</button>
-                         <button onClick={() => setShowStrategyInfo('trend')} className="px-2.5 py-2 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-500 text-[10px] hover:bg-emerald-500/20 transition-all" title="검증 데이터 보기">ℹ</button>
+                       
+                       <div className="flex flex-col gap-1 w-full text-left">
+                          <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest pl-1 mb-0.5">역추세 / 변동성</span>
+                          <div className="flex gap-1">
+                            <button onClick={() => loadTemplate('stochastic')} className="flex-grow py-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 font-black text-[9px] uppercase hover:bg-purple-500 hover:text-white transition-all">Stochastic Reversal (M30)</button>
+                            <button onClick={() => setShowStrategyInfo('stochastic')} className="px-2.5 py-2 rounded-xl bg-purple-500/5 border border-purple-500/20 text-purple-400 text-[10px] hover:bg-purple-500/20 transition-all" title="검증 데이터 보기">ℹ</button>
+                          </div>
                        </div>
                      </div>
                  </div>
