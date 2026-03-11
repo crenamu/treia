@@ -12,8 +12,7 @@ interface TelegramMsg {
 export default function TelegramSignals() {
   const [messages, setMessages] = useState<TelegramMsg[]>([]);
   const [loading, setLoading] = useState(true);
-  const [lastSync, setLastSync] = useState<Date>(new Date());
-
+  const [lastSync, setLastSync] = useState<Date | null>(null);
 
   useEffect(() => {
     const fetchSignals = async () => {
@@ -47,7 +46,9 @@ export default function TelegramSignals() {
           <div className="flex-1">
             <h2 className="text-lg font-bold text-white tracking-tight leading-tight flex items-center gap-2">
               실시간 관점 공유 
-              <span className="text-[9px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">최근 동기화: {lastSync.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+              {lastSync && (
+                <span className="text-[9px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded border border-blue-500/30">최근 동기화: {lastSync.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+              )}
             </h2>
             <p className="text-[11px] text-gray-500 font-medium mt-0.5">데이터를 기반으로 공유된 실시간 인사이트</p>
           </div>

@@ -1,18 +1,18 @@
-import { NextResponse } from 'next/server';
-import { db } from '@/lib/firebase';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { NextResponse } from "next/server";
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export async function GET() {
   try {
-    const educationRef = collection(db, 'treia_education');
+    const educationRef = collection(db, "treia_education");
     const q = query(
       educationRef,
-      where('app', '==', 'treia'),
-      where('isPublished', '==', true)
+      where("app", "==", "treia"),
+      where("isPublished", "==", true),
     );
 
     const querySnapshot = await getDocs(q);
-    const articles = querySnapshot.docs.map(doc => ({
+    const articles = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...(doc.data() as any),
     }));
@@ -21,7 +21,7 @@ export async function GET() {
     articles.sort((a, b) => {
       const parseId = (id: string) => {
         if (!id) return [99, 99];
-        const parts = id.split('-').map(Number);
+        const parts = id.split("-").map(Number);
         return [parts[0] || 99, parts[1] || 99];
       };
       const [acat, asec] = parseId(a.sectionId);
@@ -32,7 +32,10 @@ export async function GET() {
 
     return NextResponse.json(articles);
   } catch (error) {
-    console.error('Error fetching education articles:', error);
-    return NextResponse.json({ error: 'Failed to fetch articles' }, { status: 500 });
+    console.error("Error fetching education articles:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch articles" },
+      { status: 500 },
+    );
   }
 }

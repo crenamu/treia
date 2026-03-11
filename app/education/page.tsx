@@ -1,9 +1,9 @@
-'use client'
-import { useEffect, useState } from 'react';
-import { ArrowLeft, GraduationCap, Search, Filter } from 'lucide-react';
-import Link from 'next/link';
-import ArticleCard from '@/components/ArticleCard';
-import InsightCarousel from '@/components/InsightCarousel';
+"use client";
+import { useEffect, useState } from "react";
+import { ArrowLeft, GraduationCap, Search, Filter } from "lucide-react";
+import Link from "next/link";
+import ArticleCard from "@/components/ArticleCard";
+import InsightCarousel from "@/components/InsightCarousel";
 
 interface InsightArticle {
   id: string;
@@ -22,9 +22,9 @@ export default function EducationListPage() {
 
   useEffect(() => {
     // 정식 API를 통해 Firestore의 데이터를 가져옵니다.
-    fetch('/api/education')
-      .then(res => res.json())
-      .then(data => {
+    fetch("/api/education")
+      .then((res) => res.json())
+      .then((data) => {
         if (Array.isArray(data)) {
           setArticles(data);
         }
@@ -38,26 +38,38 @@ export default function EducationListPage() {
       {/* Header */}
       <div className="bg-[#14161B] border-b border-gray-800 pt-20 pb-12">
         <div className="container mx-auto px-6 max-w-7xl">
-          <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-500 mb-8 transition-colors text-sm font-bold">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-500 mb-8 transition-colors text-sm font-bold"
+          >
             <ArrowLeft size={16} /> 매매 대시보드로 돌아가기
           </Link>
-          
+
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <div className="flex items-center gap-2 text-amber-500 mb-2">
                 <GraduationCap size={20} />
-                <span className="text-xs font-black uppercase tracking-[0.2em]">Treia Academy</span>
+                <span className="text-xs font-black uppercase tracking-[0.2em]">
+                  Treia Academy
+                </span>
               </div>
-              <h1 className="text-4xl font-black tracking-tighter">트레이아 인사이트</h1>
-              <p className="text-gray-500 mt-2 font-medium">데이터와 통계로 증명하는 프리미엄 트레이딩 교육 자료</p>
+              <h1 className="text-4xl font-black tracking-tighter">
+                트레이아 인사이트
+              </h1>
+              <p className="text-gray-500 mt-2 font-medium">
+                데이터와 통계로 증명하는 프리미엄 트레이딩 교육 자료
+              </p>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                <input 
-                  type="text" 
-                  placeholder="관심 있는 주제 검색..." 
+                <Search
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  placeholder="관심 있는 주제 검색..."
                   className="bg-black/40 border border-gray-800 rounded-2xl py-3 pl-12 pr-6 text-sm focus:border-amber-500 outline-none w-full md:w-[300px] transition-all"
                 />
               </div>
@@ -73,19 +85,30 @@ export default function EducationListPage() {
       <div className="container mx-auto px-6 py-12 max-w-7xl">
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} className="bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"></div>
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div
+                key={i}
+                className="bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"
+              ></div>
             ))}
           </div>
         ) : articles.length > 0 ? (
           <div className="flex flex-col gap-16">
-            {Array.from(new Set(articles.map(a => a.category))).map(category => (
-              <CategorySection key={category} category={category} articles={articles.filter(a => a.category === category)} />
-            ))}
+            {Array.from(new Set(articles.map((a) => a.category))).map(
+              (category) => (
+                <CategorySection
+                  key={category}
+                  category={category}
+                  articles={articles.filter((a) => a.category === category)}
+                />
+              ),
+            )}
           </div>
         ) : (
           <div className="col-span-full py-20 text-center">
-            <p className="text-gray-500 font-bold">등록된 교육 자료가 없습니다.</p>
+            <p className="text-gray-500 font-bold">
+              등록된 교육 자료가 없습니다.
+            </p>
           </div>
         )}
       </div>
@@ -93,7 +116,13 @@ export default function EducationListPage() {
   );
 }
 
-function CategorySection({ category, articles }: { category: string, articles: InsightArticle[] }) {
+function CategorySection({
+  category,
+  articles,
+}: {
+  category: string;
+  articles: InsightArticle[];
+}) {
   return (
     <section className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -102,32 +131,48 @@ function CategorySection({ category, articles }: { category: string, articles: I
           {category}
         </h2>
         <div className="flex items-center gap-6">
-          <Link href={`/education?category=${encodeURIComponent(category)}`} className="text-sm font-bold text-amber-500 hover:text-white transition-colors">
+          <Link
+            href={`/education?category=${encodeURIComponent(category)}`}
+            className="text-sm font-bold text-amber-500 hover:text-white transition-colors"
+          >
             모두 보기
           </Link>
         </div>
       </div>
-      
+
       {/* Horizontal Scroll Container */}
       <InsightCarousel>
         {articles.map((article) => (
-          <div key={article.id} className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0">
+          <div
+            key={article.id}
+            className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0"
+          >
             <Link href={`/education/${article.id}`} className="block h-full">
-              <ArticleCard 
+              <ArticleCard
                 title={article.title}
                 category={article.category}
                 summary={article.excerpt}
                 imageUrl={article.thumbnail}
-                date={article.createdAt
-                  ? (() => {
-                      const c = article.createdAt as { _seconds?: number, seconds?: number };
-                      if (typeof c === 'string') return new Date(c).toLocaleDateString('ko-KR');
-                      const sec = c._seconds ?? c.seconds;
-                      return sec ? new Date(sec * 1000).toLocaleDateString('ko-KR') : '-';
-                    })()
-                  : '-'}
+                date={
+                  article.createdAt
+                    ? (() => {
+                        const c = article.createdAt as {
+                          _seconds?: number;
+                          seconds?: number;
+                        };
+                        if (typeof c === "string")
+                          return new Date(c).toLocaleDateString("ko-KR");
+                        const sec = c._seconds ?? c.seconds;
+                        return sec
+                          ? new Date(sec * 1000).toLocaleDateString("ko-KR")
+                          : "-";
+                      })()
+                    : "-"
+                }
                 source={article.source || "Treia Official"}
-                difficulty={(article.difficulty as "입문" | "중급" | "고급") || "입문"}
+                difficulty={
+                  (article.difficulty as "입문" | "중급" | "고급") || "입문"
+                }
               />
             </Link>
           </div>
