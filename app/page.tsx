@@ -66,50 +66,53 @@ export default function Home() {
     <div className="w-full bg-[#0a0a0a] text-[#f2f2f2] font-sans break-keep overflow-x-hidden selection:bg-[#10B981] selection:text-[#0a0a0a]">
       {/* ═══ LANDING ZONE ═══ */}
 
-      {/* HERO */}
-      <div className="relative min-h-[90vh] flex flex-col justify-center items-start px-6 md:px-12 pt-32 pb-24 overflow-hidden bg-gradient-to-br from-[#0a0a0a] via-[#0f1115] to-[#0a0a0a]">
-        {/* Background Gradients (Terminal X Style subtle glow) */}
-        <div className="absolute top-0 right-0 w-[80vw] h-[80vw] bg-[radial-gradient(circle_at_center,rgba(40,50,60,0.1)_0,transparent_50%)] pointer-events-none transform translate-x-1/3 -translate-y-1/3 blur-[100px]"></div>
+      {/* HERO — 중앙 정렬 미니멀 */}
+      <div className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden bg-[#080808]">
+        {/* 글로우 배경 */}
+        <div className="hero-glow absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(16,185,129,0.12) 0%, transparent 70%)' }}></div>
+        {/* 미세 그리드 */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
 
-        <div className="w-full max-w-7xl mx-auto flex flex-col items-start relative z-10">
-          <div className="flex items-center gap-3 font-mono text-[13px] text-white tracking-[2px] uppercase mb-8 reveal opacity-0 translate-y-6 transition-all duration-700">
-            <div className="w-4 h-[2px] bg-[#10B981]"></div> For CFD / GOLD
-            Traders
+        <div className="relative z-10 flex flex-col items-center text-center px-6 select-none">
+          {/* 상단 레이블 */}
+          <div className="hero-label font-mono text-[11px] md:text-[12px] tracking-[5px] uppercase text-[#10B981] mb-10">
+            AI-POWERED TRADING INTELLIGENCE
           </div>
-          <h1 className="font-outfit text-5xl md:text-7xl lg:text-[84px] font-medium leading-[1.05] tracking-tight max-w-[900px] text-white reveal opacity-0 translate-y-6 transition-all duration-700">
-            남들은 자는 동안에도
-            <br className="md:hidden" />
-            <em className="not-italic text-[#10B981]"> 매매가 된다</em>고요?
+
+          {/* 브랜드 타이틀 */}
+          <h1 className="hero-title font-serif text-[clamp(80px,18vw,200px)] font-normal leading-[0.9] tracking-[-0.02em] text-[#f5f0e8]" style={{ fontFamily: '"Georgia", "Times New Roman", serif' }}>
+            Treia
           </h1>
-          <p className="mt-8 text-[18px] text-[#a1a1aa] max-w-[500px] leading-[1.7] font-light reveal opacity-0 translate-y-6 transition-all duration-700">
-            그게 <strong className="text-white font-medium">EA</strong>입니다.
-            한 번 설정해두면 24시간 골드 시장을 자동으로 매매하는 프로그램.
-            어떻게 시작하는지, 트레이아가 순서대로 안내합니다.
-          </p>
-          <div className="flex flex-wrap gap-4 items-center mt-12 reveal opacity-0 translate-y-6 transition-all duration-700">
-            <a
-              href="#pain"
-              className="bg-[#10B981] hover:bg-[#059669] text-white px-8 py-3.5 text-[15px] font-medium tracking-wide rounded border border-transparent hover:border-[#34d399] transition-all inline-flex items-center gap-2"
-            >
-              EA가 뭔지 알아보기 <ArrowRight size={16} />
+
+          {/* 커서 */}
+          <div className="hero-title flex items-center gap-2 mt-6 mb-10">
+            <span className="hero-cursor inline-block w-[2px] h-8 bg-[#10B981]"></span>
+          </div>
+
+          {/* 하단 서브 레이블 */}
+          <div className="hero-sub font-mono text-[11px] md:text-[12px] tracking-[5px] uppercase text-[#a1a1aa]">
+            FOR CFD / XAUUSD TRADERS
+          </div>
+
+          {/* CTA 버튼 */}
+          <div className="hero-cta flex flex-wrap gap-4 justify-center items-center mt-14">
+            <a href="#ba" className="bg-[#10B981] hover:bg-[#059669] text-white px-8 py-3.5 text-[13px] font-medium tracking-[2px] uppercase transition-all inline-flex items-center gap-2 hover:shadow-[0_0_24px_rgba(16,185,129,0.35)]">
+              시작하기 <ArrowRight size={14} />
             </a>
-            <a
-              href="#tier"
-              className="text-[#a1a1aa] hover:text-white px-4 py-3.5 text-[15px] transition-all flex items-center gap-2 border border-transparent hover:border-[#27272a] rounded"
-            >
-              바로 시작하기
+            <a href="#pain" className="text-[#a1a1aa] hover:text-white border border-[#27272a] hover:border-[#52525b] px-8 py-3.5 text-[13px] tracking-[2px] uppercase transition-all">
+              EA란?
             </a>
           </div>
         </div>
-      </div>
 
-      <div
-        className="w-full h-px"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, #1e2230, transparent)",
-        }}
-      ></div>
+        {/* 스크롤 인디케이터 */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
+          <span className="font-mono text-[10px] tracking-[4px] uppercase text-[#3f3f46]">scroll</span>
+          <div className="w-px h-14 bg-[#3f3f46] overflow-hidden relative">
+            <div className="hero-scroll-line absolute inset-0 bg-[#10B981]"></div>
+          </div>
+        </div>
+      </div>
 
       {/* BEFORE / AFTER */}
       <section
@@ -260,136 +263,89 @@ export default function Home() {
         }}
       ></div>
 
-      {/* TIER */}
+      {/* TIER — 4단계 로드맵 (금액 제거) */}
       <section
         id="tier"
         className="w-full max-w-7xl mx-auto px-6 md:px-12 py-24 border-t border-[#1e1e1e]"
       >
-        <div className="flex items-center gap-3 font-mono text-[13px] text-white tracking-[2px] uppercase mb-4 reveal opacity-0 translate-y-6 transition-all duration-700">
-          <div className="w-4 h-[2px] bg-[#10B981]"></div> 트레이아 카피트레이딩
+        <div className="flex items-center gap-3 font-mono text-[13px] text-[#10B981] tracking-[2px] uppercase mb-4 reveal opacity-0 translate-y-6 transition-all duration-700">
+          <div className="w-4 h-[2px] bg-[#10B981]"></div> 트레이아 온보딩 로드맵
         </div>
         <h2 className="font-outfit text-4xl md:text-5xl lg:text-5xl font-medium tracking-tight leading-tight reveal opacity-0 translate-y-6 transition-all duration-700 text-white">
-          내 상황에 맞는 티어를 고르세요
+          4단계로 시작합니다
         </h2>
         <p className="mt-5 text-[#7a7f8e] text-[17px] max-w-[560px] leading-[1.9] reveal opacity-0 translate-y-6 transition-all duration-700">
-          같은 전략, 같은 타이밍.
-          <br />
-          차이는 리스크 비중뿐입니다. 처음이라면 저위험부터.
+          처음부터 모든 걸 알 필요 없습니다.<br />
+          단계대로 따라오면 자연스럽게 운용까지 됩니다.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-14 reveal opacity-0 translate-y-6 transition-all duration-700">
-          {/* Low Risk */}
-          <div className="bg-[#0f0f0f] border border-[#1e1e1e] hover:border-[#3f3f46] hover:-translate-y-1 transition-all rounded p-8 md:p-10 relative overflow-hidden group">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-14 reveal opacity-0 translate-y-6 transition-all duration-700">
+
+          {/* STEP 01 */}
+          <div className="bg-[#0f0f0f] border border-[#1e1e1e] hover:border-[#10B981]/40 hover:-translate-y-1 transition-all p-8 md:p-9 relative overflow-hidden group">
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#10B981]"></div>
-            <div className="font-outfit text-5xl font-light tracking-tight mb-3 text-white">
-              $1,000
+            <div className="font-mono text-[11px] tracking-[4px] text-[#10B981] uppercase mb-8">STEP 01</div>
+            <div className="font-outfit text-[22px] font-medium text-white mb-4 leading-tight">EA 개념 이해</div>
+            <div className="text-[15px] text-[#a1a1aa] leading-[1.75] font-light mb-8">
+              자동매매·카피·EA가 각각 무엇인지 구분합니다. 용어가 정리되면 나머지가 쉬워집니다.
             </div>
-            <div className="flex items-center gap-2 text-[14px] text-[#10B981] font-mono mb-6 uppercase tracking-wider">
-              저위험 <span className="text-[#52525b]">/ 최소 권장 시드</span>
-            </div>
-            <div className="text-[16px] text-[#a1a1aa] leading-[1.7] mb-8 font-light">
-              EA가 처음인 분들을 위한 입문 티어. 소액으로 구조를 먼저 이해하고,
-              실제 체결이 어떻게 이뤄지는지 경험합니다.
-            </div>
-            <div className="flex flex-col gap-3 pt-6 border-t border-[#1e1e1e] text-[15px] font-light">
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1aa]">리스크 비중</span>
-                <span className="text-white bg-[#1e1e1e] px-2 py-0.5 rounded-sm">
-                  각 TF 1% 이하
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1aa]">타임프레임</span>
-                <span className="text-white bg-[#1e1e1e] px-2 py-0.5 rounded-sm">
-                  M2 ~ M30 전체
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1aa]">적합한 분</span>
-                <span className="text-white bg-[#1e1e1e] px-2 py-0.5 rounded-sm">
-                  EA 첫 입문자
-                </span>
-              </div>
+            <div className="flex flex-col gap-2.5 pt-6 border-t border-[#1e1e1e] text-[14px]">
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#10B981]"></span>EA vs 카피트레이딩 차이</div>
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#10B981]"></span>MT5 구조 이해</div>
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#10B981]"></span>브로커·스프레드·레버리지</div>
             </div>
           </div>
 
-          {/* Medium Risk */}
-          <div className="bg-[#0f0f0f] border border-[#1e1e1e] hover:border-[#3f3f46] hover:-translate-y-1 transition-all rounded p-8 md:p-10 relative overflow-hidden group">
+          {/* STEP 02 */}
+          <div className="bg-[#0f0f0f] border border-[#1e1e1e] hover:border-[#3b82f6]/40 hover:-translate-y-1 transition-all p-8 md:p-9 relative overflow-hidden group">
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#3b82f6]"></div>
-            <div className="font-outfit text-5xl font-light tracking-tight mb-3 text-white">
-              $3,000+
+            <div className="font-mono text-[11px] tracking-[4px] text-[#3b82f6] uppercase mb-8">STEP 02</div>
+            <div className="font-outfit text-[22px] font-medium text-white mb-4 leading-tight">EA 검증 기준</div>
+            <div className="text-[15px] text-[#a1a1aa] leading-[1.75] font-light mb-8">
+              마틴게일·그리드·브레이크아웃을 구별하고, 트랙레코드를 읽는 법을 배웁니다.
             </div>
-            <div className="flex items-center gap-2 text-[14px] text-[#3b82f6] font-mono mb-6 uppercase tracking-wider">
-              중위험 <span className="text-[#52525b]">/ 최소 권장 시드</span>
-            </div>
-            <div className="text-[16px] text-[#a1a1aa] leading-[1.7] mb-8 font-light">
-              저위험으로 충분히 검증하고 본격적으로 운용하고 싶은 분. 특정
-              타임프레임의 비중을 높여 수익 체감을 키웁니다.
-            </div>
-            <div className="flex flex-col gap-3 pt-6 border-t border-[#1e1e1e] text-[15px] font-light">
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1aa]">리스크 비중</span>
-                <span className="text-white bg-[#1e1e1e] px-2 py-0.5 rounded-sm">
-                  특정 TF 5%
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1aa]">타임프레임</span>
-                <span className="text-white bg-[#1e1e1e] px-2 py-0.5 rounded-sm">
-                  M2 ~ M30 전체
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1aa]">적합한 분</span>
-                <span className="text-white bg-[#1e1e1e] px-2 py-0.5 rounded-sm">
-                  검증 끝, 본격 시작
-                </span>
-              </div>
+            <div className="flex flex-col gap-2.5 pt-6 border-t border-[#1e1e1e] text-[14px]">
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#3b82f6]"></span>전략 유형별 리스크 차이</div>
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#3b82f6]"></span>MDD·수익팩터 해석</div>
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#3b82f6]"></span>사기 EA 판별 체크리스트</div>
             </div>
           </div>
 
-          {/* High Risk */}
-          <div className="bg-[#0f0f0f] border border-[#1e1e1e] hover:border-[#3f3f46] hover:-translate-y-1 transition-all rounded p-8 md:p-10 relative overflow-hidden group">
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#fb923c]"></div>
-            <div className="font-outfit text-5xl font-light tracking-tight mb-3 text-white">
-              $10,000+
+          {/* STEP 03 */}
+          <div className="bg-[#0f0f0f] border border-[#1e1e1e] hover:border-[#a855f7]/40 hover:-translate-y-1 transition-all p-8 md:p-9 relative overflow-hidden group">
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#a855f7]"></div>
+            <div className="font-mono text-[11px] tracking-[4px] text-[#a855f7] uppercase mb-8">STEP 03</div>
+            <div className="font-outfit text-[22px] font-medium text-white mb-4 leading-tight">모의계좌 실습</div>
+            <div className="text-[15px] text-[#a1a1aa] leading-[1.75] font-light mb-8">
+              MT5 설치부터 셋파일 로딩까지. 실계좌 전에 반드시 거쳐야 할 단계입니다.
             </div>
-            <div className="flex items-center gap-2 text-[14px] text-[#fb923c] font-mono mb-6 uppercase tracking-wider">
-              고위험 <span className="text-[#52525b]">/ 최소 권장 시드</span>
-            </div>
-            <div className="text-[16px] text-[#a1a1aa] leading-[1.7] mb-8 font-light">
-              시드 여유가 있고 수익 극대화를 원하는 분. 변동성이 크므로 EA
-              구조를 충분히 이해한 후 진입을 권장합니다.
-            </div>
-            <div className="flex flex-col gap-3 pt-6 border-t border-[#1e1e1e] text-[15px] font-light">
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1aa]">리스크 비중</span>
-                <span className="text-white bg-[#1e1e1e] px-2 py-0.5 rounded-sm">
-                  TF별 최대 10%
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1aa]">타임프레임</span>
-                <span className="text-white bg-[#1e1e1e] px-2 py-0.5 rounded-sm">
-                  M2 ~ M30 전체
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1aa]">적합한 분</span>
-                <span className="text-white bg-[#1e1e1e] px-2 py-0.5 rounded-sm">
-                  수익 극대화
-                </span>
-              </div>
+            <div className="flex flex-col gap-2.5 pt-6 border-t border-[#1e1e1e] text-[14px]">
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#a855f7]"></span>브로커 계좌 개설</div>
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#a855f7]"></span>EA 세팅 & 백테스트</div>
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#a855f7]"></span>VPS 세팅 기초</div>
             </div>
           </div>
+
+          {/* STEP 04 */}
+          <div className="bg-[#0f0f0f] border border-[#1e1e1e] hover:border-[#fb923c]/40 hover:-translate-y-1 transition-all p-8 md:p-9 relative overflow-hidden group">
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#fb923c]"></div>
+            <div className="font-mono text-[11px] tracking-[4px] text-[#fb923c] uppercase mb-8">STEP 04</div>
+            <div className="font-outfit text-[22px] font-medium text-white mb-4 leading-tight">실계좌 운용</div>
+            <div className="text-[15px] text-[#a1a1aa] leading-[1.75] font-light mb-8">
+              리스크 비중을 설정하고 본인 상황에 맞는 티어로 실계좌를 운용합니다.
+            </div>
+            <div className="flex flex-col gap-2.5 pt-6 border-t border-[#1e1e1e] text-[14px]">
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#fb923c]"></span>저위험 → 중위험 단계 진입</div>
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#fb923c]"></span>트랙레코드 직접 확인</div>
+              <div className="flex items-center gap-2 text-[#a1a1aa]"><span className="w-1 h-1 rounded-full bg-[#fb923c]"></span>카피트레이딩 연동 가능</div>
+            </div>
+          </div>
+
         </div>
 
         <div className="mt-8 flex items-center gap-3 text-[14px] text-[#10B981] font-mono reveal opacity-0 translate-y-6 transition-all duration-700 bg-[#0f0f0f] border border-[#1e1e1e] p-4 rounded-sm inline-flex">
-          <div className="flex gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
-          </div>
-          트랙레코드 축적 중 (2026년 4월 실계좌 오픈 예정) — 현재는 모의
-          프론트테스트 단계입니다
+          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+          트랙레코드 축적 중 (2026년 4월 실계좌 오픈 예정) — 현재는 모의 프론트테스트 단계입니다
         </div>
       </section>
 
