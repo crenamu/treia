@@ -39,11 +39,10 @@ export default function RootLayout({
             </Link>
 
             <nav className="hidden md:flex items-center gap-10">
-               <NavLink href="/curation">AI 큐레이션</NavLink>
-               <NavLink href="/analysis">시장 분석</NavLink>
-               <NavLink href="/journal">AI 매매일지</NavLink>
-               <NavLink href="/community">커뮤니티</NavLink>
-               <NavLink href="/ea">EA/인디케이터</NavLink>
+               <NavLink href="/#tier">카피트레이딩</NavLink>
+               <NavLink href="/#insights">인사이트</NavLink>
+               <NavLink href="/#indicators">경제지표</NavLink>
+               <NavLink href="/#ea-review">EA 리뷰</NavLink>
                <NavLink href="/guide">입문 가이드</NavLink>
             </nav>
 
