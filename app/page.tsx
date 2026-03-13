@@ -11,7 +11,8 @@ import {
   TrendingUp,
   Coins,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Activity
 } from 'lucide-react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -36,6 +37,7 @@ export default function HomePage() {
   const [sort, setSort] = useState('rate2_desc')
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [isMock, setIsMock] = useState(false)
 
   useEffect(() => {
     async function loadData() {
@@ -43,6 +45,7 @@ export default function HomePage() {
       try {
         const data = await getProducts(activeTab, trm)
         setProducts(data.products || [])
+        setIsMock(!!data.isMock)
       } catch (err) {
         console.error(err)
       } finally {
@@ -58,52 +61,43 @@ export default function HomePage() {
     return 0
   })
 
-  const bestBase = products.length > 0 ? [...products].sort((a, b) => (b.bestOption?.intr_rate || 0) - (a.bestOption?.intr_rate || 0))[0] : null
-  const bestMax = products.length > 0 ? [...products].sort((a, b) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0))[0] : null
+  const bestBase = products.length > 0 && products[0].fin_prdt_cd !== 'FETCH_FAIL' ? [...products].sort((a, b) => (b.bestOption?.intr_rate || 0) - (a.bestOption?.intr_rate || 0))[0] : null
+  const bestMax = products.length > 0 && products[0].fin_prdt_cd !== 'FETCH_FAIL' ? [...products].sort((a, b) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0))[0] : null
 
   return (
     <div className="min-h-screen bg-[var(--bg-beige)] pb-32">
       <main className="container mx-auto max-w-5xl px-6 pt-16 md:pt-24">
         
-        {/* Title Group - Banksalad-inspired typography */}
+        {/* Title Group */}
         <div className="mb-14">
-            <p className="text-[13px] font-bold text-blue-600 uppercase tracking-[3px] mb-6">FinTable Intelligence</p>
+            <div className="flex items-center gap-3 mb-6">
+                <p className="text-[13px] font-bold text-blue-600 uppercase tracking-[3px]">FinTable Intelligence</p>
+                {isMock ? (
+                    <span className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-600 rounded-full text-[10px] font-black uppercase tracking-tighter">
+                        <Activity size={10} /> Simulation Mode
+                    </span>
+                ) : (
+                    <span className="flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-600 rounded-full text-[10px] font-black uppercase tracking-tighter">
+                        <Activity size={10} className="animate-pulse" /> Live Data
+                    </span>
+                )}
+            </div>
             <h1 className="text-5xl md:text-[64px] font-black text-gray-900 leading-[1.1] tracking-tight mb-6">
                 지금 당신에게<br/>
                 <span className="text-blue-600">가장 유리한 금리</span>
             </h1>
-            <p className="text-xl font-medium text-gray-400">전 금융권 실시간 데이터 기반 맞춤형 큐레이션</p>
+            <p className="text-xl font-medium text-gray-400">
+                {isMock ? '현재 금융권 데이터 점검 중으로 시뮬레이션 데이터를 표시합니다.' : '전 금융권 실시간 데이터 기반 맞춤형 큐레이션'}
+            </p>
         </div>
 
-        {/* Restore Content: Global Market Insight */}
+        {/* Global Market Insight */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16">
-            <div className="bg-white rounded-[40px] p-8 shadow-sm border border-gray-100 flex items-center justify-between group hover:shadow-2xl transition-all duration-500">
-                <div className="flex items-center gap-6">
-                    <div className="w-14 h-14 bg-green-50 text-green-600 rounded-3xl flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-all duration-500">
-                        <TrendingUp size={28} />
-                    </div>
-                    <div>
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 leading-none">Market: USD/KRW</p>
-                        <h4 className="text-2xl font-black text-gray-900 tracking-tighter">1,342.50 <span className="text-xs text-green-600 ml-1 font-bold">+2.10</span></h4>
-                    </div>
-                </div>
-                <ArrowUpRight className="text-green-500 opacity-20 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" size={24} />
-            </div>
-            <div className="bg-white rounded-[40px] p-8 shadow-sm border border-gray-100 flex items-center justify-between group hover:shadow-2xl transition-all duration-500">
-                <div className="flex items-center gap-6">
-                    <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-3xl flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-all duration-500">
-                        <Coins size={28} />
-                    </div>
-                    <div>
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 leading-none">Market: Gold Price</p>
-                        <h4 className="text-2xl font-black text-gray-900 tracking-tighter">114,200 <span className="text-[10px] text-gray-400 font-bold ml-1 uppercase">KRW/G</span></h4>
-                    </div>
-                </div>
-                <ArrowDownRight className="text-red-500 opacity-20 group-hover:opacity-100 group-hover:translate-x-1 group-hover:translate-y-1 transition-all" size={24} />
-            </div>
+            <MarketCard icon={<TrendingUp size={28} />} label="Market: USD/KRW" value="1,342.50" change="+2.10" type="up" />
+            <MarketCard icon={<Coins size={28} />} label="Market: Gold Price" value="114,200" change="-0.45" type="down" unit="KRW/G" />
         </div>
 
-        {/* AI Prediction Tool Section (Strategic Content Restored) */}
+        {/* AI Prediction Tool Section */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -121,7 +115,7 @@ export default function HomePage() {
                     가장 유리한 예적금 <span className="text-blue-200">매칭 전략</span>
                  </h2>
                  <p className="text-blue-100 font-medium text-lg leading-relaxed max-w-xl">
-                    현재 LH 공고와 시중 금융 상품을 실시간 분석했습니다. 
+                    현재 LH 공고와 시중 금융 상품을 {isMock ? '시뮬레이션 분석' : '실시간 분석'}했습니다. 
                     당첨 점수 부족 시, 이자를 극대화하여 보증금을 마련하는 **청약 브릿지 상품**을 지금 바로 확인하세요.
                  </p>
               </div>
@@ -137,17 +131,17 @@ export default function HomePage() {
             <MetricCard 
                 label="최고 기본금리" 
                 value={bestBase ? `연 ${bestBase.bestOption?.intr_rate.toFixed(2)}%` : '—'} 
-                sub={bestBase ? `${bestBase.kor_co_nm} · ${bestBase.fin_prdt_nm}` : '실시간 데이터 분석'}
+                sub={bestBase ? `${bestBase.kor_co_nm} · ${bestBase.fin_prdt_nm}` : '데이터 수집 중'}
             />
             <MetricCard 
                 label="최고 우대금리" 
                 value={bestMax ? `연 ${bestMax.bestOption?.intr_rate2.toFixed(2)}%` : '—'} 
-                sub={bestMax ? `${bestMax.kor_co_nm} · ${bestMax.fin_prdt_nm}` : '최신 공시 기준'}
+                sub={bestMax ? `${bestMax.kor_co_nm} · ${bestMax.fin_prdt_nm}` : '금융권 통합 분석'}
             />
             <MetricCard 
                 label="비교 상품 수" 
                 value={loading ? '...' : `${products.length}개`} 
-                sub={`전 금융권 통합 (은행+저축은행)`}
+                sub={isMock ? '데이터 연동 모니터링 중' : '전 금융권 실시간 통합'}
             />
         </div>
 
@@ -171,24 +165,22 @@ export default function HomePage() {
                     </button>
                 </div>
 
-                <div className="flex items-center gap-3">
-                    <div className="flex bg-white p-1.5 rounded-2xl border border-gray-100 shadow-sm">
-                        {TERMS.map(t => (
-                            <button 
-                                key={t.value}
-                                onClick={() => setTrm(t.value)}
-                                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${trm === t.value ? 'bg-gray-900 text-white shadow-lg' : 'text-gray-400 hover:text-gray-600'}`}
-                            >
-                                {t.label}
-                            </button>
-                        ))}
-                    </div>
+                <div className="flex bg-white p-1.5 rounded-2xl border border-gray-100 shadow-sm">
+                    {TERMS.map(t => (
+                        <button 
+                            key={t.value}
+                            onClick={() => setTrm(t.value)}
+                            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${trm === t.value ? 'bg-gray-900 text-white shadow-lg' : 'text-gray-400 hover:text-gray-600'}`}
+                        >
+                            {t.label}
+                        </button>
+                    ))}
                 </div>
             </div>
 
             <div className="flex justify-between items-center mb-4 px-2">
                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest leading-none">
-                    {loading ? '검색 중...' : `${products.length}개의 상품 실시간 분석 완료`}
+                    {loading ? '검색 중...' : `${products.length}개의 상품 ${isMock ? '시뮬레이션' : '실시간'} 분석 완료`}
                  </p>
                  <div className="relative">
                     <select 
@@ -207,7 +199,12 @@ export default function HomePage() {
                     {loading ? (
                         <div className="py-32 flex flex-col items-center gap-6">
                             <div className="w-12 h-12 border-4 border-gray-100 border-t-blue-600 rounded-full animate-spin"></div>
-                            <p className="text-sm font-black text-gray-300 uppercase tracking-[4px]">Data Loading</p>
+                            <p className="text-sm font-black text-gray-300 uppercase tracking-[4px] animate-pulse">Data Synching</p>
+                        </div>
+                    ) : products.length === 0 || products[0].fin_prdt_cd === 'FETCH_FAIL' ? (
+                        <div className="py-24 text-center bg-white rounded-[40px] border border-dashed border-gray-200">
+                             <p className="text-gray-400 font-bold mb-4">현재 데이터를 불러올 수 없습니다.</p>
+                             <button onClick={() => window.location.reload()} className="text-blue-600 font-black text-sm uppercase tracking-widest">다시 시도하기</button>
                         </div>
                     ) : (
                         sortedProducts.map((p, idx) => (
@@ -218,7 +215,7 @@ export default function HomePage() {
             </div>
         </div>
 
-        {/* Benefits Section - Naejibdao Reference */}
+        {/* Benefits Section */}
         <section className="mt-48 grid grid-cols-1 md:grid-cols-3 gap-8">
             <BenefitCard 
                 title="맞춤형 청약 진단" 
@@ -243,6 +240,28 @@ export default function HomePage() {
       </main>
     </div>
   )
+}
+
+function MarketCard({ icon, label, value, change, type, unit }: { icon: React.ReactNode, label: string, value: string, change: string, type: 'up' | 'down', unit?: string }) {
+    return (
+        <div className="bg-white rounded-[40px] p-8 shadow-sm border border-gray-100 flex items-center justify-between group hover:shadow-2xl transition-all duration-500">
+            <div className="flex items-center gap-6">
+                <div className={`w-14 h-14 rounded-3xl flex items-center justify-center transition-all duration-500 ${type === 'up' ? 'bg-green-50 text-green-600 group-hover:bg-green-600 group-hover:text-white' : 'bg-orange-50 text-orange-600 group-hover:bg-orange-600 group-hover:text-white'}`}>
+                    {icon}
+                </div>
+                <div>
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 leading-none">{label}</p>
+                    <h4 className="text-2xl font-black text-gray-900 tracking-tighter">
+                        {value} {unit && <span className="text-[10px] text-gray-400 font-bold ml-1 uppercase">{unit}</span>}
+                    </h4>
+                </div>
+            </div>
+            <div className="flex items-center gap-1">
+                {type === 'up' ? <ArrowUpRight className="text-green-500" size={16} /> : <ArrowDownRight className="text-red-500" size={16} />}
+                <span className={`text-xs font-bold ${type === 'up' ? 'text-green-600' : 'text-red-600'}`}>{change}</span>
+            </div>
+        </div>
+    )
 }
 
 function MetricCard({ label, value, sub }: { label: string, value: string, sub: string }) {
@@ -306,7 +325,7 @@ function ProductRow({ product, index, tab }: { product: Product, index: number, 
 
 function BenefitCard({ title, desc, icon, href, tag }: { title: string, desc: string, icon: React.ReactNode, href: string, tag?: string }) {
     return (
-        <Link href={href} className="group bg-white p-12 rounded-[56px] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 relative flex flex-col items-center text-center">
+        <div className="group bg-white p-12 rounded-[56px] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 relative flex flex-col items-center text-center cursor-pointer">
             {tag && (
                 <span className="absolute top-10 right-10 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter shadow-xl shadow-blue-500/20">{tag}</span>
             )}
@@ -315,9 +334,9 @@ function BenefitCard({ title, desc, icon, href, tag }: { title: string, desc: st
             </div>
             <h4 className="text-2xl font-black text-gray-900 mb-4 tracking-tighter">{title}</h4>
             <p className="text-base font-medium text-gray-500 leading-relaxed mb-10 px-4">{desc}</p>
-            <div className="text-[11px] font-black text-gray-300 group-hover:text-blue-600 transition-colors uppercase tracking-[3px] flex items-center gap-2">
+            <Link href={href} className="text-[11px] font-black text-gray-300 group-hover:text-blue-600 transition-colors uppercase tracking-[3px] flex items-center gap-2">
                 Explore Core <ArrowRight size={14} />
-            </div>
-        </Link>
+            </Link>
+        </div>
     )
 }

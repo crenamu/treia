@@ -1,9 +1,8 @@
 'use server'
 
-const API_KEY = process.env.PUBLIC_DATA_API_KEY
+const API_KEY = process.env.PUBLIC_DATA_API_KEY?.replace(/["']/g, '').trim() || "2bb8598d5b4ef8adba2cff0deba81e882b560351ddb6987d2d933945af968b32"
 const BASE_URL = `http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1`
-// 04: 임대주택, 06: 공공임대, 01: 토지/상가 제외한 주거 위주
-const AIS_TYPES = ['03', '04', '06'] 
+const AIS_TYPES = ['03', '04', '05', '06'] 
 
 export interface HousingNotice {
   id: string
@@ -18,33 +17,16 @@ export interface HousingNotice {
   description?: string
 }
 
-const MOCK_NOTICES: HousingNotice[] = [
-  {
-    id: 'MOCK_LH_1',
-    title: '[AI추천] 서울양원 S1블록 통합공공임대주택 입주자 모집',
-    location: '서울특별시 중랑구',
-    org: 'LH서울지역본부',
-    status: '접수중',
-    date: '2026.03.10 ~ 2026.03.25',
-    type: '통합공공임대',
-    provider: 'LH',
-    link: 'https://apply.lh.or.kr'
-  }
-];
-
 export async function getHousingNotices(page: string = '1', pageSize: string = '100', id?: string) {
-  if (!API_KEY) {
-    if (id) return { notice: MOCK_NOTICES.find(n => n.id === id), isMock: true };
-    return { notices: MOCK_NOTICES, isMock: true };
-  }
-
   try {
     const results = await Promise.all(
       AIS_TYPES.map(async (type) => {
-        // numOfRows를 100으로 늘려 '내집다오' 수준의 방대한 공고 데이터를 확보
         const url = `${BASE_URL}?serviceKey=${API_KEY}&numOfRows=${pageSize}&pageNo=${page}&UPP_AIS_TP_CD=${type}&_type=json`;
         try {
-          const res = await fetch(url, { next: { revalidate: 3600 } });
+          const res = await fetch(url, { 
+            cache: 'no-store', // 실시간성 확보
+            headers: { 'Accept': 'application/json' }
+          });
           if (!res.ok) return null;
           return await res.json();
         } catch (e) {
@@ -55,39 +37,92 @@ export async function getHousingNotices(page: string = '1', pageSize: string = '
 
     let allRawItems: any[] = [];
     results.forEach(data => {
-      const dsList = Array.isArray(data) ? data[1]?.dsList : data?.dsList;
-      if (dsList) allRawItems = [...allRawItems, ...dsList];
+      const actualData = data?.body || data;
+      const dsList = Array.isArray(actualData) ? actualData[1]?.dsList : (actualData?.dsList || actualData?.items || []);
+      if (dsList && Array.isArray(dsList)) {
+        allRawItems = [...allRawItems, ...dsList];
+      }
     });
 
-    if (allRawItems.length === 0) {
-      if (id) return { notice: MOCK_NOTICES.find(n => n.id === id), isMock: true };
-      return { notices: MOCK_NOTICES, isMock: true };
+    if (allRawItems.length > 0) {
+      const formatted = allRawItems.map((item: any) => ({
+        id: item.PAN_ID || item.panId || Math.random().toString(36).substr(2, 9),
+        title: item.PAN_NM || item.panNm || '제목 없음',
+        location: item.CNP_CD_NM || item.cnpCdNm || '지역 정보 없음',
+        org: item.AIS_TP_CD_NM || item.aisTpCdNm || '공급 기관 정보 없음',
+        status: item.PAN_ST_NM || item.panStNm || '상태 미정',
+        date: `${item.PAN_NT_ST_DT || item.panNtStDt || ''} ~ ${item.CLSG_DT || item.clsgDt || '상시'}`,
+        type: item.AIS_TP_CD_NM || item.aisTpCdNm || '임대 주택',
+        provider: 'LH',
+        link: item.DTL_URL || item.dtlUrl || 'https://apply.lh.or.kr'
+      }));
+
+      const uniqueNotices = Array.from(new Map(formatted.map(item => [item.id, item])).values());
+      uniqueNotices.sort((a, b) => b.date.localeCompare(a.date));
+
+      if (id) {
+          const found = uniqueNotices.find(n => n.id === id);
+          return { notice: found, isMock: false };
+      }
+      return { notices: uniqueNotices, isMock: false };
     }
 
-    const formatted = allRawItems.map((item: any) => ({
-      id: item.PAN_ID,
-      title: item.PAN_NM,
-      location: item.CNP_CD_NM,
-      org: item.AIS_TP_CD_NM,
-      status: item.PAN_ST_NM,
-      date: `${item.PAN_NT_ST_DT} ~ ${item.CLSG_DT || '상시'}`,
-      type: item.AIS_TP_CD_NM,
-      provider: 'LH',
-      link: item.DTL_URL
-    }));
+    // 데이터가 없는 경우를 대비한 풍부한 Mock 생성 (내집다오 느낌)
+    const richMock = generateHousingMock();
+    if (id) return { notice: richMock.find(n => n.id === id) || richMock[0], isMock: true };
+    return { notices: richMock, isMock: true };
 
-    if (id) {
-        const found = formatted.find(n => n.id === id);
-        return { notice: found || MOCK_NOTICES.find(n => n.id === id), isMock: !found };
-    }
-
-    // 중복 제거 및 최신순 정렬 (날짜 기준)
-    const uniqueNotices = Array.from(new Map(formatted.map(item => [item.id, item])).values());
-    uniqueNotices.sort((a, b) => b.date.localeCompare(a.date));
-
-    return { notices: uniqueNotices, isMock: false };
   } catch (error) {
-    console.error('getHousingNotices Error:', error);
-    return { notices: MOCK_NOTICES, isMock: true };
+    const richMock = generateHousingMock();
+    return { notices: richMock, isMock: true };
   }
+}
+
+function generateHousingMock(): HousingNotice[] {
+  return [
+    {
+      id: 'MOCK_1',
+      title: '[AI분석] 서울 마곡지구 9단지 공공임대 입주자 모집',
+      location: '서울특별시 강서구',
+      org: 'SH공사',
+      status: '접수중',
+      date: '2026.03.10 ~ 2026.03.25',
+      type: '공공임대',
+      provider: 'SH',
+      link: 'https://www.i-sh.co.kr'
+    },
+    {
+      id: 'MOCK_2',
+      title: '인천 검단 AA10-1블록 통합공공임대주택 모집',
+      location: '인천광역시 서구',
+      org: 'LH인천지역본부',
+      status: '접수중',
+      date: '2026.03.12 ~ 2026.03.30',
+      type: '통합공공임대',
+      provider: 'LH',
+      link: 'https://apply.lh.or.kr'
+    },
+    {
+      id: 'MOCK_3',
+      title: '경기 고양 장항 A-1블록 행복주택 예비자 모집',
+      location: '경기도 고양시',
+      org: 'LH경기북부본부',
+      status: '공고중',
+      date: '2026.03.15 ~ 2026.04.05',
+      type: '행복주택',
+      provider: 'LH',
+      link: 'https://apply.lh.or.kr'
+    },
+    {
+      id: 'MOCK_4',
+      title: '서울 번동3단지 영구임대주택 예비입주자 모집',
+      location: '서울특별시 강북구',
+      org: 'LH서울본부',
+      status: '접수중',
+      date: '2026.03.05 ~ 2026.03.20',
+      type: '영구임대',
+      provider: 'LH',
+      link: 'https://apply.lh.or.kr'
+    }
+  ];
 }
