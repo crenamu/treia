@@ -5,19 +5,19 @@ import {
   Search, 
   MapPin, 
   Building2, 
-  Calendar, 
   Sparkles,
-  ArrowUpRight,
   Map as MapIcon,
   Filter as FilterIcon,
   TrendingDown,
   Bell,
   ChevronRight,
-  Info
+  Info,
+  Rocket
 } from 'lucide-react'
 import DiagnosticTool from './DiagnosticTool'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 interface HousingNotice {
   id: string
@@ -148,7 +148,7 @@ export default function HousingPage() {
              >
                 <div className="flex-1 relative bg-blue-50/30 rounded-[48px] p-12 flex items-center justify-center overflow-hidden">
                    <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#3b82f6 1.5px, transparent 1.5px)', backgroundSize: '30px 30px' }}></div>
-                   < کرهMap onRegionSelect={setRegionFilter} currentRegion={regionFilter} />
+                   <KoreaMap onRegionSelect={setRegionFilter} currentRegion={regionFilter} />
                 </div>
                 <div className="w-full md:w-[380px] space-y-6 flex flex-col">
                    <div className="p-6 bg-blue-600 rounded-[32px] text-white">
@@ -268,6 +268,26 @@ function NoticeCard({ notice, delay, diagnosed }: { notice: HousingNotice, delay
                 </div>
              )}
           </div>
+
+          {/* Unique Weapon: Bridge Recommendation */}
+          {diagnosed && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="mt-6 pt-6 border-t border-dashed border-blue-100 bg-blue-50/30 rounded-[32px] p-5"
+            >
+               <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 bg-blue-600 text-white rounded-lg"><Rocket size={14} /></div>
+                  <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Bridging Strategy</span>
+               </div>
+               <p className="text-[11px] font-bold text-gray-700 leading-relaxed mb-4">
+                  보증금 마련을 위한 <span className="text-blue-600">추천 적금</span>: 핀테이블 챌린지 적금 (연 5.5%)
+               </p>
+               <Link href="/savings" className="w-full py-3 bg-white border border-blue-100 rounded-xl text-[10px] font-black text-blue-600 text-center uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all inline-block">
+                  금융 상품 매칭하기
+               </Link>
+            </motion.div>
+          )}
        </div>
     </motion.div>
   )
@@ -291,7 +311,7 @@ function NoticeSkeleton() {
   return <div className="bg-white rounded-[48px] h-[450px] animate-pulse border border-gray-50"></div>
 }
 
-function کرهMap({ onRegionSelect, currentRegion }: { onRegionSelect: (reg: string) => void, currentRegion: string }) {
+function KoreaMap({ onRegionSelect, currentRegion }: { onRegionSelect: (reg: string) => void, currentRegion: string }) {
   const regions = [
     { name: '서울', top: '25%', left: '25%', count: 12 },
     { name: '경기', top: '26%', left: '35%', count: 45 },

@@ -46,7 +46,7 @@ const STEPS: Step[] = [
   }
 ]
 
-export default function HousingDiagnosticTool() {
+export default function HousingDiagnosticTool({ onComplete }: { onComplete?: () => void }) {
   const [currentStep, setCurrentStep] = useState(0)
   const [totalScore, setTotalScore] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
@@ -66,6 +66,8 @@ export default function HousingDiagnosticTool() {
       } else {
         setResult('not-eligible')
       }
+      // 진단 완료 시 콜백 호출
+      if (onComplete) onComplete()
     }
   }
 

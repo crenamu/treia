@@ -23,7 +23,6 @@ import UserProfile from '@/components/UserProfile'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const NAV_LINKS = [
-  { href: '/calculator', label: '금융계산기', icon: <Calculator size={18} /> },
   { 
     href: '/', 
     label: '금융상품', 
@@ -35,6 +34,7 @@ const NAV_LINKS = [
     ]
   },
   { href: '/housing', label: '임대주택', icon: <HomeIcon size={18} /> },
+  { href: '/calculator', label: '금융계산기', icon: <Calculator size={18} /> },
   { href: '/community', label: '커뮤니티', icon: <Users size={18} /> },
 ]
 

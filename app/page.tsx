@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { DepositProduct } from '@/types/deposit'
-import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp, Sparkles, Star, ArrowRight, Wallet, ArrowUpRight } from 'lucide-react'
+import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp, Sparkles, Star, ArrowRight, Wallet } from 'lucide-react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
@@ -67,36 +67,43 @@ export default function FinTableHome() {
       </div>
 
       <main className="container mx-auto max-w-5xl px-6 pt-12 md:pt-20 relative z-10">
-        {/* Premium Hero Section */}
+        {/* AI Prediction Tool - Our Unique Weapon */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'out' }}
-          className="mb-16"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="mb-16 relative group"
         >
-          <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-2xl shadow-sm border border-gray-100">
-             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-             <p className="text-[10px] font-black text-gray-400 uppercase tracking-[2px]">Real-time Finance Intelligence</p>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-outfit font-black text-gray-900 leading-[0.95] mb-8 tracking-tighter">
-            당신의 자산이<br />
-            <span className="text-green-600 inline-flex items-center gap-4">
-              기록이 되는 순간 <ArrowUpRight size={48} className="md:size-64 opacity-20" />
-            </span>
-          </h1>
-          
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <p className="text-gray-500 font-medium max-w-md text-lg leading-relaxed">
-              368개 금융기관의 금리를 1초마다 동기화하여<br/>
-              가장 높은 수익률을 보장하는 최적의 상품을 제안합니다.
-            </p>
-            <div className="flex items-center gap-3">
-               <Link href="/calculator" className="flex items-center gap-2 px-6 py-4 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-green-600 transition-all shadow-xl shadow-gray-900/10">
-                  이자 계산해보기 <Wallet size={16} />
-               </Link>
-            </div>
-          </div>
+           <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[48px] opacity-0 group-hover:opacity-5 blur-2xl transition-all duration-700"></div>
+           <div className="relative bg-white rounded-[48px] p-8 md:p-12 border border-blue-100 shadow-2xl shadow-blue-500/5 flex flex-col md:flex-row items-center gap-10 overflow-hidden">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-blue-50 rounded-[32px] flex items-center justify-center text-blue-600 shrink-0 relative">
+                 <div className="absolute inset-0 bg-blue-400/20 rounded-[32px] animate-ping opacity-20"></div>
+                 <Sparkles size={40} className="relative z-10" />
+              </div>
+              
+              <div className="flex-1 text-center md:text-left">
+                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black rounded-full mb-4 uppercase tracking-widest">
+                    Next Big Opportunity
+                 </div>
+                 <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tighter mb-4">
+                    이번 달 3기 신도시 사전청약,<br/>
+                    <span className="text-blue-600 underline decoration-blue-200 underline-offset-8">가장 유리한 예적금 매칭 전략</span>
+                 </h2>
+                 <p className="text-gray-500 font-medium leading-relaxed max-w-lg mb-6">
+                    핀테이블 AI가 현재 LH 모집 공고와 시중 368개 상품을 실시간 매칭했습니다. 
+                    당첨 점수 부족 시, 이자를 극대화하여 보증금을 마련하는 **&apos;청약 브릿지 상품&apos;** 3종을 추천합니다.
+                 </p>
+                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                    <span className="px-4 py-2 bg-gray-50 text-gray-500 rounded-xl text-[11px] font-bold border border-gray-100">#3기신도시</span>
+                    <span className="px-4 py-2 bg-gray-50 text-gray-500 rounded-xl text-[11px] font-bold border border-gray-100">#보증금마련전략</span>
+                    <span className="px-4 py-2 bg-gray-50 text-gray-500 rounded-xl text-[11px] font-bold border border-gray-100">#최적금리브릿지</span>
+                 </div>
+              </div>
+
+              <Link href="/housing" className="px-10 py-5 bg-blue-600 text-white rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center gap-3">
+                 리포트 받기 <ArrowRight size={18} />
+              </Link>
+           </div>
         </motion.div>
 
         {/* Global Market Insight (Glass style) */}
