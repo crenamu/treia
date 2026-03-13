@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { CandlestickChart, Search, Bell, Menu } from "lucide-react";
 import Ticker from "@/components/Ticker";
-import UserProfile from "@/components/UserProfile";
 import { AuthProvider } from "@/lib/auth-context";
 import GlobalAuthModal from "@/components/GlobalAuthModal";
+import Navbar from "@/app/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -31,44 +30,8 @@ export default function RootLayout({
              <Ticker />
           </div>
 
-          {/* FinTable Header */}
-          <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-            <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-              <div className="flex items-center gap-8">
-                <Link
-                  href="/"
-                  className="flex items-center gap-2 group transition-all"
-                >
-                  <span className="text-xl font-outfit font-black text-gray-900 tracking-tighter uppercase">
-                    FinTable
-                  </span>
-                </Link>
-
-                <nav className="hidden md:flex items-center gap-6">
-                  <NavLink href="/">예금</NavLink>
-                  <NavLink href="/savings">적금</NavLink>
-                  <NavLink href="/calculator">금융계산기</NavLink>
-                  <NavLink href="/isa">ISA</NavLink>
-                  <NavLink href="/etf">ETF</NavLink>
-                </nav>
-              </div>
-
-              <div className="flex items-center gap-6">
-                <nav className="hidden md:flex items-center gap-6 mr-4 border-r border-gray-200 pr-6">
-                  <NavLink href="/saved">저장목록</NavLink>
-                  <NavLink href="/treia" highlight>Treia</NavLink>
-                  <NavLink href="/housing">임대주택</NavLink>
-                </nav>
-                
-                <div className="flex items-center gap-4">
-                  <button className="text-gray-400 hover:text-gray-900 transition-colors">
-                    <Search size={20} />
-                  </button>
-                  <UserProfile />
-                </div>
-              </div>
-            </div>
-          </header>
+          {/* FinTable Header (New Responsive Navbar) */}
+          <Navbar />
 
           <main className="flex-1">{children}</main>
 
@@ -125,39 +88,6 @@ export default function RootLayout({
   );
 }
 
-function NavLink({
-  href,
-  children,
-  disabled,
-  highlight,
-}: {
-  href: string;
-  children: React.ReactNode;
-  disabled?: boolean;
-  highlight?: boolean;
-}) {
-  if (disabled) {
-    return (
-      <span className="text-sm font-bold text-gray-300 cursor-not-allowed">
-        {children}
-      </span>
-    );
-  }
-
-  return (
-    <Link
-      href={href}
-      className={`text-sm font-bold transition-all relative group ${
-        highlight ? 'text-green-600 hover:text-green-700' : 'text-gray-500 hover:text-gray-900'
-      }`}
-    >
-      {children}
-      <span className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all group-hover:w-full ${
-        highlight ? 'bg-green-600' : 'bg-gray-900'
-      }`}></span>
-    </Link>
-  );
-}
 
 function FooterLinks({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
