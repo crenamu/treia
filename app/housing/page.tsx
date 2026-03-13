@@ -12,8 +12,10 @@ import {
   Bell,
   ChevronRight,
   Info,
-  Rocket
+  Rocket,
+  ArrowRight
 } from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
 import DiagnosticTool from './DiagnosticTool'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -35,6 +37,8 @@ interface HousingNotice {
 const REGIONS = ['전체', '서울', '경기', '인천', '충청', '경상', '전라', '강원', '제주'];
 
 export default function HousingPage() {
+  const params = useParams()
+  const router = useRouter()
   const [notices, setNotices] = useState<HousingNotice[]>([])
   const [loading, setLoading] = useState(true)
   const [regionFilter, setRegionFilter] = useState('전체')
@@ -89,7 +93,7 @@ export default function HousingPage() {
                     실시간 알림 신청 <Bell size={16} className="ml-2 inline" />
                  </button>
                  <div className="flex -space-x-3">
-                    {[1,2,3].map(i => <div key={i} className="w-10 h-10 rounded-full border-4 border-[var(--bg-beige)] bg-gray-200 overflow-hidden"><img src={`https://i.pravatar.cc/100?u=${i+10}`} alt="user" /></div>)}
+                    {[1,2,3].map(i => <div key={i} className="w-10 h-10 rounded-full border-4 border-[var(--bg-beige)] bg-gray-200 overflow-hidden" key={i}><img src={`https://i.pravatar.cc/100?u=${i+10}`} alt="user" /></div>)}
                     <div className="w-10 h-10 rounded-full border-4 border-[var(--bg-beige)] bg-blue-600 flex items-center justify-center text-[10px] font-black text-white">+2k</div>
                  </div>
                  <p className="text-[10px] text-gray-400 font-bold">진단받은 예비입주자</p>
@@ -180,7 +184,7 @@ export default function HousingPage() {
              <div className="col-span-full py-32 text-center text-gray-400 font-black uppercase tracking-[4px]">No Matching Announcements</div>
            ) : (
              filteredNotices.map((notice, idx) => (
-                <NoticeCard key={notice.id} notice={notice} delay={idx * 0.05} diagnosed={diagnosed} />
+                <NoticeCard key={notice.id} notice={notice} delay={idx * 0.05} diagnosed={diagnosed} router={router} />
              ))
            )}
         </div>
@@ -221,17 +225,15 @@ export default function HousingPage() {
   )
 }
 
-function NoticeCard({ notice, delay, diagnosed }: { notice: HousingNotice, delay: number, diagnosed: boolean }) {
-  // Mock AI Probability logic
-  const prob = Math.floor(Math.random() * 40 + 50);
-  
+function NoticeCard({ notice, delay, diagnosed, router }: { notice: HousingNotice, delay: number, diagnosed: boolean, router: any }) {
+  const prob = 72;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
       className="group bg-white rounded-[48px] p-1 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-700 cursor-pointer flex flex-col border border-gray-100 h-full relative"
-      onClick={() => notice.link && window.open(notice.link, '_blank')}
+      onClick={() => router.push(`/housing/${notice.id}`)}
     >
        <div className="p-8 pb-10 flex flex-col h-full bg-white rounded-[47px]">
           <div className="flex items-center justify-between mb-8">
@@ -268,26 +270,6 @@ function NoticeCard({ notice, delay, diagnosed }: { notice: HousingNotice, delay
                 </div>
              )}
           </div>
-
-          {/* Unique Weapon: Bridge Recommendation */}
-          {diagnosed && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              className="mt-6 pt-6 border-t border-dashed border-blue-100 bg-blue-50/30 rounded-[32px] p-5"
-            >
-               <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 bg-blue-600 text-white rounded-lg"><Rocket size={14} /></div>
-                  <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Bridging Strategy</span>
-               </div>
-               <p className="text-[11px] font-bold text-gray-700 leading-relaxed mb-4">
-                  보증금 마련을 위한 <span className="text-blue-600">추천 적금</span>: 핀테이블 챌린지 적금 (연 5.5%)
-               </p>
-               <Link href="/savings" className="w-full py-3 bg-white border border-blue-100 rounded-xl text-[10px] font-black text-blue-600 text-center uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all inline-block">
-                  금융 상품 매칭하기
-               </Link>
-            </motion.div>
-          )}
        </div>
     </motion.div>
   )
@@ -325,7 +307,6 @@ function KoreaMap({ onRegionSelect, currentRegion }: { onRegionSelect: (reg: str
   return (
     <div className="relative w-full h-full">
        <div className="absolute inset-0 flex items-center justify-center">
-          {/* Abstract SVG Map of Korea */}
           <svg viewBox="0 0 100 120" className="w-[80%] h-[80%] opacity-10 text-gray-900 stroke-current fill-transparent stroke-[1px]">
              <path d="M40,5 C45,10 55,5 60,10 L70,20 L80,15 L90,30 L85,50 L95,70 L80,100 L60,115 L40,110 L20,115 L10,95 L15,70 L5,50 L20,20 Z" />
           </svg>
@@ -341,9 +322,6 @@ function KoreaMap({ onRegionSelect, currentRegion }: { onRegionSelect: (reg: str
                {r.name}
             </div>
             <div className={`w-3 h-3 rounded-full border-2 border-white transition-all ${currentRegion === r.name ? 'bg-blue-600 scale-150 shadow-lg shadow-blue-500/50' : 'bg-blue-200 group-hover:bg-blue-500'}`}></div>
-            <div className={`absolute -bottom-8 opacity-0 group-hover:opacity-100 transition-opacity bg-white px-2 py-1 rounded-lg shadow-sm border border-gray-50 text-[9px] font-bold text-blue-600 whitespace-nowrap`}>
-               {r.count}개 공고 진행 중
-            </div>
          </button>
        ))}
     </div>

@@ -28,11 +28,10 @@ export default function DepositDetailPage() {
   const [isCompareOpen, setIsCompareOpen] = useState(false)
 
   useEffect(() => {
-    fetch(`/api/deposits`)
+    fetch(`/api/deposits?id=${params.id}`)
       .then(r => r.json())
       .then(data => {
-        const found = data.products?.find((p: DepositProduct) => p.fin_prdt_cd === params.id)
-        setProduct(found || null)
+        setProduct(data.product || null)
         setLoading(false)
       })
       .catch(err => {

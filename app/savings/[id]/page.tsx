@@ -29,11 +29,10 @@ export default function SavingDetailPage() {
   const [isCompareOpen, setIsCompareOpen] = useState(false)
 
   useEffect(() => {
-    fetch(`/api/savings`)
+    fetch(`/api/savings?id=${params.id}`)
       .then(r => r.json())
       .then(data => {
-        const found = data.products?.find((p: DepositProduct) => p.fin_prdt_cd === params.id)
-        setProduct(found || null)
+        setProduct(data.product || null)
         setLoading(false)
       })
       .catch(err => {

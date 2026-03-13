@@ -35,9 +35,15 @@ const MOCK_SAVINGS = [
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const trm = searchParams.get('trm') || '0';
+  const id = searchParams.get('id');
 
   if (!API_KEY) {
-    return NextResponse.json({ products: formatProducts(MOCK_SAVINGS, trm), isMock: true });
+    const products = formatProducts(MOCK_SAVINGS, trm);
+    if (id) {
+      const product = products.find((p: any) => p.fin_prdt_cd === id);
+      return NextResponse.json({ product, isMock: true });
+    }
+    return NextResponse.json({ products, isMock: true });
   }
 
   try {
@@ -49,7 +55,12 @@ export async function GET(request: Request) {
     const data = await res.json();
 
     if (data.result?.err_cd && data.result.err_cd !== '000') {
-      return NextResponse.json({ products: formatProducts(MOCK_SAVINGS, trm), isMock: true });
+      const products = formatProducts(MOCK_SAVINGS, trm);
+      if (id) {
+        const product = products.find((p: any) => p.fin_prdt_cd === id);
+        return NextResponse.json({ product, isMock: true });
+      }
+      return NextResponse.json({ products, isMock: true });
     }
 
     const baseList = data.result.baseList || [];
@@ -68,10 +79,20 @@ export async function GET(request: Request) {
     const rawProducts = Object.values(productMap).filter((p: any) => p.options.length > 0);
     const formatted = formatProducts(rawProducts, trm);
 
+    if (id) {
+      const product = formatted.find((p: any) => p.fin_prdt_cd === id);
+      return NextResponse.json({ product, isMock: false });
+    }
+
     return NextResponse.json({ products: formatted, isMock: false });
   } catch (error) {
     console.error('Savings API Error:', error);
-    return NextResponse.json({ products: formatProducts(MOCK_SAVINGS, trm), isMock: true });
+    const products = formatProducts(MOCK_SAVINGS, trm);
+    if (id) {
+      const product = products.find((p: any) => p.fin_prdt_cd === id);
+      return NextResponse.json({ product, isMock: true });
+    }
+    return NextResponse.json({ products, isMock: true });
   }
 }
 
@@ -89,13 +110,13 @@ function formatProducts(products: any[], trm: string) {
       ? p.options.filter((o: any) => String(o.save_trm) === String(trm))
       : p.options;
     
-    const sortedOpts = [...opts].sort((a, b) => (b.intr_rate2 || 0) - (a.intr_rate2 || 0));
+    const sortedOpts = [...opts].sort((a: any, b: any) => (b.intr_rate2 || 0) - (a.intr_rate2 || 0));
     const best = sortedOpts[0] || p.options[0];
     
     return { ...p, bestOption: best };
   });
 
-  mapped.sort((a, b) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0));
+  mapped.sort((a: any, b: any) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0));
   
   return mapped;
 }

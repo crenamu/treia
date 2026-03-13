@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { DepositProduct } from '@/types/deposit'
-import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp, Sparkles, Star, ArrowRight, Wallet } from 'lucide-react'
+import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp, Sparkles, Star, ArrowRight, Home, Calculator } from 'lucide-react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
@@ -242,14 +242,23 @@ export default function FinTableHome() {
                         </div>
 
                         <div className="flex items-center gap-8 mt-6 md:mt-0 w-full md:w-auto justify-between md:justify-end">
-                           <div className="text-right">
-                              <p className="text-[10px] text-gray-400 font-black uppercase mb-1">최고 금리</p>
+                           <div className="text-right flex flex-col items-end">
+                              <div className="flex items-center gap-1.5 mb-1">
+                                 <span className="text-[9px] font-black bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-md uppercase tracking-tighter">
+                                   세후 이자
+                                 </span>
+                                 <p className="text-[10px] text-gray-400 font-black uppercase">1천만원 기준</p>
+                              </div>
                               <div className="flex items-baseline gap-0.5">
-                                 <span className="text-4xl font-outfit font-black text-green-600 leading-none">
+                                 <span className="text-sm font-bold text-gray-400 mr-2">연</span>
+                                 <span className="text-3xl font-outfit font-black text-gray-900 group-hover:text-green-600 transition-colors leading-none">
                                     {p.bestOption?.intr_rate2.toFixed(2)}
                                  </span>
-                                 <span className="text-sm font-bold text-green-600/60">%</span>
+                                 <span className="text-sm font-bold text-gray-900/60">%</span>
                               </div>
+                              <p className="text-[11px] font-bold text-green-600 mt-1">
+                                 약 {Math.floor(10000000 * (p.bestOption?.intr_rate2 / 100) * (Number(p.bestOption?.save_trm) / 12) * 0.846).toLocaleString()}원
+                              </p>
                            </div>
                            <div className="flex items-center gap-2">
                              <ShareSaveButtons id={p.fin_prdt_cd} title={p.fin_prdt_nm} type="product" />
@@ -277,7 +286,7 @@ export default function FinTableHome() {
               <BenefitCard 
                 title="맞춤형 청약 진단" 
                 desc="내 점수로 당첨 가능한 집을 찾아드려요." 
-                icon={<HomeIcon size={24} />} 
+                icon={<Home size={24} />} 
                 href="/housing" 
                 color="blue"
               />
@@ -337,10 +346,3 @@ function BenefitCard({ title, desc, icon, href, color }: { title: string, desc: 
   )
 }
 
-function HomeIcon({ size }: { size: number }) {
-  return <ShieldCheck size={size} /> // Placeholder or use HomeIcon from lucide
-}
-
-function Calculator({ size }: { size: number }) {
-  return <Wallet size={size} /> // Placeholder
-}

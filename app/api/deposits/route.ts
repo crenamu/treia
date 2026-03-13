@@ -4,7 +4,6 @@ const API_KEY = process.env.FSS_API_KEY
 const BASE_URL = 'https://finlife.fss.or.kr/finlifeapi'
 const TOP_GRP = '020000'
 
-// Robust Mock data as fallback
 const MOCK_PRODUCTS = [
   {
     fin_prdt_cd: 'MOCK_001',
@@ -38,10 +37,15 @@ const MOCK_PRODUCTS = [
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const trm = searchParams.get('trm') || '0'
+  const id = searchParams.get('id')
 
   if (!API_KEY) {
-    console.warn('FSS_API_KEY is missing. Using Mock Data.');
-    return NextResponse.json({ products: formatProducts(MOCK_PRODUCTS, trm), total: MOCK_PRODUCTS.length, isMock: true });
+    const products = formatProducts(MOCK_PRODUCTS, trm);
+    if (id) {
+      const product = products.find((p: any) => p.fin_prdt_cd === id);
+      return NextResponse.json({ product, isMock: true });
+    }
+    return NextResponse.json({ products, total: MOCK_PRODUCTS.length, isMock: true });
   }
 
   try {
@@ -53,8 +57,12 @@ export async function GET(request: Request) {
     const data = await res.json()
 
     if (data.result?.err_cd && data.result.err_cd !== '000') {
-      console.error('FSS API Error:', data.result.err_msg);
-      return NextResponse.json({ products: formatProducts(MOCK_PRODUCTS, trm), total: MOCK_PRODUCTS.length, isMock: true });
+      const products = formatProducts(MOCK_PRODUCTS, trm);
+      if (id) {
+        const product = products.find((p: any) => p.fin_prdt_cd === id);
+        return NextResponse.json({ product, isMock: true });
+      }
+      return NextResponse.json({ products, total: MOCK_PRODUCTS.length, isMock: true });
     }
 
     const baseList = data.result.baseList || []
@@ -71,39 +79,50 @@ export async function GET(request: Request) {
     })
 
     const rawProducts = Object.values(productMap).filter((p: any) => p.options.length > 0)
+    
+    if (rawProducts.length === 0) {
+      const products = formatProducts(MOCK_PRODUCTS, trm);
+      if (id) {
+        const product = products.find((p: any) => p.fin_prdt_cd === id);
+        return NextResponse.json({ product, isMock: true });
+      }
+      return NextResponse.json({ products, total: MOCK_PRODUCTS.length, isMock: true });
+    }
+
     const formatted = formatProducts(rawProducts, trm);
+    
+    if (id) {
+      const product = formatted.find((p: any) => p.fin_prdt_cd === id);
+      return NextResponse.json({ product, isMock: false });
+    }
 
     return NextResponse.json({ products: formatted, total: formatted.length, isMock: false })
-  } catch (e: any) {
-    console.error('FSS API Catch Error:', e.message)
-    return NextResponse.json({ products: formatProducts(MOCK_PRODUCTS, trm), total: MOCK_PRODUCTS.length, isMock: true });
+  } catch (error) {
+    console.error('API Error:', error)
+    const products = formatProducts(MOCK_PRODUCTS, trm);
+    if (id) {
+      const product = products.find((p: any) => p.fin_prdt_cd === id);
+      return NextResponse.json({ product, isMock: true });
+    }
+    return NextResponse.json({ products, total: MOCK_PRODUCTS.length, isMock: true });
   }
 }
 
 function formatProducts(products: any[], trm: string) {
   let filtered = [...products];
-
-  // 기간 필터
   if (trm && trm !== '0') {
     filtered = filtered.filter((p: any) =>
       p.options.some((o: any) => String(o.save_trm) === String(trm))
     )
   }
-
-  // 대표 옵션 선정
   const mapped = filtered.map((p: any) => {
     const opts = (trm && trm !== '0')
       ? p.options.filter((o: any) => String(o.save_trm) === String(trm))
       : p.options
-    
-    const sortedOpts = [...opts].sort((a, b) => (b.intr_rate2 || 0) - (a.intr_rate2 || 0));
+    const sortedOpts = [...opts].sort((a: any, b: any) => (b.intr_rate2 || 0) - (a.intr_rate2 || 0));
     const best = sortedOpts[0] || p.options[0];
-    
     return { ...p, bestOption: best }
   })
-
-  // 정렬
   mapped.sort((a: any, b: any) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0))
-  
   return mapped;
 }
