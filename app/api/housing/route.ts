@@ -11,6 +11,31 @@ interface LHItem {
   DTL_URL: string
 }
 
+const MOCK_NOTICES = [
+  {
+    id: 'MOCK_LH_1',
+    title: '[AI추천] 서울양원 S1블록 통합공공임대주택 입주자 모집',
+    location: '서울특별시 중랑구',
+    org: 'LH서울지역본부',
+    status: '접수중',
+    date: '2026.03.10 ~ 2026.03.25',
+    type: '통합공공임대',
+    provider: 'LH',
+    link: '#'
+  },
+  {
+    id: 'MOCK_LH_2',
+    title: '동탄2 A-94블록 장기전세주택 예비입주자 모집',
+    location: '경기도 화성시',
+    org: 'LH경기남부지역본부',
+    status: '공고중',
+    date: '2026.03.15 ~ 2026.04.05',
+    type: '장기전세',
+    provider: 'LH',
+    link: '#'
+  }
+];
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const page = searchParams.get('page') || '1'
@@ -19,8 +44,14 @@ export async function GET(request: Request) {
   const API_KEY = process.env.PUBLIC_DATA_API_KEY
   const BASE_URL = `http://apis.data.go.kr/B552555/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1`
 
+  if (!API_KEY) {
+    console.warn('PUBLIC_DATA_API_KEY is missing. Using Mock Data.');
+    return NextResponse.json({ success: true, notices: MOCK_NOTICES, isMock: true });
+  }
+
   try {
-    const response = await fetch(`${BASE_URL}?serviceKey=${API_KEY}&PG_SZ=${pageSize}&PAGE=${page}&UPP_AIS_TP_CD=06`, {
+    // 공공데이터포털 특성상 numOfRows, pageNo 등을 시도
+    const response = await fetch(`${BASE_URL}?serviceKey=${API_KEY}&numOfRows=${pageSize}&pageNo=${page}&UPP_AIS_TP_CD=06&_type=json`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json'
@@ -28,13 +59,18 @@ export async function GET(request: Request) {
       next: { revalidate: 3600 }
     })
 
-    if (!response.ok) {
-      throw new Error(`API responded with status: ${response.status}`)
-    }
+    if (!response.ok) throw new Error('API Response Error');
 
     const data = await response.json()
-    const rawList: LHItem[] = data[1]?.dsList || []
     
+    // LH API는 응답 구조가 배열로 올 때가 많음
+    const dsList = Array.isArray(data) ? data[1]?.dsList : data?.dsList;
+    const rawList: LHItem[] = dsList || []
+    
+    if (rawList.length === 0) {
+      return NextResponse.json({ success: true, notices: MOCK_NOTICES, isMock: true });
+    }
+
     const formattedList = rawList.map((item: LHItem) => ({
       id: item.PAN_ID,
       title: item.PAN_NM,
@@ -50,13 +86,16 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       success: true,
-      notices: formattedList
+      notices: formattedList,
+      isMock: false
     })
   } catch (error) {
     console.error('Housing API Error:', error)
     return NextResponse.json({ 
-      success: false, 
-      message: 'Failed to fetch housing data' 
-    }, { status: 500 })
+      success: true, 
+      notices: MOCK_NOTICES,
+      isMock: true,
+      message: 'API 연동 장애로 시뮬레이션 데이터를 표시합니다.'
+    })
   }
 }

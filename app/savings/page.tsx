@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { DepositProduct } from '@/types/deposit'
-import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp, PiggyBank } from 'lucide-react'
+import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp, Sparkles, Star, ArrowRight, Wallet, ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 
 const TERMS = [
   { label: '전체', value: '0' },
@@ -17,10 +19,6 @@ const SORTS = [
   { label: '최고금리 높은순', value: 'rate2_desc' },
   { label: '기본금리 높은순', value: 'rate_desc' },
 ]
-
-function hasSpecial(spcl_cnd: string) {
-  return spcl_cnd && !spcl_cnd.includes('해당사항 없음')
-}
 
 export default function SavingsPage() {
   const [products, setProducts] = useState<DepositProduct[]>([])
@@ -42,162 +40,138 @@ export default function SavingsPage() {
       })
   }, [trm])
 
-  const bestBase = products.length > 0 ? [...products].sort((a, b) => b.bestOption.intr_rate - a.bestOption.intr_rate)[0] : null
-  const bestMax = products.length > 0 ? [...products].sort((a, b) => b.bestOption.intr_rate2 - a.bestOption.intr_rate2)[0] : null
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sort === 'rate2_desc') return (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0)
+    if (sort === 'rate_desc') return (b.bestOption?.intr_rate || 0) - (a.bestOption?.intr_rate || 0)
+    return 0
+  })
+
+  const bestMax = products.length > 0 ? [...products].sort((a, b) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0))[0] : null
 
   return (
-    <div className="min-h-screen bg-[var(--bg-beige)]">
-      <main className="container mx-auto max-w-4xl px-6 py-12">
-        {/* Header */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="px-2 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase tracking-wider rounded">Savings</span>
-            <p className="text-xs text-gray-500 font-medium tracking-tight">차곡차곡 쌓이는 재미, 적금 금리 비교</p>
+    <div className="min-h-screen bg-[var(--bg-beige)] pb-24">
+      <main className="container mx-auto max-w-5xl px-6 pt-12 md:pt-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-16"
+        >
+          <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-2xl shadow-sm border border-gray-100">
+             <Rocket size={16} className="text-purple-600" />
+             <p className="text-[10px] font-black text-gray-400 uppercase tracking-[2px]">High Yield Savings</p>
           </div>
-          <h1 className="text-4xl md:text-5xl font-outfit font-black text-gray-900 leading-[1.1] mb-4 tracking-tighter">
-            목돈 만들기,<br />
-            적금으로 시작하세요
+          
+          <h1 className="text-5xl md:text-7xl font-outfit font-black text-gray-900 leading-[0.95] mb-8 tracking-tighter">
+            목돈 마련의<br />
+            <span className="text-purple-600 underline underline-offset-8 decoration-8 decoration-purple-100">가장 빠른 길</span>
           </h1>
-          <p className="text-gray-500 font-medium max-w-lg">
-            매달 일정 금액을 적립하여 목돈을 만드는 적금 상품입니다.<br/>
-            우대 고시 금리를 확인하고 가장 유리한 상품을 골라보세요.
+          
+          <p className="text-gray-500 font-medium max-w-md text-lg leading-relaxed">
+            매월 차곡차곡 쌓이는 즐거움.<br/>
+            핀테이블이 찾아낸 최고의 적금 금리를 확인하세요.
           </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+          <div className="bg-purple-600 rounded-[32px] p-8 text-white flex items-center justify-between shadow-xl shadow-purple-500/20 group overflow-hidden relative">
+             <div className="relative z-10">
+                <p className="text-[10px] font-black uppercase tracking-[3px] text-purple-200 mb-2">현시점 최고 금리</p>
+                <h2 className="text-5xl font-outfit font-black mb-1">연 {bestMax?.bestOption?.intr_rate2.toFixed(2)}%</h2>
+                <p className="text-sm font-bold text-purple-100">{bestMax?.kor_co_nm}</p>
+             </div>
+             <Rocket size={80} className="text-purple-500/30 absolute right-[-10px] bottom-[-10px] rotate-12 group-hover:scale-110 transition-transform" />
+          </div>
+          <div className="bg-white rounded-[32px] p-8 border border-gray-100 shadow-sm flex flex-col justify-center">
+             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 text-center">적금으로 얼마를 모을까요?</p>
+             <Link href="/calculator" className="w-full py-5 bg-gray-50 hover:bg-gray-100 rounded-2xl flex items-center justify-center gap-3 text-sm font-black transition-all">
+                <Wallet size={18} className="text-purple-600" /> 목표 금액별 월 납입액 계산
+             </Link>
+          </div>
         </div>
 
-        {/* Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          <MetricCard 
-            label="최고 기본금리" 
-            value={bestBase ? `연 ${bestBase.bestOption.intr_rate.toFixed(2)}%` : '—'} 
-            sub={bestBase?.kor_co_nm || '데이터 로딩중'}
-            icon={<PiggyBank size={18} className="text-blue-500" />}
-          />
-          <MetricCard 
-            label="최고 우대금리" 
-            value={bestMax ? `연 ${bestMax.bestOption.intr_rate2.toFixed(2)}%` : '—'} 
-            sub={bestMax?.kor_co_nm || '데이터 로딩중'}
-            icon={<TrendingUp size={18} className="text-green-500" />}
-            highlight
-          />
-          <MetricCard 
-            label="비교 상품 수" 
-            value={loading ? '—' : `${products.length}개`} 
-            sub="금감원 등록 기준"
-            icon={<Rocket size={18} className="text-purple-500" />}
-          />
-        </div>
-
-        {/* List Section */}
-        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100">
-           {/* Filters */}
-           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-            <div className="flex gap-2 p-1 bg-gray-50 rounded-xl w-fit">
-              {TERMS.map(t => (
-                <button
-                  key={t.value}
-                  onClick={() => setTrm(t.value)}
-                  className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                    trm === t.value
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-400 hover:text-gray-600'
-                  }`}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-sm text-gray-500 font-medium border border-gray-100 rounded-xl px-4 py-2 bg-white">
-                <Filter size={14} />
-                <select 
-                  value={sort} 
-                  onChange={e => setSort(e.target.value)}
-                  className="bg-transparent outline-none appearance-none pr-4 font-bold"
-                >
-                  {SORTS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-                </select>
-                <ChevronDown size={14} />
-              </div>
+        <div className="bg-white rounded-[48px] shadow-2xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
+          <div className="px-8 pt-10 pb-6 border-b border-gray-50">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+               <div className="flex p-1 bg-gray-100 rounded-2xl w-fit">
+                  {TERMS.map(t => (
+                    <button 
+                      key={t.value}
+                      onClick={() => setTrm(t.value)}
+                      className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all ${trm === t.value ? 'bg-white text-gray-900 shadow-md' : 'text-gray-400 hover:text-gray-600'}`}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+               </div>
+               <div className="flex items-center gap-4">
+                  <p className="text-xs font-bold text-gray-400">총 <span className="text-gray-900">{products.length}개</span> 상품</p>
+                  <div className="flex items-center gap-2 text-xs font-black text-gray-500 bg-gray-50 px-4 py-3 rounded-xl">
+                     <Filter size={14} />
+                     <select value={sort} onChange={e => setSort(e.target.value)} className="bg-transparent outline-none cursor-pointer">
+                        {SORTS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+                     </select>
+                  </div>
+               </div>
             </div>
           </div>
 
-          {/* List */}
-          <div className="space-y-4">
-            {loading ? (
-              <div className="flex flex-col items-center justify-center py-24 gap-4">
-                <div className="w-8 h-8 border-4 border-green-500/20 border-t-green-500 rounded-full animate-spin"></div>
-                <p className="text-sm text-gray-400 font-bold">실시간 금리 데이터를 불러오고 있습니다...</p>
-              </div>
-            ) : products.length === 0 ? (
-              <div className="text-center py-24 text-gray-400 font-medium">검색된 상품이 없습니다.</div>
-            ) : (
-              products.map(p => (
-                <Link 
-                  href={`/savings/${p.fin_prdt_cd}`}
-                  key={p.fin_prdt_cd} 
-                  className="group bg-white border border-gray-100 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between hover:border-green-200 hover:shadow-lg hover:shadow-green-500/5 transition-all cursor-pointer"
-                >
-                  <div className="flex flex-col gap-2 flex-1 md:mr-6">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className="text-xs text-gray-400 font-bold">{p.kor_co_nm}</span>
-                      {hasSpecial(p.spcl_cnd) && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-bold">우대조건</span>
-                      )}
-                    </div>
-                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-green-700 transition-colors">
-                      {p.fin_prdt_nm}
-                    </h3>
-                    <div className="flex items-center gap-4 mt-1">
-                      <div className="flex flex-col">
-                        <span className="text-[10px] text-gray-400 font-bold uppercase">기간</span>
-                        <span className="text-sm text-gray-700 font-bold">{p.bestOption.save_trm}개월</span>
-                      </div>
-                      <div className="w-px h-6 bg-gray-100"></div>
-                      <div className="flex flex-col">
-                        <span className="text-[10px] text-gray-400 font-bold uppercase">적립</span>
-                        <span className="text-sm text-gray-700 font-bold">{p.bestOption.rsrv_type_nm}</span>
-                      </div>
-                    </div>
-                  </div>
+          <div className="px-4 py-8">
+            <AnimatePresence mode="popLayout">
+              {loading ? (
+                <div className="py-32 flex flex-col items-center justify-center gap-6">
+                   <div className="w-12 h-12 border-4 border-purple-100 border-t-purple-600 rounded-full animate-spin"></div>
+                   <p className="text-sm font-black text-gray-400 uppercase tracking-widest">데이터 동기화 중...</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {sortedProducts.map((p, idx) => (
+                    <motion.div
+                      layout
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.05 }}
+                      key={p.fin_prdt_cd}
+                    >
+                      <Link 
+                        href={`/savings/${p.fin_prdt_cd}`}
+                        className="group flex flex-col md:flex-row items-center justify-between p-6 md:p-8 bg-white border border-gray-100 rounded-[40px] hover:border-purple-200 hover:shadow-2xl hover:shadow-purple-500/5 transition-all duration-500"
+                      >
+                         <div className="flex items-center gap-8 flex-1 w-full">
+                            <div className="w-16 h-16 bg-gray-50 rounded-3xl flex items-center justify-center text-xl font-bold text-gray-300 group-hover:bg-purple-50 group-hover:text-purple-600 transition-all border border-transparent group-hover:border-purple-100">
+                               {p.kor_co_nm.substring(0, 2)}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                               <p className="text-[11px] font-black text-gray-400 uppercase tracking-tight mb-1">{p.kor_co_nm}</p>
+                               <h3 className="text-xl font-black text-gray-900 group-hover:text-purple-700 transition-colors truncate mb-2">{p.fin_prdt_nm}</h3>
+                               <div className="flex items-center gap-3">
+                                  <span className="text-xs font-bold text-gray-400">{p.bestOption?.save_trm}개월</span>
+                                  <div className="w-1 h-1 rounded-full bg-gray-200"></div>
+                                  <span className="text-xs font-bold text-gray-400">{p.bestOption?.intr_rate_type_nm}</span>
+                               </div>
+                            </div>
+                         </div>
 
-                  <div className="flex items-end justify-between md:flex-col md:items-end md:gap-1 mt-6 md:mt-0">
-                    <div className="md:text-right">
-                      <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">연 금리 (기본)</p>
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-3xl font-outfit font-black text-gray-900 leading-none">
-                          {p.bestOption.intr_rate.toFixed(2)}
-                        </span>
-                        <span className="text-base font-bold text-gray-400">%</span>
-                      </div>
-                    </div>
-                    {p.bestOption.intr_rate2 > p.bestOption.intr_rate && (
-                      <div className="md:text-right bg-green-50 px-2 py-1 rounded-lg">
-                        <p className="text-[10px] text-green-700 font-black uppercase">최고  {p.bestOption.intr_rate2.toFixed(2)}%</p>
-                      </div>
-                    )}
-                  </div>
-                </Link>
-              ))
-            )}
+                         <div className="flex items-center gap-12 mt-8 md:mt-0 w-full md:w-auto justify-between md:justify-end">
+                            <div className="text-right">
+                               <p className="text-[10px] text-gray-400 font-black uppercase mb-1">최고 연 금리</p>
+                               <div className="flex items-baseline gap-1">
+                                  <span className="text-4xl font-outfit font-black text-purple-600 leading-none">{p.bestOption?.intr_rate2.toFixed(2)}</span>
+                                  <span className="text-sm font-bold text-purple-300">%</span>
+                               </div>
+                            </div>
+                            <div className="p-4 bg-gray-50 rounded-[24px] text-gray-300 group-hover:bg-purple-600 group-hover:text-white transition-all shadow-sm">
+                               <ArrowRight size={20} />
+                            </div>
+                         </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </main>
-    </div>
-  )
-}
-
-function MetricCard({ label, value, sub, icon, highlight }: { label: string, value: string, sub: string, icon: React.ReactNode, highlight?: boolean }) {
-  return (
-    <div className={`bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-start gap-4 transition-all hover:-translate-y-1 ${highlight ? 'ring-2 ring-green-500/10' : ''}`}>
-      <div className="p-2.5 bg-gray-50 rounded-xl">
-        {icon}
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-xs text-gray-400 font-bold uppercase tracking-tight mb-1">{label}</p>
-        <p className={`text-2xl font-outfit font-black leading-tight mb-1 truncate ${highlight ? 'text-green-600' : 'text-gray-900'}`}>{value}</p>
-        <p className="text-[10px] text-gray-500 font-medium truncate">{sub}</p>
-      </div>
     </div>
   )
 }

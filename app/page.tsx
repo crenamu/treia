@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { DepositProduct } from '@/types/deposit'
-import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp } from 'lucide-react'
+import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp, Sparkles, Star, ArrowRight, Wallet, ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 
 const TERMS = [
   { label: '전체', value: '0' },
@@ -16,223 +18,322 @@ const TERMS = [
 const SORTS = [
   { label: '최고금리 높은순', value: 'rate2_desc' },
   { label: '기본금리 높은순', value: 'rate_desc' },
-  { label: '금리 낮은순', value: 'rate2_asc' },
 ]
-
-function hasSpecial(spcl_cnd: string) {
-  return spcl_cnd && !spcl_cnd.includes('해당사항 없음')
-}
-
-function isOnline(join_way: string) {
-  return join_way?.includes('인터넷') || join_way?.includes('스마트폰')
-}
 
 export default function FinTableHome() {
   const [products, setProducts] = useState<DepositProduct[]>([])
+  const [savingProducts, setSavingProducts] = useState<DepositProduct[]>([])
+  const [activeTab, setActiveTab] = useState<'deposit' | 'saving'>('deposit')
   const [loading, setLoading] = useState(true)
-  const [trm, setTrm] = useState('12') // Default 12 months
+  const [trm, setTrm] = useState('12')
   const [sort, setSort] = useState('rate2_desc')
 
   useEffect(() => {
     setLoading(true)
-    fetch(`/api/deposits?trm=${trm}`)
+    const url = activeTab === 'deposit' ? `/api/deposits?trm=${trm}` : `/api/savings?trm=${trm}`
+    
+    fetch(url)
       .then(r => r.json())
       .then(data => {
-        setProducts(data.products || [])
+        if (activeTab === 'deposit') setProducts(data.products || [])
+        else setSavingProducts(data.products || [])
         setLoading(false)
       })
       .catch((err) => {
         console.error(err)
         setLoading(false)
       })
-  }, [trm])
+  }, [trm, activeTab])
 
-  // Top metrics based on loaded products
-  const bestBase = products.length > 0 ? [...products].sort((a, b) => b.bestOption.intr_rate - a.bestOption.intr_rate)[0] : null
-  const bestMax = products.length > 0 ? [...products].sort((a, b) => b.bestOption.intr_rate2 - a.bestOption.intr_rate2)[0] : null
+  const currentProducts = activeTab === 'deposit' ? products : savingProducts
+  
+  // Sorted products
+  const sortedProducts = [...currentProducts].sort((a, b) => {
+    if (sort === 'rate2_desc') return (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0)
+    if (sort === 'rate_desc') return (b.bestOption?.intr_rate || 0) - (a.bestOption?.intr_rate || 0)
+    return 0
+  })
+
+  // Metric calculation
+  const bestBase = currentProducts.length > 0 ? [...currentProducts].sort((a, b) => (b.bestOption?.intr_rate || 0) - (a.bestOption?.intr_rate || 0))[0] : null
+  const bestMax = currentProducts.length > 0 ? [...currentProducts].sort((a, b) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0))[0] : null
 
   return (
-    <div className="min-h-screen bg-[var(--bg-beige)]">
-      <main className="container mx-auto max-w-4xl px-6 py-12">
-        {/* Hero Header */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="px-2 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase tracking-wider rounded">Open Data</span>
-            <p className="text-xs text-gray-500 font-medium tracking-tight">금융감독원 공시 기준 · 실시간 데이터</p>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-outfit font-black text-gray-900 leading-[1.1] mb-4 tracking-tighter">
-            지금 가장 좋은 금리,<br />
-            한눈에 비교하세요
-          </h1>
-          <p className="text-gray-500 font-medium max-w-lg">
-            368개 금융기관의 데이터를 매시간 분석하여 
-            당신의 자산을 키워줄 최적의 상품을 추천합니다.
-          </p>
-        </div>
+    <div className="min-h-screen bg-[var(--bg-beige)] selection:bg-green-100 pb-24">
+      {/* Background Decorative Elements */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden opacity-40">
+        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-green-200/30 blur-[120px] rounded-full"></div>
+        <div className="absolute bottom-[-5%] left-[-5%] w-[400px] h-[400px] bg-blue-200/20 blur-[100px] rounded-full"></div>
+      </div>
 
-        {/* Summary Metric Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          <MetricCard 
-            label="최고 기본금리" 
-            value={bestBase ? `연 ${bestBase.bestOption.intr_rate.toFixed(2)}%` : '—'} 
-            sub={bestBase?.kor_co_nm || '데이터 로딩중'}
-            icon={<ShieldCheck size={18} className="text-blue-500" />}
-          />
-          <MetricCard 
-            label="최고 우대금리" 
-            value={bestMax ? `연 ${bestMax.bestOption.intr_rate2.toFixed(2)}%` : '—'} 
-            sub={bestMax?.kor_co_nm || '데이터 로딩중'}
-            icon={<TrendingUp size={18} className="text-green-500" />}
-            highlight
-          />
-          <MetricCard 
-            label="비교 상품 수" 
-            value={loading ? '—' : `${products.length}개`} 
-            sub="금감원 등록 기준"
-            icon={<Rocket size={18} className="text-purple-500" />}
-          />
-        </div>
-
-        {/* Content Section */}
-        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100">
-          {/* Tabs */}
-          <div className="flex border-b border-gray-100 mb-8 overflow-x-auto scrollbar-hide">
-            <TabItem label="예금" active />
-            <TabItem label="적금" disabled />
-            <TabItem label="ISA/ETF" disabled />
-          </div>
-
-          {/* Filters & Sorting */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-            <div className="flex gap-2 p-1 bg-gray-50 rounded-xl w-fit">
-              {TERMS.map(t => (
-                <button
-                  key={t.value}
-                  onClick={() => setTrm(t.value)}
-                  className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                    trm === t.value
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-400 hover:text-gray-600'
-                  }`}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-sm text-gray-500 font-medium border border-gray-100 rounded-xl px-4 py-2 bg-white">
-                <Filter size={14} />
-                <select 
-                  value={sort} 
-                  onChange={e => setSort(e.target.value)}
-                  className="bg-transparent outline-none appearance-none pr-4"
-                >
-                  {SORTS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-                </select>
-                <ChevronDown size={14} />
-              </div>
-            </div>
-          </div>
-
-          {/* Product List */}
-          <div className="space-y-4">
-            {loading ? (
-              <div className="flex flex-col items-center justify-center py-24 gap-4">
-                <div className="w-8 h-8 border-4 border-green-500/20 border-t-green-500 rounded-full animate-spin"></div>
-                <p className="text-sm text-gray-400 font-bold">실시간 금리 데이터를 불러오고 있습니다...</p>
-              </div>
-            ) : products.length === 0 ? (
-              <div className="text-center py-24 text-gray-400 font-medium">검색된 상품이 없습니다.</div>
-            ) : (
-              products.map(p => (
-                <Link 
-                  href={`/deposits/${p.fin_prdt_cd}`}
-                  key={p.fin_prdt_cd} 
-                  className="group bg-white border border-gray-100 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between hover:border-green-200 hover:shadow-lg hover:shadow-green-500/5 transition-all cursor-pointer"
-                >
-                  <div className="flex flex-col gap-2 flex-1 md:mr-6">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className="text-xs text-gray-400 font-bold">{p.kor_co_nm}</span>
-                      {hasSpecial(p.spcl_cnd) && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-bold">우대조건</span>
-                      )}
-                      {isOnline(p.join_way) && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 font-bold">비대면 가입</span>
-                      )}
-                    </div>
-                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-green-700 transition-colors">
-                      {p.fin_prdt_nm}
-                    </h3>
-                    <div className="flex items-center gap-4 mt-1">
-                      <div className="flex flex-col">
-                        <span className="text-[10px] text-gray-400 font-bold uppercase">기간</span>
-                        <span className="text-sm text-gray-700 font-bold">{p.bestOption.save_trm}개월</span>
-                      </div>
-                      <div className="w-px h-6 bg-gray-100"></div>
-                      <div className="flex flex-col">
-                        <span className="text-[10px] text-gray-400 font-bold uppercase">유형</span>
-                        <span className="text-sm text-gray-700 font-bold">{p.bestOption.intr_rate_type_nm}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-end justify-between md:flex-col md:items-end md:gap-1 mt-6 md:mt-0">
-                    <div className="md:text-right">
-                      <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">연 금리 (기본)</p>
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-3xl font-outfit font-black text-gray-900 leading-none">
-                          {p.bestOption.intr_rate.toFixed(2)}
-                        </span>
-                        <span className="text-base font-bold text-gray-400">%</span>
-                      </div>
-                    </div>
-                    {p.bestOption.intr_rate2 > p.bestOption.intr_rate && (
-                      <div className="md:text-right bg-green-50 px-2 py-1 rounded-lg">
-                        <p className="text-[10px] text-green-700 font-black uppercase">최고  {p.bestOption.intr_rate2.toFixed(2)}%</p>
-                      </div>
-                    )}
-                  </div>
-                </Link>
-              ))
-            )}
+      <main className="container mx-auto max-w-5xl px-6 pt-12 md:pt-20 relative z-10">
+        {/* Premium Hero Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'out' }}
+          className="mb-16"
+        >
+          <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-2xl shadow-sm border border-gray-100">
+             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+             <p className="text-[10px] font-black text-gray-400 uppercase tracking-[2px]">Real-time Finance Intelligence</p>
           </div>
           
-          <div className="mt-12 pt-8 border-t border-gray-50 flex flex-col items-center">
-             <p className="text-xs text-gray-400 font-medium mb-4 text-center">
-               금융기관의 공시 자료가 지연되어 실제 금리와 다를 수 있습니다.<br/>
-               가입 전 반드시 해당 금융기관 홈페이지에서 최종 금리를 확인하세요.
-             </p>
+          <h1 className="text-5xl md:text-7xl font-outfit font-black text-gray-900 leading-[0.95] mb-8 tracking-tighter">
+            당신의 자산이<br />
+            <span className="text-green-600 inline-flex items-center gap-4">
+              기록이 되는 순간 <ArrowUpRight size={48} className="md:size-64 opacity-20" />
+            </span>
+          </h1>
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <p className="text-gray-500 font-medium max-w-md text-lg leading-relaxed">
+              368개 금융기관의 금리를 1초마다 동기화하여<br/>
+              가장 높은 수익률을 보장하는 최적의 상품을 제안합니다.
+            </p>
+            <div className="flex items-center gap-3">
+               <Link href="/calculator" className="flex items-center gap-2 px-6 py-4 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-green-600 transition-all shadow-xl shadow-gray-900/10">
+                  이자 계산해보기 <Wallet size={16} />
+               </Link>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Global Market Insight (Glass style) */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
+          <GlassMetricCard 
+            label="최고 우대금리" 
+            value={bestMax ? `연 ${bestMax.bestOption.intr_rate2.toFixed(2)}%` : '—'} 
+            sub={bestMax?.kor_co_nm || ''}
+            icon={<TrendingUp size={20} />}
+            color="green"
+          />
+          <GlassMetricCard 
+            label="최고 기본금리" 
+            value={bestBase ? `연 ${bestBase.bestOption.intr_rate.toFixed(2)}%` : '—'} 
+            sub={bestBase?.kor_co_nm || ''}
+            icon={<ShieldCheck size={20} />}
+            color="blue"
+          />
+          <GlassMetricCard 
+            label="분석된 상품 수" 
+            value={loading ? '...' : `${currentProducts.length}개`} 
+            sub="금감원 정식 등록"
+            icon={<Rocket size={20} />}
+            color="purple"
+          />
+          <div className="hidden md:flex bg-white/40 backdrop-blur-md rounded-3xl p-6 border border-white items-center justify-center group cursor-pointer hover:bg-white/60 transition-all">
+             <div className="text-center">
+                <p className="text-[10px] font-black text-gray-400 uppercase mb-2">My Page</p>
+                <div className="p-3 bg-white rounded-2xl shadow-sm mb-2 group-hover:scale-110 transition-transform">
+                   <Star size={20} className="text-yellow-500" />
+                </div>
+                <p className="text-xs font-bold text-gray-900">저장 목록</p>
+             </div>
           </div>
         </div>
+
+        {/* Main Interface */}
+        <div className="bg-white rounded-[48px] shadow-2xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
+          {/* Header & Tabs */}
+          <div className="px-8 pt-8 pb-4">
+            <div className="flex items-center justify-between mb-8">
+               <div className="flex p-1.5 bg-gray-100 rounded-2xl gap-1">
+                  <button 
+                    onClick={() => setActiveTab('deposit')}
+                    className={`px-8 py-3 rounded-xl text-sm font-black transition-all ${activeTab === 'deposit' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    정기예금
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('saving')}
+                    className={`px-8 py-3 rounded-xl text-sm font-black transition-all ${activeTab === 'saving' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    정기적금
+                  </button>
+               </div>
+               <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 p-1 bg-gray-50 rounded-xl">
+                     {TERMS.map(t => (
+                        <button 
+                          key={t.value}
+                          onClick={() => setTrm(t.value)}
+                          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${trm === t.value ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400'}`}
+                        >
+                          {t.label}
+                        </button>
+                     ))}
+                  </div>
+               </div>
+            </div>
+
+            <div className="flex justify-between items-center mb-6">
+               <p className="text-xs font-medium text-gray-400">
+                  <span className="font-black text-gray-900">{sortedProducts.length}개</span>의 상품이 검색되었습니다.
+               </p>
+               <div className="flex items-center gap-2 text-xs font-bold text-gray-500 bg-gray-50 px-4 py-2 rounded-xl">
+                  <Filter size={14} />
+                  <select 
+                    value={sort} 
+                    onChange={e => setSort(e.target.value)}
+                    className="bg-transparent outline-none appearance-none cursor-pointer pr-4"
+                  >
+                    {SORTS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+                  </select>
+                  <ChevronDown size={14} />
+               </div>
+            </div>
+          </div>
+
+          {/* List Area */}
+          <div className="px-4 pb-12">
+            <div className="space-y-3">
+              <AnimatePresence mode="popLayout">
+                {loading ? (
+                  <motion.div 
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                    className="flex flex-col items-center justify-center py-32 gap-6"
+                  >
+                    <div className="w-12 h-12 border-4 border-green-500/20 border-t-green-500 rounded-full animate-spin"></div>
+                    <p className="text-sm text-gray-400 font-black uppercase tracking-widest">분석 중...</p>
+                  </motion.div>
+                ) : (
+                  sortedProducts.map((p, idx) => (
+                    <motion.div
+                      layout
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: idx * 0.05 }}
+                      key={p.fin_prdt_cd}
+                    >
+                      <Link 
+                        href={`/${activeTab === 'deposit' ? 'deposits' : 'savings'}/${p.fin_prdt_cd}`}
+                        className="group flex flex-col md:flex-row items-center justify-between p-6 bg-white border border-gray-100 rounded-[32px] hover:border-green-200 hover:bg-green-50/10 hover:shadow-2xl hover:shadow-green-500/5 transition-all duration-300"
+                      >
+                        <div className="flex items-center gap-6 flex-1 w-full md:w-auto">
+                           <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-xl font-bold text-gray-300 group-hover:bg-white transition-colors border border-transparent group-hover:border-green-100">
+                              {p.kor_co_nm.substring(0, 2)}
+                           </div>
+                           <div className="flex flex-col gap-1.5 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                 <span className="text-[11px] font-black text-gray-400 uppercase tracking-tight">{p.kor_co_nm}</span>
+                                 {p.bestOption?.intr_rate2 > p.bestOption?.intr_rate * 1.2 && (
+                                   <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-600 text-[9px] font-black rounded-full">
+                                      <Sparkles size={10} className="fill-current" /> 파격금리
+                                   </span>
+                                 )}
+                              </div>
+                              <h3 className="text-lg md:text-xl font-black text-gray-900 group-hover:text-green-700 transition-colors truncate">
+                                 {p.fin_prdt_nm}
+                              </h3>
+                              <div className="flex items-center gap-3 text-xs font-bold text-gray-400">
+                                 <span>{p.bestOption?.save_trm}개월</span>
+                                 <div className="w-1 h-1 rounded-full bg-gray-200"></div>
+                                 <span>{p.bestOption?.intr_rate_type_nm}</span>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div className="flex items-center gap-8 mt-6 md:mt-0 w-full md:w-auto justify-between md:justify-end">
+                           <div className="text-right">
+                              <p className="text-[10px] text-gray-400 font-black uppercase mb-1">최고 금리</p>
+                              <div className="flex items-baseline gap-0.5">
+                                 <span className="text-4xl font-outfit font-black text-green-600 leading-none">
+                                    {p.bestOption?.intr_rate2.toFixed(2)}
+                                 </span>
+                                 <span className="text-sm font-bold text-green-600/60">%</span>
+                              </div>
+                           </div>
+                           <div className="flex items-center gap-2">
+                             <ShareSaveButtons id={p.fin_prdt_cd} title={p.fin_prdt_nm} type="product" />
+                             <div className="p-3 bg-gray-50 rounded-2xl text-gray-300 group-hover:text-green-600 group-hover:bg-white transition-all shadow-sm border border-transparent group-hover:border-green-100">
+                                <ArrowRight size={20} />
+                             </div>
+                           </div>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
+        {/* Toss-style Benefit Section */}
+        <section className="mt-24 space-y-12">
+           <div className="text-center">
+              <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-4">금융 생활의 모든 것</h2>
+              <p className="text-gray-500 font-medium">단 하나의 앱으로 쉽고 빠른 금융 관리를 경험하세요.</p>
+           </div>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <BenefitCard 
+                title="맞춤형 청약 진단" 
+                desc="내 점수로 당첨 가능한 집을 찾아드려요." 
+                icon={<HomeIcon size={24} />} 
+                href="/housing" 
+                color="blue"
+              />
+              <BenefitCard 
+                title="지능형 이자 계산" 
+                desc="만기 수령액부터 세금까지 한눈에." 
+                icon={<Calculator size={24} />} 
+                href="/calculator"
+                color="green"
+              />
+              <BenefitCard 
+                title="AI 포트폴리오" 
+                desc="Treia의 엔진이 최적의 자산 배분을 추천해요." 
+                icon={<Rocket size={24} />} 
+                href="/treia"
+                color="purple"
+              />
+           </div>
+        </section>
       </main>
     </div>
   )
 }
 
-function MetricCard({ label, value, sub, icon, highlight }: { label: string, value: string, sub: string, icon: React.ReactNode, highlight?: boolean }) {
+function GlassMetricCard({ label, value, sub, icon, color }: { label: string, value: string, sub: string, icon: React.ReactNode, color: 'green' | 'blue' | 'purple' }) {
+  const colorMap = {
+    green: 'text-green-600 bg-green-50 shadow-green-500/10',
+    blue: 'text-blue-600 bg-blue-50 shadow-blue-500/10',
+    purple: 'text-purple-600 bg-purple-50 shadow-purple-500/10'
+  }
+  
   return (
-    <div className={`bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-start gap-4 transition-all hover:-translate-y-1 ${highlight ? 'ring-2 ring-green-500/10' : ''}`}>
-      <div className="p-2.5 bg-gray-50 rounded-xl">
-        {icon}
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-xs text-gray-400 font-bold uppercase tracking-tight mb-1">{label}</p>
-        <p className={`text-2xl font-outfit font-black leading-tight mb-1 truncate ${highlight ? 'text-green-600' : 'text-gray-900'}`}>{value}</p>
-        <p className="text-[10px] text-gray-500 font-medium truncate">{sub}</p>
-      </div>
+    <div className="bg-white/60 backdrop-blur-xl rounded-[32px] p-6 border border-white shadow-xl shadow-gray-200/20 hover:bg-white transition-all duration-500 group">
+       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-transform group-hover:scale-110 ${colorMap[color]}`}>
+          {icon}
+       </div>
+       <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{label}</p>
+       <p className={`text-2xl font-outfit font-black leading-tight mb-1 truncate ${color === 'green' ? 'text-green-600' : 'text-gray-900'}`}>{value}</p>
+       <p className="text-[10px] text-gray-500 font-bold truncate opacity-60">{sub || '검색 기록 없음'}</p>
     </div>
   )
 }
 
-function TabItem({ label, active, disabled }: { label: string, active?: boolean, disabled?: boolean }) {
+function BenefitCard({ title, desc, icon, href, color }: { title: string, desc: string, icon: React.ReactNode, href: string, color: string }) {
   return (
-    <button className={`px-6 py-4 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
-      active ? 'border-gray-900 text-gray-900' : 
-      disabled ? 'border-transparent text-gray-300 cursor-not-allowed' :
-      'border-transparent text-gray-400 hover:text-gray-600'
-    }`}>
-      {label}
-    </button>
+    <Link href={href} className="group bg-white rounded-[40px] p-10 border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
+       <div className={`absolute top-0 right-0 w-32 h-32 opacity-5 blur-3xl pointer-events-none ${color === 'green' ? 'bg-green-600' : color === 'blue' ? 'bg-blue-600' : 'bg-purple-600'}`}></div>
+       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 bg-gray-50 text-gray-400 group-hover:text-white transition-all duration-500 ${color === 'green' ? 'group-hover:bg-green-600' : color === 'blue' ? 'group-hover:bg-blue-600' : 'group-hover:bg-purple-600'}`}>
+          {icon}
+       </div>
+       <h4 className="text-xl font-black text-gray-900 mb-2">{title}</h4>
+       <p className="text-sm font-medium text-gray-400 leading-relaxed mb-8">{desc}</p>
+       <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-300 group-hover:text-gray-900 transition-colors">
+          Explore Now <ArrowRight size={14} />
+       </div>
+    </Link>
   )
+}
+
+function HomeIcon({ size }: { size: number }) {
+  return <ShieldCheck size={size} /> // Placeholder or use HomeIcon from lucide
+}
+
+function Calculator({ size }: { size: number }) {
+  return <Wallet size={size} /> // Placeholder
 }
