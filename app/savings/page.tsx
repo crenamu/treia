@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { DepositProduct } from '@/types/deposit'
-import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp } from 'lucide-react'
+import { Filter, ChevronDown, Rocket, ShieldCheck, TrendingUp, PiggyBank } from 'lucide-react'
 import Link from 'next/link'
 
 const TERMS = [
@@ -16,26 +16,21 @@ const TERMS = [
 const SORTS = [
   { label: '최고금리 높은순', value: 'rate2_desc' },
   { label: '기본금리 높은순', value: 'rate_desc' },
-  { label: '금리 낮은순', value: 'rate2_asc' },
 ]
 
 function hasSpecial(spcl_cnd: string) {
   return spcl_cnd && !spcl_cnd.includes('해당사항 없음')
 }
 
-function isOnline(join_way: string) {
-  return join_way?.includes('인터넷') || join_way?.includes('스마트폰')
-}
-
-export default function FinTableHome() {
+export default function SavingsPage() {
   const [products, setProducts] = useState<DepositProduct[]>([])
   const [loading, setLoading] = useState(true)
-  const [trm, setTrm] = useState('12') // Default 12 months
+  const [trm, setTrm] = useState('12')
   const [sort, setSort] = useState('rate2_desc')
 
   useEffect(() => {
     setLoading(true)
-    fetch(`/api/deposits?trm=${trm}`)
+    fetch(`/api/savings?trm=${trm}`)
       .then(r => r.json())
       .then(data => {
         setProducts(data.products || [])
@@ -47,36 +42,35 @@ export default function FinTableHome() {
       })
   }, [trm])
 
-  // Top metrics based on loaded products
   const bestBase = products.length > 0 ? [...products].sort((a, b) => b.bestOption.intr_rate - a.bestOption.intr_rate)[0] : null
   const bestMax = products.length > 0 ? [...products].sort((a, b) => b.bestOption.intr_rate2 - a.bestOption.intr_rate2)[0] : null
 
   return (
     <div className="min-h-screen bg-[var(--bg-beige)]">
       <main className="container mx-auto max-w-4xl px-6 py-12">
-        {/* Hero Header */}
+        {/* Header */}
         <div className="mb-12">
           <div className="flex items-center gap-2 mb-4">
-            <span className="px-2 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase tracking-wider rounded">Open Data</span>
-            <p className="text-xs text-gray-500 font-medium tracking-tight">금융감독원 공시 기준 · 실시간 데이터</p>
+            <span className="px-2 py-1 bg-green-50 text-green-700 text-[10px] font-bold uppercase tracking-wider rounded">Savings</span>
+            <p className="text-xs text-gray-500 font-medium tracking-tight">차곡차곡 쌓이는 재미, 적금 금리 비교</p>
           </div>
           <h1 className="text-4xl md:text-5xl font-outfit font-black text-gray-900 leading-[1.1] mb-4 tracking-tighter">
-            지금 가장 좋은 금리,<br />
-            한눈에 비교하세요
+            목돈 만들기,<br />
+            적금으로 시작하세요
           </h1>
           <p className="text-gray-500 font-medium max-w-lg">
-            368개 금융기관의 데이터를 매시간 분석하여 
-            당신의 자산을 키워줄 최적의 상품을 추천합니다.
+            매달 일정 금액을 적립하여 목돈을 만드는 적금 상품입니다.<br/>
+            우대 고시 금리를 확인하고 가장 유리한 상품을 골라보세요.
           </p>
         </div>
 
-        {/* Summary Metric Cards */}
+        {/* Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
           <MetricCard 
             label="최고 기본금리" 
             value={bestBase ? `연 ${bestBase.bestOption.intr_rate.toFixed(2)}%` : '—'} 
             sub={bestBase?.kor_co_nm || '데이터 로딩중'}
-            icon={<ShieldCheck size={18} className="text-blue-500" />}
+            icon={<PiggyBank size={18} className="text-blue-500" />}
           />
           <MetricCard 
             label="최고 우대금리" 
@@ -93,17 +87,10 @@ export default function FinTableHome() {
           />
         </div>
 
-        {/* Content Section */}
+        {/* List Section */}
         <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100">
-          {/* Tabs */}
-          <div className="flex border-b border-gray-100 mb-8 overflow-x-auto scrollbar-hide">
-            <TabItem label="예금" active />
-            <TabItem label="적금" disabled />
-            <TabItem label="ISA/ETF" disabled />
-          </div>
-
-          {/* Filters & Sorting */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+           {/* Filters */}
+           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
             <div className="flex gap-2 p-1 bg-gray-50 rounded-xl w-fit">
               {TERMS.map(t => (
                 <button
@@ -126,7 +113,7 @@ export default function FinTableHome() {
                 <select 
                   value={sort} 
                   onChange={e => setSort(e.target.value)}
-                  className="bg-transparent outline-none appearance-none pr-4"
+                  className="bg-transparent outline-none appearance-none pr-4 font-bold"
                 >
                   {SORTS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
                 </select>
@@ -135,7 +122,7 @@ export default function FinTableHome() {
             </div>
           </div>
 
-          {/* Product List */}
+          {/* List */}
           <div className="space-y-4">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-24 gap-4">
@@ -147,7 +134,7 @@ export default function FinTableHome() {
             ) : (
               products.map(p => (
                 <Link 
-                  href={`/deposits/${p.fin_prdt_cd}`}
+                  href={`/savings/${p.fin_prdt_cd}`}
                   key={p.fin_prdt_cd} 
                   className="group bg-white border border-gray-100 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between hover:border-green-200 hover:shadow-lg hover:shadow-green-500/5 transition-all cursor-pointer"
                 >
@@ -156,9 +143,6 @@ export default function FinTableHome() {
                       <span className="text-xs text-gray-400 font-bold">{p.kor_co_nm}</span>
                       {hasSpecial(p.spcl_cnd) && (
                         <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-bold">우대조건</span>
-                      )}
-                      {isOnline(p.join_way) && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 font-bold">비대면 가입</span>
                       )}
                     </div>
                     <h3 className="text-lg font-bold text-gray-900 group-hover:text-green-700 transition-colors">
@@ -171,8 +155,8 @@ export default function FinTableHome() {
                       </div>
                       <div className="w-px h-6 bg-gray-100"></div>
                       <div className="flex flex-col">
-                        <span className="text-[10px] text-gray-400 font-bold uppercase">유형</span>
-                        <span className="text-sm text-gray-700 font-bold">{p.bestOption.intr_rate_type_nm}</span>
+                        <span className="text-[10px] text-gray-400 font-bold uppercase">적립</span>
+                        <span className="text-sm text-gray-700 font-bold">{p.bestOption.rsrv_type_nm}</span>
                       </div>
                     </div>
                   </div>
@@ -197,13 +181,6 @@ export default function FinTableHome() {
               ))
             )}
           </div>
-          
-          <div className="mt-12 pt-8 border-t border-gray-50 flex flex-col items-center">
-             <p className="text-xs text-gray-400 font-medium mb-4 text-center">
-               금융기관의 공시 자료가 지연되어 실제 금리와 다를 수 있습니다.<br/>
-               가입 전 반드시 해당 금융기관 홈페이지에서 최종 금리를 확인하세요.
-             </p>
-          </div>
         </div>
       </main>
     </div>
@@ -222,17 +199,5 @@ function MetricCard({ label, value, sub, icon, highlight }: { label: string, val
         <p className="text-[10px] text-gray-500 font-medium truncate">{sub}</p>
       </div>
     </div>
-  )
-}
-
-function TabItem({ label, active, disabled }: { label: string, active?: boolean, disabled?: boolean }) {
-  return (
-    <button className={`px-6 py-4 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${
-      active ? 'border-gray-900 text-gray-900' : 
-      disabled ? 'border-transparent text-gray-300 cursor-not-allowed' :
-      'border-transparent text-gray-400 hover:text-gray-600'
-    }`}>
-      {label}
-    </button>
   )
 }
