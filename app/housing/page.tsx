@@ -6,31 +6,14 @@ import {
   MapPin, 
   Building2, 
   Sparkles,
-  Map as MapIcon,
   Filter as FilterIcon,
   TrendingDown,
-  Bell,
-  ChevronRight,
-  Info,
   ArrowRight,
-  Map,
-  ArrowLeft
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import DiagnosticTool from './DiagnosticTool'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 import { motion, AnimatePresence } from 'framer-motion'
-
-interface HousingNotice {
-  id: string
-  title: string
-  location: string
-  org: string
-  status: string
-  date: string
-  type: string
-  provider: string
-}
+import { getHousingNotices, type HousingNotice } from '@/app/actions/housing'
 
 const REGIONS = ['전체', '서울', '경기', '인천', '충청', '경상', '전라', '강원', '제주'];
 
@@ -42,17 +25,18 @@ export default function HousingPage() {
   const [diagnosed, setDiagnosed] = useState(false)
 
   useEffect(() => {
-    setLoading(true)
-    fetch('/api/housing')
-      .then(res => res.json())
-      .then(data => {
+    async function loadData() {
+      setLoading(true)
+      try {
+        const data = await getHousingNotices()
         setNotices(data.notices || [])
-        setLoading(false)
-      })
-      .catch(err => {
+      } catch (err) {
         console.error(err)
+      } finally {
         setLoading(false)
-      })
+      }
+    }
+    loadData()
   }, [])
 
   const filtered = notices.filter(n => region === '전체' || n.location.includes(region));
@@ -179,7 +163,7 @@ export default function HousingPage() {
   )
 }
 
-function NoticeCard({ notice, delay, diagnosed, router }: { notice: HousingNotice, delay: number, diagnosed: boolean, router: any }) {
+function NoticeCard({ notice, delay, diagnosed, router }: { notice: HousingNotice, delay: number, diagnosed: boolean, router: { push: (url: string) => void } }) {
   const prob = 72;
   return (
     <motion.div
