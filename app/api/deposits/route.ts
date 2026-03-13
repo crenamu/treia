@@ -4,7 +4,26 @@ const API_KEY = process.env.FSS_API_KEY
 const BASE_URL = 'https://finlife.fss.or.kr/finlifeapi'
 const TOP_GRP = '020000'
 
-const MOCK_PRODUCTS = [
+interface ProductOption {
+  intr_rate_type_nm: string
+  save_trm: string
+  intr_rate: number
+  intr_rate2: number
+}
+
+interface Product {
+  fin_prdt_cd: string
+  kor_co_nm: string
+  fin_prdt_nm: string
+  join_way: string
+  spcl_cnd: string
+  mtrt_int: string
+  etc_note: string
+  options: ProductOption[]
+  bestOption?: ProductOption
+}
+
+const MOCK_PRODUCTS: Product[] = [
   {
     fin_prdt_cd: 'MOCK_001',
     kor_co_nm: '핀테이블은행',
@@ -42,7 +61,7 @@ export async function GET(request: Request) {
   if (!API_KEY) {
     const products = formatProducts(MOCK_PRODUCTS, trm);
     if (id) {
-      const product = products.find((p: any) => p.fin_prdt_cd === id);
+      const product = products.find((p) => p.fin_prdt_cd === id);
       return NextResponse.json({ product, isMock: true });
     }
     return NextResponse.json({ products, total: MOCK_PRODUCTS.length, isMock: true });
@@ -59,7 +78,7 @@ export async function GET(request: Request) {
     if (data.result?.err_cd && data.result.err_cd !== '000') {
       const products = formatProducts(MOCK_PRODUCTS, trm);
       if (id) {
-        const product = products.find((p: any) => p.fin_prdt_cd === id);
+        const product = products.find((p) => p.fin_prdt_cd === id);
         return NextResponse.json({ product, isMock: true });
       }
       return NextResponse.json({ products, total: MOCK_PRODUCTS.length, isMock: true });
@@ -68,7 +87,7 @@ export async function GET(request: Request) {
     const baseList = data.result.baseList || []
     const optionList = data.result.optionList || []
 
-    const productMap: Record<string, any> = {}
+    const productMap: Record<string, Product> = {}
     baseList.forEach((p: any) => {
       productMap[p.fin_prdt_cd] = { ...p, options: [] }
     })
@@ -78,12 +97,12 @@ export async function GET(request: Request) {
       }
     })
 
-    const rawProducts = Object.values(productMap).filter((p: any) => p.options.length > 0)
+    const rawProducts = Object.values(productMap).filter((p) => p.options.length > 0)
     
     if (rawProducts.length === 0) {
       const products = formatProducts(MOCK_PRODUCTS, trm);
       if (id) {
-        const product = products.find((p: any) => p.fin_prdt_cd === id);
+        const product = products.find((p) => p.fin_prdt_cd === id);
         return NextResponse.json({ product, isMock: true });
       }
       return NextResponse.json({ products, total: MOCK_PRODUCTS.length, isMock: true });
@@ -92,7 +111,7 @@ export async function GET(request: Request) {
     const formatted = formatProducts(rawProducts, trm);
     
     if (id) {
-      const product = formatted.find((p: any) => p.fin_prdt_cd === id);
+      const product = formatted.find((p) => p.fin_prdt_cd === id);
       return NextResponse.json({ product, isMock: false });
     }
 
@@ -101,28 +120,28 @@ export async function GET(request: Request) {
     console.error('API Error:', error)
     const products = formatProducts(MOCK_PRODUCTS, trm);
     if (id) {
-      const product = products.find((p: any) => p.fin_prdt_cd === id);
+      const product = products.find((p) => p.fin_prdt_cd === id);
       return NextResponse.json({ product, isMock: true });
     }
     return NextResponse.json({ products, total: MOCK_PRODUCTS.length, isMock: true });
   }
 }
 
-function formatProducts(products: any[], trm: string) {
+function formatProducts(products: Product[], trm: string) {
   let filtered = [...products];
   if (trm && trm !== '0') {
-    filtered = filtered.filter((p: any) =>
-      p.options.some((o: any) => String(o.save_trm) === String(trm))
+    filtered = filtered.filter((p) =>
+      p.options.some((o) => String(o.save_trm) === String(trm))
     )
   }
-  const mapped = filtered.map((p: any) => {
+  const mapped = filtered.map((p) => {
     const opts = (trm && trm !== '0')
-      ? p.options.filter((o: any) => String(o.save_trm) === String(trm))
+      ? p.options.filter((o) => String(o.save_trm) === String(trm))
       : p.options
-    const sortedOpts = [...opts].sort((a: any, b: any) => (b.intr_rate2 || 0) - (a.intr_rate2 || 0));
+    const sortedOpts = [...opts].sort((a, b) => (b.intr_rate2 || 0) - (a.intr_rate2 || 0));
     const best = sortedOpts[0] || p.options[0];
     return { ...p, bestOption: best }
   })
-  mapped.sort((a: any, b: any) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0))
+  mapped.sort((a, b) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0))
   return mapped;
 }

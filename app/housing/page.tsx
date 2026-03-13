@@ -11,15 +11,12 @@ import {
   TrendingDown,
   Bell,
   ChevronRight,
-  Info,
-  Rocket,
-  ArrowRight
+  Info
 } from 'lucide-react'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import DiagnosticTool from './DiagnosticTool'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
 
 interface HousingNotice {
   id: string
@@ -37,7 +34,6 @@ interface HousingNotice {
 const REGIONS = ['전체', '서울', '경기', '인천', '충청', '경상', '전라', '강원', '제주'];
 
 export default function HousingPage() {
-  const params = useParams()
   const router = useRouter()
   const [notices, setNotices] = useState<HousingNotice[]>([])
   const [loading, setLoading] = useState(true)
@@ -93,7 +89,7 @@ export default function HousingPage() {
                     실시간 알림 신청 <Bell size={16} className="ml-2 inline" />
                  </button>
                  <div className="flex -space-x-3">
-                    {[1,2,3].map(i => <div key={i} className="w-10 h-10 rounded-full border-4 border-[var(--bg-beige)] bg-gray-200 overflow-hidden" key={i}><img src={`https://i.pravatar.cc/100?u=${i+10}`} alt="user" /></div>)}
+                    {[1,2,3].map(i => <div key={i} className="w-10 h-10 rounded-full border-4 border-[var(--bg-beige)] bg-gray-200 overflow-hidden"><img src={`https://i.pravatar.cc/100?u=${i+10}`} alt="user" /></div>)}
                     <div className="w-10 h-10 rounded-full border-4 border-[var(--bg-beige)] bg-blue-600 flex items-center justify-center text-[10px] font-black text-white">+2k</div>
                  </div>
                  <p className="text-[10px] text-gray-400 font-bold">진단받은 예비입주자</p>
@@ -225,7 +221,7 @@ export default function HousingPage() {
   )
 }
 
-function NoticeCard({ notice, delay, diagnosed, router }: { notice: HousingNotice, delay: number, diagnosed: boolean, router: any }) {
+function NoticeCard({ notice, delay, diagnosed, router }: { notice: HousingNotice, delay: number, diagnosed: boolean, router: ReturnType<typeof useRouter> }) {
   const prob = 72;
   return (
     <motion.div

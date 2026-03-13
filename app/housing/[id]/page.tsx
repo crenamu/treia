@@ -8,7 +8,6 @@ import {
   Building2, 
   Calendar, 
   ShieldCheck, 
-  CheckCircle2,
   TrendingUp,
   Sparkles,
   Info,
@@ -18,12 +17,24 @@ import {
 } from 'lucide-react'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+
+interface HousingNotice {
+  id: string
+  title: string
+  location: string
+  org: string
+  status: string
+  date: string
+  type: string
+  provider: string
+  link?: string
+  description?: string
+}
 
 export default function HousingDetailPage() {
   const params = useParams()
   const router = useRouter()
-  const [notice, setNotice] = useState<any>(null)
+  const [notice, setNotice] = useState<HousingNotice | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
