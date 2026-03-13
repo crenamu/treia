@@ -10,8 +10,8 @@ import {
   Rocket
 } from 'lucide-react'
 import Link from 'next/link'
-import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 import { motion, AnimatePresence } from 'framer-motion'
+import { getProducts, type Product } from '@/app/actions/finance'
 
 const TERMS = [
   { label: '전체', value: '0' },
@@ -30,22 +30,22 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'deposit' | 'saving'>('deposit')
   const [trm, setTrm] = useState('0')
   const [sort, setSort] = useState('rate2_desc')
-  const [products, setProducts] = useState<any[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const endpoint = activeTab === 'deposit' ? '/api/deposits' : '/api/savings'
-    setLoading(true)
-    fetch(`${endpoint}?trm=${trm === '0' ? '' : trm}`)
-      .then(res => res.json())
-      .then(data => {
+    async function loadData() {
+      setLoading(true)
+      try {
+        const data = await getProducts(activeTab, trm)
         setProducts(data.products || [])
-        setLoading(false)
-      })
-      .catch(err => {
+      } catch (err) {
         console.error(err)
+      } finally {
         setLoading(false)
-      })
+      }
+    }
+    loadData()
   }, [activeTab, trm])
 
   const sortedProducts = [...products].sort((a, b) => {
@@ -61,7 +61,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-[var(--bg-beige)] pb-32">
       <main className="container mx-auto max-w-5xl px-6 pt-16 md:pt-24">
         
-        {/* Title Group */}
+        {/* Title Group - Design Adjusted to Image */}
         <div className="mb-14">
             <p className="text-[13px] font-bold text-gray-400 uppercase tracking-[2px] mb-6">FINTABLE</p>
             <h1 className="text-5xl md:text-[56px] font-black text-gray-900 leading-[1.15] tracking-tight mb-5">
@@ -71,16 +71,44 @@ export default function HomePage() {
             <p className="text-[17px] font-medium text-gray-500 opacity-80">금융감독원 공시 기준 · 실시간 데이터</p>
         </div>
 
+        {/* Restore Content: AI Prediction Tool Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-16 relative group"
+        >
+           <div className="relative bg-white rounded-[40px] p-8 md:p-12 border border-gray-100 shadow-xl shadow-gray-200/20 flex flex-col md:flex-row items-center gap-10 overflow-hidden">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-blue-50 rounded-[32px] flex items-center justify-center text-blue-600 shrink-0">
+                 <Sparkles size={40} />
+              </div>
+              
+              <div className="flex-1 text-center md:text-left">
+                 <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tighter mb-4">
+                    이번 달 3기 신도시 사전청약,<br/>
+                    <span className="text-blue-600 underline decoration-blue-100 underline-offset-8">가장 유리한 예적금 매칭 전략</span>
+                 </h2>
+                 <p className="text-gray-500 font-medium leading-relaxed max-w-lg">
+                    핀테이블 AI가 현재 LH 모집 공고와 시중 368개 상품을 실시간 매칭했습니다. 
+                    당첨 점수 부족 시, 이자를 극대화하여 보증금을 마련하는 **&apos;청약 브릿지 상품&apos;**을 추천합니다.
+                 </p>
+              </div>
+
+              <Link href="/housing" className="px-10 py-5 bg-blue-600 text-white rounded-3xl font-black text-[13px] uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/10 flex items-center gap-3">
+                 리포트 받기 <ArrowRight size={18} />
+              </Link>
+           </div>
+        </motion.div>
+
         {/* Metric Cards Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-20">
             <MetricCard 
                 label="최고 기본금리" 
-                value={bestBase ? `연 ${bestBase.bestOption.intr_rate.toFixed(2)}%` : '—'} 
+                value={bestBase ? `연 ${bestBase.bestOption?.intr_rate.toFixed(2)}%` : '—'} 
                 sub={bestBase ? `${bestBase.kor_co_nm} · ${bestBase.fin_prdt_nm}` : ''}
             />
             <MetricCard 
                 label="최고 우대금리" 
-                value={bestMax ? `연 ${bestMax.bestOption.intr_rate2.toFixed(2)}%` : '—'} 
+                value={bestMax ? `연 ${bestMax.bestOption?.intr_rate2.toFixed(2)}%` : '—'} 
                 sub={bestMax ? `${bestMax.kor_co_nm} · ${bestMax.fin_prdt_nm}` : ''}
             />
             <MetricCard 
@@ -92,25 +120,23 @@ export default function HomePage() {
 
         {/* Filters and List */}
         <div className="space-y-10">
-            {/* Nav Tabs */}
             <div className="flex items-center gap-10 border-b border-gray-100 mb-2">
                 <button 
                     onClick={() => setActiveTab('deposit')}
                     className={`pb-5 text-[19px] font-black transition-all relative ${activeTab === 'deposit' ? 'text-gray-900' : 'text-gray-400'}`}
                 >
                     예금
-                    {activeTab === 'deposit' && <motion.div layoutId="tab-u" className="absolute bottom-0 left-0 right-0 h-[3px] bg-gray-900 rounded-full" />}
+                    {activeTab === 'deposit' && <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-[3px] bg-gray-900 rounded-full" />}
                 </button>
                 <button 
                     onClick={() => setActiveTab('saving')}
                     className={`pb-5 text-[19px] font-black transition-all relative ${activeTab === 'saving' ? 'text-gray-900' : 'text-gray-400'}`}
                 >
                     적금 (준비중)
-                    {activeTab === 'saving' && <motion.div layoutId="tab-u" className="absolute bottom-0 left-0 right-0 h-[3px] bg-gray-900 rounded-full" />}
+                    {activeTab === 'saving' && <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-[3px] bg-gray-900 rounded-full" />}
                 </button>
             </div>
 
-            {/* List Controls */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex flex-wrap gap-2.5">
                     {TERMS.map(t => (
@@ -135,16 +161,12 @@ export default function HomePage() {
                 </div>
             </div>
 
-            <p className="text-sm font-bold text-gray-400 pl-2">
-                {products.length}개 상품 (샘플 데이터 — CORS로 직접 호출 차단됨)
-            </p>
-
             <div className="space-y-4">
                 <AnimatePresence mode="popLayout">
                     {loading ? (
                         <div className="py-24 flex flex-col items-center gap-5">
                             <div className="w-12 h-12 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin"></div>
-                            <p className="text-base font-bold text-gray-400 uppercase tracking-widest">분석 중</p>
+                            <p className="text-base font-bold text-gray-400 uppercase tracking-widest">실시간 데이터 분석 중</p>
                         </div>
                     ) : (
                         sortedProducts.map((p, idx) => (
@@ -192,7 +214,7 @@ function MetricCard({ label, value, sub }: { label: string, value: string, sub: 
     )
 }
 
-function ProductRow({ product, index, tab }: { product: any, index: number, tab: string }) {
+function ProductRow({ product, index, tab }: { product: Product, index: number, tab: string }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -206,13 +228,13 @@ function ProductRow({ product, index, tab }: { product: any, index: number, tab:
                 <div className="flex-1 w-full md:w-auto mb-8 md:mb-0">
                     <div className="flex items-center gap-3 mb-4">
                         <span className="text-base font-bold text-gray-400">{product.kor_co_nm}</span>
-                        {product.bestOption?.intr_rate2 > 4.0 && (
+                        {product.bestOption && product.bestOption.intr_rate2 > 4.0 && (
                             <span className="bg-[#EBF7F1] text-[#10B981] text-[11px] font-black px-3 py-1 rounded-lg">우대조건</span>
                         )}
                         <span className="bg-[#FFF8F1] text-[#FF5A1F] text-[11px] font-black px-3 py-1 rounded-lg">비대면</span>
                     </div>
                     
-                    <h3 className="text-2xl font-black text-gray-900 mb-4 group-hover:text-[#10B981] transition-colors tracking-tight">
+                    <h3 className="text-2xl font-black text-gray-900 mb-4 group-hover:text-blue-600 transition-colors tracking-tight">
                         {product.fin_prdt_nm}
                     </h3>
 
@@ -242,13 +264,6 @@ function ProductRow({ product, index, tab }: { product: any, index: number, tab:
                             {product.bestOption?.intr_rate.toFixed(2)}
                         </span>
                         <span className="text-2xl font-bold text-gray-400 uppercase">%</span>
-                    </div>
-                </div>
-                
-                {/* Arrow Icon Indicator */}
-                <div className="absolute bottom-5 left-1/2 -translate-x-1/2 opacity-20 group-hover:opacity-100 transition-all">
-                    <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-300">
-                        <ChevronDown size={20} />
                     </div>
                 </div>
             </Link>
