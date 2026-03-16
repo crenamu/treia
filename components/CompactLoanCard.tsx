@@ -26,21 +26,26 @@ export default function CompactLoanCard({ product, rank }: CompactLoanCardProps)
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="group bg-white rounded-3xl p-5 md:p-6 border border-gray-100 flex items-center gap-4 hover:shadow-xl hover:shadow-gray-200/40 transition-all cursor-pointer"
+      className="group bg-white rounded-3xl p-5 md:p-6 border border-gray-100 flex items-center gap-5 hover:shadow-xl hover:shadow-gray-200/40 transition-all cursor-pointer"
     >
-      {/* Rank & Logo */}
-      <div className="flex flex-col items-center gap-1 min-w-[56px] shrink-0">
+      {/* Rank & Logo Section */}
+      <div className="flex items-center gap-4 shrink-0">
         {rank && (
-          <span className={`text-sm font-black ${rank <= 3 ? 'text-amber-500' : 'text-gray-300'}`}>
-            {rank}
-          </span>
+          <div className="flex flex-col items-center justify-center min-w-[20px]">
+            <span className={`text-lg font-black ${rank <= 3 ? 'text-amber-500' : 'text-gray-300'}`}>
+              {rank}
+            </span>
+            {rank <= 3 && <div className="w-1 h-1 rounded-full bg-amber-400 mt-1" />}
+          </div>
         )}
         <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-50 shadow-sm overflow-hidden group-hover:border-amber-100 transition-colors">
           {logoUrl ? (
-            <Image src={logoUrl} alt={product.kor_co_nm} width={32} height={32} className="object-contain" />
+            <Image src={logoUrl} alt={product.kor_co_nm} width={36} height={36} className="object-contain" />
           ) : (
             <span className="text-[10px] font-black text-gray-400 text-center leading-tight">
               {product.kor_co_nm.slice(0, 2)}
+              <br />
+              {product.kor_co_nm.slice(2, 4)}
             </span>
           )}
         </div>
@@ -48,12 +53,14 @@ export default function CompactLoanCard({ product, rank }: CompactLoanCardProps)
 
       {/* Main Info */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-[11px] font-bold text-gray-400 truncate">{product.kor_co_nm}</span>
+        <div className="flex flex-col gap-0.5 mb-2">
+            <span className="text-[11px] font-bold text-gray-400 truncate">
+                {product.kor_co_nm}
+            </span>
+            <h3 className="text-base md:text-lg font-black text-gray-900 truncate leading-tight group-hover:text-amber-600 transition-colors">
+                {product.fin_prdt_nm}
+            </h3>
         </div>
-        <h3 className="text-base md:text-lg font-black text-gray-900 mb-2 truncate group-hover:text-amber-600 transition-colors">
-          {product.fin_prdt_nm}
-        </h3>
         <div className="flex flex-wrap gap-1">
           {product.tags?.slice(0, 3).map(tag => (
             <span key={tag} className="px-2 py-0.5 bg-gray-50 text-[10px] font-bold text-gray-400 rounded-md">

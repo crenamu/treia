@@ -7,37 +7,45 @@ export const TIER_1_BANKS = [
 ];
 
 // 뱅크샐러드 기준 1금융권 선택 리스트 (표기명 및 로고 포함)
+// 뱅크샐러드 공식 CDN 기반 로고 도메인
+const BS_LOGO_BASE = 'https://cdn.banksalad.com/cdn-cgi/image/width=96,metadata=none,format=webp,onerror=redirect/https://cdn.banksalad.com/graphic/color/logo/circle';
+
+// 뱅크샐러드 기준 1금융권 선택 리스트 (ID 업데이트)
 export const BANK_LIST_TIER_1 = [
-  { id: 'kb', name: '국민은행', logo: 'https://static.toss.im/png-icons/bank/kb.png' },
-  { id: 'shinhan', name: '신한은행', logo: 'https://static.toss.im/png-icons/bank/shinhan.png' },
-  { id: 'woori', name: '우리은행', logo: 'https://static.toss.im/png-icons/bank/woori.png' },
-  { id: 'hana', name: '하나은행', logo: 'https://static.toss.im/png-icons/bank/hana.png' },
-  { id: 'nh', name: '농협은행', logo: 'https://static.toss.im/png-icons/bank/nh.png' },
-  { id: 'ibk', name: '기업은행', logo: 'https://static.toss.im/png-icons/bank/ibk.png' },
-  { id: 'kbank', name: '케이뱅크', logo: 'https://static.toss.im/png-icons/bank/kbank.png' },
-  { id: 'kakao', name: '카카오뱅크', logo: 'https://static.toss.im/png-icons/bank/kakaobank.png' },
-  { id: 'toss', name: '토스뱅크', logo: 'https://static.toss.im/png-icons/bank/tossbank.png' },
-  { id: 'kdb', name: 'KDB산업은행', logo: 'https://static.toss.im/png-icons/bank/kdb.png' },
-  { id: 'sc', name: 'SC제일은행', logo: 'https://static.toss.im/png-icons/bank/sc.png' },
-  { id: 'sh', name: '수협은행', logo: 'https://static.toss.im/png-icons/bank/sh.png' },
-  { id: 'im', name: 'iM뱅크', logo: 'https://static.toss.im/png-icons/bank/dgb.png' },
-  { id: 'bnk_bs', name: '부산은행', logo: 'https://static.toss.im/png-icons/bank/busan.png' },
-  { id: 'bnk_kn', name: '경남은행', logo: 'https://static.toss.im/png-icons/bank/kyongnam.png' },
-  { id: 'kjb', name: '광주은행', logo: 'https://static.toss.im/png-icons/bank/kwangju.png' },
-  { id: 'jbb', name: '전북은행', logo: 'https://static.toss.im/png-icons/bank/jeonbuk.png' },
-  { id: 'jjb', name: '제주은행', logo: 'https://static.toss.im/png-icons/bank/jeju.png' },
-  { id: 'post', name: '우체국', logo: 'https://static.toss.im/png-icons/bank/epost.png' }
+  { id: 'kb', name: '국민은행', logo: `${BS_LOGO_BASE}/kb.png` },
+  { id: 'shinhan', name: '신한은행', logo: `${BS_LOGO_BASE}/shinhan.png` },
+  { id: 'woori', name: '우리은행', logo: `${BS_LOGO_BASE}/woori.png` },
+  { id: 'hana', name: '하나은행', logo: `${BS_LOGO_BASE}/hana.png` },
+  { id: 'nh', name: '농협은행', logo: `${BS_LOGO_BASE}/nh.png` },
+  { id: 'ibk', name: '기업은행', logo: `${BS_LOGO_BASE}/ibk.png` },
+  { id: 'kbank', name: '케이뱅크', logo: `${BS_LOGO_BASE}/kbank.png` },
+  { id: 'kakao', name: '카카오뱅크', logo: `${BS_LOGO_BASE}/kakao.png` },
+  { id: 'toss', name: '토스뱅크', logo: `${BS_LOGO_BASE}/toss.png` },
+  { id: 'kdb', name: 'KDB산업은행', logo: `${BS_LOGO_BASE}/kdb.png` },
+  { id: 'sc', name: 'SC제일은행', logo: `${BS_LOGO_BASE}/sc.png` },
+  { id: 'suhyup', name: '수협은행', logo: `${BS_LOGO_BASE}/suhyup.png` },
+  { id: 'dgb', name: 'iM뱅크', logo: `${BS_LOGO_BASE}/dgb.png` },
+  { id: 'busan', name: '부산은행', logo: `${BS_LOGO_BASE}/busan.png` },
+  { id: 'kyongnam', name: '경남은행', logo: `${BS_LOGO_BASE}/kyongnam.png` },
+  { id: 'kwangju', name: '광주은행', logo: `${BS_LOGO_BASE}/kwangju.png` },
+  { id: 'jeonbuk', name: '전북은행', logo: `${BS_LOGO_BASE}/jeonbuk.png` },
+  { id: 'jeju', name: '제주은행', logo: `${BS_LOGO_BASE}/jeju.png` },
+  { id: 'post', name: '우체국', logo: `${BS_LOGO_BASE}/post.png` }
 ];
 
-// 뱅크샐러드 가이드라인에 맞춘 금융기관 로고 맵핑 (Toss CDN 활용)
+// 뱅크샐러드 가이드라인에 맞춘 금융기관 로고 맵핑 (BS CDN 활용)
 const BANK_LOGO_MAP: Record<string, string> = {
   '국민': 'kb', '신한': 'shinhan', '우리': 'woori', '하나': 'hana', '농협': 'nh',
-  'NH': 'nh', '기업': 'ibk', 'IBK': 'ibk', '케이': 'kbank', '카카오': 'kakaobank',
-  '토스': 'tossbank', '산업': 'kdb', 'KDB': 'kdb', '제일': 'sc', 'SC': 'sc',
-  '수협': 'sh', 'SH': 'sh', '대구': 'dgb', 'iM': 'dgb', '부산': 'busan',
+  'NH': 'nh', '기업': 'ibk', 'IBK': 'ibk', '케이': 'kbank', '카카오': 'kakao',
+  '토스': 'toss', '산업': 'kdb', 'KDB': 'kdb', '제일': 'sc', 'SC': 'sc',
+  '수협': 'suhyup', 'SH': 'suhyup', '대구': 'dgb', 'iM': 'dgb', '부산': 'busan',
   '경남': 'kyongnam', '광주': 'kwangju', '전북': 'jeonbuk', '제주': 'jeju',
-  '우체국': 'epost', '씨티': 'citi', '새마을': 'saemaul', '신협': 'cu',
-  '산림': 'nfcf', '저축': 'savingsbank', '우리종합': 'woori', // 우리종합금융은 우리은행 로고와 유사하게 처리
+  '우체국': 'post', '씨티': 'citi', '새마을': 'mg', '신협': 'cu',
+  '산림': 'nfcf', '다올': 'daol', '조은': 'choeun', '웰컴': 'welcome',
+  'OK': 'ok', 'SBI': 'sbi', '페퍼': 'pepper', '더케이': 'thek', '영진': 'youngjin',
+  '흥국': 'stx', 'BNK': 'bnk', 'DB': 'db', '드림': 'dream', 'O2': 'o2',
+  '하나저축': 'hana', '신한저축': 'shinhan', 'KB저축': 'kb', '우리저축': 'woori',
+  'NH저축': 'nh', 'IBK저축': 'ibk', '저축': 'savingsbank'
 };
 
 export const BANK_LOGOS: Record<string, string> = {
@@ -45,7 +53,7 @@ export const BANK_LOGOS: Record<string, string> = {
   // 동적 로고 생성 (키워드 기반)
   ...Object.entries(BANK_LOGO_MAP).reduce((acc, [key, id]) => ({
     ...acc,
-    [key]: `https://static.toss.im/png-icons/bank/${id}.png`
+    [key]: id.startsWith('http') ? id : `${BS_LOGO_BASE}/${id}.png`
   }), {})
 };
 
