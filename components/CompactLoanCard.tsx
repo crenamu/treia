@@ -12,7 +12,7 @@ interface CompactLoanCardProps {
 }
 
 export default function CompactLoanCard({ product, rank }: CompactLoanCardProps) {
-  const bankName = product.kor_co_nm;
+  const bankName = product.kor_co_nm.trim();
 
   // 키워드 기반 로고 매핑 (가장 긴 매칭 우선)
   const logoKey = Object.keys(BANK_LOGOS)
@@ -40,12 +40,12 @@ export default function CompactLoanCard({ product, rank }: CompactLoanCardProps)
         )}
         <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-50 shadow-sm overflow-hidden group-hover:border-amber-100 transition-colors">
           {logoUrl ? (
-            <Image src={logoUrl} alt={product.kor_co_nm} width={36} height={36} className="object-contain" />
+            <Image src={logoUrl} alt={bankName} width={36} height={36} className="object-contain" />
           ) : (
             <span className="text-[10px] font-black text-gray-400 text-center leading-tight">
-              {product.kor_co_nm.slice(0, 2)}
+              {bankName.slice(0, 2)}
               <br />
-              {product.kor_co_nm.slice(2, 4)}
+              {bankName.slice(2, 4)}
             </span>
           )}
         </div>
