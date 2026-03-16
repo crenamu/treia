@@ -117,7 +117,7 @@ export async function getLoans(
       products = products.filter(p => {
         const bankName = p.kor_co_nm;
         return specificBanks.some(selected => {
-          if (selected === 'iM뱅크') return bankName.includes('대구은행') || bankName.includes('iM');
+          if (selected === 'iM뱅크' || selected === '대구은행') return bankName.includes('대구은행') || bankName.includes('iM');
           return bankName.includes(selected);
         });
       });
@@ -126,7 +126,7 @@ export async function getLoans(
       products = products.filter(p => {
         const bankName = p.kor_co_nm;
         return TIER_1_BANKS.some(tier1 => {
-          if (tier1 === '대구은행') return bankName.includes('대구은행') || bankName.includes('iM');
+          if (tier1 === '대구은행' || tier1 === 'iM뱅크') return bankName.includes('대구은행') || bankName.includes('iM');
           return bankName.includes(tier1);
         });
       });

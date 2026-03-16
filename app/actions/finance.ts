@@ -178,18 +178,16 @@ function formatProducts(
 ) {
   let filtered = [...products];
   
-  // 1. 특정 금융사 필터 (우선순위 높음)
+  // 1. 하드 필터 (금융권, 특정 은행, 예치 기간)
   if (specificBanks.length > 0) {
     filtered = filtered.filter(p => {
-      // iM뱅크(대구은행) 등 매핑 지원
       const bankName = p.kor_co_nm;
       return specificBanks.some(selected => {
-        if (selected === 'iM뱅크') return bankName.includes('대구은행') || bankName.includes('iM');
+        if (selected === 'iM뱅크' || selected === '대구은행') return bankName.includes('대구은행') || bankName.includes('iM');
         return bankName.includes(selected);
       });
     });
   } else if (tier === '1') {
-    // 2. 1금융권 필터
     filtered = filtered.filter(p => {
       const bankName = p.kor_co_nm;
       return TIER_1_BANKS.some(tier1 => {
@@ -198,36 +196,46 @@ function formatProducts(
       });
     });
   }
-  
-  // 가입 기간 필터
+
   if (trm && trm !== '0') {
     filtered = filtered.filter((p) =>
       p.options.some((o) => String(o.save_trm) === String(trm))
     );
   }
 
-  // 우대 조건 필터 (AND 로직)
-  if (filters && filters.length > 0) {
-    filtered = filtered.filter((p) => 
-      filters.every(f => p.tags.includes(f))
-    );
+  // 2. 가입 방식 (Constraint) - 하드 필터 유지
+  const constraintTags = ['비대면가입', '방문없이가입', '누구나가입'];
+  const activeConstraints = filters.filter(f => constraintTags.includes(f));
+  if (activeConstraints.length > 0) {
+    filtered = filtered.filter(p => activeConstraints.every(f => p.tags.includes(f)));
   }
+
+  // 3. 우대 조건 (Preferential) - 소프트 필터
+  const prefFilters = filters.filter(f => !constraintTags.includes(f));
 
   const mapped = filtered.map((p) => {
     const opts = (trm && trm !== '0')
       ? p.options.filter((o) => String(o.save_trm) === String(trm))
       : p.options;
+    
     const sortedOpts = [...opts].sort((a, b) => {
       if (sortBy === 'base') return (b.intr_rate || 0) - (a.intr_rate || 0);
       return (b.intr_rate2 || 0) - (a.intr_rate2 || 0);
     });
+    
     const best = sortedOpts[0] || p.options[0];
-    return { ...p, bestOption: best };
+    const isAnyone = p.tags.includes('누구나가입');
+    const hasMatch = prefFilters.length > 0 ? prefFilters.some(f => p.tags.includes(f)) : true;
+    
+    // 실질 금리: 만족 조건이 있거나 누구나가입이면 최고금리, 아니면 기본금리
+    const effectiveRate = (isAnyone || hasMatch) ? (best?.intr_rate2 || 0) : (best?.intr_rate || 0);
+
+    return { ...p, bestOption: best, effectiveRate };
   });
 
   mapped.sort((a, b) => {
     if (sortBy === 'base') return (b.bestOption?.intr_rate || 0) - (a.bestOption?.intr_rate || 0);
-    return (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0);
+    return (b.effectiveRate || 0) - (a.effectiveRate || 0);
   });
   return mapped;
 }
