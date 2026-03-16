@@ -12,17 +12,16 @@ import {
   Truck,
   MonitorPlay,
   Zap,
-  AlertCircle
+  AlertCircle,
+  RotateCcw
 } from 'lucide-react'
 import { getCards, CardProduct } from '@/app/actions/card'
-import HorizontalFilterBar from '@/components/HorizontalFilterBar'
 import CompactCardItem from '@/components/CompactCardItem'
 
 export default function CardsPage() {
   const [products, setProducts] = useState<CardProduct[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
-  const [tier, setTier] = useState<'all' | '1'>('all')
 
   const categoryOptions = [
     { id: 'shopping', label: '쇼핑', icon: <ShoppingBag size={18} /> },
@@ -38,12 +37,12 @@ export default function CardsPage() {
   useEffect(() => {
     async function load() {
       setIsLoading(true)
-      const { products: data } = await getCards(selectedFilters, tier)
+      const { products: data } = await getCards(selectedFilters)
       setProducts(data)
       setIsLoading(false)
     }
     load()
-  }, [selectedFilters, tier])
+  }, [selectedFilters])
 
   const toggleFilter = (id: string) => {
     if (selectedFilters.includes(id)) {
@@ -85,24 +84,32 @@ export default function CardsPage() {
       </div>
 
       <div className="container mx-auto px-6 mt-16">
-        <div className="mb-12">
-          <HorizontalFilterBar 
-            tier={tier}
-            onTierChange={setTier}
-            selectedFilters={selectedFilters}
-            onToggleFilter={toggleFilter}
-            onReset={() => {
-              setSelectedFilters([]);
-              setTier('all');
-            }}
-            categories={[
-              {
-                id: 'benefit',
-                label: '주요 혜택',
-                options: categoryOptions.map(o => ({ id: o.id, label: o.label }))
-              }
-            ]}
-          />
+        {/* Simplified Filter for Cards */}
+        <div className="sticky top-0 z-40 bg-[var(--bg-beige)]/80 backdrop-blur-md py-6 -mx-6 px-6 border-b border-gray-100 mb-12">
+           <div className="container mx-auto flex items-center gap-4">
+              <div className="flex-1 flex items-center gap-3 overflow-x-auto scrollbar-hide py-1">
+                 {categoryOptions.map((opt) => (
+                   <button
+                     key={opt.id}
+                     onClick={() => toggleFilter(opt.id)}
+                     className={`px-6 py-3 rounded-2xl text-xs font-black transition-all border whitespace-nowrap flex items-center gap-2 ${
+                       selectedFilters.includes(opt.id)
+                       ? 'bg-gray-900 border-gray-900 text-white shadow-xl'
+                       : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'
+                     }`}
+                   >
+                     {opt.icon}
+                     {opt.label}
+                   </button>
+                 ))}
+              </div>
+              <button
+                onClick={() => setSelectedFilters([])}
+                className="p-3 bg-white rounded-2xl border border-gray-100 text-gray-400 hover:text-gray-900 transition-all shadow-sm shrink-0"
+              >
+                <RotateCcw size={18} />
+              </button>
+           </div>
         </div>
 
         <div className="max-w-4xl mx-auto">

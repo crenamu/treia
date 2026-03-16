@@ -5,6 +5,7 @@ import { Landmark, Info, CreditCard } from 'lucide-react'
 import { getLoans, LoanProduct } from '@/app/actions/loan'
 import HorizontalFilterBar from '@/components/HorizontalFilterBar'
 import CompactLoanCard from '@/components/CompactLoanCard'
+import BankSelectionModal from '@/components/BankSelectionModal'
 import { AnimatePresence } from 'framer-motion'
 
 export default function LoansPage() {
@@ -14,6 +15,10 @@ export default function LoansPage() {
   const [isMock, setIsMock] = useState(false)
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
   const [tier, setTier] = useState<'all' | '1'>('all')
+
+  // New States: Bank Selection
+  const [isBankModalOpen, setIsBankModalOpen] = useState(false)
+  const [selectedBanks, setSelectedBanks] = useState<string[]>([])
 
   const tabs = [
     { id: 'credit', label: '신용대출', icon: <CreditCard size={18} /> },
@@ -32,13 +37,13 @@ export default function LoansPage() {
   useEffect(() => {
     async function load() {
       setIsLoading(true)
-      const { products: data, isMock: mockStatus } = await getLoans(activeTab, selectedFilters, tier)
+      const { products: data, isMock: mockStatus } = await getLoans(activeTab, selectedFilters, tier, selectedBanks)
       setProducts(data)
       setIsMock(mockStatus)
       setIsLoading(false)
     }
     load()
-  }, [activeTab, selectedFilters, tier])
+  }, [activeTab, selectedFilters, tier, selectedBanks])
 
   const toggleFilter = (id: string) => {
     if (selectedFilters.includes(id)) {
@@ -109,7 +114,10 @@ export default function LoansPage() {
              onReset={() => {
                setSelectedFilters([]);
                setTier('all');
+               setSelectedBanks([]);
              }}
+             onBankSelectClick={() => setIsBankModalOpen(true)}
+             selectedBanksCount={selectedBanks.length}
              categories={[
                {
                  id: 'type',
@@ -134,12 +142,15 @@ export default function LoansPage() {
                     <div className="py-40 text-center bg-white rounded-[56px] border border-gray-100 shadow-sm">
                        <p className="text-xl font-bold text-gray-300">검색 결과가 없습니다.</p>
                        <p className="text-sm text-gray-400 mt-2">필터를 조정하거나 초기화해주세요.</p>
-                       <button onClick={() => setSelectedFilters([])} className="mt-8 text-sm font-black text-gray-900 underline underline-offset-8">필터 전체 해제</button>
+                       <button onClick={() => {
+                         setSelectedFilters([]);
+                         setSelectedBanks([]);
+                       }} className="mt-8 text-sm font-black text-gray-900 underline underline-offset-8">필터 전체 해제</button>
                     </div>
                   ) : (
-                    products.map((p) => (
+                    products.map((p, idx) => (
                       <div key={p.fin_prdt_cd}>
-                        <CompactLoanCard product={p} />
+                        <CompactLoanCard product={p} rank={idx + 1} />
                       </div>
                     ))
                   )}
@@ -148,6 +159,13 @@ export default function LoansPage() {
            )}
         </div>
       </div>
+
+      <BankSelectionModal 
+        isOpen={isBankModalOpen}
+        onClose={() => setIsBankModalOpen(false)}
+        selectedBanks={selectedBanks}
+        onSelectBanks={setSelectedBanks}
+      />
     </div>
   )
 }

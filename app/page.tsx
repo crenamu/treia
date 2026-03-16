@@ -14,10 +14,11 @@ import Link from 'next/link'
 import { getProducts, Product } from './actions/finance'
 import AssetMetricCard from '../components/AssetMetricCard'
 import GlobalMarketInsight from '../components/GlobalMarketInsight'
-import Badge from '@/components/Badge'
-import TaxCalculatorWidget from '@/components/TaxCalculatorWidget'
-import HorizontalFilterBar from '@/components/HorizontalFilterBar'
-import CompactProductCard from '@/components/CompactProductCard'
+import Badge from '../components/Badge'
+import TaxCalculatorWidget from '../components/TaxCalculatorWidget'
+import HorizontalFilterBar from '../components/HorizontalFilterBar'
+import CompactProductCard from '../components/CompactProductCard'
+import BankSelectionModal from '../components/BankSelectionModal'
 
 const PREFERENTIAL_FILTERS = [
   { id: '카드사용', label: '카드사용' },
@@ -39,17 +40,29 @@ export default function Home() {
   const [isMock, setIsMock] = useState(false)
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
   const [tier, setTier] = useState<'all' | '1'>('all')
+  
+  // New States: Sorting and Bank Selection
+  const [sortBy, setSortBy] = useState<'highest' | 'base'>('highest')
+  const [isBankModalOpen, setIsBankModalOpen] = useState(false)
+  const [selectedBanks, setSelectedBanks] = useState<string[]>([])
 
   useEffect(() => {
     async function load() {
       setIsLoading(true)
-      const { products: data, isMock: mockStatus } = await getProducts(activeTab, selectedTerm, selectedFilters, tier)
+      const { products: data, isMock: mockStatus } = await getProducts(
+        activeTab, 
+        selectedTerm, 
+        selectedFilters, 
+        tier,
+        sortBy,
+        selectedBanks
+      )
       setProducts(data)
       setIsMock(mockStatus)
       setIsLoading(false)
     }
     load()
-  }, [activeTab, selectedTerm, selectedFilters, tier])
+  }, [activeTab, selectedTerm, selectedFilters, tier, sortBy, selectedBanks])
 
   const toggleFilter = (id: string) => {
     if (selectedFilters.includes(id)) {
@@ -75,24 +88,23 @@ export default function Home() {
       </div>
 
       <main className="container mx-auto px-6 py-12 md:py-20">
-        {/* Hero Section */}
+        {/* Banner Section */}
         <div className="max-w-4xl mb-24">
             <div className="flex items-center gap-3 mb-8">
-                <Badge variant="solid">v2.1</Badge>
+                <Badge variant="solid">v2.5 Premium</Badge>
                 <div className="w-1 h-1 rounded-full bg-gray-300" />
                 <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">FinTable Intelligence</span>
             </div>
             <h1 className="text-5xl md:text-[64px] font-black text-gray-900 leading-[1.1] tracking-tight mb-8">
-                지금 당신에게<br/>
-                <span className="text-gray-900 opacity-30">가장 추천하는</span> 금리
+                {activeTab === 'deposit' ? '내 자산을 굴리는' : '목돈을 만드는'}<br/>
+                <span className="text-gray-900 opacity-30">가장 스마트한</span> {activeTab === 'deposit' ? '예금' : '적금'}
             </h1>
             <p className="text-xl font-bold text-gray-400 max-w-2xl leading-relaxed">
-                시중 은행과 저축은행의 {activeTab === 'deposit' ? '예금' : '적금'} 상품 중
-                복잡한 우대 조건을 제외한 **실질 수익률**이 가장 높은 상품을 찾았습니다.
+                시중 은행과 저축은행의 전 금융권 데이터를 실시간 분석합니다. <br/>
+                복잡한 우대 조건까지 계산된 **진짜 1등 금리**를 확인하세요.
             </p>
         </div>
 
-        {/* Market Insight Section */}
         <div className="mb-24">
             <GlobalMarketInsight />
         </div>
@@ -100,7 +112,8 @@ export default function Home() {
         {/* AI Prediction Tool Section */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
           className="mb-32 relative"
         >
            <div className="relative bg-[#1A1A1A] rounded-[56px] p-10 md:p-16 text-white shadow-2xl shadow-black/10 flex flex-col md:flex-row items-center gap-12 overflow-hidden">
@@ -111,12 +124,12 @@ export default function Home() {
               
               <div className="flex-1 text-center md:text-left z-10">
                  <h2 className="text-3xl md:text-4xl font-black mb-6 tracking-tighter leading-tight">
-                    이번 달 3기 신도시 사전청약,<br/>
-                    가장 유리한 예적금 <span className="text-amber-400">매칭 전략</span>
+                    이번 달 사전청약 당첨자를 위한<br/>
+                    자금 관리 <span className="text-amber-400">전매특허 전략</span>
                  </h2>
                  <p className="text-gray-400 font-medium text-lg leading-relaxed max-w-xl">
-                    현재 LH/SH 통합 공고와 시중 금융 상품을 분석했습니다. 
-                    보증금 마련을 위한 **최적의 자산 형성 플랜**을 지금 바로 확인하세요.
+                    현재 한도 제한이 걸린 상품부터 소액 고금리 상품까지 <br/>
+                    청약금 마련에 최적화된 포트폴리오를 제안합니다.
                  </p>
               </div>
 
@@ -152,7 +165,7 @@ export default function Home() {
         <section className="mb-32">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-16 px-4">
              <div>
-                <h2 className="text-4xl font-black text-gray-900 mb-6 tracking-tight">금리 테이블 비교</h2>
+                <h2 className="text-4xl font-black text-gray-900 mb-6 tracking-tight">금리 비교 분석</h2>
                 <div className="flex p-2 bg-white rounded-[32px] border border-gray-100 shadow-sm w-fit gap-2">
                    <button 
                      onClick={() => setActiveTab('deposit')}
@@ -198,7 +211,13 @@ export default function Home() {
                 setSelectedFilters([]);
                 setTier('all');
                 setSelectedTerm('12');
+                setSortBy('highest');
+                setSelectedBanks([]);
               }}
+              sortBy={sortBy}
+              onSortChange={setSortBy}
+              onBankSelectClick={() => setIsBankModalOpen(true)}
+              selectedBanksCount={selectedBanks.length}
               categories={[
                 {
                   id: 'preferential',
@@ -231,7 +250,10 @@ export default function Home() {
                     {products.length === 0 ? (
                       <div className="py-32 text-center bg-white rounded-[48px] border border-gray-100">
                          <p className="text-lg font-bold text-gray-300">조건에 맞는 상품이 없습니다.</p>
-                         <button onClick={() => setSelectedFilters([])} className="mt-4 text-sm font-black text-gray-900 underline underline-offset-4">필터 전체 해제</button>
+                         <button onClick={() => {
+                           setSelectedFilters([]);
+                           setSelectedBanks([]);
+                         }} className="mt-4 text-sm font-black text-gray-900 underline underline-offset-4">필터 전체 해제</button>
                       </div>
                     ) : (
                       products.map((product, idx) => (
@@ -260,6 +282,14 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      {/* Bank Selection Modal */}
+      <BankSelectionModal 
+        isOpen={isBankModalOpen}
+        onClose={() => setIsBankModalOpen(false)}
+        selectedBanks={selectedBanks}
+        onSelectBanks={setSelectedBanks}
+      />
     </div>
   )
 }

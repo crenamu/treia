@@ -34,7 +34,9 @@ export async function getProducts(
   type: 'deposit' | 'saving', 
   trm: string = '0', 
   filters: string[] = [],
-  tier: 'all' | '1' = 'all'
+  tier: 'all' | '1' = 'all',
+  sortBy: 'highest' | 'base' = 'highest', // 정렬 기준 추가
+  specificBanks: string[] = [] // 특정 은행 필터 추가
 ) {
   const apiType = type === 'deposit' ? 'depositProductsSearch' : 'savingProductsSearch';
 
@@ -100,19 +102,19 @@ export async function getProducts(
     
     // 데이터가 있다면 실데이터 반환
     if (rawProducts.length > 0) {
-      const formatted = formatProducts(rawProducts, trm, filters, tier);
+      const formatted = formatProducts(rawProducts, trm, filters, tier, sortBy, specificBanks);
       return { products: formatted, total: formatted.length, isMock: false };
     }
 
     // 데이터가 없는 경우를 대비한 가변 Mock
     const richMock = generateRichMock(type);
-    const formattedMock = formatProducts(richMock, trm, filters, tier);
+    const formattedMock = formatProducts(richMock, trm, filters, tier, sortBy, specificBanks);
     return { products: formattedMock, total: formattedMock.length, isMock: true };
 
   } catch (error) {
     console.error('Fatal Error:', error);
     const richMock = generateRichMock(type);
-    return { products: formatProducts(richMock, trm, filters, tier), total: richMock.length, isMock: true };
+    return { products: formatProducts(richMock, trm, filters, tier, sortBy, specificBanks), total: richMock.length, isMock: true };
   }
 }
 
@@ -156,11 +158,21 @@ function generateRichMock(type: string): Product[] {
   });
 }
 
-function formatProducts(products: Product[], trm: string, filters: string[], tier: 'all' | '1' = 'all') {
+function formatProducts(
+  products: Product[], 
+  trm: string, 
+  filters: string[], 
+  tier: 'all' | '1', 
+  sortBy: 'highest' | 'base' = 'highest',
+  specificBanks: string[] = []
+) {
   let filtered = [...products];
   
-  // 1금융권 필터
-  if (tier === '1') {
+  // 1. 특정 은행 필터 (우선순위 높음)
+  if (specificBanks.length > 0) {
+    filtered = filtered.filter(p => specificBanks.some(bank => p.kor_co_nm.includes(bank)));
+  } else if (tier === '1') {
+    // 2. 1금융권 필터
     filtered = filtered.filter(p => TIER_1_BANKS.some(bank => p.kor_co_nm.includes(bank)));
   }
   
@@ -182,11 +194,17 @@ function formatProducts(products: Product[], trm: string, filters: string[], tie
     const opts = (trm && trm !== '0')
       ? p.options.filter((o) => String(o.save_trm) === String(trm))
       : p.options;
-    const sortedOpts = [...opts].sort((a, b) => (b.intr_rate2 || 0) - (a.intr_rate2 || 0));
+    const sortedOpts = [...opts].sort((a, b) => {
+      if (sortBy === 'base') return (b.intr_rate || 0) - (a.intr_rate || 0);
+      return (b.intr_rate2 || 0) - (a.intr_rate2 || 0);
+    });
     const best = sortedOpts[0] || p.options[0];
     return { ...p, bestOption: best };
   });
 
-  mapped.sort((a, b) => (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0));
+  mapped.sort((a, b) => {
+    if (sortBy === 'base') return (b.bestOption?.intr_rate || 0) - (a.bestOption?.intr_rate || 0);
+    return (b.bestOption?.intr_rate2 || 0) - (a.bestOption?.intr_rate2 || 0);
+  });
   return mapped;
 }

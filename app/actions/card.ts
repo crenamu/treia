@@ -13,12 +13,9 @@ export interface CardProduct {
   tags: string[]
 }
 
-import { TIER_1_CARD_ISSUERS } from './constants';
-
 // 뱅크샐러드급 데이터 분류 로직 시뮬레이션
-export async function getCards(filters: string[] = [], tier: 'all' | '1' = 'all') {
-  // 실제로는 금감원 API + 각 카드사 크롤링/제휴 데이터를 결합해야 하나 
-  // 여기서는 구조를 잡기 위해 큐레이션된 고품질 데이터를 제공합니다.
+export async function getCards(filters: string[] = []) {
+  // 카드 섹션은 1/2금융권 구분이 무의미하므로 통합 데이터를 제공합니다.
   const products: CardProduct[] = [
     {
       id: 'shinhan_deep',
@@ -84,10 +81,6 @@ export async function getCards(filters: string[] = [], tier: 'all' | '1' = 'all'
 
   let filtered = [...products];
 
-  // 1금융권 필터링
-  if (tier === '1') {
-    filtered = filtered.filter(p => TIER_1_CARD_ISSUERS.some(issuer => p.company.includes(issuer)));
-  }
   if (filters.length > 0) {
     filtered = filtered.filter(p => filters.some(f => p.tags.includes(f)));
   }

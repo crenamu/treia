@@ -29,7 +29,8 @@ export interface LoanProduct {
 export async function getLoans(
   type: 'mortgage' | 'rent' | 'credit', 
   filters: string[] = [],
-  tier: 'all' | '1' = 'all'
+  tier: 'all' | '1' = 'all',
+  specificBanks: string[] = [] // 특정 은행 필터 추가
 ) {
   const endpointMap = {
     mortgage: 'mortgageLoanProductsSearch',
@@ -100,8 +101,11 @@ export async function getLoans(
         return { ...p, bestOption: sortedOpts[0] };
       });
 
-    // 1금융권 필터링
-    if (tier === '1') {
+    // 1. 특정 금융사 필터 (우선순위 높음)
+    if (specificBanks.length > 0) {
+      products = products.filter(p => specificBanks.some(bank => p.kor_co_nm.includes(bank)));
+    } else if (tier === '1') {
+      // 2. 1금융권 필터링
       products = products.filter(p => TIER_1_BANKS.some(bank => p.kor_co_nm.includes(bank)));
     }
 
@@ -117,7 +121,9 @@ export async function getLoans(
 
     // 데이터가 없는 경우를 위한 목업
     let mock = generateMockLoans(type);
-    if (tier === '1') {
+    if (specificBanks.length > 0) {
+      mock = mock.filter(p => specificBanks.some(bank => p.kor_co_nm.includes(bank)));
+    } else if (tier === '1') {
       mock = mock.filter(p => TIER_1_BANKS.some(bank => p.kor_co_nm.includes(bank)));
     }
     return { products: mock.filter(p => filters.every(f => p.tags.includes(f))), isMock: true };

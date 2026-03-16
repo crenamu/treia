@@ -6,9 +6,10 @@ import { LoanProduct } from '@/app/actions/loan'
 
 interface CompactLoanCardProps {
   product: LoanProduct
+  rank?: number
 }
 
-export default function CompactLoanCard({ product }: CompactLoanCardProps) {
+export default function CompactLoanCard({ product, rank }: CompactLoanCardProps) {
   return (
     <motion.div
       layout
@@ -16,11 +17,18 @@ export default function CompactLoanCard({ product }: CompactLoanCardProps) {
       animate={{ opacity: 1, y: 0 }}
       className="group bg-white rounded-3xl p-5 md:p-6 border border-gray-100 flex items-center gap-4 hover:shadow-xl hover:shadow-gray-200/40 transition-all cursor-pointer"
     >
-      {/* Brand Logo */}
-      <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center border border-gray-100 group-hover:bg-amber-50 group-hover:border-amber-100 transition-colors shrink-0">
-        <span className="text-[10px] font-black text-gray-400 text-center leading-tight">
-          {product.kor_co_nm.slice(0, 2)}
-        </span>
+      {/* Rank & Brand Logo */}
+      <div className="flex flex-col items-center gap-1 min-w-[48px] shrink-0">
+        {rank && (
+          <span className={`text-sm font-black ${rank <= 3 ? 'text-gray-900' : 'text-gray-300'}`}>
+            {rank}
+          </span>
+        )}
+        <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center border border-gray-100 group-hover:bg-amber-50 group-hover:border-amber-100 transition-colors">
+          <span className="text-[10px] font-black text-gray-400 text-center leading-tight">
+            {product.kor_co_nm.slice(0, 2)}
+          </span>
+        </div>
       </div>
 
       {/* Main Info */}
