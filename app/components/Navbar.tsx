@@ -8,12 +8,9 @@ import {
   Menu, 
   X, 
   Rocket, 
-  Home as HomeIcon, 
   Landmark, 
-  Calculator, 
   Star, 
   ShieldCheck, 
-  Users, 
   ChevronRight,
   ChevronDown
 } from 'lucide-react'
@@ -30,12 +27,8 @@ const NAV_LINKS = [
       { href: '/savings', label: '정기적금', icon: <Rocket size={14} /> },
       { href: '/loans', label: '대출상품', icon: <ShieldCheck size={14} /> },
       { href: '/cards', label: '신용카드', icon: <Star size={14} /> },
-      { href: '/isa', label: 'ISA (준비중)', icon: <ShieldCheck size={14} /> },
     ]
   },
-  { href: '/housing', label: '임대주택', icon: <HomeIcon size={18} /> },
-  { href: '/calculator', label: '금융계산기', icon: <Calculator size={18} /> },
-  { href: '/community', label: '커뮤니티', icon: <Users size={18} /> },
 ]
 
 export default function Navbar() {

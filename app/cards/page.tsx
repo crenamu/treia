@@ -7,8 +7,7 @@ import {
   Coffee, 
   Car, 
   Wifi, 
-  Utensils, 
-  CreditCard,
+  Utensils,
   Truck,
   MonitorPlay,
   Zap,
@@ -64,24 +63,15 @@ export default function CardsPage() {
           </div>
        </div>
 
-      <div className="bg-white border-b border-gray-100 pt-20 pb-16">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center gap-3 mb-8">
-             <div className="w-12 h-12 rounded-[20px] bg-amber-500 flex items-center justify-center text-white shadow-xl">
-                <CreditCard size={24} />
-             </div>
-             <span className="text-xs font-black uppercase tracking-widest text-gray-400">Card Intelligence</span>
-          </div>
-          <h1 className="text-5xl font-black text-gray-900 tracking-tight mb-6 leading-tight">
-             가장 큰 <br/>
-             <span className="text-amber-500">포인트백</span> 테이블
-          </h1>
-          <p className="text-xl font-bold text-gray-400 max-w-2xl leading-relaxed">
-             당신의 소비 패턴을 분석하여 매월 돌려받을 수 있는 <br/>
-             최적의 맞춤 혜택 카드를 찾아드립니다.
-          </p>
+      <main className="container mx-auto px-6 py-12 md:py-20">
+        <div className="max-w-4xl mb-16">
+            <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-[1.2] tracking-tight mb-4">
+                신용카드 혜택 테이블
+            </h1>
+            <p className="text-lg font-bold text-gray-400 max-w-2xl leading-relaxed">
+                당신의 소비 패턴에 맞는 최적의 혜택 카드를 찾아드립니다.
+            </p>
         </div>
-      </div>
 
       <div className="container mx-auto px-6 mt-16">
         {/* Simplified Filter for Cards */}
@@ -138,7 +128,8 @@ export default function CardsPage() {
             </AnimatePresence>
           )}
         </div>
-      </div>
+        </div>
+      </main>
     </div>
   )
 }

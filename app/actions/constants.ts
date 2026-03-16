@@ -8,32 +8,34 @@ export const TIER_1_BANKS = [
 
 // 뱅크샐러드 기준 1금융권 선택 리스트 (표기명 및 로고 포함)
 export const BANK_LIST_TIER_1 = [
-  { id: 'kb', name: '국민은행', logo: 'https://i.ibb.co/vzYyX6L/kb.png' },
-  { id: 'shinhan', name: '신한은행', logo: 'https://i.ibb.co/hR0M1X9/shinhan.png' },
-  { id: 'woori', name: '우리은행', logo: 'https://i.ibb.co/0m8B7zH/woori.png' },
-  { id: 'hana', name: '하나은행', logo: 'https://i.ibb.co/4P2X7S1/hana.png' },
-  { id: 'nh', name: '농협은행', logo: 'https://i.ibb.co/vB8Z1zK/nh.png' },
-  { id: 'ibk', name: '기업은행', logo: 'https://i.ibb.co/fDxz1Xk/ibk.png' },
-  { id: 'kbank', name: '케이뱅크', logo: 'https://i.ibb.co/yq8Z1zK/kbank.png' },
-  { id: 'kakao', name: '카카오뱅크', logo: 'https://i.ibb.co/XzYyX6L/kakao.png' },
-  { id: 'toss', name: '토스뱅크', logo: 'https://i.ibb.co/ZzYyX6L/toss.png' },
-  { id: 'kdb', name: 'KDB산업은행', logo: 'https://i.ibb.co/fDxz1Xl/kdb.png' },
-  { id: 'sc', name: 'SC제일은행', logo: 'https://i.ibb.co/fDxz1Xm/sc.png' },
-  { id: 'sh', name: '수협은행', logo: 'https://i.ibb.co/fDxz1Xn/sh.png' },
-  { id: 'im', name: 'iM뱅크', logo: 'https://i.ibb.co/fDxz1Xo/im.png' },
-  { id: 'bnk_bs', name: '부산은행', logo: 'https://i.ibb.co/fDxz1Xp/bs.png' },
-  { id: 'bnk_kn', name: '경남은행', logo: 'https://i.ibb.co/fDxz1Xq/kn.png' },
-  { id: 'kjb', name: '광주은행', logo: 'https://i.ibb.co/fDxz1Xr/kj.png' },
-  { id: 'jbb', name: '전북은행', logo: 'https://i.ibb.co/fDxz1Xs/jb.png' },
-  { id: 'jjb', name: '제주은행', logo: 'https://i.ibb.co/fDxz1Xt/jj.png' },
-  { id: 'post', name: '우체국', logo: 'https://i.ibb.co/fDxz1Xu/post.png' }
+  { id: 'kb', name: '국민은행', logo: 'https://static.toss.im/png-icons/bank/kb.png' },
+  { id: 'shinhan', name: '신한은행', logo: 'https://static.toss.im/png-icons/bank/shinhan.png' },
+  { id: 'woori', name: '우리은행', logo: 'https://static.toss.im/png-icons/bank/woori.png' },
+  { id: 'hana', name: '하나은행', logo: 'https://static.toss.im/png-icons/bank/hana.png' },
+  { id: 'nh', name: '농협은행', logo: 'https://static.toss.im/png-icons/bank/nh.png' },
+  { id: 'ibk', name: '기업은행', logo: 'https://static.toss.im/png-icons/bank/ibk.png' },
+  { id: 'kbank', name: '케이뱅크', logo: 'https://static.toss.im/png-icons/bank/kbank.png' },
+  { id: 'kakao', name: '카카오뱅크', logo: 'https://static.toss.im/png-icons/bank/kakaobank.png' },
+  { id: 'toss', name: '토스뱅크', logo: 'https://static.toss.im/png-icons/bank/tossbank.png' },
+  { id: 'kdb', name: 'KDB산업은행', logo: 'https://static.toss.im/png-icons/bank/kdb.png' },
+  { id: 'sc', name: 'SC제일은행', logo: 'https://static.toss.im/png-icons/bank/sc.png' },
+  { id: 'sh', name: '수협은행', logo: 'https://static.toss.im/png-icons/bank/sh.png' },
+  { id: 'im', name: 'iM뱅크', logo: 'https://static.toss.im/png-icons/bank/dgb.png' },
+  { id: 'bnk_bs', name: '부산은행', logo: 'https://static.toss.im/png-icons/bank/busan.png' },
+  { id: 'bnk_kn', name: '경남은행', logo: 'https://static.toss.im/png-icons/bank/kyongnam.png' },
+  { id: 'kjb', name: '광주은행', logo: 'https://static.toss.im/png-icons/bank/kwangju.png' },
+  { id: 'jbb', name: '전북은행', logo: 'https://static.toss.im/png-icons/bank/jeonbuk.png' },
+  { id: 'jjb', name: '제주은행', logo: 'https://static.toss.im/png-icons/bank/jeju.png' },
+  { id: 'post', name: '우체국', logo: 'https://static.toss.im/png-icons/bank/epost.png' }
 ];
 
 export const BANK_LOGOS: Record<string, string> = BANK_LIST_TIER_1.reduce((acc, bank) => ({
   ...acc,
   [bank.name]: bank.logo,
   [bank.name.replace('은행', '')]: bank.logo,
-  [bank.id]: bank.logo
+  [bank.id]: bank.logo,
+  [`주식회사 ${bank.name}`]: bank.logo,
+  [`주식회사 ${bank.name.replace('은행', '')}`]: bank.logo,
 }), {});
 
 // 뱅크샐러드 기준 2금융권(저축은행) 선택 리스트

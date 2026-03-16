@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Ticker from "@/components/Ticker";
 import { AuthProvider } from "@/lib/auth-context";
 import GlobalAuthModal from "@/components/GlobalAuthModal";
 import Navbar from "@/app/components/Navbar";
@@ -20,11 +19,6 @@ export default function RootLayout({
     <html lang="ko">
       <body className="min-h-screen flex flex-col overflow-x-hidden font-sans antialiased text-gray-900 bg-[var(--bg-beige)]">
         <AuthProvider>
-          {/* Ticker */}
-          <div className="bg-white border-b border-gray-100">
-             <Ticker />
-          </div>
-
           {/* Navbar */}
           <Navbar />
 

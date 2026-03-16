@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ChevronRight } from 'lucide-react'
 import { LoanProduct } from '@/app/actions/loan'
 import { BANK_LOGOS } from '@/app/actions/constants'
+import Image from 'next/image'
 
 interface CompactLoanCardProps {
   product: LoanProduct
@@ -11,8 +12,15 @@ interface CompactLoanCardProps {
 }
 
 export default function CompactLoanCard({ product, rank }: CompactLoanCardProps) {
-  const logoUrl = BANK_LOGOS[product.kor_co_nm.replace('주식회사 ', '')] || 
-                  BANK_LOGOS[product.kor_co_nm.replace('은행', '')]
+  const cleanBankName = product.kor_co_nm
+    .replace('주식회사 ', '')
+    .replace('㈜', '')
+    .replace('(주)', '')
+    .trim();
+
+  const logoUrl = BANK_LOGOS[cleanBankName] || 
+                  BANK_LOGOS[cleanBankName.replace('은행', '')] ||
+                  BANK_LOGOS[cleanBankName.replace('저축은행', '')];
 
   return (
     <motion.div
@@ -30,7 +38,7 @@ export default function CompactLoanCard({ product, rank }: CompactLoanCardProps)
         )}
         <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-50 shadow-sm overflow-hidden group-hover:border-amber-100 transition-colors">
           {logoUrl ? (
-            <img src={logoUrl} alt={product.kor_co_nm} className="w-8 h-8 object-contain" />
+            <Image src={logoUrl} alt={product.kor_co_nm} width={32} height={32} className="object-contain" />
           ) : (
             <span className="text-[10px] font-black text-gray-400 text-center leading-tight">
               {product.kor_co_nm.slice(0, 2)}

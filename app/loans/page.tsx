@@ -64,25 +64,15 @@ export default function LoansPage() {
          </div>
       </div>
 
-      {/* Header */}
-      <div className="bg-white border-b border-gray-100 pt-20 pb-16">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center gap-3 mb-8">
-             <div className="w-12 h-12 rounded-[20px] bg-gray-900 flex items-center justify-center text-white shadow-xl">
-                <Landmark size={24} />
-             </div>
-             <span className="text-xs font-black uppercase tracking-widest text-gray-400">Premium Comparison</span>
-          </div>
-          <h1 className="text-5xl font-black text-gray-900 tracking-tight mb-6 leading-tight">
-             가장 가벼운 <br/>
-             <span className="text-gray-400">대출 금리</span> 테이블
-          </h1>
-          <p className="text-xl font-bold text-gray-400 max-w-2xl leading-relaxed">
-             전 금융권 데이터를 분석하여 고객님의 신용 점수와 상황에 맞는 <br/>
-             실질적인 금리 혜택을 찾아드립니다.
-          </p>
+      <main className="container mx-auto px-6 py-12 md:py-20">
+        <div className="max-w-4xl mb-16">
+            <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-[1.2] tracking-tight mb-4">
+                대출 상품 테이블
+            </h1>
+            <p className="text-lg font-bold text-gray-400 max-w-2xl leading-relaxed">
+                전 금융권 데이터를 분석하여 실질적인 금리 혜택을 찾아드립니다.
+            </p>
         </div>
-      </div>
 
       <div className="container mx-auto px-6 mt-16">
         {/* Tabs Control */}
@@ -158,7 +148,8 @@ export default function LoansPage() {
              </AnimatePresence>
            )}
         </div>
-      </div>
+        </div>
+      </main>
 
       <BankSelectionModal 
         isOpen={isBankModalOpen}
