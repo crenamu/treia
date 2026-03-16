@@ -43,24 +43,34 @@ export async function getProducts(
   try {
     const results = await Promise.all(
       TOP_GRPS.map(async (grp) => {
-        const fetchUrl = `${BASE_URL}/${apiType}.json?auth=${API_KEY}&topFinGrpNo=${grp}&pageNo=1`;
-        
-        try {
-          const res = await fetch(fetchUrl, { 
-            cache: 'no-store',
-            headers: { 'Accept': 'application/json' }
-          });
-          if (!res.ok) return null;
-          return await res.json();
-        } catch {
-          return null;
-        }
+        // 뱅크샐러드 데이터 정합성을 위해 최소 1-3페이지까지 수집 시도 (대부분 1페이지에 수용됨)
+        const pages = [1, 2]; 
+        const pageResults = await Promise.all(
+          pages.map(async (pageNo) => {
+            const fetchUrl = `${BASE_URL}/${apiType}.json?auth=${API_KEY}&topFinGrpNo=${grp}&pageNo=${pageNo}`;
+            try {
+              const res = await fetch(fetchUrl, { 
+                cache: 'no-store',
+                headers: { 'Accept': 'application/json' }
+              });
+              if (!res.ok) return null;
+              const json = await res.json();
+              if (json.result?.err_cd !== '000') {
+                console.warn(`FSS API Warning (${grp}, page ${pageNo}):`, json.result?.err_msg);
+              }
+              return json;
+            } catch {
+              return null;
+            }
+          })
+        );
+        return pageResults;
       })
     );
 
     const mergedProductMap: Record<string, Product> = {};
 
-    results.forEach((data) => {
+    results.flat().forEach((data) => {
       const actualData = data?.result || data;
       if (!actualData || actualData.err_cd !== '000') return;
       
@@ -168,12 +178,25 @@ function formatProducts(
 ) {
   let filtered = [...products];
   
-  // 1. 특정 은행 필터 (우선순위 높음)
+  // 1. 특정 금융사 필터 (우선순위 높음)
   if (specificBanks.length > 0) {
-    filtered = filtered.filter(p => specificBanks.some(bank => p.kor_co_nm.includes(bank)));
+    filtered = filtered.filter(p => {
+      // iM뱅크(대구은행) 등 매핑 지원
+      const bankName = p.kor_co_nm;
+      return specificBanks.some(selected => {
+        if (selected === 'iM뱅크') return bankName.includes('대구은행') || bankName.includes('iM');
+        return bankName.includes(selected);
+      });
+    });
   } else if (tier === '1') {
     // 2. 1금융권 필터
-    filtered = filtered.filter(p => TIER_1_BANKS.some(bank => p.kor_co_nm.includes(bank)));
+    filtered = filtered.filter(p => {
+      const bankName = p.kor_co_nm;
+      return TIER_1_BANKS.some(tier1 => {
+        if (tier1 === '대구은행') return bankName.includes('대구은행') || bankName.includes('iM');
+        return bankName.includes(tier1);
+      });
+    });
   }
   
   // 가입 기간 필터

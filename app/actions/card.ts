@@ -27,7 +27,7 @@ export async function getCards(filters: string[] = []) {
       prevMonthRecord: '실적 조건 없음',
       imageText: 'Deep',
       bestBenefit: '월 최대 5만원 포인트 적립',
-      tags: ['gas', 'shopping', 'store']
+      tags: ['gas', 'shopping', 'store', 'all']
     },
     {
       id: 'hyundai_m',
@@ -66,15 +66,27 @@ export async function getCards(filters: string[] = []) {
       tags: ['delivery', 'coffee', 'streaming']
     },
     {
-      id: 'lotte_likit',
-      name: 'LOCA LIKIT 1.2',
+      id: 'lotte_loca',
+      name: 'LOCA 365 카드',
       company: '롯데카드',
       type: 'credit',
+      benefits: ['공과금', '아파트관리비', '보험료'],
+      annualFee: '20,000원',
+      prevMonthRecord: '50만원 이상',
+      imageText: 'LOCA',
+      bestBenefit: '생활 업종 월 최대 36,500원 할인',
+      tags: ['energy', 'all']
+    },
+    {
+      id: 'hana_multi',
+      name: 'MULTI Any 카드',
+      company: '하나카드',
+      type: 'credit',
       benefits: ['모든가맹점', '단순함'],
-      annualFee: '10,000원',
+      annualFee: '12,000원',
       prevMonthRecord: '실적 무관',
-      imageText: 'LIKIT',
-      bestBenefit: '국내외 전 가맹점 1.2% 할인',
+      imageText: 'MULTI',
+      bestBenefit: '전 가맹점 0.7~4.0% 적립',
       tags: ['all', 'shopping']
     }
   ];

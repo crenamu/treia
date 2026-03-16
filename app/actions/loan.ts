@@ -39,24 +39,35 @@ export async function getLoans(
   };
 
   const endpoint = endpointMap[type];
+  
+  // 뱅크샐러드급 커버리지를 위해 권역군 확장
+  // 020000(은행), 030300(저축은행), 050000(보험), 030200(여신전문/캐피탈)
+  const dynamicGrps = [...TOP_GRPS];
+  if (type === 'mortgage' || type === 'rent') dynamicGrps.push('050000');
+  if (type === 'credit') dynamicGrps.push('030200');
 
   try {
     const results = await Promise.all(
-      TOP_GRPS.map(async (grp) => {
-        const url = `${BASE_URL}/${endpoint}.json?auth=${API_KEY}&topFinGrpNo=${grp}&pageNo=1`;
-        try {
-          const res = await fetch(url, { cache: 'no-store' });
-          if (!res.ok) return null;
-          return await res.json();
-        } catch {
-          return null;
-        }
+      dynamicGrps.map(async (grp) => {
+        // 페이지네이션 지원 (1-2페이지)
+        const pages = [1, 2];
+        const pageResults = await Promise.all(pages.map(async (pageNo) => {
+          const url = `${BASE_URL}/${endpoint}.json?auth=${API_KEY}&topFinGrpNo=${grp}&pageNo=${pageNo}`;
+          try {
+            const res = await fetch(url, { cache: 'no-store' });
+            if (!res.ok) return null;
+            return await res.json();
+          } catch {
+            return null;
+          }
+        }));
+        return pageResults;
       })
     );
 
     const mergedProductMap: Record<string, LoanProduct> = {};
 
-    results.forEach((data) => {
+    results.flat().forEach((data) => {
       const actualData = data?.result || data;
       if (!actualData || actualData.err_cd !== '000') return;
 
@@ -103,10 +114,22 @@ export async function getLoans(
 
     // 1. 특정 금융사 필터 (우선순위 높음)
     if (specificBanks.length > 0) {
-      products = products.filter(p => specificBanks.some(bank => p.kor_co_nm.includes(bank)));
+      products = products.filter(p => {
+        const bankName = p.kor_co_nm;
+        return specificBanks.some(selected => {
+          if (selected === 'iM뱅크') return bankName.includes('대구은행') || bankName.includes('iM');
+          return bankName.includes(selected);
+        });
+      });
     } else if (tier === '1') {
       // 2. 1금융권 필터링
-      products = products.filter(p => TIER_1_BANKS.some(bank => p.kor_co_nm.includes(bank)));
+      products = products.filter(p => {
+        const bankName = p.kor_co_nm;
+        return TIER_1_BANKS.some(tier1 => {
+          if (tier1 === '대구은행') return bankName.includes('대구은행') || bankName.includes('iM');
+          return bankName.includes(tier1);
+        });
+      });
     }
 
     // 필터링 적용 (AND 로직)
