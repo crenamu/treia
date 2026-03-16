@@ -29,14 +29,25 @@ export const BANK_LIST_TIER_1 = [
   { id: 'post', name: '우체국', logo: 'https://static.toss.im/png-icons/bank/epost.png' }
 ];
 
-export const BANK_LOGOS: Record<string, string> = BANK_LIST_TIER_1.reduce((acc, bank) => ({
-  ...acc,
-  [bank.name]: bank.logo,
-  [bank.name.replace('은행', '')]: bank.logo,
-  [bank.id]: bank.logo,
-  [`주식회사 ${bank.name}`]: bank.logo,
-  [`주식회사 ${bank.name.replace('은행', '')}`]: bank.logo,
-}), {});
+// 뱅크샐러드 가이드라인에 맞춘 금융기관 로고 맵핑 (Toss CDN 활용)
+const BANK_LOGO_MAP: Record<string, string> = {
+  '국민': 'kb', '신한': 'shinhan', '우리': 'woori', '하나': 'hana', '농협': 'nh',
+  'NH': 'nh', '기업': 'ibk', 'IBK': 'ibk', '케이': 'kbank', '카카오': 'kakaobank',
+  '토스': 'tossbank', '산업': 'kdb', 'KDB': 'kdb', '제일': 'sc', 'SC': 'sc',
+  '수협': 'sh', 'SH': 'sh', '대구': 'dgb', 'iM': 'dgb', '부산': 'busan',
+  '경남': 'kyongnam', '광주': 'kwangju', '전북': 'jeonbuk', '제주': 'jeju',
+  '우체국': 'epost', '씨티': 'citi', '새마을': 'saemaul', '신협': 'cu',
+  '산림': 'nfcf', '저축': 'savingsbank', '우리종합': 'woori', // 우리종합금융은 우리은행 로고와 유사하게 처리
+};
+
+export const BANK_LOGOS: Record<string, string> = {
+  ...BANK_LIST_TIER_1.reduce((acc, bank) => ({ ...acc, [bank.name]: bank.logo }), {}),
+  // 동적 로고 생성 (키워드 기반)
+  ...Object.entries(BANK_LOGO_MAP).reduce((acc, [key, id]) => ({
+    ...acc,
+    [key]: `https://static.toss.im/png-icons/bank/${id}.png`
+  }), {})
+};
 
 // 뱅크샐러드 기준 2금융권(저축은행) 선택 리스트
 export const BANK_LIST_TIER_2 = [

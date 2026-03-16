@@ -12,15 +12,14 @@ interface CompactProductCardProps {
 }
 
 export default function CompactProductCard({ product, rank }: CompactProductCardProps) {
-  const cleanBankName = product.kor_co_nm
-    .replace('주식회사 ', '')
-    .replace('㈜', '')
-    .replace('(주)', '')
-    .trim();
+  const bankName = product.kor_co_nm;
+  
+  // 키워드 기반 로고 매핑 (가장 긴 매칭 우선)
+  const logoKey = Object.keys(BANK_LOGOS)
+    .sort((a, b) => b.length - a.length)
+    .find(key => bankName.includes(key));
     
-  const logoUrl = BANK_LOGOS[cleanBankName] || 
-                  BANK_LOGOS[cleanBankName.replace('은행', '')] ||
-                  BANK_LOGOS[cleanBankName.replace('저축은행', '')];
+  const logoUrl = logoKey ? BANK_LOGOS[logoKey] : null;
 
   return (
     <motion.div
