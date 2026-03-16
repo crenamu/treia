@@ -4,6 +4,14 @@ const API_KEY = process.env.FSS_API_KEY?.replace(/["']/g, '').trim() || "9c6a126
 const BASE_URL = 'https://finlife.fss.or.kr/finlifeapi'
 const TOP_GRPS = ['020000', '030300']
 
+// 제1금융권 은행 리스트
+export const TIER_1_BANKS = [
+  '한국산업은행', 'NH농협은행', '신한은행', '우리은행', 'SC제일은행', 
+  '하나은행', '중소기업은행', 'KB국민은행', '한국씨티은행', 'SH수협은행', 
+  '대구은행', '부산은행', '광주은행', '제주은행', '전북은행', 
+  '경남은행', '케이뱅크', '카카오뱅크', '토스뱅크'
+];
+
 export interface LoanOption {
   rpay_type_nm?: string      // 상환 방식 (원리금균등, 원금균등 등)
   lend_rate_type_nm: string // 금리 방식 (고정, 변동)
@@ -24,7 +32,11 @@ export interface LoanProduct {
   tags: string[]           // 대출 특성 태그 (중도상환수수료 없음, 무직자 가능 등)
 }
 
-export async function getLoans(type: 'mortgage' | 'rent' | 'credit', filters: string[] = []) {
+export async function getLoans(
+  type: 'mortgage' | 'rent' | 'credit', 
+  filters: string[] = [],
+  tier: 'all' | '1' = 'all'
+) {
   const endpointMap = {
     mortgage: 'mortgageLoanProductsSearch',
     rent: 'rentHouseLoanProductsSearch',
@@ -56,7 +68,7 @@ export async function getLoans(type: 'mortgage' | 'rent' | 'credit', filters: st
       const baseList = actualData.baseList || [];
       const optionList = actualData.optionList || [];
 
-      baseList.forEach((p: any) => {
+      baseList.forEach((p: { fin_prdt_cd: string; fin_prdt_nm: string; kor_co_nm: string; join_way: string; loan_lmt: string; }) => {
         if (!mergedProductMap[p.fin_prdt_cd]) {
           const prdtNm = p.fin_prdt_nm || '';
           const joinWay = p.join_way || '';
@@ -74,7 +86,7 @@ export async function getLoans(type: 'mortgage' | 'rent' | 'credit', filters: st
         }
       });
 
-      optionList.forEach((o: any) => {
+      optionList.forEach((o: { fin_prdt_cd: string; rpay_type_nm?: string; crdt_prdt_type_nm?: string; lend_rate_type_nm?: string; lend_rate_min?: number; crdt_grad_avg?: number; lend_rate_max?: number; lend_rate_avg?: number; }) => {
         if (mergedProductMap[o.fin_prdt_cd]) {
           mergedProductMap[o.fin_prdt_cd].options.push({
             rpay_type_nm: o.rpay_type_nm || o.crdt_prdt_type_nm || '-',
@@ -94,6 +106,11 @@ export async function getLoans(type: 'mortgage' | 'rent' | 'credit', filters: st
         return { ...p, bestOption: sortedOpts[0] };
       });
 
+    // 1금융권 필터링
+    if (tier === '1') {
+      products = products.filter(p => TIER_1_BANKS.some(bank => p.kor_co_nm.includes(bank)));
+    }
+
     // 필터링 적용 (AND 로직)
     if (filters.length > 0) {
       products = products.filter(p => filters.every(f => p.tags.includes(f)));
@@ -105,7 +122,10 @@ export async function getLoans(type: 'mortgage' | 'rent' | 'credit', filters: st
     if (products.length > 0) return { products, isMock: false };
 
     // 데이터가 없는 경우를 위한 목업
-    const mock = generateMockLoans(type);
+    let mock = generateMockLoans(type);
+    if (tier === '1') {
+      mock = mock.filter(p => TIER_1_BANKS.some(bank => p.kor_co_nm.includes(bank)));
+    }
     return { products: mock.filter(p => filters.every(f => p.tags.includes(f))), isMock: true };
 
   } catch (error) {

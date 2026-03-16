@@ -5,20 +5,19 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ArrowRight, 
   Sparkles, 
-  ChevronRight, 
   TrendingUp, 
   Search, 
-  Filter,
   CheckCircle2,
   AlertCircle
 } from 'lucide-react'
 import Link from 'next/link'
-import { getProducts, Product } from '@/app/actions/finance'
-import AssetMetricCard from '@/components/AssetMetricCard'
-import GlobalMarketInsight from '@/components/GlobalMarketInsight'
-import FilterChips from '@/components/FilterChips'
+import { getProducts, Product } from './actions/finance'
+import AssetMetricCard from '../components/AssetMetricCard'
+import GlobalMarketInsight from '../components/GlobalMarketInsight'
 import Badge from '@/components/Badge'
 import TaxCalculatorWidget from '@/components/TaxCalculatorWidget'
+import HorizontalFilterBar from '@/components/HorizontalFilterBar'
+import CompactProductCard from '@/components/CompactProductCard'
 
 const PREFERENTIAL_FILTERS = [
   { id: '카드사용', label: '카드사용' },
@@ -38,25 +37,25 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isMock, setIsMock] = useState(false)
-  const [selectedFilters, setSelectedFilters] = useState<{id: string, label: string}[]>([])
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([])
+  const [tier, setTier] = useState<'all' | '1'>('all')
 
   useEffect(() => {
     async function load() {
       setIsLoading(true)
-      const filterIds = selectedFilters.map(f => f.id)
-      const { products: data, isMock: mockStatus } = await getProducts(activeTab, selectedTerm, filterIds)
+      const { products: data, isMock: mockStatus } = await getProducts(activeTab, selectedTerm, selectedFilters, tier)
       setProducts(data)
       setIsMock(mockStatus)
       setIsLoading(false)
     }
     load()
-  }, [activeTab, selectedTerm, selectedFilters])
+  }, [activeTab, selectedTerm, selectedFilters, tier])
 
-  const toggleFilter = (id: string, label: string) => {
-    if (selectedFilters.find(f => f.id === id)) {
-      setSelectedFilters(selectedFilters.filter(f => f.id !== id))
+  const toggleFilter = (id: string) => {
+    if (selectedFilters.includes(id)) {
+      setSelectedFilters(selectedFilters.filter(f => f !== id))
     } else {
-      setSelectedFilters([...selectedFilters, { id, label }])
+      setSelectedFilters([...selectedFilters, id])
     }
   }
 
@@ -189,49 +188,46 @@ export default function Home() {
              </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-12">
-            {/* Sidebar Filters */}
-            <div className="w-full lg:w-72 shrink-0 space-y-12">
-               <div className="space-y-6">
-                  <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-400 opacity-60 px-2 flex items-center gap-2">
-                    <Filter size={12} /> Preferential Conditions
-                  </h3>
-                  <div className="flex flex-col gap-2">
-                     {PREFERENTIAL_FILTERS.map(f => (
-                       <button
-                         key={f.id}
-                         onClick={() => toggleFilter(f.id, f.label)}
-                         className={`flex items-center justify-between px-5 py-4 rounded-[24px] text-sm font-bold transition-all border ${
-                           selectedFilters.find(sf => sf.id === f.id)
-                           ? 'bg-white border-green-500 text-gray-900 shadow-md ring-2 ring-green-500/10'
-                           : 'bg-white border-gray-100 text-gray-500 hover:border-gray-900'
-                         }`}
-                       >
-                         {f.label}
-                         {selectedFilters.find(sf => sf.id === f.id) && <div className="w-2 h-2 rounded-full bg-green-500" />}
-                       </button>
-                     ))}
-                  </div>
-               </div>
-            </div>
+          <div className="mb-12">
+            <HorizontalFilterBar 
+              tier={tier}
+              onTierChange={setTier}
+              selectedFilters={selectedFilters}
+              onToggleFilter={toggleFilter}
+              onReset={() => {
+                setSelectedFilters([]);
+                setTier('all');
+                setSelectedTerm('12');
+              }}
+              categories={[
+                {
+                  id: 'preferential',
+                  label: '우대 조건',
+                  options: PREFERENTIAL_FILTERS
+                },
+                {
+                  id: 'join',
+                  label: '가입 방식',
+                  options: [
+                    { id: '방문없이가입', label: '방문없이가입' },
+                    { id: '누구나가입', label: '누구나가입' }
+                  ]
+                }
+              ]}
+            />
+          </div>
 
-            {/* Product List */}
+          <div className="flex flex-col gap-12">
             <div className="flex-1">
-              <FilterChips 
-                filters={selectedFilters}
-                onRemove={(id) => setSelectedFilters(selectedFilters.filter(f => f.id !== id))}
-                onClearAll={() => setSelectedFilters([])}
-              />
-
               {isLoading ? (
-                <div className="grid grid-cols-1 gap-8">
-                   {[1, 2, 3].map(i => (
-                     <div key={i} className="h-64 bg-gray-100 rounded-[48px] animate-pulse" />
+                <div className="grid grid-cols-1 gap-4">
+                   {[1, 2, 3, 4, 5].map(i => (
+                     <div key={i} className="h-24 bg-gray-100 rounded-3xl animate-pulse" />
                    ))}
                 </div>
               ) : (
                 <AnimatePresence mode="popLayout">
-                  <div className="grid grid-cols-1 gap-8">
+                  <div className="flex flex-col gap-3">
                     {products.length === 0 ? (
                       <div className="py-32 text-center bg-white rounded-[48px] border border-gray-100">
                          <p className="text-lg font-bold text-gray-300">조건에 맞는 상품이 없습니다.</p>
@@ -239,50 +235,22 @@ export default function Home() {
                       </div>
                     ) : (
                       products.map((product, idx) => (
-                        <motion.div
-                          layout
-                          key={product.fin_prdt_cd}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, scale: 0.95 }}
-                          transition={{ delay: idx * 0.05 }}
-                          className="group bg-white rounded-[56px] p-8 md:p-12 border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-gray-200/50 transition-all overflow-hidden relative"
-                        >
-                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 relative z-10">
-                            <div className="flex-1">
-                               <div className="flex flex-wrap items-center gap-3 mb-6">
-                                  <Badge variant="outline">{product.kor_co_nm}</Badge>
-                                  {product.tags?.slice(0, 3).map(tag => (
-                                    <Badge key={tag} variant="blue">{tag}</Badge>
-                                  ))}
-                               </div>
-                               <h3 className="text-3xl font-black text-gray-900 mb-4 group-hover:text-green-600 transition-colors">
-                                  {product.fin_prdt_nm}
-                               </h3>
-                               <p className="text-sm font-bold text-gray-400 line-clamp-1 max-w-xl">
-                                  {product.spcl_cnd || product.mtrt_int}
-                                </p>
-                            </div>
-
-                            <div className="flex items-center gap-12 bg-gray-50 group-hover:bg-green-50 rounded-[40px] px-10 py-8 transition-all border border-transparent group-hover:border-green-100">
-                               <div className="text-center">
-                                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">최대 금리</p>
-                                  <p className="text-4xl font-black text-gray-900 group-hover:text-green-600 transition-colors">
-                                     {product.bestOption?.intr_rate2}%
-                                  </p>
-                                  <p className="text-xs font-bold text-gray-400 mt-1">기본 {product.bestOption?.intr_rate}%</p>
-                               </div>
-                               <ChevronRight size={24} className="text-gray-300 group-hover:text-green-600" />
-                            </div>
-                          </div>
-
-                          <TaxCalculatorWidget 
-                            baseAmount={1000000} 
-                            rate={product.bestOption?.intr_rate2 || 0} 
-                            term={parseInt(selectedTerm)} 
-                            type={activeTab} 
-                          />
-                        </motion.div>
+                        <div key={product.fin_prdt_cd} className="flex flex-col gap-2">
+                           <CompactProductCard
+                             product={product}
+                             rank={idx + 1}
+                           />
+                           {idx === 0 && (
+                             <div className="mx-4 mb-4">
+                               <TaxCalculatorWidget 
+                                 baseAmount={1000000} 
+                                 rate={product.bestOption?.intr_rate2 || 0} 
+                                 term={parseInt(selectedTerm)} 
+                                 type={activeTab} 
+                               />
+                             </div>
+                           )}
+                        </div>
                       ))
                     )}
                   </div>

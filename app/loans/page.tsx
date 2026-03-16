@@ -1,18 +1,19 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Landmark, ShieldCheck, ChevronRight, Info, Filter, ArrowUpDown, CreditCard } from 'lucide-react'
+import { Landmark, Info, CreditCard } from 'lucide-react'
 import { getLoans, LoanProduct } from '@/app/actions/loan'
-import Badge from '@/components/Badge'
-import FilterChips from '@/components/FilterChips'
+import HorizontalFilterBar from '@/components/HorizontalFilterBar'
+import CompactLoanCard from '@/components/CompactLoanCard'
+import { AnimatePresence } from 'framer-motion'
 
 export default function LoansPage() {
   const [activeTab, setActiveTab] = useState<'credit' | 'mortgage' | 'rent'>('credit')
   const [products, setProducts] = useState<LoanProduct[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isMock, setIsMock] = useState(false)
-  const [selectedFilters, setSelectedFilters] = useState<{id: string, label: string}[]>([])
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([])
+  const [tier, setTier] = useState<'all' | '1'>('all')
 
   const tabs = [
     { id: 'credit', label: '신용대출', icon: <CreditCard size={18} /> },
@@ -31,20 +32,19 @@ export default function LoansPage() {
   useEffect(() => {
     async function load() {
       setIsLoading(true)
-      const filterIds = selectedFilters.map(f => f.id)
-      const { products: data, isMock: mockStatus } = await getLoans(activeTab, filterIds)
+      const { products: data, isMock: mockStatus } = await getLoans(activeTab, selectedFilters, tier)
       setProducts(data)
       setIsMock(mockStatus)
       setIsLoading(false)
     }
     load()
-  }, [activeTab, selectedFilters])
+  }, [activeTab, selectedFilters, tier])
 
-  const toggleFilter = (id: string, label: string) => {
-    if (selectedFilters.find(f => f.id === id)) {
-      setSelectedFilters(selectedFilters.filter(f => f.id !== id))
+  const toggleFilter = (id: string) => {
+    if (selectedFilters.includes(id)) {
+      setSelectedFilters(selectedFilters.filter(f => f !== id))
     } else {
-      setSelectedFilters([...selectedFilters, { id, label }])
+      setSelectedFilters([...selectedFilters, id])
     }
   }
 
@@ -82,12 +82,12 @@ export default function LoansPage() {
       <div className="container mx-auto px-6 mt-16">
         {/* Tabs Control */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-16">
-           <div className="flex p-2 bg-white rounded-[32px] border border-gray-100 shadow-sm w-fit gap-2">
+           <div className="flex flex-wrap p-2 bg-white rounded-[32px] border border-gray-100 shadow-sm w-fit gap-2">
               {tabs.map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as 'credit' | 'mortgage' | 'rent')}
-                  className={`flex items-center gap-3 px-10 py-5 rounded-[24px] text-sm font-black transition-all ${
+                  className={`flex items-center gap-3 px-6 md:px-10 py-4 md:py-5 rounded-[24px] text-sm font-black transition-all ${
                     activeTab === tab.id 
                     ? 'bg-gray-900 text-white shadow-xl shadow-gray-900/20' 
                     : 'text-gray-400 hover:text-gray-900 hover:bg-gray-50'
@@ -98,115 +98,54 @@ export default function LoansPage() {
                 </button>
               ))}
            </div>
-
-           <div className="flex items-center gap-4">
-              <button className="flex items-center gap-3 text-sm font-black text-gray-900 bg-white px-8 py-5 rounded-[24px] border border-gray-100 shadow-sm hover:shadow-md transition-all">
-                 <ArrowUpDown size={16} /> 최저금리순
-              </button>
-           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-16">
-          {/* Sidebar Filter Menu */}
-          <div className="w-full lg:w-72 shrink-0 space-y-12">
-             <div className="space-y-6">
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-400 opacity-60 px-4 flex items-center gap-2">
-                  <Filter size={12} /> Search Filters
-                </h3>
-                <div className="flex flex-col gap-2">
-                   {PRESET_FILTERS.map(f => (
-                     <button
-                       key={f.id}
-                       onClick={() => toggleFilter(f.id, f.label)}
-                       className={`flex items-center justify-between px-6 py-5 rounded-[24px] text-sm font-bold transition-all border ${
-                         selectedFilters.find(sf => sf.id === f.id)
-                         ? 'bg-white border-green-500 text-gray-900 shadow-md ring-2 ring-green-500/10'
-                         : 'bg-white border-gray-100 text-gray-500 hover:border-gray-900'
-                       }`}
-                     >
-                       {f.label}
-                       {selectedFilters.find(sf => sf.id === f.id) && <div className="w-2 h-2 rounded-full bg-green-500" />}
-                     </button>
-                   ))}
-                </div>
+        <div className="mb-12">
+           <HorizontalFilterBar 
+             tier={tier}
+             onTierChange={setTier}
+             selectedFilters={selectedFilters}
+             onToggleFilter={toggleFilter}
+             onReset={() => {
+               setSelectedFilters([]);
+               setTier('all');
+             }}
+             categories={[
+               {
+                 id: 'type',
+                 label: '대출 특성',
+                 options: PRESET_FILTERS
+               }
+             ]}
+           />
+        </div>
+
+        <div className="flex-1">
+           {isLoading ? (
+             <div className="flex flex-col gap-4">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <div key={i} className="h-24 bg-gray-100 rounded-3xl animate-pulse" />
+                ))}
              </div>
-          </div>
-
-          {/* List Area */}
-          <div className="flex-1">
-             <FilterChips 
-               filters={selectedFilters} 
-               onRemove={(id) => setSelectedFilters(selectedFilters.filter(f => f.id !== id))}
-               onClearAll={() => setSelectedFilters([])}
-             />
-
-             {isLoading ? (
-               <div className="space-y-8">
-                  {[1, 2, 3].map(i => (
-                    <div key={i} className="h-64 bg-gray-100 rounded-[56px] animate-pulse" />
-                  ))}
-               </div>
-             ) : (
-               <AnimatePresence mode="popLayout">
-                 <div className="space-y-8">
-                    {products.length === 0 ? (
-                      <div className="py-40 text-center bg-white rounded-[56px] border border-gray-100 shadow-sm">
-                         <p className="text-xl font-bold text-gray-300">검색 결과가 없습니다.</p>
-                         <p className="text-sm text-gray-400 mt-2">필터를 조정하거나 초기화해주세요.</p>
-                         <button onClick={() => setSelectedFilters([])} className="mt-8 text-sm font-black text-gray-900 underline underline-offset-8">필터 전체 해제</button>
+           ) : (
+             <AnimatePresence mode="popLayout">
+               <div className="flex flex-col gap-3">
+                  {products.length === 0 ? (
+                    <div className="py-40 text-center bg-white rounded-[56px] border border-gray-100 shadow-sm">
+                       <p className="text-xl font-bold text-gray-300">검색 결과가 없습니다.</p>
+                       <p className="text-sm text-gray-400 mt-2">필터를 조정하거나 초기화해주세요.</p>
+                       <button onClick={() => setSelectedFilters([])} className="mt-8 text-sm font-black text-gray-900 underline underline-offset-8">필터 전체 해제</button>
+                    </div>
+                  ) : (
+                    products.map((p) => (
+                      <div key={p.fin_prdt_cd}>
+                        <CompactLoanCard product={p} />
                       </div>
-                    ) : (
-                      products.map((p, idx) => (
-                        <motion.div
-                          layout
-                          key={p.fin_prdt_cd}
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, scale: 0.95 }}
-                          transition={{ delay: idx * 0.05 }}
-                          className="group bg-white rounded-[56px] p-8 md:p-12 border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-gray-200/50 transition-all cursor-pointer relative"
-                        >
-                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-10">
-                            <div className="flex-1">
-                               <div className="flex flex-wrap items-center gap-3 mb-6">
-                                  <Badge variant="solid" className="bg-gray-900">{p.kor_co_nm}</Badge>
-                                  {p.tags?.slice(0, 3).map(tag => (
-                                    <Badge key={tag} variant="outline" className="text-gray-500 border-gray-200">{tag}</Badge>
-                                  ))}
-                               </div>
-                               <h2 className="text-3xl font-black text-gray-900 group-hover:text-green-600 transition-colors mb-4 leading-tight">
-                                  {p.fin_prdt_nm}
-                               </h2>
-                               <div className="flex items-center gap-6 text-sm font-bold text-gray-400">
-                                  <div className="flex items-center gap-2">
-                                     <span className="w-1 h-1 rounded-full bg-gray-200" />
-                                     {p.loan_lmt}
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                     <span className="w-1 h-1 rounded-full bg-gray-200" />
-                                     {p.bestOption?.rpay_type_nm}
-                                  </div>
-                               </div>
-                            </div>
-
-                            <div className="flex items-center gap-12 bg-gray-50 group-hover:bg-green-50 rounded-[48px] px-10 py-8 transition-all border border-transparent group-hover:border-green-100">
-                               <div className="text-right">
-                                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">최저 금리</p>
-                                  <p className="text-4xl font-black text-gray-900 group-hover:text-green-600 transition-colors">
-                                     {p.bestOption?.lend_rate_min}%
-                                  </p>
-                                  <p className="text-xs font-bold text-gray-400 mt-1">{p.bestOption?.lend_rate_type_nm}</p>
-                               </div>
-                               <ChevronRight size={28} className="text-gray-300 group-hover:text-green-600 group-hover:translate-x-2 transition-all" />
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))
-                    )}
-                 </div>
-               </AnimatePresence>
-             )}
-          </div>
+                    ))
+                  )}
+               </div>
+             </AnimatePresence>
+           )}
         </div>
       </div>
     </div>

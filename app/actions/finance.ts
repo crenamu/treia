@@ -7,6 +7,14 @@ const BASE_URL = 'https://finlife.fss.or.kr/finlifeapi'
 // 권역 코드: 020000(은행), 030300(저축은행)
 const TOP_GRPS = ['020000', '030300']
 
+// 제1금융권 은행 리스트 (시중은행)
+export const TIER_1_BANKS = [
+  '한국산업은행', 'NH농협은행', '신한은행', '우리은행', 'SC제일은행', 
+  '하나은행', '중소기업은행', 'KB국민은행', '한국씨티은행', 'SH수협은행', 
+  '대구은행', '부산은행', '광주은행', '제주은행', '전북은행', 
+  '경남은행', '케이뱅크', '카카오뱅크', '토스뱅크'
+];
+
 export interface ProductOption {
   intr_rate_type_nm: string
   save_trm: string
@@ -28,7 +36,12 @@ export interface Product {
   tags: string[] // 상세 우대 조건 태그
 }
 
-export async function getProducts(type: 'deposit' | 'saving', trm: string = '0', filters: string[] = []) {
+export async function getProducts(
+  type: 'deposit' | 'saving', 
+  trm: string = '0', 
+  filters: string[] = [],
+  tier: 'all' | '1' = 'all'
+) {
   const apiType = type === 'deposit' ? 'depositProductsSearch' : 'savingProductsSearch';
 
   try {
@@ -43,7 +56,7 @@ export async function getProducts(type: 'deposit' | 'saving', trm: string = '0',
           });
           if (!res.ok) return null;
           return await res.json();
-        } catch (e) {
+        } catch (error) {
           return null;
         }
       })
@@ -58,7 +71,7 @@ export async function getProducts(type: 'deposit' | 'saving', trm: string = '0',
       const baseList = actualData.baseList || [];
       const optionList = actualData.optionList || [];
 
-      baseList.forEach((p: any) => {
+      baseList.forEach((p: { fin_prdt_cd: string; kor_co_nm: string; fin_prdt_nm: string; join_way: string; spcl_cnd: string; mtrt_int: string; etc_note: string; }) => {
         if (!mergedProductMap[p.fin_prdt_cd]) {
           const spclCnd = p.spcl_cnd || '-';
           const joinWay = p.join_way || '-';
@@ -77,7 +90,7 @@ export async function getProducts(type: 'deposit' | 'saving', trm: string = '0',
         }
       });
 
-      optionList.forEach((o: any) => {
+      optionList.forEach((o: { fin_prdt_cd: string; intr_rate_type_nm: string; save_trm: string; intr_rate: number; intr_rate2: number; }) => {
         if (mergedProductMap[o.fin_prdt_cd]) {
           mergedProductMap[o.fin_prdt_cd].options.push({
             intr_rate_type_nm: o.intr_rate_type_nm,
@@ -89,23 +102,23 @@ export async function getProducts(type: 'deposit' | 'saving', trm: string = '0',
       });
     });
 
-    let rawProducts = Object.values(mergedProductMap).filter((p) => p.options.length > 0);
+    const rawProducts = Object.values(mergedProductMap).filter((p) => p.options.length > 0);
     
     // 데이터가 있다면 실데이터 반환
     if (rawProducts.length > 0) {
-      const formatted = formatProducts(rawProducts, trm, filters);
+      const formatted = formatProducts(rawProducts, trm, filters, tier);
       return { products: formatted, total: formatted.length, isMock: false };
     }
 
     // 데이터가 없는 경우를 대비한 가변 Mock
     const richMock = generateRichMock(type);
-    const formattedMock = formatProducts(richMock, trm, filters);
+    const formattedMock = formatProducts(richMock, trm, filters, tier);
     return { products: formattedMock, total: formattedMock.length, isMock: true };
 
   } catch (error) {
     console.error('Fatal Error:', error);
     const richMock = generateRichMock(type);
-    return { products: formatProducts(richMock, trm, filters), total: richMock.length, isMock: true };
+    return { products: formatProducts(richMock, trm, filters, tier), total: richMock.length, isMock: true };
   }
 }
 
@@ -149,8 +162,13 @@ function generateRichMock(type: string): Product[] {
   });
 }
 
-function formatProducts(products: Product[], trm: string, filters: string[]) {
+function formatProducts(products: Product[], trm: string, filters: string[], tier: 'all' | '1' = 'all') {
   let filtered = [...products];
+  
+  // 1금융권 필터
+  if (tier === '1') {
+    filtered = filtered.filter(p => TIER_1_BANKS.some(bank => p.kor_co_nm.includes(bank)));
+  }
   
   // 가입 기간 필터
   if (trm && trm !== '0') {
