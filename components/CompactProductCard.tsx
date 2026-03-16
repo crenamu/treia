@@ -12,14 +12,19 @@ interface CompactProductCardProps {
 }
 
 export default function CompactProductCard({ product, rank }: CompactProductCardProps) {
-  const bankName = product.kor_co_nm.trim();
+  // 기관명 보정 (보이지 않는 문자 및 공백 제거)
+  const bankNameRaw = product.kor_co_nm.trim();
+  const bankName = bankNameRaw.replace(/[^\uAC00-\uD7A3a-zA-Z0-9\s]/g, "").trim();
   
   // 키워드 기반 로고 매핑 (가장 긴 매칭 우선)
   const logoKey = Object.keys(BANK_LOGOS)
     .sort((a, b) => b.length - a.length)
     .find(key => bankName.includes(key));
     
-  const logoUrl = logoKey ? BANK_LOGOS[logoKey] : null;
+  // 로고 URL 결정 (매칭 없을 시 저축은행 기본 로고 활용)
+  const logoUrl = logoKey ? BANK_LOGOS[logoKey] : "/images/banks/savingsbank.png";
+
+  const displayName = bankName.replace("주식회사", "").trim();
 
   return (
     <motion.div
@@ -44,9 +49,9 @@ export default function CompactProductCard({ product, rank }: CompactProductCard
             <Image src={logoUrl} alt={bankName} width={36} height={36} className="object-contain" />
           ) : (
             <span className="text-[10px] font-black text-gray-400 text-center leading-tight">
-              {bankName.slice(0, 2)}
+              {displayName.slice(0, 2)}
               <br />
-              {bankName.slice(2, 4)}
+              {displayName.slice(2, 4)}
             </span>
           )}
         </div>
@@ -56,7 +61,7 @@ export default function CompactProductCard({ product, rank }: CompactProductCard
       <div className="flex-1 min-w-0">
         <div className="flex flex-col gap-0.5 mb-2">
             <span className="text-[11px] font-bold text-gray-400 truncate">
-                {product.kor_co_nm}
+                {displayName}
             </span>
             <h3 className="text-base md:text-lg font-black text-gray-900 truncate leading-tight group-hover:text-[#10B981] transition-colors">
                 {product.fin_prdt_nm}
