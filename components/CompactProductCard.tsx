@@ -2,8 +2,9 @@
 
 import { motion } from 'framer-motion'
 import { ChevronRight } from 'lucide-react'
-import Badge from './Badge'
 import { Product } from '@/app/actions/finance'
+import { BANK_LOGOS } from '@/app/actions/constants'
+import Image from 'next/image'
 
 interface CompactProductCardProps {
   product: Product
@@ -11,6 +12,9 @@ interface CompactProductCardProps {
 }
 
 export default function CompactProductCard({ product, rank }: CompactProductCardProps) {
+  const logoUrl = BANK_LOGOS[product.kor_co_nm.replace('주식회사 ', '')] || 
+                  BANK_LOGOS[product.kor_co_nm.replace('은행', '')]
+
   return (
     <motion.div
       layout
@@ -20,16 +24,20 @@ export default function CompactProductCard({ product, rank }: CompactProductCard
       className="group bg-white rounded-3xl p-5 md:p-6 border border-gray-100 flex items-center gap-4 hover:shadow-xl hover:shadow-gray-200/40 transition-all cursor-pointer"
     >
       {/* Rank & Logo */}
-      <div className="flex flex-col items-center gap-1 min-w-[48px]">
+      <div className="flex flex-col items-center gap-1 min-w-[56px] shrink-0">
         {rank && (
           <span className={`text-sm font-black ${rank <= 3 ? 'text-amber-500' : 'text-gray-300'}`}>
             {rank}
           </span>
         )}
-        <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center border border-gray-100 group-hover:bg-green-50 group-hover:border-green-100 transition-colors">
-          <span className="text-[10px] font-black text-gray-400 text-center leading-tight">
-            {product.kor_co_nm.slice(0, 2)}
-          </span>
+        <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-50 shadow-sm overflow-hidden group-hover:border-green-100 transition-colors">
+          {logoUrl ? (
+            <img src={logoUrl} alt={product.kor_co_nm} className="w-8 h-8 object-contain" />
+          ) : (
+            <span className="text-[10px] font-black text-gray-400 text-center leading-tight">
+              {product.kor_co_nm.slice(0, 2)}
+            </span>
+          )}
         </div>
       </div>
 
