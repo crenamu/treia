@@ -13,8 +13,7 @@ export interface CardProduct {
   tags: string[]
 }
 
-// 제1금융권 (주요 카드사/은행계)
-export const TIER_1_CARD_ISSUERS = ['신한카드', '현대카드', 'KB국민카드', '삼성카드', '하나카드', '우리인터내셔널', 'IBK기업은행'];
+import { TIER_1_CARD_ISSUERS } from './constants';
 
 // 뱅크샐러드급 데이터 분류 로직 시뮬레이션
 export async function getCards(filters: string[] = [], tier: 'all' | '1' = 'all') {

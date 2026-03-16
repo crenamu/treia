@@ -7,13 +7,7 @@ const BASE_URL = 'https://finlife.fss.or.kr/finlifeapi'
 // 권역 코드: 020000(은행), 030300(저축은행)
 const TOP_GRPS = ['020000', '030300']
 
-// 제1금융권 은행 리스트 (시중은행)
-export const TIER_1_BANKS = [
-  '한국산업은행', 'NH농협은행', '신한은행', '우리은행', 'SC제일은행', 
-  '하나은행', '중소기업은행', 'KB국민은행', '한국씨티은행', 'SH수협은행', 
-  '대구은행', '부산은행', '광주은행', '제주은행', '전북은행', 
-  '경남은행', '케이뱅크', '카카오뱅크', '토스뱅크'
-];
+import { TIER_1_BANKS } from './constants';
 
 export interface ProductOption {
   intr_rate_type_nm: string
@@ -56,7 +50,7 @@ export async function getProducts(
           });
           if (!res.ok) return null;
           return await res.json();
-        } catch (error) {
+        } catch {
           return null;
         }
       })
