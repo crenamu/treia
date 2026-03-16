@@ -24,7 +24,7 @@ export const BANK_LIST_TIER_1 = [
   { id: 'kdb', name: 'KDB산업은행', logo: `${LOCAL_LOGO_BASE}/kdb.png` },
   { id: 'sc', name: 'SC제일은행', logo: `${LOCAL_LOGO_BASE}/sc.png` },
   { id: 'suhyup', name: '수협은행', logo: `${LOCAL_LOGO_BASE}/suhyup.png` },
-  { id: 'dgb', name: 'dgb.png' }, // dgb는 id 자체가 dgb.png가 아니라 매핑 필요
+  { id: 'dgb', name: '대구은행', logo: `${LOCAL_LOGO_BASE}/dgb.png` },
   { id: 'busan', name: '부산은행', logo: `${LOCAL_LOGO_BASE}/busan.png` },
   { id: 'kyongnam', name: '경남은행', logo: `${LOCAL_LOGO_BASE}/kyongnam.png` },
   { id: 'kwangju', name: '광주은행', logo: `${LOCAL_LOGO_BASE}/kwangju.png` },
@@ -43,11 +43,17 @@ const BANK_LOGO_MAP: Record<string, string> = {
   '우체국': 'post', '씨티': 'citi', '새마을': 'mg', '신협': 'cu',
   '산림': 'nfcf', '다올': 'daol', '조은': 'choeun', '웰컴': 'welcome',
   'OK': 'ok', 'SBI': 'sbi', '페퍼': 'pepper', '더케이': 'thek', '영진': 'youngjin',
-  '흥국': 'stx', 'HB': 'hb', 'BNK': 'bnk', 'DB': 'db', '드림': 'dream', 'O2': 'o2',
-  'OSB': 'osb', 'JT': 'jt', '푸른': 'pureun', '미래': 'mirae', '대한': 'daehan',
-  '동원': 'dongwon', '동양': 'dongyang', '진주': 'jinju', '대명': 'daemyeong',
-  '우리금융': 'woori', '신한저축': 'shinhan', 'KB저축': 'kb', '우리저축': 'woori',
-  '하나저축': 'hana', 'NH저축': 'nh', 'IBK저축': 'ibk', '저축': 'savingsbank'
+  '흥국': 'heungkuk', '예가람': 'heungkuk', '고려': 'heungkuk', 'HB': 'hb', 'BNK': 'bnk',
+  'DB': 'db', '드림': 'dream', 'O2': 'o2', 'OSB': 'osb', 'JT': 'jt', '푸른': 'pureun',
+  '미래': 'mirae', '대한': 'daehan', '동원': 'dongwon', '동양': 'dongyang', '진주': 'jinju',
+  '대명': 'daemyeong', '키움': 'kiwoombank', '상상인': 'sangsangin', '모아': 'moa',
+  '유안타': 'uanta', '세람': 'seram', '조흥': 'choheung', '삼호': 'samho', '부림': 'bulim',
+  '솔브레인': 'soulbrain', '애큐온': 'acuon', '키움예스': 'kiwoomyes', '평택': 'pyeongtaek',
+  '인성': 'insung', '오성': 'osung', '금화': 'kuemhwa', '참': 'charm', '안국': 'ankuk',
+  '스타': 'star', '민국': 'minkuk', '유니온': 'union', '한화': 'hanwha', '대신': 'daeshin',
+  '국제': 'kukje', '우리금융': 'woori', '신한저축': 'shinhan', 'KB저축': 'kb',
+  '우리저축': 'woori', '하나저축': 'hana', 'NH저축': 'nh', 'IBK저축': 'ibk',
+  '저축': 'savingsbank'
 };
 
 export const BANK_LOGOS: Record<string, string> = {
