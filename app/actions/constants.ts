@@ -44,8 +44,10 @@ const BANK_LOGO_MAP: Record<string, string> = {
   '산림': 'nfcf', '다올': 'daol', '조은': 'choeun', '웰컴': 'welcome',
   'OK': 'ok', 'SBI': 'sbi', '페퍼': 'pepper', '더케이': 'thek', '영진': 'youngjin',
   '흥국': 'stx', 'HB': 'hb', 'BNK': 'bnk', 'DB': 'db', '드림': 'dream', 'O2': 'o2',
-  '하나저축': 'hana', '신한저축': 'shinhan', 'KB저축': 'kb', '우리저축': 'woori',
-  'NH저축': 'nh', 'IBK저축': 'ibk', '저축': 'savingsbank'
+  'OSB': 'osb', 'JT': 'jt', '푸른': 'pureun', '미래': 'mirae', '대한': 'daehan',
+  '동원': 'dongwon', '동양': 'dongyang', '진주': 'jinju', '대명': 'daemyeong',
+  '우리금융': 'woori', '신한저축': 'shinhan', 'KB저축': 'kb', '우리저축': 'woori',
+  '하나저축': 'hana', 'NH저축': 'nh', 'IBK저축': 'ibk', '저축': 'savingsbank'
 };
 
 export const BANK_LOGOS: Record<string, string> = {
