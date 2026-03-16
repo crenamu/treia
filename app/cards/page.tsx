@@ -174,7 +174,8 @@ export default function CardsPage() {
                           <ArrowRight size={24} className="text-amber-400 group-hover:translate-x-3 transition-transform" />
                        </div>
                      </motion.div>
-                   ))}
+                   ))
+                 )}
               </div>
             </AnimatePresence>
           )}
