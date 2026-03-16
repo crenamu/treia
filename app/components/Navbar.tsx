@@ -28,6 +28,8 @@ const NAV_LINKS = [
     submenu: [
       { href: '/', label: '정기예금', icon: <Landmark size={14} /> },
       { href: '/savings', label: '정기적금', icon: <Rocket size={14} /> },
+      { href: '/loans', label: '대출상품', icon: <ShieldCheck size={14} /> },
+      { href: '/cards', label: '신용카드', icon: <Star size={14} /> },
       { href: '/isa', label: 'ISA (준비중)', icon: <ShieldCheck size={14} /> },
     ]
   },
@@ -188,6 +190,8 @@ export default function Navbar() {
                       <p className="px-2 text-[10px] font-black text-gray-400 uppercase tracking-widest opacity-60">Quick Access</p>
                       <SidebarLink href="/" label="정기예금" icon={<Landmark size={18} />} active={pathname === '/' || pathname.includes('/deposits')} />
                       <SidebarLink href="/savings" label="정기적금" icon={<Rocket size={18} />} active={pathname === '/savings' || pathname.includes('/savings/')} />
+                      <SidebarLink href="/loans" label="대출상품" icon={<ShieldCheck size={18} />} active={pathname === '/loans'} />
+                      <SidebarLink href="/cards" label="신용카드" icon={<Star size={18} />} active={pathname === '/cards'} />
                    </div>
                    <div className="space-y-3">
                       <p className="px-2 text-[10px] font-black text-gray-400 uppercase tracking-widest opacity-60">Portfolio</p>

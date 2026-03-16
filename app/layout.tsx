@@ -47,10 +47,10 @@ export default function RootLayout({
                 <FooterLinks
                   title="금융상품"
                   links={[
-                    { label: "예금 금리 비교", href: "/" },
-                    { label: "적금 금리 비교", href: "#" },
-                    { label: "ISA 정보", href: "#" },
-                    { label: "ETF 큐레이션", href: "#" },
+                    { label: "예금 금리 비교", href: "/deposits" },
+                    { label: "적금 금리 비교", href: "/savings" },
+                    { label: "대출 상품 비교", href: "/loans" },
+                    { label: "신용카드 혜택", href: "/cards" },
                   ]}
                 />
                 <FooterLinks

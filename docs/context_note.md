@@ -1,6 +1,6 @@
 # 핀테이블(FinTable) 맥락 노트 (Context Note)
 
-_최종 업데이트: 2026-03-13 (금) 17:55 KST_
+_최종 업데이트: 2026-03-16 (월) 11:35 KST_
 
 ---
 
@@ -10,7 +10,7 @@ _최종 업데이트: 2026-03-13 (금) 17:55 KST_
 - **서비스명**: 핀테이블 (FinTable)
 - **핵심 가치**: "복잡한 금융 정보를 테이블 위에 깔끔하게 정리하여 보여준다"
 - **슬로건**: "지금 가장 좋은 금리, 한눈에 비교하세요"
-- **디자인 톤**: 옅은 베이지(`#FBF9F6`) 배경, Serif 대형 타이틀, 미니멀한 카드 UI.
+- **디자인 톤**: 따뜻한 베이지(`#FBF9F6`) 배경, **Pretendard** 폰트 기반의 볼드하고 프리미엄한 타이포그래피, 고해상도 글래스모피즘 카드 UI.
 
 ### 서비스 구성
 1. **메인 (금융상품)**: 금감원 API 기반 예적금 비교.
@@ -25,29 +25,29 @@ _최종 업데이트: 2026-03-13 (금) 17:55 KST_
 | 영역 | 데이터 소스 | 업데이트 주기 |
 |------|------------|--------------|
 | **금융상품** | 금감원 금융상품통합비교공시 API | 월 1회 공시 (매시간 캐시 갱신) |
-| **임대주택** | 공공데이터포털 LH·마이홈포털 API | 상시 (모집공고 발생 시) |
+| **임대주택** | 마이홈포털(LH+SH 통합) 공공주택 공고 API | 상시 (실시간 통합 수집) |
 | **Treia** | MQL5 시그널 / 서버 자체 데이터 | 실시간 |
 
 ### 기술 스택
-- **Framework**: Next.js 14-16 (App Router)
-- **Styling**: Tailwind CSS v4 (Base Color: `#FBF9F6`)
-- **Backend**: API Routes (Server-side fetch to avoid CORS)
-- **Auth/DB**: Firebase (2차 단계 예정)
-- **Animation**: Framer Motion (Soft fade in/out)
+- **Framework**: Next.js 15 (App Router)
+- **Styling**: Tailwind CSS v4 + Vanilla CSS Hybrid
+- **Data Fetching**: **Server Actions** (CORS 우회 및 백엔드 로직 보호)
+- **Auth/DB**: Firebase (fintable_ 프리픽스 사용)
+- **Animation**: Framer Motion (고성능 로딩 및 탭 전환 애니메이션)
+- **Font**: Pretendard (KR 특화 가독성 확보)
 
 ---
 
-## 3. UI/UX 디자인 시방서
-
-### 가이드라인 (스티치 디자인 시스템 반영)
+### 가이드라인 (Premium 핀테크 UX)
 - **배경색**: `#FBF9F6` (옅은 베이지)
-- **포인트색**: `#10B981` (그린), `#333333` (다크 그레이)
+- **포인트색**: `#10B981` (Green), `#F59E0B` (Amber - 카드/강조용), `#111827` (Charcoal)
+- **블루 배제**: 사용자 요청에 따라 과도한 블루 톤은 정보성 불렛 외에는 사용하지 않음.
 - **타이포그래피**: 
-    - 메인 제목: Serif 폰트 (Georgia 등) 활용으로 신뢰감 전달
-    - 카드 컨텐츠: Sans-serif (Pretendard/Inter)로 가독성 확보
+    - 전면 **Pretendard** 적용 (Bold/Black 위주로 강렬한 인상 부여)
 - **레이아웃**:
-    - GNB: `예금 | 적금 | ETF | ISA`를 좌측, `Treia | 임대주택`을 우측/푸터 배치.
-    - 대시보드 요약: 최고 기본금리 / 최고 우대금리 / 상품 수 요약 카드 상단 배치.
+    - **Live Status Header**: 데이터 연동 상태(Live/Simulation)를 상단에 직관적으로 표시.
+    - **Banksalad 스타일**: 대형 메트릭 카드(최고 금리 등)와 리스트 간의 시각적 계층 강화.
+    - **Naejibdao 스타일**: 청약 공고 카드에 AI 당첨 확률 및 뱃지 시스템 적용.
 
 ---
 
