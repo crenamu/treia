@@ -42,7 +42,8 @@ yarn-error.log*
 골드ea_indi_참조 계획서.md
 *.html
 *.csv
-*.png
+# *.png  <-- 이 부분을 주석 처리하거나 /public/images/banks/만 제외
+!/public/images/banks/*.png
 ea_history_parsed.json
 test_*.ts
 test_*.js
