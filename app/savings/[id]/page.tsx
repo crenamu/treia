@@ -1,32 +1,29 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { DepositProduct } from '@/types/deposit'
 import { 
   ArrowLeft,
-  Building2, 
-  Calendar, 
-  ShieldCheck, 
-  Smartphone,
-  CheckCircle2,
-  TrendingUp,
-  Gift,
-  HelpCircle,
-  Calculator as CalcIcon,
   Plus,
-  ArrowUpRight,
+  ArrowRight,
+  ChevronDown,
+  Info,
+  Trophy,
+  Bookmark,
   Rocket
 } from 'lucide-react'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
-import Link from 'next/link'
+import { BANK_LOGOS } from '@/app/actions/constants'
+import { motion, AnimatePresence } from 'framer-motion'
 
-export default function SavingDetailPage() {
+export default function SavingsDetailPage() {
   const params = useParams()
   const router = useRouter()
   const [product, setProduct] = useState<DepositProduct | null>(null)
   const [loading, setLoading] = useState(true)
   const [isCompareOpen, setIsCompareOpen] = useState(false)
+  const [isInfoExpanded, setIsInfoExpanded] = useState(false)
 
   useEffect(() => {
     fetch(`/api/savings?id=${params.id}`)
@@ -41,14 +38,20 @@ export default function SavingDetailPage() {
       })
   }, [params.id])
 
+  const bankLogo = useMemo(() => {
+    if (!product) return null;
+    const bankKey = Object.keys(BANK_LOGOS).find(key => product.kor_co_nm.includes(key));
+    return bankKey ? BANK_LOGOS[bankKey] : '/images/banks/savingsbank.png';
+  }, [product]);
+
   if (loading) return (
-    <div className="min-h-screen bg-[var(--bg-beige)] flex items-center justify-center">
+    <div className="min-h-screen bg-white flex items-center justify-center">
       <div className="w-8 h-8 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></div>
     </div>
   )
 
   if (!product) return (
-    <div className="min-h-screen bg-[var(--bg-beige)] flex flex-col items-center justify-center gap-4">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-4">
       <p className="text-gray-400 font-bold">상품 정보를 찾을 수 없습니다.</p>
       <button onClick={() => router.back()} className="text-purple-600 font-bold flex items-center gap-2">
         <ArrowLeft size={16} /> 뒤로가기
@@ -57,192 +60,364 @@ export default function SavingDetailPage() {
   )
 
   return (
-    <div className="min-h-screen bg-[var(--bg-beige)] py-6 md:py-12 pb-32 md:pb-12">
-      <div className="container mx-auto max-w-4xl px-4 md:px-6">
-        <div className="flex items-center justify-between mb-8">
-          <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 hover:text-gray-900 font-bold group">
-            <div className="p-2 bg-white rounded-xl shadow-sm border border-gray-100 group-hover:bg-gray-50 flex items-center justify-center">
-              <ArrowLeft size={18} />
-            </div>
-            <span>목록으로</span>
-          </button>
-          <div className="flex items-center gap-2">
-            <button onClick={() => setIsCompareOpen(true)} className="px-4 py-2 bg-white rounded-xl border border-gray-100 text-xs font-black text-gray-600 hover:bg-gray-50 transition-all">
-              <Plus size={14} /> 비교하기
-            </button>
-            <ShareSaveButtons id={product.fin_prdt_cd} title={product.fin_prdt_nm} type="product" />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-sm border border-gray-100">
-              <div className="flex items-center gap-2 mb-6">
-                <span className="text-sm text-gray-400 font-bold">{product.kor_co_nm}</span>
-                <span className="w-1 h-1 rounded-full bg-gray-200"></span>
-                <span className="text-xs text-purple-600 font-black tracking-widest uppercase">정기적금</span>
-              </div>
-              <h1 className="text-3xl md:text-4xl font-outfit font-black text-gray-900 mb-8 leading-tight">{product.fin_prdt_nm}</h1>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <BenefitCard icon={<Rocket size={20} className="text-purple-500" />} title="목돈 만들기 최적" desc="적은 금액부터 차근차근 목표를 달성하세요." />
-                <BenefitCard icon={<TrendingUp size={20} className="text-blue-500" />} title="최고 금리 반영" desc="우대 조건 충족 시 업계 최고 수준의 이자를 제공합니다." />
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                <InfoItem icon={<ShieldCheck size={16} className="text-blue-500" />} label="보호 여부" value="예금자보호 대상" />
-                <InfoItem icon={<Building2 size={16} className="text-purple-500" />} label="가입 대상" value={product.join_member} />
-                <InfoItem icon={<Calendar size={16} className="text-orange-500" />} label="공시 시작일" value={product.dcls_strt_day} />
-                <InfoItem icon={<Smartphone size={16} className="text-green-500" />} label="가입 방법" value={product.join_way} />
-              </div>
-            </div>
-
-            <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-sm border border-gray-100">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                <TrendingUp size={20} className="text-purple-600" /> 기간별 적금 금리
-              </h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-gray-100 text-[10px] text-gray-400 font-black uppercase tracking-widest">
-                      <th className="py-4 px-4 text-left">기간</th>
-                      <th className="py-4 px-4 text-left">금리유형</th>
-                      <th className="py-4 px-4 text-right">기본</th>
-                      <th className="py-4 px-4 text-right">최고</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {product.options.map((opt, i) => (
-                      <tr key={i} className={`border-b border-gray-50 last:border-none ${opt.save_trm === '12' ? 'bg-purple-50/30' : ''}`}>
-                        <td className="py-5 px-4 font-bold text-gray-900">{opt.save_trm}개월</td>
-                        <td className="py-5 px-4 font-medium text-gray-500">{opt.intr_rate_type_nm}</td>
-                        <td className="py-5 px-4 text-right font-outfit font-black text-gray-900">연 {opt.intr_rate}%</td>
-                        <td className="py-5 px-4 text-right font-outfit font-black text-purple-600">연 {opt.intr_rate2}%</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <RateSimulator product={product} color="purple" />
-
-            <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-sm border border-gray-100 space-y-10">
-              <DetailSection title="우대 조건" content={product.spcl_cnd} />
-              <DetailSection title="만기 후 이자율" content={product.mtrt_int} />
-              <DetailSection title="기타 유의사항" content={product.etc_note} />
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <div className="bg-purple-900 rounded-[32px] p-8 text-white shadow-2xl shadow-purple-900/20 sticky top-24">
-              <span className="text-[10px] font-black uppercase tracking-[3px] text-purple-400">Monthly Savings</span>
-              <p className="text-sm font-medium text-purple-300 mb-4">최대 우대 적용 시</p>
-              <div className="text-5xl font-outfit font-black text-white mb-8">연 {product.bestOption.intr_rate2}%</div>
-              
-              <button className="w-full py-5 bg-white text-purple-900 font-black text-sm uppercase tracking-widest rounded-2xl hover:bg-purple-50 transition-all shadow-xl">상품 가입하기</button>
-              <Link href="/calculator" className="mt-4 w-full py-5 bg-white/10 hover:bg-white/20 text-white font-black text-sm uppercase tracking-widest rounded-2xl transition-all flex items-center justify-center gap-2">
-                <CalcIcon size={16} /> 예상 수령액 확인
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {isCompareOpen && <ComparisonDrawer product={product} onClose={() => setIsCompareOpen(false)} />}
-    </div>
-  )
-}
-
-function BenefitCard({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
-  return (
-    <div className="p-5 bg-gray-50 rounded-[24px] border border-gray-100 flex items-start gap-4">
-      <div className="p-3 bg-white rounded-xl shadow-sm">{icon}</div>
-      <div>
-        <h4 className="text-sm font-bold text-gray-900 mb-1">{title}</h4>
-        <p className="text-xs text-gray-400 font-medium leading-relaxed">{desc}</p>
-      </div>
-    </div>
-  )
-}
-
-function InfoItem({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) {
-  return (
-    <div className="flex flex-col gap-1.5 min-w-0">
-      <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest truncate">{icon} {label}</div>
-      <p className="text-xs font-bold text-gray-900 truncate">{value}</p>
-    </div>
-  )
-}
-
-function DetailSection({ title, content }: { title: string, content: string }) {
-  return (
-    <div className="space-y-4">
-      <h3 className="text-sm font-black text-gray-900 uppercase tracking-[2px] flex items-center gap-2">
-        <div className="w-1.5 h-1.5 rounded-full bg-purple-500"></div>
-        {title}
-      </h3>
-      <div className="text-sm text-gray-500 leading-relaxed pl-4 border-l-2 border-gray-50 whitespace-pre-wrap">{content || '데이터가 없습니다.'}</div>
-    </div>
-  )
-}
-
-function RateSimulator({ product, color }: { product: DepositProduct, color: string }) {
-  const [checked, setChecked] = useState(false)
-  const base = product.bestOption.intr_rate
-  const max = product.bestOption.intr_rate2
-  
-  return (
-    <div className={`bg-white rounded-[32px] p-8 border border-gray-100 shadow-sm`}>
-      <h3 className="text-lg font-black text-gray-900 mb-8 flex items-center gap-3">
-        <CalcIcon size={20} className={color === 'purple' ? 'text-purple-600' : 'text-green-600'} /> 금리 시뮬레이션
-      </h3>
-      <div className="space-y-4">
-        <button onClick={() => setChecked(!checked)} className={`w-full flex items-center justify-between p-6 rounded-2xl border-2 transition-all ${checked ? 'border-purple-500 bg-purple-50/50' : 'border-gray-50 bg-gray-50'}`}>
-          <div className="flex items-center gap-4">
-             <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${checked ? 'bg-purple-600 border-purple-600 text-white' : 'border-gray-300 bg-white'}`}>
-                {checked && <CheckCircle2 size={16} />}
-             </div>
-             <p className="text-sm font-bold text-gray-900">모든 우대 조건 충족 시</p>
-          </div>
-          <span className="text-xs font-black text-purple-600">+{ (max - base).toFixed(2) }%p</span>
+    <div className="min-h-screen bg-white pb-32">
+      {/* Top Header Navigation */}
+      <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md px-4 py-3 border-b border-gray-50 flex items-center justify-between">
+        <button onClick={() => router.back()} className="p-2 -ml-1 text-gray-900">
+          <ArrowLeft size={24} />
         </button>
-        <div className="p-8 bg-gray-900 rounded-[24px] text-center">
-           <p className="text-[10px] text-purple-400 font-black uppercase tracking-[2px] mb-2">예상 적용 금리</p>
-           <div className="text-5xl font-outfit font-black text-white">연 {checked ? max : base}%</div>
+        <div className="flex items-center gap-2">
+          <button 
+             onClick={() => setIsCompareOpen(true)}
+             className="p-2 text-gray-400 hover:text-gray-900"
+          >
+            <Plus size={22} />
+          </button>
+          <ShareSaveButtons 
+            id={product.fin_prdt_cd} 
+            title={product.fin_prdt_nm} 
+            type="product" 
+          />
         </div>
       </div>
+
+      <div className="container mx-auto max-w-2xl">
+        {/* Detail Header Section */}
+        <header className="px-6 pt-10 pb-8 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-4 mb-6">
+            <div className="w-14 h-14 rounded-full overflow-hidden border border-gray-100 flex items-center justify-center bg-white shadow-sm ring-4 ring-gray-50/50">
+              <img src={bankLogo || "/images/banks/savingsbank.png"} alt={product.kor_co_nm} className="w-9 h-9 object-contain" />
+            </div>
+            <div className="flex flex-col items-center md:items-start">
+              <span className="text-sm font-bold text-gray-400 mb-1">{product.kor_co_nm}</span>
+              <h1 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight tracking-tight">
+                {product.fin_prdt_nm}
+              </h1>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 py-8 border-y border-gray-50 mt-4">
+            <div className="flex flex-col items-center md:items-start">
+              <span className="text-[11px] font-black text-gray-300 uppercase tracking-widest mb-2">최고 금리</span>
+              <span className="text-4xl font-outfit font-black text-purple-600 tracking-tighter">
+                {product.bestOption.intr_rate2.toFixed(1)}<span className="text-xl ml-0.5">%</span>
+              </span>
+            </div>
+            <div className="flex flex-col items-center md:items-start border-l border-gray-50 pl-4">
+              <span className="text-[11px] font-black text-gray-300 uppercase tracking-widest mb-2">기본 금리</span>
+              <span className="text-4xl font-outfit font-black text-gray-900 tracking-tighter">
+                {product.bestOption.intr_rate.toFixed(1)}<span className="text-xl ml-0.5">%</span>
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap justify-center md:justify-start items-center gap-2 mt-8">
+            <Tag label="정기적금" />
+            <Tag label="비대면" />
+            {product.max_limit ? (
+               <Tag label={`${Math.floor(product.max_limit / 10000)}만원 한도`} />
+            ) : (
+               <Tag label="한도제한 없음" />
+            )}
+          </div>
+
+          <button className="mt-6 text-xs font-black text-gray-400 flex items-center gap-1.5 hover:text-gray-600 transition-colors mx-auto md:mx-0">
+            {product.kor_co_nm} 웹사이트에서 보기 <ArrowRight size={14} />
+          </button>
+        </header>
+
+        <Divider />
+
+        {/* Disclaimer / Notice */}
+        <section className="px-6 py-5 bg-gray-50/50">
+          <p className="text-[11px] text-gray-400 leading-relaxed font-medium">
+            이 정보는 금융감독원 공시 내용(24.03.17 기준)을 바탕으로 제공되며, 실제 가입 시점의 금리와 상이할 수 있습니다. <br className="hidden md:block" />
+            상세 가입 조건 및 우대 이율은 해당 금융기관에서 반드시 재확인하시기 바랍니다.
+          </p>
+        </section>
+
+        <Divider />
+
+        {/* Main Section: Interest Calculator */}
+        <section className="py-12">
+          <div className="px-6">
+            <h2 className="text-2xl font-black text-gray-900 mb-2 tracking-tight">이자 계산기</h2>
+            <p className="text-sm text-gray-400 font-bold mb-10">내 상황에 맞는 예상 만기 수령액을 확인해 보세요</p>
+            <RateSimulator product={product} />
+          </div>
+        </section>
+
+        <Divider />
+
+        {/* Ranking Section */}
+        <section className="px-6 py-8 flex items-center justify-between group cursor-pointer hover:bg-gray-50/50 transition-colors">
+          <div className="flex items-center gap-5">
+            <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-500 shadow-sm shadow-purple-200/50">
+              <Trophy size={24} />
+            </div>
+            <div>
+              <p className="text-xs font-black text-gray-400 uppercase tracking-wider mb-1">적금 상품 랭킹</p>
+              <p className="text-lg font-black text-gray-900 tracking-tight">상위 <span className="text-purple-500">3위</span>권 최고 금리 적금</p>
+            </div>
+          </div>
+          <ArrowRight size={22} className="text-gray-200 group-hover:text-gray-400 group-hover:translate-x-1 transition-all" />
+        </section>
+
+        <Divider />
+
+        {/* Product Information Grid */}
+        <section className="py-12">
+          <div className="px-6 text-left">
+            <h2 className="text-2xl font-black text-gray-900 mb-10 tracking-tight">상품 정보</h2>
+            <div className="space-y-10">
+              <InfoRow label="가입 금액" value={product.max_limit ? `최소 1만원 ~ 최대 ${Math.floor(product.max_limit / 10000)}만원` : '금액 제한 없음'} />
+              <InfoRow label="가입 대상" value={product.join_member} />
+              <InfoRow label="가입 방법" value={product.join_way} />
+              
+              <AnimatePresence>
+                {isInfoExpanded && (
+                  <motion.div 
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden space-y-10 pt-10"
+                  >
+                    <InfoRow label="우대 조건" value={product.spcl_cnd} isText />
+                    <InfoRow label="만기 후 이율" value={product.mtrt_int} isText />
+                    <InfoRow label="기타 유의사항" value={product.etc_note} isText />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <button 
+                onClick={() => setIsInfoExpanded(!isInfoExpanded)}
+                className="w-full py-5 flex items-center justify-center gap-2 text-sm font-black text-gray-400 hover:text-gray-900 transition-all border-t border-gray-50 mt-4 group"
+              >
+                {isInfoExpanded ? '상세 정보 접기' : '정보 더 보기'} 
+                <span className={`transition-transform duration-300 ${isInfoExpanded ? 'rotate-180' : ''}`}>
+                  <ChevronDown size={18} />
+                </span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <Divider />
+
+        {/* Period Rates List */}
+        <section className="py-12 bg-gray-50/30">
+          <div className="px-6">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl font-black text-gray-900 tracking-tight">기간별 금리</h2>
+              <span className="text-xs font-bold text-gray-400 group flex items-center gap-1">세전 기준 <Info size={12} /></span>
+            </div>
+            <div className="bg-white rounded-[28px] p-8 border border-gray-100 shadow-sm">
+              <div className="flex items-center justify-between text-[11px] font-black text-gray-300 uppercase tracking-widest mb-6">
+                <span>계약 기간</span>
+                <span>최고(기본) 이율</span>
+              </div>
+              <div className="space-y-6">
+                {product.options.sort((a,b) => parseInt(a.save_trm) - parseInt(b.save_trm)).map((opt, i) => (
+                  <div key={i} className="flex items-center justify-between">
+                    <span className="text-base font-black text-gray-900">{opt.save_trm}개월</span>
+                    <div className="text-right">
+                      <span className="text-xl font-outfit font-black text-purple-600">
+                        {opt.intr_rate2.toFixed(1)}%
+                      </span>
+                      <span className="text-sm font-bold text-gray-300 ml-1.5">({opt.intr_rate.toFixed(1)}%)</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* Fixed Bottom Action UI */}
+      <footer className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-gray-100 p-4 md:p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.08)]">
+        <div className="container mx-auto max-w-2xl flex gap-3">
+          <button className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-2xl text-gray-400 hover:bg-gray-200 transition-colors active:scale-95">
+             <Bookmark size={24} />
+          </button>
+          <button className="flex-1 py-5 bg-purple-600 hover:bg-purple-700 text-white font-black text-lg rounded-3xl transition-all shadow-xl shadow-purple-500/20 active:scale-[0.98]">
+            {product.kor_co_nm}에서 열기
+          </button>
+        </div>
+      </footer>
+
+      {/* Comparison Drawer Placeholder */}
+      <AnimatePresence>
+        {isCompareOpen && (
+           <motion.div 
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             exit={{ opacity: 0 }}
+             className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center"
+             onClick={() => setIsCompareOpen(false)}
+           >
+             <motion.div 
+               initial={{ y: "100%" }}
+               animate={{ y: 0 }}
+               exit={{ y: "100%" }}
+               transition={{ type: "spring", damping: 25, stiffness: 200 }}
+               className="w-full max-w-2xl bg-white rounded-t-[48px] p-10 pb-16"
+               onClick={e => e.stopPropagation()}
+             >
+               <div className="w-12 h-1.5 bg-gray-100 rounded-full mx-auto mb-10"></div>
+               <h3 className="text-2xl font-black text-gray-900 mb-8 tracking-tight">비교함에 추가</h3>
+               <div className="p-6 bg-purple-50/50 rounded-3xl border border-purple-100 mb-8 flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center border border-purple-100 shadow-sm">
+                     <img src={bankLogo || ""} alt="은행 로고" className="w-7 h-7 object-contain" />
+                  </div>
+                  <div className="flex-1">
+                     <p className="text-xs font-black text-purple-600 uppercase tracking-wider mb-1">선택된 상품</p>
+                     <p className="text-lg font-bold text-gray-900">{product.fin_prdt_nm}</p>
+                  </div>
+               </div>
+               <button className="w-full py-5 bg-purple-600 text-white font-black text-lg rounded-3xl shadow-2xl shadow-purple-500/20 active:scale-95 transition-transform">
+                  상품 비교 시작하기
+               </button>
+             </motion.div>
+           </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
 
-function ComparisonDrawer({ product, onClose }: { product: any, onClose: () => void }) {
+function Tag({ label }: { label: string }) {
   return (
-    <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-md flex items-end justify-center animate-in fade-in duration-300">
-       <div className="w-full max-w-2xl bg-white rounded-t-[48px] p-10 shadow-2xl animate-in slide-in-from-bottom duration-500">
-          <div className="w-12 h-1.5 bg-gray-100 rounded-full mx-auto mb-10"></div>
-          <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tighter">비교함에 담았습니다</h3>
-          <p className="text-gray-500 font-medium mb-10">최대 3개의 상품을 한눈에 비교하고 최고의 수익률을 선택하세요.</p>
-          
-          <div className="space-y-4 mb-10">
-             <div className="flex items-center gap-4 p-5 bg-purple-50 rounded-2xl border border-purple-100">
-                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-purple-600 font-black border border-purple-100">1</div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] text-purple-600 font-black uppercase">담긴 상품</p>
-                  <p className="text-sm font-bold text-gray-900 truncate">{product.fin_prdt_nm}</p>
-                </div>
-             </div>
-             <div className="flex items-center gap-4 p-5 bg-gray-50 rounded-2xl border border-dashed border-gray-200 opacity-60">
-                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-gray-300 font-black border border-gray-100">+</div>
-                <p className="text-sm font-bold text-gray-400">비교할 상품을 더 선택하세요</p>
-             </div>
+    <span className="px-3 py-1.5 bg-gray-50 text-gray-600 text-[11px] font-black rounded-lg border border-gray-100/50">
+      {label}
+    </span>
+  )
+}
+
+function Divider() {
+  return <div className="h-[1px] bg-gray-50 w-full" />
+}
+
+function InfoRow({ label, value, isText = false }: { label: string, value: string, isText?: boolean }) {
+  if (!value) return null;
+  return (
+    <div className="flex flex-col gap-3">
+      <span className="text-[11px] font-black text-gray-300 uppercase tracking-widest">{label}</span>
+      <p className={`text-base md:text-lg text-gray-800 font-bold leading-relaxed ${isText ? 'whitespace-pre-wrap' : ''}`}>
+        {value}
+      </p>
+    </div>
+  )
+}
+
+function RateSimulator({ product }: { product: DepositProduct }) {
+  const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({})
+  const [trmIndex, setTrmIndex] = useState(0)
+  
+  const defaultIdx = product.options.findIndex(o => o.save_trm === '12');
+  useEffect(() => {
+    if (defaultIdx !== -1) setTrmIndex(defaultIdx);
+  }, [defaultIdx]);
+
+  const currentOption = product.options[trmIndex] || product.bestOption;
+  
+  const primeConditions = useMemo(() => {
+    return product.spcl_cnd
+      .split(/\d+\./)
+      .map(s => s.trim())
+      .filter(s => s.length > 5);
+  }, [product.spcl_cnd]);
+
+  const toggleItem = (idx: number) => {
+    setCheckedItems(prev => ({ ...prev, [idx]: !prev[idx] }));
+  }
+
+  const baseRate = currentOption.intr_rate;
+  const maxRate = currentOption.intr_rate2;
+  const primeTotal = maxRate - baseRate;
+  
+  const checkedCount = Object.values(checkedItems).filter(Boolean).length;
+  const simulatedRate = useMemo(() => {
+    if (primeConditions.length === 0) return baseRate;
+    const increment = (primeTotal / Math.max(1, primeConditions.length)) * checkedCount;
+    return Math.min(maxRate, baseRate + increment);
+  }, [baseRate, maxRate, primeTotal, primeConditions.length, checkedCount]);
+
+  // 적금 계산 (매월 100만원 납입 기준)
+  const monthlyDeposit = 1000000;
+  const months = parseInt(currentOption.save_trm);
+  
+  const totalPrincipal = monthlyDeposit * months;
+  const beforeTaxInterest = Math.floor(monthlyDeposit * (simulatedRate / 100 / 12) * (months * (months + 1) / 2));
+  console.log('Total Principal:', totalPrincipal); // 원금 로그 추가하여 사용 처리
+  const afterTaxInterest = Math.floor(beforeTaxInterest * (1 - 0.154));
+
+  return (
+    <div className="bg-white">
+      {/* Month Selector Tabs */}
+      <div className="flex gap-2 mb-10 overflow-x-auto pb-4 scrollbar-hide no-scrollbar">
+        {product.options.sort((a,b) => parseInt(a.save_trm) - parseInt(b.save_trm)).map((opt, i) => (
+          <button
+            key={i}
+            onClick={() => setTrmIndex(i)}
+            className={`px-7 py-4 rounded-2xl text-sm font-black transition-all whitespace-nowrap border-2 ${trmIndex === i ? 'bg-purple-900 border-purple-900 text-white shadow-xl shadow-purple-900/10' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'}`}
+          >
+            {opt.save_trm}개월
+          </button>
+        ))}
+      </div>
+
+      <div className="text-center bg-purple-50/30 rounded-[40px] p-10 mb-12 border border-purple-50 shadow-inner">
+        <h3 className="text-5xl md:text-6xl font-black text-purple-600 mb-4 font-outfit tracking-tighter">
+          {simulatedRate.toFixed(2)}<span className="text-2xl ml-1">%</span>
+        </h3>
+        <p className="text-sm font-bold text-gray-400 uppercase tracking-widest leading-none">
+          기본 {baseRate.toFixed(1)}% <span className="mx-2 text-gray-200">|</span> <span className="text-purple-500">우대 +{(simulatedRate - baseRate).toFixed(2)}%p</span>
+        </p>
+      </div>
+
+      <div className="bg-[#1e1431] rounded-[32px] p-8 mb-12 flex items-center justify-between shadow-2xl shadow-purple-900/20 group cursor-pointer active:scale-[0.98] transition-all">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-purple-400">
+            <Rocket size={24} />
           </div>
-          
-          <div className="flex gap-4">
-             <button onClick={onClose} className="flex-1 py-5 bg-gray-100 text-gray-600 rounded-[20px] font-black text-xs uppercase tracking-widest">계속 둘러보기</button>
-             <button className="flex-[2] py-5 bg-purple-600 text-white rounded-[20px] font-black text-xs uppercase tracking-widest shadow-xl shadow-purple-500/20">비교하기 (1/3)</button>
+          <div>
+            <p className="text-[11px] font-black text-purple-300/50 uppercase tracking-widest mb-1">매월 100만원 불입 시</p>
+            <p className="text-xl font-black text-white tracking-tight">세후 이자 <span className="text-purple-400">{afterTaxInterest.toLocaleString()}</span>원</p>
           </div>
-       </div>
+        </div>
+        <ArrowRight size={20} className="text-purple-800 group-hover:text-purple-400 transition-colors" />
+      </div>
+
+      <div className="space-y-4">
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm font-black text-gray-900 uppercase tracking-wider">우대 금리 조건</p>
+          <span className="text-[11px] font-bold text-gray-400">항목을 눌러 적용해 보세요</span>
+        </div>
+        {primeConditions.slice(0, 6).map((cond, i) => (
+          <div 
+            key={i}
+            onClick={() => toggleItem(i)}
+            className={`flex items-center justify-between py-5 px-6 rounded-3xl border-2 transition-all cursor-pointer select-none ${checkedItems[i] ? 'bg-purple-50/30 border-purple-500 shadow-lg shadow-purple-500/5' : 'bg-white border-gray-50 hover:border-gray-200'}`}
+          >
+            <div className="flex-1 pr-6">
+              <p className={`text-sm md:text-base font-bold transition-colors ${checkedItems[i] ? 'text-purple-900' : 'text-gray-600'}`}>
+                {cond.length > 50 ? cond.substring(0, 50) + '...' : cond}
+              </p>
+              <button className="text-[10px] font-black text-gray-400 mt-2 flex items-center gap-1 hover:text-gray-600">상세 보기 <ChevronDown size={10} /></button>
+            </div>
+            <div className={`w-14 h-7 rounded-full transition-all relative shrink-0 ${checkedItems[i] ? 'bg-purple-600' : 'bg-gray-100'}`}>
+              <div className={`absolute top-1 w-5 h-5 bg-white rounded-full shadow-sm transition-all duration-300 ${checkedItems[i] ? 'left-8' : 'left-1'}`}></div>
+            </div>
+          </div>
+        ))}
+        {primeConditions.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-10 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
+            <Info size={24} className="text-gray-300 mb-2" />
+            <p className="text-sm text-gray-400 font-bold">등록된 우대 조건 상세 정보가 없습니다.</p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
