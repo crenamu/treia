@@ -38,7 +38,7 @@ const BANK_LOGO_MAP: Record<string, string> = {
   '국민': 'kb', '신한': 'shinhan', '우리': 'woori', '하나': 'hana', '농협': 'nh',
   'NH': 'nh', '기업': 'ibk', 'IBK': 'ibk', '케이': 'kbank', '카카오': 'kakao',
   '토스': 'toss', '산업': 'kdb', 'KDB': 'kdb',
-  '수협': 'suhyup', 'SH': 'suhyup', '대구': 'dgb', 'iM': 'dgb', '아이엠': 'dgb', '부산': 'busan',
+  '수협': 'suhyup', 'SH': 'suhyup', '대구': 'dgb', 'iM': 'im', '아이엠': 'im', '부산': 'busan',
   '경남': 'kyongnam', '광주': 'kwangju', '전북': 'jeonbuk', '제주': 'jeju',
   '우체국': 'post', '씨티': 'citi', 'SC': 'sc', '제일': 'sc', '스탠다드': 'sc',
   '새마을': 'mg', '신협': 'cu', '산림': 'nfcf', '다올': 'daol', '조은': 'choeun', 
