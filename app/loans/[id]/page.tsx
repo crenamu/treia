@@ -4,8 +4,8 @@ import { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { LoanProduct } from '@/app/actions/loan'
 import PremiumProductTemplate from '@/components/PremiumProductTemplate'
-import { BANK_LOGOS, BANK_URLS } from '@/app/actions/constants'
-import { ShieldCheck, Landmark, Smartphone, PiggyBank, Scale, Calculator, ArrowRight } from 'lucide-react'
+import { BANK_LOGOS, BANK_URLS, getSmartLandingUrl } from '@/app/actions/constants'
+import { ShieldCheck, Calculator, ArrowRight, Percent, History, Star, Wallet } from 'lucide-react'
 
 export default function LoanDetailPage() {
   const params = useParams()
@@ -15,7 +15,7 @@ export default function LoanDetailPage() {
   const [extraData, setExtraData] = useState<{
     rank: number;
     total: number;
-    top5: any[];
+    top5: LoanProduct[];
   } | null>(null)
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function LoanDetailPage() {
     <PremiumProductTemplate
       type="loan"
       product={product}
-      bankLogo={bankLogo || "/images/banks/savingsbank.png"}
+      bankLogo={BANK_LOGOS[product.kor_co_nm] || "/images/banks/savingsbank.png"}
       primaryRate={{
         label: "최저 금리",
         value: product.bestOption?.lend_rate_min || 0,
@@ -74,17 +74,17 @@ export default function LoanDetailPage() {
       }}
       tags={product.tags}
       metrics={[
-        { label: '금융기관', value: product.kor_co_nm.includes('저축') ? '2금융권' : '1금융권', icon: <Landmark size={14} /> },
-        { label: '대출종류', value: product.type === 'mortgage' ? '주택담보' : product.type === 'rent' ? '전세대출' : '신용대출', icon: <Scale size={14} /> },
-        { label: '상환방식', value: product.bestOption?.rpay_type_nm || '-', icon: <PiggyBank size={14} /> },
-        { label: '가입방법', value: product.join_way, icon: <Smartphone size={14} /> }
+        { label: '한도', value: '최대 3억원', icon: <Percent size={14} /> },
+        { label: '대상', value: '직장인/공무원', icon: <History size={14} /> },
+        { label: '기간', value: '최대 10년', icon: <Star size={14} /> },
+        { label: '방식', value: '원리금분균등', icon: <Wallet size={14} /> }
       ]}
       simulator={<LoanRepaymentSimulator product={product} />}
       details={[
         { label: '금리 상세', value: `최저 ${product.bestOption?.lend_rate_min}% ~ 최고 ${product.bestOption?.lend_rate_max}% (평균 ${product.bestOption?.lend_rate_avg}%)` },
         { label: '유의사항', value: '대출 금리는 신용점수 및 은행 내부 심사 기준에 따라 차등 적용될 수 있습니다.', isText: true }
       ]}
-      externalLink={externalLink}
+      externalLink={getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm)}
       ranking={{
         rank: extraData?.rank || 0,
         total: extraData?.total || 0,

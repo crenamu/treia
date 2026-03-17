@@ -4,8 +4,8 @@ import { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { DepositProduct } from '@/types/deposit'
 import PremiumProductTemplate from '@/components/PremiumProductTemplate'
-import { BANK_LOGOS, BANK_URLS } from '@/app/actions/constants'
-import { ShieldCheck, Building2, Calendar, Smartphone, Rocket, ChevronDown, ArrowRight } from 'lucide-react'
+import { BANK_LOGOS, BANK_URLS, getSmartLandingUrl } from '@/app/actions/constants'
+import { ShieldCheck, Building2, Calendar, Smartphone, ChevronDown, Calculator } from 'lucide-react'
 
 export default function SavingsDetailPage() {
   const params = useParams()
@@ -86,18 +86,20 @@ export default function SavingsDetailPage() {
         { label: '보호여부', value: '예금자보호', icon: <ShieldCheck size={14} /> },
         { label: '가입대상', value: product.join_member, icon: <Building2 size={14} /> },
         { label: '가입방법', value: product.join_way, icon: <Smartphone size={14} /> },
-        { label: '유형', value: '정기적금', icon: <Calendar size={14} /> }
+        { label: '유형', value: '자산형성적금', icon: <Calendar size={14} /> }
       ]}
       simulator={<SavingsRateSimulator product={product} />}
       details={[
-        { label: '가입 금액', value: product.max_limit ? `최소 1만원 ~ 최대 ${Math.floor(product.max_limit / 10000)}만원` : '금액 제한 없음' },
+        { label: '가입 금액', value: product.max_limit ? `최대 월 ${Math.floor(product.max_limit / 10000)}만원` : '최소 1만원 이상' },
         { label: '가입 대상', value: product.join_member },
         { label: '가입 방법', value: product.join_way },
+        { label: '만기 후 이자율', value: product.mtrt_int, isText: true },
+        { label: '세제 혜택', value: '비과세종합저축으로 가입 가능' },
+        { label: '예금자 보호', value: '예금보험공사 보호금융상품(1인당 최고 5천만원)' },
         { label: '우대 조건', value: product.spcl_cnd, isText: true },
-        { label: '만기 후 이율', value: product.mtrt_int, isText: true },
         { label: '기타 유의사항', value: product.etc_note, isText: true }
       ]}
-      externalLink={externalLink}
+      externalLink={getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm)}
       ranking={{
         rank: extraData?.rank || 0,
         total: extraData?.total || 0,
@@ -150,39 +152,37 @@ function SavingsRateSimulator({ product }: { product: DepositProduct }) {
 
   return (
     <div className="bg-white">
-      {/* Month Selector Tabs */}
-      <div className="flex gap-2 mb-10 overflow-x-auto pb-4 scrollbar-hide no-scrollbar">
+      {/* Month Selector Tabs - Updated to matched screenshot */}
+      <div className="flex gap-3 mb-12 overflow-x-auto pb-4 scrollbar-hide no-scrollbar">
         {product.options.sort((a,b) => parseInt(a.save_trm) - parseInt(b.save_trm)).map((opt, i) => (
           <button
             key={i}
             onClick={() => setTrmIndex(i)}
-            className={`px-7 py-4 rounded-2xl text-sm font-black transition-all whitespace-nowrap border-2 ${trmIndex === i ? 'bg-purple-900 border-purple-900 text-white shadow-xl shadow-purple-900/10' : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'}`}
+            className={`flex flex-col items-center justify-center min-w-[100px] py-4 rounded-xl border-2 transition-all ${trmIndex === i ? 'bg-purple-900 border-purple-900 text-white shadow-lg' : 'bg-white border-gray-100 text-gray-900 hover:border-gray-200'}`}
           >
-            {opt.save_trm}개월
+            <span className="text-sm font-bold mb-1">{opt.save_trm}개월</span>
+            <span className={`text-[10px] font-medium ${trmIndex === i ? 'text-purple-300' : 'text-gray-400'}`}>기본 {opt.intr_rate}%</span>
           </button>
         ))}
       </div>
 
-      <div className="text-center bg-purple-50/30 rounded-[40px] p-10 mb-12 border border-purple-50 shadow-inner">
-        <h3 className="text-5xl md:text-6xl font-black text-purple-600 mb-4 font-outfit tracking-tighter">
-          {simulatedRate.toFixed(2)}<span className="text-2xl ml-1">%</span>
+      <div className="text-center mb-16 px-4">
+        <h3 className="text-4xl md:text-5xl font-black text-purple-600 mb-2 tracking-tight">
+          금리 {simulatedRate.toFixed(2)}%
         </h3>
-        <p className="text-sm font-bold text-gray-400 uppercase tracking-widest leading-none">
-          기본 {baseRate.toFixed(1)}% <span className="mx-2 text-gray-200">|</span> <span className="text-purple-500">우대 +{(simulatedRate - baseRate).toFixed(2)}%p</span>
+        <p className="text-sm font-bold text-gray-400">
+          기본 {baseRate.toFixed(2)}% {simulatedRate > baseRate && <span className="text-purple-500 ml-1">(우대 +{(simulatedRate - baseRate).toFixed(2)}%)</span>}
         </p>
       </div>
 
-      <div className="bg-[#1e1431] rounded-[32px] p-8 mb-12 flex items-center justify-between shadow-2xl shadow-purple-900/20 group cursor-pointer active:scale-[0.98] transition-all">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-purple-400">
-            <Rocket size={24} />
-          </div>
-          <div>
-            <p className="text-[11px] font-black text-purple-300/50 uppercase tracking-widest mb-1">매월 100만원 불입 시</p>
-            <p className="text-xl font-black text-white tracking-tight">세후 이자 <span className="text-purple-400">{afterTaxInterest.toLocaleString()}</span>원</p>
-          </div>
+      <div className="bg-purple-50/50 rounded-3xl p-8 mb-16 flex items-center gap-6 border border-purple-50">
+        <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-purple-600 shadow-sm border border-purple-50 shrink-0">
+          <Calculator size={28} />
         </div>
-        <ArrowRight size={20} className="text-purple-800 group-hover:text-purple-400 transition-colors" />
+        <div className="flex flex-col gap-1">
+          <p className="text-sm font-bold text-gray-400">매월 100만원 불입 시</p>
+          <p className="text-lg md:text-xl font-black text-gray-900 tracking-tight">총 세후 이자 <span className="text-purple-600">{afterTaxInterest.toLocaleString()}</span>원</p>
+        </div>
       </div>
 
       <div className="space-y-4">

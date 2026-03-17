@@ -103,7 +103,6 @@ export const TIER_1_CARD_ISSUERS = [
 ];
 
 export const BANK_URLS: Record<string, string> = {
-  '국민은행': 'https://www.kbstar.com',
   '신한은행': 'https://www.shinhan.com',
   '우리은행': 'https://www.wooribank.com',
   '하나은행': 'https://www.kebhana.com',
@@ -121,9 +120,19 @@ export const BANK_URLS: Record<string, string> = {
   '광주은행': 'https://www.kjbank.com',
   '전북은행': 'https://www.jbbank.co.kr',
   '제주은행': 'https://www.jejubank.co.kr',
+  '한국씨티은행': 'https://www.citibank.co.kr',
+  '우체국': 'https://www.epostbank.go.kr',
   '신한카드': 'https://www.shinhancard.com',
   '현대카드': 'https://www.hyundaicard.com',
   '삼성카드': 'https://www.samsungcard.com',
   'KB국민카드': 'https://www.kbcard.com',
-  '롯데카드': 'https://www.lottecard.co.kr'
+  '롯데카드': 'https://www.lottecard.co.kr',
+  '하나카드': 'https://www.hanacard.co.kr',
+  '우리카드': 'https://www.wooricard.com'
+};
+
+// 특정 상품 페이지 다이렉트 랜딩을 위한 검색 URL 생성기
+export const getSmartLandingUrl = (bankName: string, productName: string) => {
+  const query = `${bankName} ${productName} 가입 안내`;
+  return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 };

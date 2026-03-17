@@ -87,7 +87,6 @@ export default function PremiumProductTemplate({
   onAction
 }: PremiumProductTemplateProps) {
   const router = useRouter()
-  const [isInfoExpanded, setIsInfoExpanded] = useState(false)
   const [isRankingModalOpen, setIsRankingModalOpen] = useState(false)
 
   // 테마 컬러 결정
@@ -249,24 +248,14 @@ export default function PremiumProductTemplate({
           </section>
         )}
 
-        {/* Product Information Grid */}
-        <section className="py-12">
+        {/* 상세 정보 섹션 */}
+        <section className="py-16">
           <div className="px-6">
-            <h2 className="text-2xl font-black text-gray-900 mb-10 tracking-tight">상세 정보</h2>
-            <div className="space-y-10">
-              {details.slice(0, isInfoExpanded ? undefined : 3).map((d, i) => (
+            <h2 className="text-xl font-black text-gray-900 mb-8 tracking-tight">상품 정보</h2>
+            <div className="divide-y divide-gray-100 border-t border-gray-100">
+              {details.map((d, i) => (
                 <InfoRow key={i} label={d.label} value={d.value} isText={d.isText} />
               ))}
-              
-              <button 
-                onClick={() => setIsInfoExpanded(!isInfoExpanded)}
-                className="w-full py-5 flex items-center justify-center gap-2 text-sm font-black text-gray-400 hover:text-gray-900 transition-all border-t border-gray-50 mt-4 group"
-              >
-                {isInfoExpanded ? '상세 정보 접기' : '정보 더 보기'} 
-                <span className={`transition-transform duration-300 ${isInfoExpanded ? 'rotate-180' : ''}`}>
-                  <ChevronDown size={18} />
-                </span>
-              </button>
             </div>
           </div>
         </section>
@@ -372,9 +361,9 @@ function Divider() {
 function InfoRow({ label, value, isText = false }: { label: string, value: string, isText?: boolean }) {
   if (!value || value === '-') return null;
   return (
-    <div className="flex flex-col gap-3">
-      <span className="text-[11px] font-black text-gray-300 uppercase tracking-widest">{label}</span>
-      <p className={`text-base md:text-lg text-gray-800 font-bold leading-relaxed ${isText ? 'whitespace-pre-wrap' : ''}`}>
+    <div className="py-7 flex flex-col gap-2">
+      <span className="text-sm font-bold text-gray-900">{label}</span>
+      <p className={`text-sm md:text-base text-gray-500 font-medium leading-relaxed ${isText ? 'whitespace-pre-wrap' : ''}`}>
         {value}
       </p>
     </div>

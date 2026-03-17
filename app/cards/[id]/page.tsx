@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { CardProduct } from '@/app/actions/card'
 import PremiumProductTemplate from '@/components/PremiumProductTemplate'
-import { BANK_LOGOS, BANK_URLS } from '@/app/actions/constants'
+import { BANK_LOGOS, BANK_URLS, getSmartLandingUrl } from '@/app/actions/constants'
 import { CreditCard, History, Percent, Star, Wallet } from 'lucide-react'
 import { useMemo } from 'react'
 
@@ -87,7 +87,7 @@ export default function CardDetailPage() {
         { label: '연회비 상세', value: product.annualFee },
         { label: '상세 혜택 안내', value: '전 가맹점 결제 시 포인트 적립 및 업종별 맞춤 할인 혜택을 제공합니다.', isText: true }
       ]}
-      externalLink={externalLink}
+      externalLink={getSmartLandingUrl(product.company, product.name)}
       ranking={{
         rank: extraData?.rank || 0,
         total: extraData?.total || 0,
