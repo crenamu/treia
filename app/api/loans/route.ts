@@ -1,21 +1,20 @@
 import { NextResponse } from 'next/server'
-import { getProducts, getProductById } from '@/app/actions/finance'
+import { getLoans, getLoanById } from '@/app/actions/loan'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
-  const trm = searchParams.get('trm') || '0'
-  const type = (searchParams.get('type') as 'deposit' | 'saving') || 'deposit'
+  const type = (searchParams.get('type') as 'mortgage' | 'rent' | 'credit') || 'credit'
 
   try {
     if (id) {
-      const { product } = await getProductById(id)
+      const { product } = await getLoanById(id)
       return NextResponse.json({ product })
     }
     
-    const data = await getProducts(type, trm)
+    const data = await getLoans(type)
     return NextResponse.json(data)
   } catch (error) {
     console.error('API Route Error:', error)

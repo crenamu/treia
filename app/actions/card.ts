@@ -99,3 +99,9 @@ export async function getCards(filters: string[] = []) {
 
   return { products: filtered, isMock: true };
 }
+// 개별 카드 조회
+export async function getCardById(id: string) {
+  const { products } = await getCards();
+  const product = products.find(p => p.id === id);
+  return { product };
+}

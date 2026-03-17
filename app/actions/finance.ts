@@ -239,3 +239,19 @@ function formatProducts(
   });
   return mapped;
 }
+// 개별 상품 조회 (FSS API 특성상 검색 후 필터링)
+export async function getProductById(id: string) {
+  // 우선 예금에서 검색
+  const depositData = await getProducts('deposit');
+  let product = depositData.products.find(p => p.fin_prdt_cd === id);
+  
+  if (product) return { product, type: 'deposit' };
+  
+  // 없으면 적금에서 검색
+  const savingData = await getProducts('saving');
+  product = savingData.products.find(p => p.fin_prdt_cd === id);
+  
+  if (product) return { product, type: 'saving' };
+  
+  return { product: null, type: null };
+}

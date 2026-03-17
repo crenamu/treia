@@ -186,3 +186,16 @@ function generateMockLoans(type: 'mortgage' | 'rent' | 'credit'): LoanProduct[] 
     tags: ['누구나가입', '방문없이가입', i % 3 === 0 ? '무서류' : '직장인']
   }));
 }
+// 개별 대출 조회
+export async function getLoanById(id: string) {
+  // 모든 타입에서 검색
+  const types: ('mortgage' | 'rent' | 'credit')[] = ['mortgage', 'rent', 'credit'];
+  
+  for (const type of types) {
+    const { products } = await getLoans(type);
+    const product = products.find(p => p.fin_prdt_cd === id);
+    if (product) return { product, type };
+  }
+  
+  return { product: null, type: null };
+}

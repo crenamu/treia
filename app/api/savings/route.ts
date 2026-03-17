@@ -1,15 +1,23 @@
 import { NextResponse } from 'next/server'
-import { getProducts } from '@/app/actions/finance'
+import { getProducts, getProductById } from '@/app/actions/finance'
+
+export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
+  const id = searchParams.get('id')
   const trm = searchParams.get('trm') || '0'
 
   try {
+    if (id) {
+      const { product } = await getProductById(id)
+      return NextResponse.json({ product })
+    }
+    
     const data = await getProducts('saving', trm)
     return NextResponse.json(data)
   } catch (error) {
-    console.error('API Route Error (Savings):', error)
+    console.error('API Route Error:', error)
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 })
   }
 }

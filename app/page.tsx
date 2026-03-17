@@ -188,6 +188,7 @@ export default function Home() {
                            <CompactProductCard
                              product={product}
                              rank={idx + 1}
+                             type={activeTab}
                            />
                            {idx === 0 && (
                              <div className="mx-4 mb-4">
