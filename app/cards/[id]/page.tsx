@@ -4,18 +4,31 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { CardProduct } from '@/app/actions/card'
 import PremiumProductTemplate from '@/components/PremiumProductTemplate'
+import { BANK_LOGOS, BANK_URLS } from '@/app/actions/constants'
 import { CreditCard, History, Percent, Star, Wallet } from 'lucide-react'
+import { useMemo } from 'react'
 
 export default function CardDetailPage() {
   const params = useParams()
   const [product, setProduct] = useState<CardProduct | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const [extraData, setExtraData] = useState<{
+    rank: number;
+    total: number;
+    top5: any[];
+  } | null>(null)
+
   useEffect(() => {
     fetch(`/api/cards?id=${params.id}`)
       .then(r => r.json())
       .then(data => {
         setProduct(data.product || null)
+        setExtraData({
+          rank: data.rank,
+          total: data.total,
+          top5: data.top5
+        })
         setLoading(false)
       })
       .catch(err => {
@@ -23,6 +36,18 @@ export default function CardDetailPage() {
         setLoading(false)
       })
   }, [params.id])
+
+  const bankLogo = useMemo(() => {
+    if (!product) return null;
+    const bankKey = Object.keys(BANK_LOGOS).find(key => product.company.includes(key));
+    return bankKey ? BANK_LOGOS[bankKey] : null;
+  }, [product]);
+
+  const externalLink = useMemo(() => {
+    if (!product) return undefined;
+    const bankKey = Object.keys(BANK_URLS).find(key => product.company.includes(key));
+    return bankKey ? BANK_URLS[bankKey] : 'https://www.shinhancard.com';
+  }, [product]);
 
   if (loading) return (
     <div className="min-h-screen bg-white flex items-center justify-center">
@@ -40,7 +65,7 @@ export default function CardDetailPage() {
     <PremiumProductTemplate
       type="card"
       product={product}
-      bankLogo="" // 카드사는 텍스트 매칭 대신 플레이트 디자인 활용
+      bankLogo={bankLogo || ""} 
       primaryRate={{
         label: "최대 혜택",
         value: product.bestBenefit.match(/\d+/)?.[0] || "HOT",
@@ -62,7 +87,13 @@ export default function CardDetailPage() {
         { label: '연회비 상세', value: product.annualFee },
         { label: '상세 혜택 안내', value: '전 가맹점 결제 시 포인트 적립 및 업종별 맞춤 할인 혜택을 제공합니다.', isText: true }
       ]}
-      onAction={() => window.open('https://www.shinhancard.com', '_blank')}
+      externalLink={externalLink}
+      ranking={{
+        rank: extraData?.rank || 0,
+        total: extraData?.total || 0,
+        topProducts: extraData?.top5 || []
+      }}
+      onAction={() => window.open(externalLink, '_blank')}
     />
   )
 }
@@ -118,4 +149,3 @@ function CardBenefitSimulator({ product }: { product: CardProduct }) {
   )
 }
 
-import { useMemo } from 'react'

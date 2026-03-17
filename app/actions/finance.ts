@@ -242,16 +242,34 @@ function formatProducts(
 // 개별 상품 조회 (FSS API 특성상 검색 후 필터링)
 export async function getProductById(id: string) {
   // 우선 예금에서 검색
-  const depositData = await getProducts('deposit');
-  let product = depositData.products.find(p => p.fin_prdt_cd === id);
+  const depositData = await getProducts('deposit', '12'); // 12개월 기준 랭킹 산출
+  let allProducts = depositData.products;
+  let productIndex = allProducts.findIndex(p => p.fin_prdt_cd === id);
   
-  if (product) return { product, type: 'deposit' };
+  if (productIndex !== -1) {
+    return { 
+      product: allProducts[productIndex], 
+      type: 'deposit',
+      rank: productIndex + 1,
+      total: allProducts.length,
+      top5: allProducts.slice(0, 5)
+    };
+  }
   
   // 없으면 적금에서 검색
-  const savingData = await getProducts('saving');
-  product = savingData.products.find(p => p.fin_prdt_cd === id);
+  const savingData = await getProducts('saving', '12');
+  allProducts = savingData.products;
+  productIndex = allProducts.findIndex(p => p.fin_prdt_cd === id);
   
-  if (product) return { product, type: 'saving' };
+  if (productIndex !== -1) {
+    return { 
+      product: allProducts[productIndex], 
+      type: 'saving',
+      rank: productIndex + 1,
+      total: allProducts.length,
+      top5: allProducts.slice(0, 5)
+    };
+  }
   
-  return { product: null, type: null };
+  return { product: null, type: null, rank: 0, total: 0, top5: [] };
 }

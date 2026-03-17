@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { LoanProduct } from '@/app/actions/loan'
 import PremiumProductTemplate from '@/components/PremiumProductTemplate'
-import { BANK_LOGOS } from '@/app/actions/constants'
+import { BANK_LOGOS, BANK_URLS } from '@/app/actions/constants'
 import { ShieldCheck, Landmark, Smartphone, PiggyBank, Scale, Calculator, ArrowRight } from 'lucide-react'
 
 export default function LoanDetailPage() {
@@ -12,11 +12,22 @@ export default function LoanDetailPage() {
   const [product, setProduct] = useState<LoanProduct | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const [extraData, setExtraData] = useState<{
+    rank: number;
+    total: number;
+    top5: any[];
+  } | null>(null)
+
   useEffect(() => {
     fetch(`/api/loans?id=${params.id}`)
       .then(r => r.json())
       .then(data => {
         setProduct(data.product || null)
+        setExtraData({
+          rank: data.rank,
+          total: data.total,
+          top5: data.top5
+        })
         setLoading(false)
       })
       .catch(err => {
@@ -29,6 +40,12 @@ export default function LoanDetailPage() {
     if (!product) return null;
     const bankKey = Object.keys(BANK_LOGOS).find(key => product.kor_co_nm.includes(key));
     return bankKey ? BANK_LOGOS[bankKey] : '/images/banks/savingsbank.png';
+  }, [product]);
+
+  const externalLink = useMemo(() => {
+    if (!product) return undefined;
+    const bankKey = Object.keys(BANK_URLS).find(key => product.kor_co_nm.includes(key));
+    return bankKey ? BANK_URLS[bankKey] : 'https://portal.fss.or.kr';
   }, [product]);
 
   if (loading) return (
@@ -64,13 +81,16 @@ export default function LoanDetailPage() {
       ]}
       simulator={<LoanRepaymentSimulator product={product} />}
       details={[
-        { label: '대출 한도', value: product.loan_lmt },
-        { label: '상환 방식', value: product.bestOption?.rpay_type_nm || '-' },
-        { label: '가입 방법', value: product.join_way },
         { label: '금리 상세', value: `최저 ${product.bestOption?.lend_rate_min}% ~ 최고 ${product.bestOption?.lend_rate_max}% (평균 ${product.bestOption?.lend_rate_avg}%)` },
         { label: '유의사항', value: '대출 금리는 신용점수 및 은행 내부 심사 기준에 따라 차등 적용될 수 있습니다.', isText: true }
       ]}
-      onAction={() => window.open('https://portal.fss.or.kr', '_blank')}
+      externalLink={externalLink}
+      ranking={{
+        rank: extraData?.rank || 0,
+        total: extraData?.total || 0,
+        topProducts: extraData?.top5 || []
+      }}
+      onAction={() => window.open(externalLink, '_blank')}
     />
   )
 }

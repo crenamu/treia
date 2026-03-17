@@ -101,3 +101,29 @@ export const CARD_ISSUERS = [
 export const TIER_1_CARD_ISSUERS = [
   '신한카드', '현대카드', 'KB국민카드', '삼성카드', '하나카드'
 ];
+
+export const BANK_URLS: Record<string, string> = {
+  '국민은행': 'https://www.kbstar.com',
+  '신한은행': 'https://www.shinhan.com',
+  '우리은행': 'https://www.wooribank.com',
+  '하나은행': 'https://www.kebhana.com',
+  '농협은행': 'https://www.nhbank.com',
+  '기업은행': 'https://www.ibk.co.kr',
+  '케이뱅크': 'https://www.kbanknow.com',
+  '카카오뱅크': 'https://www.kakaobank.com',
+  '토스뱅크': 'https://www.tossbank.com',
+  '산업은행': 'https://www.kdb.co.kr',
+  'SC제일은행': 'https://www.standardchartered.co.kr',
+  '수협은행': 'https://www.suhyup-bank.com',
+  '대구은행': 'https://www.dgb.co.kr',
+  '부산은행': 'https://www.busanbank.co.kr',
+  '경남은행': 'https://www.knbank.co.kr',
+  '광주은행': 'https://www.kjbank.com',
+  '전북은행': 'https://www.jbbank.co.kr',
+  '제주은행': 'https://www.jejubank.co.kr',
+  '신한카드': 'https://www.shinhancard.com',
+  '현대카드': 'https://www.hyundaicard.com',
+  '삼성카드': 'https://www.samsungcard.com',
+  'KB국민카드': 'https://www.kbcard.com',
+  '롯데카드': 'https://www.lottecard.co.kr'
+};

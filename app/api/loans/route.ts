@@ -10,8 +10,8 @@ export async function GET(request: Request) {
 
   try {
     if (id) {
-      const { product } = await getLoanById(id)
-      return NextResponse.json({ product })
+      const data = await getLoanById(id)
+      return NextResponse.json(data)
     }
     
     const data = await getLoans(type)

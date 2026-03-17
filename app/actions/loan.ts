@@ -193,9 +193,17 @@ export async function getLoanById(id: string) {
   
   for (const type of types) {
     const { products } = await getLoans(type);
-    const product = products.find(p => p.fin_prdt_cd === id);
-    if (product) return { product, type };
+    const productIndex = products.findIndex(p => p.fin_prdt_cd === id);
+    if (productIndex !== -1) {
+      return { 
+        product: products[productIndex], 
+        type,
+        rank: productIndex + 1,
+        total: products.length,
+        top5: products.slice(0, 5)
+      };
+    }
   }
   
-  return { product: null, type: null };
+  return { product: null, type: null, rank: 0, total: 0, top5: [] };
 }

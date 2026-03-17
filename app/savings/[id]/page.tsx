@@ -4,19 +4,29 @@ import { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { DepositProduct } from '@/types/deposit'
 import PremiumProductTemplate from '@/components/PremiumProductTemplate'
-import { BANK_LOGOS } from '@/app/actions/constants'
-import { ShieldCheck, Building2, Calendar, Smartphone, Rocket, ChevronDown, Info, ArrowRight } from 'lucide-react'
+import { BANK_LOGOS, BANK_URLS } from '@/app/actions/constants'
+import { ShieldCheck, Building2, Calendar, Smartphone, Rocket, ChevronDown, ArrowRight } from 'lucide-react'
 
 export default function SavingsDetailPage() {
   const params = useParams()
   const [product, setProduct] = useState<DepositProduct | null>(null)
   const [loading, setLoading] = useState(true)
+  const [extraData, setExtraData] = useState<{
+    rank: number;
+    total: number;
+    top5: any[];
+  } | null>(null)
 
   useEffect(() => {
     fetch(`/api/savings?id=${params.id}`)
       .then(r => r.json())
       .then(data => {
         setProduct(data.product || null)
+        setExtraData({
+          rank: data.rank,
+          total: data.total,
+          top5: data.top5
+        })
         setLoading(false)
       })
       .catch(err => {
@@ -29,6 +39,22 @@ export default function SavingsDetailPage() {
     if (!product) return null;
     const bankKey = Object.keys(BANK_LOGOS).find(key => product.kor_co_nm.includes(key));
     return bankKey ? BANK_LOGOS[bankKey] : '/images/banks/savingsbank.png';
+  }, [product]);
+
+  const externalLink = useMemo(() => {
+    if (!product) return undefined;
+    const bankKey = Object.keys(BANK_URLS).find(key => product.kor_co_nm.includes(key));
+    return bankKey ? BANK_URLS[bankKey] : 'https://portal.fss.or.kr';
+  }, [product]);
+
+  const allOptions = useMemo(() => {
+    if (!product) return [];
+    return (product as any).options.map((o: any) => ({
+      period: o.save_trm,
+      rate: o.intr_rate,
+      rate2: o.intr_rate2,
+      type: o.intr_rate_type_nm
+    })).sort((a: any, b: any) => parseInt(a.period) - parseInt(b.period));
   }, [product]);
 
   if (loading) return (
@@ -71,7 +97,14 @@ export default function SavingsDetailPage() {
         { label: '만기 후 이율', value: product.mtrt_int, isText: true },
         { label: '기타 유의사항', value: product.etc_note, isText: true }
       ]}
-      onAction={() => window.open('https://portal.fss.or.kr', '_blank')}
+      externalLink={externalLink}
+      ranking={{
+        rank: extraData?.rank || 0,
+        total: extraData?.total || 0,
+        topProducts: extraData?.top5 || []
+      }}
+      allOptions={allOptions}
+      onAction={() => window.open(externalLink, '_blank')}
     />
   )
 }

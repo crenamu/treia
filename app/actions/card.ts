@@ -102,6 +102,13 @@ export async function getCards(filters: string[] = []) {
 // 개별 카드 조회
 export async function getCardById(id: string) {
   const { products } = await getCards();
-  const product = products.find(p => p.id === id);
-  return { product };
+  const productIndex = products.findIndex(p => p.id === id);
+  const product = productIndex !== -1 ? products[productIndex] : null;
+  
+  return { 
+    product,
+    rank: productIndex + 1,
+    total: products.length,
+    top5: products.slice(0, 5)
+  };
 }

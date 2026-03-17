@@ -9,8 +9,8 @@ export async function GET(request: Request) {
 
   try {
     if (id) {
-      const { product } = await getCardById(id)
-      return NextResponse.json({ product })
+      const data = await getCardById(id)
+      return NextResponse.json(data)
     }
     
     const data = await getCards()

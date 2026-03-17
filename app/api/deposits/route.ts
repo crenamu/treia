@@ -11,8 +11,8 @@ export async function GET(request: Request) {
 
   try {
     if (id) {
-      const { product } = await getProductById(id)
-      return NextResponse.json({ product })
+      const data = await getProductById(id)
+      return NextResponse.json(data)
     }
     
     const data = await getProducts(type, trm)

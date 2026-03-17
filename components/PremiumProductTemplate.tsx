@@ -11,13 +11,43 @@ import {
   Plus
 } from 'lucide-react'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { X, ExternalLink } from 'lucide-react'
+import Link from 'next/link'
 
 
 interface PremiumProductTemplateProps {
   type: 'deposit' | 'saving' | 'card' | 'loan'
-  product: any
+  product: {
+    fin_prdt_cd?: string;
+    id?: string;
+    fin_prdt_nm?: string;
+    name?: string;
+    kor_co_nm?: string;
+    company?: string;
+  }
   bankLogo?: string
+  externalLink?: string
+  ranking?: {
+    rank: number
+    total: number
+    topProducts: {
+      fin_prdt_cd?: string;
+      id?: string;
+      fin_prdt_nm?: string;
+      name?: string;
+      kor_co_nm?: string;
+      company?: string;
+      effectiveRate?: number;
+      bestBenefit?: string;
+    }[]
+  }
+  allOptions?: {
+    period: string
+    rate: number
+    rate2: number
+    type: string
+  }[]
   primaryRate: {
     label: string
     value: string | number
@@ -45,6 +75,9 @@ export default function PremiumProductTemplate({
   type,
   product,
   bankLogo,
+  externalLink,
+  ranking,
+  allOptions,
   primaryRate,
   tags,
   metrics,
@@ -55,6 +88,7 @@ export default function PremiumProductTemplate({
 }: PremiumProductTemplateProps) {
   const router = useRouter()
   const [isInfoExpanded, setIsInfoExpanded] = useState(false)
+  const [isRankingModalOpen, setIsRankingModalOpen] = useState(false)
 
   // 테마 컬러 결정
   const theme = useMemo(() => {
@@ -81,8 +115,8 @@ export default function PremiumProductTemplate({
             <Plus size={22} />
           </button>
           <ShareSaveButtons 
-            id={product.fin_prdt_cd || product.id} 
-            title={product.fin_prdt_nm || product.name} 
+            id={product.fin_prdt_cd || product.id || ''} 
+            title={product.fin_prdt_nm || product.name || ''} 
             type="product" 
           />
         </div>
@@ -123,6 +157,18 @@ export default function PremiumProductTemplate({
           <div className="flex flex-wrap justify-center md:justify-start items-center gap-2 mt-8">
             {tags.map(tag => <Tag key={tag} label={tag} />)}
           </div>
+
+          {externalLink && (
+            <div className="mt-8 flex justify-center md:justify-start">
+              <button 
+                onClick={() => window.open(externalLink, '_blank')}
+                className="text-xs font-black text-gray-400 hover:text-gray-900 flex items-center gap-1 group transition-all"
+              >
+                {product.kor_co_nm || product.company}에서 보기
+                <ExternalLink size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </button>
+            </div>
+          )}
         </header>
 
         <Divider />
@@ -150,23 +196,58 @@ export default function PremiumProductTemplate({
           </div>
         </section>
 
-        <Divider />
-
-        {/* Ranking Section Placeholder */}
-        <section className="px-6 py-8 flex items-center justify-between group cursor-pointer hover:bg-gray-50/50 transition-colors">
-          <div className="flex items-center gap-5 text-left">
-            <div className={`w-12 h-12 ${theme.bg} rounded-2xl flex items-center justify-center ${theme.primary} shadow-sm`}>
-              <Trophy size={24} />
+        {/* Ranking Section */}
+        {ranking && (
+          <section 
+            onClick={() => setIsRankingModalOpen(true)}
+            className="px-6 py-8 flex items-center justify-between group cursor-pointer hover:bg-gray-50/50 transition-colors"
+          >
+            <div className="flex items-center gap-5 text-left">
+              <div className={`w-12 h-12 ${theme.bg} rounded-2xl flex items-center justify-center ${theme.primary} shadow-sm`}>
+                <Trophy size={24} />
+              </div>
+              <div>
+                <p className="text-xs font-black text-gray-400 uppercase tracking-wider mb-1">시장 분석 데이터</p>
+                <p className="text-lg font-black text-gray-900 tracking-tight">
+                  상위 <span className={theme.primary}>TOP {ranking.rank || 5}</span> 이내 경쟁력 보유
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs font-black text-gray-400 uppercase tracking-wider mb-1">시장 분석 데이터</p>
-              <p className="text-lg font-black text-gray-900 tracking-tight">상위 <span className={theme.primary}>TOP 5</span> 이내 경쟁력 보유</p>
-            </div>
-          </div>
-          <ArrowRight size={22} className="text-gray-200 group-hover:text-gray-400 group-hover:translate-x-1 transition-all" />
-        </section>
+            <ArrowRight size={22} className="text-gray-200 group-hover:text-gray-400 group-hover:translate-x-1 transition-all" />
+          </section>
+        )}
 
-        <Divider />
+        {ranking && <Divider />}
+
+        {/* Rates by Period Table */}
+        {allOptions && allOptions.length > 0 && (
+          <section className="py-12 border-b border-gray-50">
+             <div className="px-6">
+                <h2 className="text-2xl font-black text-gray-900 mb-8 tracking-tight">기간별 금리</h2>
+                <div className="bg-white rounded-3xl border border-gray-100 overflow-hidden overflow-x-auto scrollbar-hide">
+                   <table className="w-full text-left border-collapse min-w-[300px]">
+                      <thead>
+                         <tr className="bg-gray-50/50">
+                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">기간</th>
+                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">최고금리(기본)</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         {allOptions.map((opt, i) => (
+                           <tr key={i} className="border-t border-gray-50 hover:bg-gray-50/30 transition-colors">
+                              <td className="px-6 py-4 text-sm font-bold text-gray-900">{opt.period}개월</td>
+                              <td className="px-6 py-4 text-sm font-black text-right">
+                                 <span className={theme.primary}>{opt.rate2}%</span>
+                                 <span className="text-[11px] text-gray-300 ml-1">({opt.rate}%)</span>
+                              </td>
+                           </tr>
+                         ))}
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+          </section>
+        )}
 
         {/* Product Information Grid */}
         <section className="py-12">
@@ -205,6 +286,73 @@ export default function PremiumProductTemplate({
           </button>
         </div>
       </footer>
+
+      {/* Ranking Modal */}
+      <AnimatePresence>
+        {isRankingModalOpen && ranking && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsRankingModalOpen(false)}
+              className="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed bottom-0 left-0 right-0 z-[101] bg-white rounded-t-[40px] shadow-2xl overflow-hidden max-h-[85vh] flex flex-col"
+            >
+              <div className="px-8 pt-8 pb-4 flex items-center justify-between border-b border-gray-50">
+                <div>
+                   <h3 className="text-xl font-black text-gray-900">시장 최고 금리 TOP 5</h3>
+                   <p className="text-xs text-gray-400 font-bold mt-1">상위 {ranking.rank}위를 차지한 아주 경쟁력 있는 상품입니다.</p>
+                </div>
+                <button 
+                   onClick={() => setIsRankingModalOpen(false)}
+                   className="p-3 bg-gray-100 rounded-2xl text-gray-400 hover:text-gray-900 transition-colors"
+                >
+                   <X size={20} />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-hide">
+                 {ranking.topProducts.map((p, i) => (
+                    <Link 
+                      key={p.fin_prdt_cd || p.id} 
+                      href={`/${type}s/${p.fin_prdt_cd || p.id}`}
+                      className="flex items-center gap-4 p-5 hover:bg-gray-50 rounded-3xl border border-transparent hover:border-gray-100 transition-all group"
+                      onClick={() => setIsRankingModalOpen(false)}
+                    >
+                       <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-black ${i === 0 ? 'bg-amber-400 border-amber-400 text-white' : 'bg-white border-gray-100 text-gray-300'}`}>
+                          {i + 1}
+                       </div>
+                       <div className="flex-1">
+                          <p className="text-[10px] font-bold text-gray-400">{p.kor_co_nm || p.company}</p>
+                          <p className="text-sm font-black text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">{p.fin_prdt_nm || p.name}</p>
+                       </div>
+                       <div className="text-right">
+                          <p className={`text-lg font-black ${i === 0 ? 'text-blue-600' : 'text-gray-900'}`}>{p.effectiveRate || p.bestBenefit || '-'}{!p.bestBenefit && '%'}</p>
+                       </div>
+                    </Link>
+                 ))}
+              </div>
+              <div className="p-8 bg-gray-50/50">
+                 <button 
+                   onClick={() => {
+                     setIsRankingModalOpen(false);
+                     router.push(`/${type}s`);
+                   }}
+                   className="w-full py-5 bg-white border border-gray-200 rounded-2xl text-sm font-black text-gray-900 shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+                 >
+                   전체 랭킹 보러가기
+                 </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
