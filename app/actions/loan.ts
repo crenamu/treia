@@ -20,6 +20,7 @@ export interface LoanProduct {
   fin_prdt_nm: string      // 상품명
   join_way: string         // 가입 방법
   loan_lmt: string         // 대출 한도
+  join_member: string      // 가입 대상 추가
   options: LoanOption[]
   bestOption?: LoanOption
   type: 'mortgage' | 'rent' | 'credit'
@@ -74,7 +75,14 @@ export async function getLoans(
       const baseList = actualData.baseList || [];
       const optionList = actualData.optionList || [];
 
-      baseList.forEach((p: { fin_prdt_cd: string; fin_prdt_nm: string; kor_co_nm: string; join_way: string; loan_lmt: string; }) => {
+      baseList.forEach((p: { 
+        fin_prdt_cd: string; 
+        fin_prdt_nm: string; 
+        kor_co_nm: string; 
+        join_way: string; 
+        loan_lmt: string;
+        join_member: string;
+      }) => {
         if (!mergedProductMap[p.fin_prdt_cd]) {
           const prdtNm = p.fin_prdt_nm || '';
           const joinWay = p.join_way || '';
@@ -85,6 +93,7 @@ export async function getLoans(
             fin_prdt_nm: prdtNm,
             join_way: joinWay,
             loan_lmt: p.loan_lmt || '상세 확인 필요',
+            join_member: p.join_member || '-',
             options: [],
             type,
             tags: parseLoanTags(prdtNm, joinWay, type)
@@ -180,6 +189,7 @@ function generateMockLoans(type: 'mortgage' | 'rent' | 'credit'): LoanProduct[] 
     fin_prdt_nm: `${type === 'credit' ? '신용대출' : type === 'mortgage' ? '주택담보대출' : '전세대출'} No.${i+1}`,
     join_way: '스마트폰,인터넷',
     loan_lmt: '최대 2억원',
+    join_member: '직장인 (1년 이상 재직)',
     options: [{ rpay_type_nm: '원리금분할상환', lend_rate_type_nm: '변동', lend_rate_min: 3.2 + (i * 0.1), lend_rate_max: 5.5, lend_rate_avg: 4.1 }],
     bestOption: { rpay_type_nm: '원리금분할상환', lend_rate_type_nm: '변동', lend_rate_min: 3.2 + (i * 0.1), lend_rate_max: 5.5, lend_rate_avg: 4.1 },
     type,

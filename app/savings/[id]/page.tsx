@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { DepositProduct } from '@/types/deposit'
 import PremiumProductTemplate from '@/components/PremiumProductTemplate'
-import { BANK_LOGOS, BANK_URLS, getSmartLandingUrl } from '@/app/actions/constants'
+import { BANK_LOGOS, getSmartLandingUrl } from '@/app/actions/constants'
 import { ShieldCheck, Building2, Calendar, Smartphone, ChevronDown, Calculator } from 'lucide-react'
 
 export default function SavingsDetailPage() {
@@ -14,7 +14,7 @@ export default function SavingsDetailPage() {
   const [extraData, setExtraData] = useState<{
     rank: number;
     total: number;
-    top5: any[];
+    top5: DepositProduct[];
   } | null>(null)
 
   useEffect(() => {
@@ -41,20 +41,16 @@ export default function SavingsDetailPage() {
     return bankKey ? BANK_LOGOS[bankKey] : '/images/banks/savingsbank.png';
   }, [product]);
 
-  const externalLink = useMemo(() => {
-    if (!product) return undefined;
-    const bankKey = Object.keys(BANK_URLS).find(key => product.kor_co_nm.includes(key));
-    return bankKey ? BANK_URLS[bankKey] : 'https://portal.fss.or.kr';
-  }, [product]);
+  // externalLink 대신 getSmartLandingUrl 직접 사용
 
   const allOptions = useMemo(() => {
     if (!product) return [];
-    return (product as any).options.map((o: any) => ({
+    return product.options.map((o) => ({
       period: o.save_trm,
       rate: o.intr_rate,
       rate2: o.intr_rate2,
       type: o.intr_rate_type_nm
-    })).sort((a: any, b: any) => parseInt(a.period) - parseInt(b.period));
+    })).sort((a, b) => parseInt(a.period) - parseInt(b.period));
   }, [product]);
 
   if (loading) return (
@@ -99,14 +95,14 @@ export default function SavingsDetailPage() {
         { label: '우대 조건', value: product.spcl_cnd, isText: true },
         { label: '기타 유의사항', value: product.etc_note, isText: true }
       ]}
-      externalLink={getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm)}
+      externalLink={getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm, product.fin_prdt_cd)}
       ranking={{
         rank: extraData?.rank || 0,
         total: extraData?.total || 0,
         topProducts: extraData?.top5 || []
       }}
       allOptions={allOptions}
-      onAction={() => window.open(externalLink, '_blank')}
+      onAction={() => window.open(getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm, product.fin_prdt_cd), '_blank')}
     />
   )
 }

@@ -128,11 +128,56 @@ export const BANK_URLS: Record<string, string> = {
   'KB국민카드': 'https://www.kbcard.com',
   '롯데카드': 'https://www.lottecard.co.kr',
   '하나카드': 'https://www.hanacard.co.kr',
-  '우리카드': 'https://www.wooricard.com'
+  '우리카드': 'https://www.wooricard.com',
+  '비씨카드': 'https://www.bccard.com'
 };
 
+/**
+ * 전수 조사를 통한 주요 상품별 다이렉트 URL 매핑 (금융상품코드(fin_prdt_cd) 기준)
+ */
+export const DIRECT_PRODUCT_URLS: Record<string, string> = {
+  // --- 예금 (Deposit) ---
+  'WR0001B': 'https://spot.wooribank.com/pot/Dream?withyou=PRDEP0011&cc=c010528:c010531;c012425:c012425&PL_PRD_CD=P010002131&P_PRD_CD=P010002131', // 우리은행 WON플러스예금
+  '10-011-137-0036': 'https://obank.kbstar.com/quics?page=C016613&cc=b061496:b061645&prdcNm=KB%20Star%20%EC%A0%95%EA%B8%B0%EC%98%88%EA%B8%88', // KB국민은행 KB Star 정기예금
+  'D0000000001': 'https://bank.shinhan.com/index.jsp#020101010000', // 신한은행 My플러스 정기예금
+  'P010002473': 'https://www.kakaobank.com/products/deposit', // 카카오뱅크 정기예금
+  '10-01-20-388-0002': 'https://www.kakaobank.com/products/deposit', // 카카오뱅크 정기예금 (신규 코드 대응)
+  'TOSSBANK_DEP_01': 'https://www.tossbank.com/product/deposit', // 토스뱅크 먼저 이자 받는 정기예금
+  '1001202000002': 'https://www.tossbank.com/product/deposit', // 토스뱅크 먼저 이자 받는 정기예금 (신규 코드 대응)
+  '1021101010001': 'https://www.kbanknow.com/ib20/mnu/FPMDEP010100', // 케이뱅크 코드K 정기예금
+  '01013000110000000001': 'https://www.kbanknow.com/ib20/mnu/FPMDEP010100', // 케이뱅크 코드K 정기예금 (신규 코드 대응)
+  '4': 'https://www.kebhana.com/cont/mall/mall08/mall0801/mall080101/1479088_115126.jsp', // 하나은행 하나의정기예금
+  '207-0134-16': 'https://bank.shinhan.com/index.jsp?sns_type=fb&cr=020102010110&pcd=207013416', // 신한은행 신한My플러스 정기예금
+  '207-0135-12': 'https://m.shinhan.com/mw/fin/pg/PR0401S0000F01?mid=220011112006&pid=207013512&type=now', // 신한은행 쏠편한 정기예금
+  '01211310142': 'https://mybank.ibk.co.kr/uib/jsp/guest/ntr/ntr70/ntr7010/PNTR701000_i2.jsp?lncd=01&grcd=21&tmcd=131&pdcd=0130', // IBK기업은행 IBK굴리기통장
+  
+  // --- 적금 (Savings) ---
+  'WR0001S': 'https://spot.wooribank.com/pot/Dream?withyou=PRDEP0012&cc=c010528:c010531;c012425:c012425&PL_PRD_CD=P020002129', // 우리은행 WON적금
+  'WR0001L': 'https://spot.wooribank.com/pot/Dream?withyou=PRDEP0012&cc=c010528:c010531;c012425:c012425&PL_PRD_CD=P020002129', // 우리은행 WON적금 (코드 보완)
+  '10-01-30-355-0002': 'https://www.kakaobank.com/products/savings', // 카카오뱅크 자유적금
+  '1001303001004': 'https://www.tossbank.com/product-service/savings/savings-freedom', // 토스뱅크 자유 적금
+  '01012000210000000000': 'https://www.kbanknow.com/ib20/mnu/FPMISA020000', // 케이뱅크 주거래우대 자유적금
+  '01012000200000000003': 'https://www.kbanknow.com/ib20/mnu/FPMISA010100', // 케이뱅크 코드K 자유적금
+  '230-0119-85': 'https://bank.shinhan.com/index.jsp?sns_type=fb&cr=020102010110&pcd=230011985', // 신한은행 신한 알.쏠 적금
+  
+  // --- 대출 (Loan) ---
+  'L00000001': 'https://www.kakaobank.com/products/loan/credit', // 카카오뱅크 신용대출
+}
+
 // 특정 상품 페이지 다이렉트 랜딩을 위한 검색 URL 생성기
-export const getSmartLandingUrl = (bankName: string, productName: string) => {
+export function getSmartLandingUrl(bankName: string, productName: string, prdtCd?: string) {
+  // 1. 다이렉트 매핑 우선 확인
+  if (prdtCd && DIRECT_PRODUCT_URLS[prdtCd]) {
+    return DIRECT_PRODUCT_URLS[prdtCd];
+  }
+  
+  // 2. 은행 공식 홈페이지로 연결 (은행 이름 기반)
+  const bankKey = Object.keys(BANK_URLS).find(key => bankName.includes(key));
+  if (bankKey) {
+    return BANK_URLS[bankKey];
+  }
+
+  // 3. 일반 검색 엔진으로 연결 (최후의 수단)
   const query = `${bankName} ${productName} 가입 안내`;
   return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 };

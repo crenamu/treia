@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ExternalLink } from 'lucide-react'
+import { X, ExternalLink, Info } from 'lucide-react'
 import Link from 'next/link'
 
 
@@ -88,6 +88,7 @@ export default function PremiumProductTemplate({
 }: PremiumProductTemplateProps) {
   const router = useRouter()
   const [isRankingModalOpen, setIsRankingModalOpen] = useState(false)
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false)
 
   // 테마 컬러 결정
   const theme = useMemo(() => {
@@ -189,7 +190,15 @@ export default function PremiumProductTemplate({
         {/* Simulator Section */}
         <section className="py-12">
           <div className="px-6">
-            <h2 className="text-2xl font-black text-gray-900 mb-2 tracking-tight">실시간 분석</h2>
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-2xl font-black text-gray-900 tracking-tight">실시간 분석</h2>
+              <button 
+                onClick={() => setIsDetailModalOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 text-gray-500 rounded-xl text-[11px] font-black hover:bg-gray-100 transition-colors"
+              >
+                <Info size={14} /> 우대조건 상세보기
+              </button>
+            </div>
             <p className="text-sm text-gray-400 font-bold mb-10">상품 가입 시 예상되는 혜택을 확인해 보세요</p>
             {simulator}
           </div>
@@ -336,6 +345,69 @@ export default function PremiumProductTemplate({
                    className="w-full py-5 bg-white border border-gray-200 rounded-2xl text-sm font-black text-gray-900 shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
                  >
                    전체 랭킹 보러가기
+                 </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Product Detail Modal (우대조건 등) */}
+      <AnimatePresence>
+        {isDetailModalOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsDetailModalOpen(false)}
+              className="fixed inset-0 z-[100] bg-gray-900/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed bottom-0 left-0 right-0 z-[101] bg-white rounded-t-[40px] shadow-2xl overflow-hidden max-h-[85vh] flex flex-col"
+            >
+              <div className="px-8 pt-8 pb-4 flex items-center justify-between border-b border-gray-50">
+                <div>
+                   <h3 className="text-xl font-black text-gray-900">상세 우대 조건</h3>
+                   <p className="text-xs text-gray-400 font-bold mt-1">놓치기 쉬운 혜택 조건을 꼼끔하게 확인하세요.</p>
+                </div>
+                <button 
+                   onClick={() => setIsDetailModalOpen(false)}
+                   className="p-3 bg-gray-100 rounded-2xl text-gray-400 hover:text-gray-900 transition-colors"
+                >
+                   <X size={20} />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-8 space-y-10 scrollbar-hide">
+                 {details.filter(d => d.isText || d.label === '우대 조건').map((d, i) => (
+                    <div key={i} className="space-y-4">
+                       <h4 className="text-lg font-black text-gray-900 flex items-center gap-2">
+                          <div className={`w-2 h-2 rounded-full ${theme.button}`} />
+                          {d.label}
+                       </h4>
+                       <div className="p-6 bg-gray-50 rounded-3xl text-sm md:text-base text-gray-600 font-medium leading-relaxed whitespace-pre-wrap border border-gray-100">
+                          {d.value}
+                       </div>
+                    </div>
+                 ))}
+                 
+                 <div className="p-6 bg-blue-50/50 rounded-3xl border border-blue-100 mb-8">
+                    <p className="text-[11px] font-bold text-blue-400 mb-2 uppercase tracking-wider">안내사항</p>
+                    <p className="text-xs text-blue-700/70 font-medium leading-relaxed">
+                       위 데이터는 금융감독원 공시 정보를 바탕으로 제공됩니다. 정확한 금리 및 조건은 가입 시점에 금융기관 홈페이지를 통해 다시 한번 확인해 주시기 바랍니다.
+                    </p>
+                 </div>
+              </div>
+              <div className="p-8 bg-white border-t border-gray-50">
+                 <button 
+                   onClick={() => setIsDetailModalOpen(false)}
+                   className={`w-full py-5 ${theme.button} rounded-2xl text-lg font-black text-white shadow-xl ${theme.shadow} active:scale-[0.98] transition-all`}
+                 >
+                   확인했습니다
                  </button>
               </div>
             </motion.div>

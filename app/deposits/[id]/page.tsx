@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { DepositProduct } from '@/types/deposit'
 import PremiumProductTemplate from '@/components/PremiumProductTemplate'
-import { BANK_LOGOS, BANK_URLS, getSmartLandingUrl } from '@/app/actions/constants'
+import { BANK_LOGOS, getSmartLandingUrl } from '@/app/actions/constants'
 import { ShieldCheck, Building2, Calendar, Smartphone, ChevronDown, Info, Calculator } from 'lucide-react'
 
 export default function DepositDetailPage() {
@@ -41,11 +41,7 @@ export default function DepositDetailPage() {
     return bankKey ? BANK_LOGOS[bankKey] : '/images/banks/savingsbank.png';
   }, [product]);
 
-  const externalLink = useMemo(() => {
-    if (!product) return undefined;
-    const bankKey = Object.keys(BANK_URLS).find(key => product.kor_co_nm.includes(key));
-    return bankKey ? BANK_URLS[bankKey] : 'https://portal.fss.or.kr';
-  }, [product]);
+  // externalLink 대신 getSmartLandingUrl 직접 사용
 
   const allOptions = useMemo(() => {
     if (!product) return [];
@@ -99,14 +95,14 @@ export default function DepositDetailPage() {
         { label: '우대 조건', value: product.spcl_cnd, isText: true },
         { label: '기타 유의사항', value: product.etc_note, isText: true }
       ]}
-      externalLink={getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm)}
+      externalLink={getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm, product.fin_prdt_cd)}
       ranking={{
         rank: extraData?.rank || 0,
         total: extraData?.total || 0,
         topProducts: extraData?.top5 || []
       }}
       allOptions={allOptions}
-      onAction={() => window.open(externalLink, '_blank')}
+      onAction={() => window.open(getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm, product.fin_prdt_cd), '_blank')}
     />
   )
 }

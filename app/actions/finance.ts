@@ -24,6 +24,8 @@ export interface Product {
   spcl_cnd: string
   mtrt_int: string
   etc_note: string
+  join_member: string // 가입대상 추가
+  max_limit: number | null // 예치한도 추가
   options: ProductOption[]
   bestOption?: ProductOption
   isMock?: boolean
@@ -77,7 +79,17 @@ export async function getProducts(
       const baseList = actualData.baseList || [];
       const optionList = actualData.optionList || [];
 
-      baseList.forEach((p: { fin_prdt_cd: string; kor_co_nm: string; fin_prdt_nm: string; join_way: string; spcl_cnd: string; mtrt_int: string; etc_note: string; }) => {
+      baseList.forEach((p: { 
+        fin_prdt_cd: string; 
+        kor_co_nm: string; 
+        fin_prdt_nm: string; 
+        join_way: string; 
+        spcl_cnd: string; 
+        mtrt_int: string; 
+        etc_note: string;
+        join_member: string;
+        max_limit: number | null;
+      }) => {
         if (!mergedProductMap[p.fin_prdt_cd]) {
           const spclCnd = p.spcl_cnd || '-';
           const joinWay = p.join_way || '-';
@@ -90,6 +102,8 @@ export async function getProducts(
             spcl_cnd: spclCnd,
             mtrt_int: p.mtrt_int || '-',
             etc_note: p.etc_note || '-',
+            join_member: p.join_member || '-',
+            max_limit: p.max_limit,
             options: [],
             tags: parseTags(spclCnd, joinWay)
           };
@@ -159,6 +173,8 @@ function generateRichMock(type: string): Product[] {
       spcl_cnd: spcl,
       mtrt_int: '만기 시 지급',
       etc_note: '데이터 연동 테스트 모드입니다.',
+      join_member: '개인 (제한 없음)',
+      max_limit: 100000000,
       options: [
         { intr_rate_type_nm: '단리', save_trm: '12', intr_rate: 3.5 + (i * 0.05), intr_rate2: 4.0 + (i * 0.1) },
         { intr_rate_type_nm: '단리', save_trm: '24', intr_rate: 3.7 + (i * 0.05), intr_rate2: 4.2 + (i * 0.1) }

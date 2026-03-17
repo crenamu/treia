@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import { LoanProduct } from '@/app/actions/loan'
 import PremiumProductTemplate from '@/components/PremiumProductTemplate'
-import { BANK_LOGOS, BANK_URLS, getSmartLandingUrl } from '@/app/actions/constants'
+import { BANK_LOGOS, getSmartLandingUrl } from '@/app/actions/constants'
 import { ShieldCheck, Calculator, ArrowRight, Percent, History, Star, Wallet } from 'lucide-react'
 
 export default function LoanDetailPage() {
@@ -42,11 +42,7 @@ export default function LoanDetailPage() {
     return bankKey ? BANK_LOGOS[bankKey] : '/images/banks/savingsbank.png';
   }, [product]);
 
-  const externalLink = useMemo(() => {
-    if (!product) return undefined;
-    const bankKey = Object.keys(BANK_URLS).find(key => product.kor_co_nm.includes(key));
-    return bankKey ? BANK_URLS[bankKey] : 'https://portal.fss.or.kr';
-  }, [product]);
+  // externalLink 대신 getSmartLandingUrl 직접 사용
 
   if (loading) return (
     <div className="min-h-screen bg-white flex items-center justify-center">
@@ -64,7 +60,7 @@ export default function LoanDetailPage() {
     <PremiumProductTemplate
       type="loan"
       product={product}
-      bankLogo={BANK_LOGOS[product.kor_co_nm] || "/images/banks/savingsbank.png"}
+      bankLogo={bankLogo || "/images/banks/savingsbank.png"}
       primaryRate={{
         label: "최저 금리",
         value: product.bestOption?.lend_rate_min || 0,
@@ -74,23 +70,27 @@ export default function LoanDetailPage() {
       }}
       tags={product.tags}
       metrics={[
-        { label: '한도', value: '최대 3억원', icon: <Percent size={14} /> },
-        { label: '대상', value: '직장인/공무원', icon: <History size={14} /> },
-        { label: '기간', value: '최대 10년', icon: <Star size={14} /> },
-        { label: '방식', value: '원리금분균등', icon: <Wallet size={14} /> }
+        { label: '한도', value: product.loan_lmt, icon: <Percent size={14} /> },
+        { label: '대상', value: product.join_member, icon: <History size={14} /> },
+        { label: '중도상환', value: '수수료 있음', icon: <Star size={14} /> },
+        { label: '방식', value: product.bestOption?.rpay_type_nm || '원리금균등', icon: <Wallet size={14} /> }
       ]}
       simulator={<LoanRepaymentSimulator product={product} />}
       details={[
         { label: '금리 상세', value: `최저 ${product.bestOption?.lend_rate_min}% ~ 최고 ${product.bestOption?.lend_rate_max}% (평균 ${product.bestOption?.lend_rate_avg}%)` },
+        { label: '가입 대상', value: product.join_member },
+        { label: '대출 한도', value: product.loan_lmt },
+        { label: '가입 방법', value: product.join_way },
+        { label: '상환 방식', value: product.bestOption?.rpay_type_nm || '-' },
         { label: '유의사항', value: '대출 금리는 신용점수 및 은행 내부 심사 기준에 따라 차등 적용될 수 있습니다.', isText: true }
       ]}
-      externalLink={getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm)}
+      externalLink={getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm, product.fin_prdt_cd)}
       ranking={{
         rank: extraData?.rank || 0,
         total: extraData?.total || 0,
         topProducts: extraData?.top5 || []
       }}
-      onAction={() => window.open(externalLink, '_blank')}
+      onAction={() => window.open(getSmartLandingUrl(product.kor_co_nm, product.fin_prdt_nm, product.fin_prdt_cd), '_blank')}
     />
   )
 }
