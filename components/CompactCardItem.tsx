@@ -18,9 +18,13 @@ export default function CompactCardItem({ product }: CompactCardItemProps) {
         animate={{ opacity: 1, scale: 1 }}
         className="group bg-white rounded-3xl p-5 md:p-6 border border-gray-100 flex items-center gap-4 hover:shadow-xl hover:shadow-gray-200/40 transition-all cursor-pointer"
       >
-        {/* Card Plate Minimal */}
-        <div className="w-16 h-10 md:w-20 md:h-12 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg flex items-center justify-center text-[10px] font-black text-white/30 tracking-widest overflow-hidden shrink-0 shadow-lg">
-          {product.imageText}
+        {/* Card Plate Minimal or Image */}
+        <div className="w-16 h-10 md:w-20 md:h-12 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg flex items-center justify-center text-[10px] font-black text-white/30 tracking-widest overflow-hidden shrink-0 shadow-lg relative">
+          {product.imageUrl ? (
+            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+          ) : (
+            product.imageText
+          )}
         </div>
 
         {/* Main Info */}

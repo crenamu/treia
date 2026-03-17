@@ -144,8 +144,10 @@ export const DIRECT_PRODUCT_URLS: Record<string, string> = {
   '10-01-20-388-0002': 'https://www.kakaobank.com/products/deposit', // 카카오뱅크 정기예금 (신규 코드 대응)
   'TOSSBANK_DEP_01': 'https://www.tossbank.com/product/deposit', // 토스뱅크 먼저 이자 받는 정기예금
   '1001202000002': 'https://www.tossbank.com/product/deposit', // 토스뱅크 먼저 이자 받는 정기예금 (신규 코드 대응)
-  '1021101010001': 'https://www.kbanknow.com/ib20/mnu/FPMDEP010100', // 케이뱅크 코드K 정기예금
-  '01013000110000000001': 'https://www.kbanknow.com/ib20/mnu/FPMDEP010100', // 케이뱅크 코드K 정기예금 (신규 코드 대응)
+  '1021101010001': 'https://www.kbanknow.com/ib20/mnu/FPMDPT010100', // 케이뱅크 코드K 정기예금 (URL 수정)
+  '01013000110000000001': 'https://www.kbanknow.com/ib20/mnu/FPMDPT010100', // 케이뱅크 코드K 정기예금 (신규 코드 대응)
+  '10-01-20-024-0046-0000': 'https://www.jbbank.co.kr/gdnc_smyr_direct.act', // 전북은행 JB 다이렉트 예금
+  'HB_OFFLINE_DEP': 'https://www.hbsb.co.kr/deposit/online-time-deposit', // HB저축은행 비대면 정기예금
   '4': 'https://www.kebhana.com/cont/mall/mall08/mall0801/mall080101/1479088_115126.jsp', // 하나은행 하나의정기예금
   '207-0134-16': 'https://bank.shinhan.com/index.jsp?sns_type=fb&cr=020102010110&pcd=207013416', // 신한은행 신한My플러스 정기예금
   '207-0135-12': 'https://m.shinhan.com/mw/fin/pg/PR0401S0000F01?mid=220011112006&pid=207013512&type=now', // 신한은행 쏠편한 정기예금

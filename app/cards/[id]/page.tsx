@@ -66,9 +66,10 @@ export default function CardDetailPage() {
       type="card"
       product={product}
       bankLogo={bankLogo || ""} 
+      imageUrl={product.imageUrl}
       primaryRate={{
         label: "최대 혜택",
-        value: product.bestBenefit.match(/\d+/)?.[0] || "HOT",
+        value: product.bestBenefit.match(/\d+(\.\d+)?/)?.[0] || "HOT",
         suffix: product.bestBenefit.includes('%') ? "%" : "만",
         subLabel: "연회비",
         subValue: product.annualFee.replace(/[^0-9]/g, '').slice(0, -3) || "0",
@@ -82,18 +83,19 @@ export default function CardDetailPage() {
       ]}
       simulator={<CardBenefitSimulator product={product} />}
       details={[
-        { label: '주요 혜택', value: product.benefits.join(', ') },
+        { label: '주요 혜택 리스트', value: product.benefits.join(', ') },
         { label: '전월 이용실적', value: product.prevMonthRecord },
         { label: '연회비 상세', value: product.annualFee },
-        { label: '상세 혜택 안내', value: '전 가맹점 결제 시 포인트 적립 및 업종별 맞춤 할인 혜택을 제공합니다.', isText: true }
+        { label: '대표 혜택', value: product.bestBenefit },
+        { label: '상세 안내', value: '전 가맹점 결제 시 포인트 적립 및 업종별 맞춤 할인 혜택을 제공하며, 카드사 이벤트를 통해 추가 혜택을 받으실 수 있습니다. 자세한 내용은 상품 공시실 및 카드사 홈페이지를 참조하세요.', isText: true }
       ]}
-      externalLink={getSmartLandingUrl(product.company, product.name)}
+      externalLink={product.externalLink || getSmartLandingUrl(product.company, product.name)}
       ranking={{
         rank: extraData?.rank || 0,
         total: extraData?.total || 0,
         topProducts: extraData?.top5 || []
       }}
-      onAction={() => window.open(externalLink, '_blank')}
+      onAction={() => window.open(product.externalLink || externalLink, '_blank')}
     />
   )
 }

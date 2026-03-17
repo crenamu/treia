@@ -62,6 +62,7 @@ interface PremiumProductTemplateProps {
     icon?: React.ReactNode
   }[]
   simulator: React.ReactNode
+  imageUrl?: string // 카드 등 실물 이미지
   details: {
     label: string
     value: string
@@ -75,6 +76,7 @@ export default function PremiumProductTemplate({
   type,
   product,
   bankLogo,
+  imageUrl,
   externalLink,
   ranking,
   allOptions,
@@ -93,10 +95,10 @@ export default function PremiumProductTemplate({
   // 테마 컬러 결정
   const theme = useMemo(() => {
     switch(type) {
-      case 'deposit': return { primary: 'text-blue-600', bg: 'bg-blue-50', button: 'bg-[#10B981]', shadow: 'shadow-green-500/20' };
+      case 'deposit': return { primary: 'text-green-600', bg: 'bg-green-50', button: 'bg-[#10B981]', shadow: 'shadow-green-500/20' };
       case 'saving': return { primary: 'text-purple-600', bg: 'bg-purple-50', button: 'bg-purple-600', shadow: 'shadow-purple-500/20' };
       case 'loan': return { primary: 'text-rose-600', bg: 'bg-rose-50', button: 'bg-rose-600', shadow: 'shadow-rose-500/20' };
-      case 'card': return { primary: 'text-indigo-600', bg: 'bg-indigo-50', button: 'bg-indigo-600', shadow: 'shadow-indigo-500/20' };
+      case 'card': return { primary: 'text-orange-600', bg: 'bg-orange-50', button: 'bg-orange-600', shadow: 'shadow-orange-500/20' };
       default: return { primary: 'text-gray-900', bg: 'bg-gray-50', button: 'bg-gray-900', shadow: 'shadow-gray-500/20' };
     }
   }, [type]);
@@ -123,12 +125,27 @@ export default function PremiumProductTemplate({
       </div>
 
       <div className="container mx-auto max-w-2xl text-left">
+        {/* Card Image Display for Cards */}
+        {type === 'card' && imageUrl && (
+          <div className="px-6 pt-10 flex justify-center">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="relative w-72 h-44 rounded-2xl overflow-hidden shadow-2xl shadow-gray-200"
+            >
+              <img src={imageUrl} alt={product.name || product.fin_prdt_nm} className="w-full h-full object-cover" />
+            </motion.div>
+          </div>
+        )}
+
         {/* Detail Header Section */}
         <header className="px-6 pt-10 pb-8">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-4 mb-6 text-center md:text-left">
-            <div className="w-14 h-14 rounded-full overflow-hidden border border-gray-100 flex items-center justify-center bg-white shadow-sm ring-4 ring-gray-50/50">
-              <img src={bankLogo || "/images/banks/savingsbank.png"} alt={product.kor_co_nm || product.company} className="w-9 h-9 object-contain" />
-            </div>
+            {!imageUrl && bankLogo && (
+              <div className="w-14 h-14 rounded-full overflow-hidden border border-gray-100 flex items-center justify-center bg-white shadow-sm ring-4 ring-gray-50/50">
+                <img src={bankLogo || "/images/banks/savingsbank.png"} alt={product.kor_co_nm || product.company} className="w-9 h-9 object-contain" />
+              </div>
+            )}
             <div className="flex flex-col items-center md:items-start">
               <span className="text-sm font-bold text-gray-400 mb-1">{product.kor_co_nm || product.company}</span>
               <h1 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight tracking-tight">
@@ -340,7 +357,7 @@ export default function PremiumProductTemplate({
                  <button 
                    onClick={() => {
                      setIsRankingModalOpen(false);
-                     router.push(`/${type}s`);
+                     router.push(type === 'deposit' ? '/' : `/${type}s`);
                    }}
                    className="w-full py-5 bg-white border border-gray-200 rounded-2xl text-sm font-black text-gray-900 shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
                  >
