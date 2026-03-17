@@ -3,6 +3,7 @@ import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
 import GlobalAuthModal from "@/components/GlobalAuthModal";
 import Navbar from "@/app/components/Navbar";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "FinTable | 지금 가장 좋은 금리, 한눈에 비교하세요",
@@ -70,6 +71,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
+          <ScrollToTop />
           <GlobalAuthModal />
         </AuthProvider>
       </body>

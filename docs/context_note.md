@@ -1,6 +1,6 @@
 # 핀테이블(FinTable) 맥락 노트 (Context Note)
 
-_최종 업데이트: 2026-03-16 (월) 11:35 KST_
+_최종 업데이트: 2026-03-17 (화) 10:45 KST_
 
 ---
 
@@ -33,7 +33,7 @@ _최종 업데이트: 2026-03-16 (월) 11:35 KST_
 - **Styling**: Tailwind CSS v4 + Vanilla CSS Hybrid
 - **Data Fetching**: **Server Actions** (CORS 우회 및 백엔드 로직 보호)
 - **Auth/DB**: Firebase (fintable_ 프리픽스 사용)
-- **Animation**: Framer Motion (고성능 로딩 및 탭 전환 애니메이션)
+- **Animation**: Framer Motion (고성능 로딩, 탭 전환, **ScrollToTop** 애니메이션)
 - **Font**: Pretendard (KR 특화 가독성 확보)
 
 ---
@@ -62,3 +62,19 @@ _최종 업데이트: 2026-03-16 (월) 11:35 KST_
 ## 5. API 명세 예시 (`/api/deposits`)
 - **기능**: 금감원 API 호출 및 데이터 조인 (`baseList` + `optionList`).
 - **정규화**: 가입 기간(`save_trm`)에 따른 금리 정보를 프론트엔드가 사용하기 쉬운 JSON 구조로 변환하여 리턴.
+
+---
+
+## 6. 미결 및 향후 과제 (Blockers & To-Do)
+
+### ✅ 은행 로고 출력 이슈 (해결됨)
+- **조치**: `app/actions/constants.ts`의 `BANK_LOGO_MAP`에 지방은행(광주, 전북, 제주 등) 및 요청받은 저축은행 10여 곳의 키워드 매핑을 전면 보완함.
+- **특이사항**: 대구은행의 새 브랜딩인 **아이엠뱅크/iM뱅크** 키워드를 기존 `dgb.png`에 자동으로 매핑하여 데이터 일관성을 확보함.
+
+### ✅ 티커(Ticker) 컴포넌트 정리 (확인됨)
+- **상황**: 사용자 확인 결과 현재 티커가 노출되지 않음을 확인하여 관련 로직 점검 완료.
+
+### ✅ 사용자 편의성 개선 (신규)
+- **ScrollToTop**: 페이지 하단에서 상단으로 빠르게 이동할 수 있는 플로팅 버튼을 `RootLayout`에 전역 적용함.
+
+
