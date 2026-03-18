@@ -4,8 +4,10 @@ import { ArrowRight, ShieldCheck, Activity, Maximize2, Layers, Globe, CheckCircl
 import TelegramSignals from "@/components/TelegramSignals";
 
 export default function TreiaFunnelPage() {
-  const [formData, setFormData] = useState({ name: "", contact: "", inquiry: "시스템 무료 데모 체험" });
+  const [formData, setFormData] = useState({ name: "", contact: "", inquiry: "사전 예약: 실시간 운용 라운지" });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -30,11 +32,32 @@ export default function TreiaFunnelPage() {
     return () => observer.disconnect();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setTimeout(() => {
-      setIsSubmitted(true);
-    }, 600);
+    if (!formData.name || !formData.contact) return;
+    
+    setIsLoading(true);
+    setErrorMsg('');
+    
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        setIsSubmitted(true);
+      } else {
+        setErrorMsg(data.message || '접수에 실패했습니다. 다시 시도해주세요.');
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMsg('서버 오류가 발생했습니다. 잠시 후 시도해주세요.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -219,12 +242,23 @@ export default function TreiaFunnelPage() {
 
           <div className="bg-[#0f1117] border border-[#1e1e1e] rounded-3xl p-8 md:p-12 mb-16 shadow-2xl">
             {isSubmitted ? (
-              <div className="text-center py-10">
-                <div className="w-16 h-16 rounded-full bg-[#10B981]/10 flex items-center justify-center text-[#10B981] mx-auto mb-6">
+              <div className="text-center py-10 animate-fade-in">
+                <div className="w-16 h-16 rounded-full bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6] mx-auto mb-6">
                   <CheckCircle2 size={32} />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">접수 완료되었습니다.</h3>
-                <p className="text-[#7a7f8e]">담당자가 확인 후 영업일 1~2일 내에 안내해 드리겠습니다.</p>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">사전 예약이 접수되었습니다.</h3>
+                <p className="text-[#a1a1aa] mb-8 leading-[1.8]">
+                  현재 실계좌 최적화 및 최종 스트레스 테스트를 진행 중입니다.<br className="hidden md:block"/>
+                  시스템 정식 오픈 시점에 맞춰, 남겨주신 이메일/연락처로<br className="hidden md:block"/>
+                  <span className="text-white font-medium">가장 먼저 라이브 라운지 초대장을 발송해 드리겠습니다.</span>
+                </p>
+                <div className="inline-flex items-center justify-center gap-2 bg-[#1e2230] text-[#a1a1aa] px-6 py-3 rounded-full text-[14px] font-medium border border-[#3b82f6]/20">
+                  <span className="relative flex h-2.5 w-2.5 mr-1">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                  </span>
+                  대기자 명단(Waitlist) 등록 완료
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -234,14 +268,14 @@ export default function TreiaFunnelPage() {
                 </div>
                 <div>
                   <label className="block text-[13px] font-mono tracking-widest text-[#7a7f8e] uppercase mb-2">Contact</label>
-                  <input required type="text" value={formData.contact} onChange={(e) => setFormData({...formData, contact: e.target.value})} className="w-full bg-[#14171f] border border-[#1e2230] rounded-xl px-5 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#10B981] transition-all" placeholder="회신받으실 연락처 (이메일 또는 전화번호)" />
+                  <input required type="text" value={formData.contact} onChange={(e) => setFormData({...formData, contact: e.target.value})} className="w-full bg-[#14171f] border border-[#1e2230] rounded-xl px-5 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#10B981] transition-all" placeholder="회신받으실 이메일 주소 또는 전화번호" />
                 </div>
                 <div>
                   <label className="block text-[13px] font-mono tracking-widest text-[#7a7f8e] uppercase mb-2">Inquiry Type</label>
                   <div className="relative">
                     <select value={formData.inquiry} onChange={(e) => setFormData({...formData, inquiry: e.target.value})} className="w-full appearance-none bg-[#14171f] border border-[#1e2230] rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#10B981] transition-all cursor-pointer">
-                      <option value="시스템 무료 데모 체험">실시간 운용 라운지(데모) 입장 방법</option>
-                      <option value="소프트웨어 라이선스 구매">알고리즘 소프트웨어 라이선스 도입</option>
+                      <option value="사전 예약: 실시간 운용 라운지">실시간 운용 라운지(데모) 사전 예약</option>
+                      <option value="사전 예약: 시스템 라이선스 도입">알고리즘 소프트웨어 도입 사전 예약</option>
                       <option value="기타 제휴 문의">기타 제휴 문의</option>
                     </select>
                     <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none text-gray-500">
@@ -249,10 +283,11 @@ export default function TreiaFunnelPage() {
                     </div>
                   </div>
                 </div>
-                <button type="submit" className="w-full mt-4 bg-[#10B981] hover:bg-[#0ea5e9] text-white py-5 rounded-xl text-[16px] font-bold tracking-wide transition-all flex items-center justify-center gap-2 group shadow-[0_4px_14px_rgba(16,185,129,0.2)] hover:shadow-[0_4px_14px_rgba(14,165,233,0.3)]">
-                  문의 남기기
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                <button disabled={isLoading} type="submit" className="w-full mt-4 bg-[#10B981] hover:bg-[#0ea5e9] text-white py-5 rounded-xl text-[16px] font-bold tracking-wide transition-all flex items-center justify-center gap-2 group shadow-[0_4px_14px_rgba(16,185,129,0.2)] hover:shadow-[0_4px_14px_rgba(14,165,233,0.3)] disabled:opacity-50 disabled:cursor-not-allowed">
+                  {isLoading ? '신청 처리 중...' : '문의 남기고 안내 받기'}
+                  {!isLoading && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
                 </button>
+                {errorMsg && <p className="text-red-400 text-sm text-center mt-2">{errorMsg}</p>}
               </form>
             )}
           </div>
