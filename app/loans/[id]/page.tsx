@@ -67,6 +67,7 @@ export default function LoanDetailPage() {
         suffix: "%",
         subLabel: "최대 한도",
         subValue: product.loan_lmt.match(/\d+/)?.[0] || product.loan_lmt,
+        subSuffix: product.loan_lmt.includes('억') ? '억원' : product.loan_lmt.includes('만') ? '만원' : ''
       }}
       tags={product.tags}
       metrics={[
@@ -126,16 +127,19 @@ function LoanRepaymentSimulator({ product }: { product: LoanProduct }) {
 
         <div>
            <label className="text-[11px] font-black text-gray-300 uppercase tracking-widest mb-4 block">상환 기간 ({period / 12}년)</label>
-           <div className="flex gap-2">
-              {[12, 60, 120, 240, 360].map(m => (
-                <button 
-                  key={m}
-                  onClick={() => setPeriod(m)}
-                  className={`flex-1 py-3 rounded-xl text-xs font-black border-2 transition-all ${period === m ? 'bg-rose-600 border-rose-600 text-white shadow-lg' : 'bg-white border-gray-50 text-gray-400 hover:border-gray-200'}`}
-                >
-                  {m / 12}년
-                </button>
-              ))}
+           <div className="relative group/scroll">
+              <div className="flex gap-2 overflow-x-auto scrollbar-hide no-scrollbar pb-4 -mx-1 px-1 snap-x">
+                {[12, 60, 120, 240, 360].map(m => (
+                  <button 
+                    key={m}
+                    onClick={() => setPeriod(m)}
+                    className={`shrink-0 w-24 py-3 rounded-xl text-xs font-black border-2 transition-all snap-center ${period === m ? 'bg-rose-600 border-rose-600 text-white shadow-lg' : 'bg-white border-gray-50 text-gray-400 hover:border-gray-200'}`}
+                  >
+                    {m / 12}년
+                  </button>
+                ))}
+              </div>
+              <div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-white to-transparent pointer-events-none opacity-100 group-hover/scroll:opacity-0 transition-opacity md:hidden" />
            </div>
         </div>
       </div>

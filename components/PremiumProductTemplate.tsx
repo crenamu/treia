@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation'
 import { 
   ArrowLeft,
   ArrowRight,
-  ChevronDown,
   Trophy,
   Bookmark,
   Plus
 } from 'lucide-react'
+import Image from 'next/image'
 import ShareSaveButtons from '@/app/components/ShareSaveButtons'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ExternalLink, Info } from 'lucide-react'
@@ -54,6 +54,7 @@ interface PremiumProductTemplateProps {
     suffix: string
     subLabel?: string
     subValue?: string | number
+    subSuffix?: string
   }
   tags: string[]
   metrics: {
@@ -133,7 +134,14 @@ export default function PremiumProductTemplate({
               animate={{ opacity: 1, y: 0 }}
               className="relative w-72 h-44 rounded-2xl overflow-hidden shadow-2xl shadow-gray-200"
             >
-              <img src={imageUrl} alt={product.name || product.fin_prdt_nm} className="w-full h-full object-cover" />
+              <Image 
+                src={imageUrl || ''} 
+                alt={product.name || product.fin_prdt_nm || 'Card Image'} 
+                className="w-full h-full object-cover" 
+                width={288} 
+                height={176} 
+                priority
+              />
             </motion.div>
           </div>
         )}
@@ -143,7 +151,13 @@ export default function PremiumProductTemplate({
           <div className="flex flex-col md:flex-row items-center md:items-start gap-4 mb-6 text-center md:text-left">
             {!imageUrl && bankLogo && (
               <div className="w-14 h-14 rounded-full overflow-hidden border border-gray-100 flex items-center justify-center bg-white shadow-sm ring-4 ring-gray-50/50">
-                <img src={bankLogo || "/images/banks/savingsbank.png"} alt={product.kor_co_nm || product.company} className="w-9 h-9 object-contain" />
+                <Image 
+                  src={bankLogo || '/images/banks/savingsbank.png'} 
+                  alt={product.kor_co_nm || product.company || 'Bank Logo'} 
+                  width={56} 
+                  height={56} 
+                  className="w-full h-full object-contain p-2" 
+                />
               </div>
             )}
             <div className="flex flex-col items-center md:items-start">

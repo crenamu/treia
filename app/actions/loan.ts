@@ -9,9 +9,9 @@ import { TIER_1_BANKS } from './constants';
 export interface LoanOption {
   rpay_type_nm?: string      // 상환 방식 (원리금균등, 원금균등 등)
   lend_rate_type_nm: string // 금리 방식 (고정, 변동)
-  lend_rate_min: number     // 최저 금리
-  lend_rate_max: number     // 최고 금리
-  lend_rate_avg: number     // 평균 금리
+  lend_rate_min: number | null     // 최저 금리
+  lend_rate_max: number | null     // 최고 금리
+  lend_rate_avg: number | null     // 평균 금리
 }
 
 export interface LoanProduct {
@@ -110,9 +110,9 @@ export async function getLoans(
           mergedProductMap[o.fin_prdt_cd].options.push({
             rpay_type_nm: o.rpay_type_nm || o.crdt_prdt_type_nm || '-',
             lend_rate_type_nm: o.lend_rate_type_nm || '변동',
-            lend_rate_min: minRate > 0 ? Number(minRate) : null as any,
-            lend_rate_max: maxRate > 0 ? Number(maxRate) : null as any,
-            lend_rate_avg: avgRate > 0 ? Number(avgRate) : null as any
+            lend_rate_min: minRate >= 1.5 ? Number(minRate) : null,
+            lend_rate_max: maxRate >= 1.5 ? Number(maxRate) : null,
+            lend_rate_avg: avgRate >= 1.5 ? Number(avgRate) : null
           });
         }
       });

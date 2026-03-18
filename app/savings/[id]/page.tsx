@@ -148,18 +148,20 @@ function SavingsRateSimulator({ product }: { product: DepositProduct }) {
 
   return (
     <div className="bg-white">
-      {/* Month Selector Tabs - Updated to matched screenshot */}
-      <div className="flex gap-3 mb-12 overflow-x-auto pb-4 scrollbar-hide no-scrollbar">
-        {product.options.sort((a,b) => parseInt(a.save_trm) - parseInt(b.save_trm)).map((opt, i) => (
-          <button
-            key={i}
-            onClick={() => setTrmIndex(i)}
-            className={`flex flex-col items-center justify-center min-w-[100px] py-4 rounded-xl border-2 transition-all ${trmIndex === i ? 'bg-purple-900 border-purple-900 text-white shadow-lg' : 'bg-white border-gray-100 text-gray-900 hover:border-gray-200'}`}
-          >
-            <span className="text-sm font-bold mb-1">{opt.save_trm}개월</span>
-            <span className={`text-[10px] font-medium ${trmIndex === i ? 'text-purple-300' : 'text-gray-400'}`}>기본 {opt.intr_rate}%</span>
-          </button>
-        ))}
+      <div className="relative group/scroll">
+        <div className="flex gap-3 mb-12 overflow-x-auto pb-4 scrollbar-hide no-scrollbar snap-x">
+          {product.options.sort((a,b) => parseInt(a.save_trm) - parseInt(b.save_trm)).map((opt, i) => (
+            <button
+              key={i}
+              onClick={() => setTrmIndex(i)}
+              className={`flex flex-col items-center justify-center min-w-[110px] shrink-0 py-4 rounded-xl border-2 transition-all snap-center ${trmIndex === i ? 'bg-purple-900 border-purple-900 text-white shadow-lg' : 'bg-white border-gray-100 text-gray-900 hover:border-gray-200'}`}
+            >
+              <span className="text-sm font-bold mb-1">{opt.save_trm}개월</span>
+              <span className={`text-[10px] font-medium ${trmIndex === i ? 'text-purple-300' : 'text-gray-400'}`}>기본 {opt.intr_rate}%</span>
+            </button>
+          ))}
+        </div>
+        <div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-white to-transparent pointer-events-none opacity-100 group-hover/scroll:opacity-0 transition-opacity md:hidden" />
       </div>
 
       <div className="text-center mb-16 px-4">
