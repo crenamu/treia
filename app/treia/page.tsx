@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ArrowRight, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
+import { ArrowRight, AlertTriangle, XCircle } from "lucide-react";
 import Link from "next/link";
 import TradingViewChart from "@/components/TradingViewChart";
 import EconomicCalendar from "@/components/EconomicCalendar";
@@ -597,47 +597,37 @@ export default function Home() {
         <h3 className="font-outfit text-3xl tracking-[2px] mb-8">EA 리뷰</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 reveal opacity-0 translate-y-6 transition-all duration-700">
-          <div className="bg-[#14171f] border border-[#1e2230] p-7 rounded hover:border-[#2a2f40] hover:-translate-y-0.5 transition-all">
+          <div className="bg-[#0f1117] border border-[#10B981]/30 p-7 rounded hover:border-[#10B981]/60 hover:-translate-y-0.5 transition-all">
             <div className="flex justify-between items-start mb-4">
               <div>
-                <div className="text-[17px] font-bold text-white">
-                  GoldPulse EA v4.2
-                </div>
-                <div className="font-mono text-[13px] text-[#7a7f8e] mt-1">
-                  전략유형: 브레이크아웃 · XAUUSD 전용
-                </div>
+                <div className="text-[17px] font-bold text-white">Treia EA (자체 제작)</div>
+                <div className="font-mono text-[13px] text-[#7a7f8e] mt-1">전략유형: 멀티타임프레임 · XAUUSD 전용</div>
               </div>
-              <span className="font-mono text-[12px] bg-[#34c97a]/10 text-[#34c97a] px-2.5 py-1 rounded-sm tracking-[1px] flex items-center gap-1">
-                <CheckCircle2 size={12} />
-                통과
-              </span>
+              <span className="font-mono text-[12px] bg-[#c8a84b]/10 text-[#c8a84b] px-2.5 py-1 rounded-sm tracking-[1px]">최적화 중</span>
             </div>
             <div className="text-[15px] text-[#7a7f8e] leading-[1.8] mb-4">
-              H1 매물대 기반 브레이크아웃 전략. 마틴게일·그리드 없음. 고정 랏
-              방식으로 리스크 예측 가능. 6개월 실거래 트랙레코드 확인.
+              직접 제작·테스트 중인 XAUUSD 전용 EA. 현재 멀티타임프레임 고강도 스트레스 테스트 진행 중.
+              실계좌는 단일 타임프레임 저위험 세팅으로 시작 예정. 마틴게일·그리드 미사용.
             </div>
-            <div className="flex gap-5">
+            <div className="flex gap-5 mb-4">
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-[12px] text-[#7a7f8e]">
-                  MDD
-                </span>
-                <span className="text-[16px] font-bold text-[#34c97a]">
-                  8.3%
-                </span>
+                <span className="font-mono text-[12px] text-[#7a7f8e]">순수익 (4일)</span>
+                <span className="text-[16px] font-bold text-[#10B981]">+19.1%</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-[12px] text-[#7a7f8e]">
-                  수익팩터
-                </span>
-                <span className="text-[16px] font-bold text-white">1.84</span>
+                <span className="font-mono text-[12px] text-[#7a7f8e]">승률</span>
+                <span className="text-[16px] font-bold text-white">80.22%</span>
               </div>
               <div className="flex flex-col gap-1">
-                <span className="font-mono text-[12px] text-[#7a7f8e]">
-                  기간
-                </span>
-                <span className="text-[16px] font-bold text-white">6개월</span>
+                <span className="font-mono text-[12px] text-[#7a7f8e]">MDD (스트레스)</span>
+                <span className="text-[16px] font-bold text-[#c8a84b]">24.86%</span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="font-mono text-[12px] text-[#7a7f8e]">브로커</span>
+                <span className="text-[16px] font-bold text-white">Infinox</span>
               </div>
             </div>
+            <div className="text-[12px] text-[#52525b] font-mono">비공개 · 실계좌 안정화 후 공개 재검토</div>
           </div>
 
           <div className="bg-[#14171f] border border-[#1e2230] p-7 rounded hover:border-[#2a2f40] hover:-translate-y-0.5 transition-all">
