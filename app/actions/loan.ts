@@ -103,12 +103,16 @@ export async function getLoans(
 
       optionList.forEach((o: { fin_prdt_cd: string; rpay_type_nm?: string; crdt_prdt_type_nm?: string; lend_rate_type_nm?: string; lend_rate_min?: number; crdt_grad_avg?: number; lend_rate_max?: number; lend_rate_avg?: number; }) => {
         if (mergedProductMap[o.fin_prdt_cd]) {
+          const minRate = o.lend_rate_min || o.crdt_grad_avg || 0;
+          const maxRate = o.lend_rate_max || 0;
+          const avgRate = o.lend_rate_avg || o.crdt_grad_avg || 0;
+
           mergedProductMap[o.fin_prdt_cd].options.push({
             rpay_type_nm: o.rpay_type_nm || o.crdt_prdt_type_nm || '-',
             lend_rate_type_nm: o.lend_rate_type_nm || '변동',
-            lend_rate_min: Number(o.lend_rate_min || o.crdt_grad_avg || 0),
-            lend_rate_max: Number(o.lend_rate_max || 0),
-            lend_rate_avg: Number(o.lend_rate_avg || o.crdt_grad_avg || 0)
+            lend_rate_min: minRate > 0 ? Number(minRate) : null as any,
+            lend_rate_max: maxRate > 0 ? Number(maxRate) : null as any,
+            lend_rate_avg: avgRate > 0 ? Number(avgRate) : null as any
           });
         }
       });
@@ -146,8 +150,12 @@ export async function getLoans(
       products = products.filter(p => filters.every(f => p.tags.includes(f)));
     }
 
-    // 최저 금리가 낮은 순 정렬
-    products.sort((a, b) => (a.bestOption?.lend_rate_min || 99) - (b.bestOption?.lend_rate_min || 99));
+    // 최저 금리가 낮은 순 정렬 (null은 뒤로)
+    products.sort((a, b) => {
+      const aMin = a.bestOption?.lend_rate_min ?? 999;
+      const bMin = b.bestOption?.lend_rate_min ?? 999;
+      return aMin - bMin;
+    });
 
     if (products.length > 0) return { products, isMock: false };
 

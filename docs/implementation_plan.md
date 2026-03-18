@@ -1,86 +1,25 @@
-# 핀테이블(FinTable) 실행 계획서 (Implementation Plan)
+# Treia (FinTable) Implementation Plan
 
-_최종 업데이트: 2026-03-17 (화) 17:00 KST_
+## Phase 1: Core Foundation & Modern Design System (Completed)
+- Next.js 15 & Tailwind CSS setup
+- Premium beige/charcoal design implementation
+- Mobile-first responsive layout
 
----
+## Phase 2: Financial Data & Intelligence (Completed)
+- FSS API integration (Loans, Deposits, Savings)
+- Smart URL mapping for direct product links
+- Client-side filtering and sorting logic
 
-## 1. 현재 상황 분석 (Pivot: Treia → FinTable)
+## Phase 3: Premium UI/UX & Detail Features (Completed)
+- PremiumProductTemplate implementation
+- Deposit/Loan calculation simulators
+- Enhanced card benefit UI
 
-- **배경**: 골드 EA 전문 서비스(Treia)에서 종합 금융 정보 큐레이션 플랫폼(FinTable)으로 확장.
-- **핵심 목표**: "공공데이터(금감원, LH/SH) 기반의 투명한 금융 정보 제공 및 Treia의 서브 메뉴 내재화."
-- **브랜딩**: 옅은 베이지(`#FBF9F6`) 바탕의 깔끔하고 신뢰감 있는 핀테크 UX.
-
----
-
-## 2. 릴리즈 단계 및 로드맵
-
-### Phase 1 & 2: MVP 및 서비스 고도화 (완료)
-
-**성과**: 금감원 및 LH/SH 실시간 API 연동 완료, 서버 액션(Server Actions)을 통한 CORS 문제 해결.
-
-- **UI/UX (Premium Level)**: 
-    - **Pretendard** 폰트 전면 적용 및 텍스트 시인성 극대화.
-    - 따뜻한 베이지(`#FBF9F6`) 테마와 고해상도 카드 레이아웃 적용.
-    - **뱅크샐러드 벤치마킹**: 전 금융권(은행+저축은행) 100개 이상 상품 통합 조회.
-    - **글로벌 인사이트**: 환율, 금 시세 등 실시간 시장 데이터 위젯 복구.
-- **데이터 엔진 (Banksalad/Naejibdao Grade)**: 
-    - 서버 액션을 활용한 실시간 데이터 수집 및 캐시 최적화.
-    - **Live Data / Simulation Mode** 자동 전환 및 사용자 알림 UI 구현.
-    - LH/SH 전 유형(임대, 공공 등) 공고 통합 수집 엔진 가동.
-
-### Phase 3: 전 금융 섹션 확장 및 데이터 연동 (진행 중)
-- [x] 전 금융권 데이터 연동 (금감원 API)
-- [x] 뱅크샐러드급 고밀도 UI 최적화 (가로형 필터 바, 콤팩트 카드)
-- [x] 제1금융권 전용 필터링 로직 구현
-섹션 신설 및 실데이터 연동.
-
-- **데이터 연동 (Data First)**:
-    - [x] 금감원 대출 API(신용, 담보, 전세) 연동 확인 및 전체 섹션 구현 완료.
-    - [x] 마이홈포털(LH+SH 통합) API 연동으로 주거 공고 데이터 고도화 완료.
-    - [x] 카드 혜택 카테고리(주유·배달 등) 파싱 엔진 및 큐레이션 수집 시스템 구축.
-- **UI/UX 고도화 (Refined Design)**:
-    - [x] **색상 전략 수정 완료**: 블루 계열을 제거하고 **따뜻한 베이지(`#FBF9F6`)**와 **뉴트럴 다크 그레이/앰버/그린** 톤으로 전면 개편.
-    - [x] **고도화된 필터 시스템**: 뱅크샐러드 방식의 상단 그린 컬러 칩(Chip) 및 10여 가지 우대조건(급여, 카드 등) 매칭 엔진 구현.
-    - [x] **실시간 시뮬레이터**: 세후 이자 계산 위젯 및 대출 이자 비교 레이아웃 도입.
-    - [ ] **금융 기관 로고 복구 (진행 중)**: `constants.ts` 매핑 보강 및 누락 로고 이미지 수집 작업.
-
-### Phase 5: 뱅크샐러드급 고도화 및 다이렉트 랜딩 시스템 (완료)
-- [x] 주요 1금융권 + 저축은행(상위 5사) 53개 상품 다이렉트 URL 매핑 완료
-- [x] 시뮬레이터 우대조건 상세보기 모달 및 기간별 금리 테이블 고도화
-- [x] 신용카드 상세 혜택 데이터(삼성, 신한, 현대 등) 1:1 검증 및 이미지 로딩 최적화
-- [x] '/' 홈 경로에서의 네비게이션 및 404 예외 처리 시스템 안정화
-
-### Phase 4: 폴리싱 및 안정화 (완료)
-- [x] **UI 티커 컴포넌트 정리**: 노출 여부 확인 및 불필요 로직 제거 완료.
-- [x] **디자인 시스템 고도화**: 지방은행/저축은행 로고 매핑 보완 및 상단 이동 버튼 적용.
-- [x] **통합 상세 페이지 시스템**: 전 금융 상품(예적금, 카드, 대출)에 대한 통합 프리미엄 템플릿 적용 및 네비게이션 연결 완료.
-
-
----
-
-## 3. 핵심 아키텍처 및 폴더 구조 계획
-
-```text
-app/
-├── (fintable)/      ← 메인 금융 서비스 (Light 테마)
-│   ├── page.tsx     ← 예금 리스트
-│   └── [id]/        ← 상품 상세
-├── treia/           ← 골드 자동매매 (Dark 테마 유지)
-│   └── page.tsx
-├── housing/         ← 임대주택 (3차 예정)
-│   └── page.tsx
-└── api/
-    ├── deposits/    ← 금감원 API 프록시
-    └── housing/     ← LH/SH API 연동
-```
-
----
-
-## 4. 마일스톤 (체크포인트)
-
-- [x] 메인 레이아웃 및 테마 색상(`#FBF9F6`) 정의
-- [x] 금감원 API 연동 및 데이터 정규화 유틸리티 개발
-- [x] 상품 리스트 및 필터 UI (스티치 디자인 준수)
-- [x] 로고 매핑 보완 및 사용자 편의성(ScrollToTop) 강화
-- [x] Treia 서비스 `/treia` 경로로 마이그레이션 및 네비게이션 연결
-
+## Phase 4: Emergency UI/UX & Data Refinement (Completed)
+- **High Contrast Readability**: Darkened text colors and improved theme contrast.
+- **Desktop Width Optimization**: Restricted main content to `max-w-5xl` for better focus.
+- **Loan Data Accuracy**: Fixed 0% interest rate display by handling missing values as `null`.
+- **Diagnostic Flow**: Implemented `LoanDiagnosticFlow` to simulate premium application processes.
+- **Card Enhancement**: Integrated high-quality generated card images and detailed benefit information.
+- **Mobile Usability**: Improved horizontal scrolling for simulators and responsive card layouts.
+- **Smart Direct Linking**: Expanded direct product mapping to avoid generic search links.

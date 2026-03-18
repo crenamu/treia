@@ -6,6 +6,7 @@ import { getLoans, LoanProduct } from '@/app/actions/loan'
 import HorizontalFilterBar from '@/components/HorizontalFilterBar'
 import CompactLoanCard from '@/components/CompactLoanCard'
 import BankSelectionModal from '@/components/BankSelectionModal'
+import LoanDiagnosticFlow from '@/components/LoanDiagnosticFlow'
 import { AnimatePresence } from 'framer-motion'
 
 export default function LoansPage() {
@@ -19,6 +20,7 @@ export default function LoansPage() {
   // New States: Bank Selection
   const [isBankModalOpen, setIsBankModalOpen] = useState(false)
   const [selectedBanks, setSelectedBanks] = useState<string[]>([])
+  const [isDiagnosticOpen, setIsDiagnosticOpen] = useState(false)
 
   const tabs = [
     { id: 'credit', label: '신용대출', icon: <CreditCard size={18} /> },
@@ -65,13 +67,22 @@ export default function LoansPage() {
       </div>
 
       <main className="container mx-auto px-6 py-12 md:py-20">
-        <div className="max-w-4xl mb-16">
-            <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-[1.2] tracking-tight mb-4">
-                대출 상품 테이블
-            </h1>
-            <p className="text-lg font-bold text-gray-400 max-w-2xl leading-relaxed">
-                전 금융권 데이터를 분석하여 실질적인 금리 혜택을 찾아드립니다.
-            </p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+            <div className="max-w-xl">
+                <h1 className="text-4xl md:text-5xl font-black text-gray-900 leading-[1.2] tracking-tight mb-4">
+                    대출 상품 테이블
+                </h1>
+                <p className="text-lg font-bold text-gray-400 leading-relaxed">
+                    전 금융권 데이터를 분석하여 실질적인 금리 혜택을 찾아드립니다.
+                </p>
+            </div>
+            
+            <button 
+              onClick={() => setIsDiagnosticOpen(true)}
+              className="px-8 py-5 bg-emerald-500 text-white rounded-[24px] font-black text-lg shadow-xl shadow-emerald-500/20 hover:bg-emerald-600 transition-all active:scale-[0.98] flex items-center gap-3 shrink-0"
+            >
+              내 맞춤 금리 진단하기 ⚡️
+            </button>
         </div>
 
       <div className="container mx-auto px-6 mt-16">
@@ -157,6 +168,18 @@ export default function LoansPage() {
         selectedBanks={selectedBanks}
         onSelectBanks={setSelectedBanks}
       />
+
+      <AnimatePresence>
+        {isDiagnosticOpen && (
+          <>
+            <div className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-md" onClick={() => setIsDiagnosticOpen(false)} />
+            <LoanDiagnosticFlow 
+              onClose={() => setIsDiagnosticOpen(false)} 
+              onComplete={() => setIsDiagnosticOpen(false)} 
+            />
+          </>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

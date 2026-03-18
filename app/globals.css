@@ -10,15 +10,16 @@
 }
 
 :root {
-  /* FinTable Warm & Premium Theme */
-  --bg-beige: #FBF9F6;
+  /* FinTable Warm & Premium Theme - High Contrast Version */
+  --bg-beige: #F5F3EF; /* Slightly deeper beige for better contrast */
   --bg-card: #F7F6F2;
-  --text-main: #1A1A1A;
-  --text-sub: #6B7280;
-  --text-muted: #9CA3AF;
-  --border-light: #F1F0EC;
-  --accent-green: #10B981;
-  --accent-orange: #FF5A1F;
+  --text-main: #111827; /* Darker charcoal for main text */
+  --text-sub: #374151;  /* Darker gray for sub text */
+  --text-muted: #6B7280; /* Slightly darker muted text */
+  --border-light: #E5E7EB; /* More visible border */
+  --accent-green: #059669; /* Slightly deeper green */
+  --accent-orange: #EA580C; /* Deeper orange */
+  --bg-dark: #12141A;
 }
 
 @layer base {

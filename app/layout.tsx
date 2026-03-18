@@ -23,7 +23,11 @@ export default function RootLayout({
           {/* Navbar */}
           <Navbar />
 
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+              {children}
+            </div>
+          </main>
 
           <footer className="border-t border-gray-100 bg-white py-16">
             <div className="container mx-auto px-6">

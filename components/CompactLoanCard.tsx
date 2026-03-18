@@ -33,7 +33,7 @@ export default function CompactLoanCard({ product, rank }: CompactLoanCardProps)
         layout
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="group bg-white rounded-3xl p-5 md:p-6 border border-gray-100 flex items-center gap-5 hover:shadow-xl hover:shadow-gray-200/40 transition-all cursor-pointer"
+        className="group bg-white rounded-3xl p-5 md:p-6 border border-gray-100 flex flex-col sm:flex-row sm:items-center gap-5 hover:shadow-xl hover:shadow-gray-200/40 transition-all cursor-pointer relative"
       >
         {/* Rank & Logo Section */}
         <div className="flex items-center gap-4 shrink-0">
@@ -78,22 +78,22 @@ export default function CompactLoanCard({ product, rank }: CompactLoanCardProps)
         </div>
 
         {/* Stats - Horizontal alignment for density */}
-        <div className="flex items-center gap-8 md:gap-12 px-4 border-r border-gray-50 mr-2">
-          <div className="text-right hidden sm:block">
+        <div className="flex items-center justify-between sm:justify-end gap-8 md:gap-12 px-0 sm:px-4 border-t sm:border-t-0 sm:border-r border-gray-50 pt-4 sm:pt-0 mt-2 sm:mt-0 sm:mr-2 w-full sm:w-auto">
+          <div className="text-left sm:text-right">
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">최대 한도</p>
-            <p className="text-base font-black text-gray-700">{product.loan_lmt.split(' ')[1] || product.loan_lmt}</p>
+            <p className="text-sm sm:text-base font-black text-gray-700">{product.loan_lmt.split(' ')[1] || product.loan_lmt}</p>
           </div>
           <div className="text-right">
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">최저 금리</p>
             <div className="flex items-baseline justify-end gap-1">
               <span className="text-xl md:text-2xl font-black text-gray-900 group-hover:text-amber-600 transition-colors">
-                연 {product.bestOption?.lend_rate_min}%
+                연 {product.bestOption?.lend_rate_min ? `${product.bestOption.lend_rate_min}%` : '-%'}
               </span>
             </div>
           </div>
         </div>
 
-        <ChevronRight size={20} className="text-gray-200 group-hover:text-amber-600 transition-all" />
+        <ChevronRight size={20} className="hidden sm:block text-gray-200 group-hover:text-amber-600 transition-all" />
       </motion.div>
     </Link>
   )

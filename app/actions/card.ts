@@ -35,7 +35,7 @@ export async function getCards(filters: string[] = []) {
     },
     {
       id: 'hyundai_m',
-      name: 'Hyundai Card M',
+      name: 'M Edition 3',
       company: '현대카드',
       type: 'credit',
       benefits: ['카페', '외식', '온라인쇼핑'],
@@ -94,7 +94,7 @@ export async function getCards(filters: string[] = []) {
       name: 'MULTI Any 카드',
       company: '하나카드',
       type: 'credit',
-      benefits: ['모든가맹점', '단순함'],
+      benefits: ['모든가맹점', '마트'],
       annualFee: '12,000원',
       prevMonthRecord: '실적 무관',
       imageText: 'MULTI',
