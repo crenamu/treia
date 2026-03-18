@@ -77,7 +77,7 @@ export default function TreiaFunnelPage() {
           <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-2xl leading-[1.8] md:leading-[1.9] font-light">
             MDD(최대 낙폭) 10% 이내 강력 통제.<br />
             당신의 계좌가 터지지 않도록 가장 현대적인 &apos;안전벨트&apos;를 제공하는<br />
-            <span className="text-white font-medium">생존형 자산 관리 알고리즘, Treia_No1</span>
+            <span className="text-white font-medium">Treia 골드 자동매매 프로그램</span>
           </p>
         </div>
 
@@ -98,7 +98,7 @@ export default function TreiaFunnelPage() {
           <p className="text-[17px] md:text-[19px] text-[#7a7f8e] leading-[1.9] font-light mx-auto max-w-3xl">
             일확천금을 약속하는 자극적인 문구로 현혹하지 않습니다.<br />
             단기 수익률을 덜어내더라도, <span className="text-white font-medium">&apos;밤에 발 뻗고 잘 수 있는 견고한 안정성&apos;</span>을 설계하는 데 집중했습니다.<br />
-            스마트 시스템은 인간의 욕심과 공포 없이, 오직 검증된 원칙대로만 위기를 끊어냅니다.
+            Treia 자동매매 엔진은 인간의 욕심과 공포 없이, 오직 검증된 원칙대로만 위기를 끊어냅니다.
           </p>
         </div>
       </section>
@@ -142,7 +142,7 @@ export default function TreiaFunnelPage() {
             </div>
             <div className="text-[20px] font-bold text-white mb-4 leading-[1.4]">인간의 한계,<br />감정의 완벽한 배제</div>
             <div className="text-[15px] text-[#7a7f8e] leading-[1.8]">
-              만약 당신이 세계 초일류 트레이더라면 수동 매매가 시스템보다 우월할 수 있습니다. 하지만 인간은 손실의 공포와 수익의 환희 앞에서 반드시 흔들립니다. 시스템은 예외 없이 정해진 원칙만을 100% 실행합니다.
+              만약 당신이 세계 초일류 트레이더라면 수동 매매가 엔진보다 우월할 수 있습니다. 하지만 인간은 손실의 공포와 수익의 환희 앞에서 반드시 흔들립니다. Treia 자동매매 엔진은 예외 없이 정해진 원칙만을 100% 실행합니다.
             </div>
           </div>
         </div>
@@ -162,7 +162,7 @@ export default function TreiaFunnelPage() {
                 </div>
                 <div>
                   <h4 className="text-[19px] font-bold text-white mb-3">양방향성과 레버리지라는 &apos;양날의 검&apos;</h4>
-                  <p className="text-[16px] text-[#7a7f8e] leading-[1.8]">CFD(차액결제거래)는 하락장에서도 매도(Sell) 포지션으로 수익을 낼 수 있으며, 적은 증거금으로도 유연하게 한도를 조절할 수 있습니다. 하지만 이 강력한 자유도는 통제하지 못하면 독이 됩니다. 철저한 매매 원칙의 실천이 수동보다 시스템에서 더 빛을 발하는 이유입니다.</p>
+                  <p className="text-[16px] text-[#7a7f8e] leading-[1.8]">CFD(차액결제거래)는 하락장에서도 매도(Sell) 포지션으로 수익을 낼 수 있으며, 적은 증거금으로도 유연하게 한도를 조절할 수 있습니다. 하지만 이 강력한 자유도는 통제하지 못하면 독이 됩니다. 철저한 매매 원칙의 실천이 수동보다 자동매매 엔진에서 더 빛을 발하는 이유입니다.</p>
                 </div>
               </div>
               <div className="flex gap-5 items-start">
@@ -206,7 +206,7 @@ export default function TreiaFunnelPage() {
               Live Trading Lounge
             </div>
             <h2 className="font-outfit text-3xl md:text-5xl font-medium tracking-tight text-white mb-6 leading-[1.3]">
-              엔진의 의사결정을<br />
+              Treia 자동매매 엔진의 의사결정을<br />
               <span className="text-[#3b82f6]">실시간으로 투명하게 감시하십시오.</span>
             </h2>
             <p className="text-[16px] text-[#7a7f8e] leading-[1.8] mb-8">
@@ -235,9 +235,9 @@ export default function TreiaFunnelPage() {
         <div className="relative z-10 max-w-2xl mx-auto reveal opacity-0 translate-y-6 transition-all duration-700">
           <div className="text-center mb-12">
             <h2 className="font-outfit text-3xl md:text-4xl font-medium tracking-tight text-white mb-4">
-              스마트 시스템 신청 및 문의
+              Treia 골드 자동매매 프로그램 사전 예약
             </h2>
-            <p className="text-[#7a7f8e]">더 자세한 성능 분석이나 라이선스 도입에 대한 궁금증을 남겨주세요.</p>
+            <p className="text-[#7a7f8e]">더 자세한 성능 분석이나 라이선스 도입 사전 예약을 진행해주세요.</p>
           </div>
 
           <div className="bg-[#0f1117] border border-[#1e1e1e] rounded-3xl p-8 md:p-12 mb-16 shadow-2xl">
@@ -248,9 +248,9 @@ export default function TreiaFunnelPage() {
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">사전 예약이 접수되었습니다.</h3>
                 <p className="text-[#a1a1aa] mb-8 leading-[1.8]">
-                  현재 실계좌 최적화 및 최종 스트레스 테스트를 진행 중입니다.<br className="hidden md:block"/>
-                  시스템 정식 오픈 시점에 맞춰, 남겨주신 이메일/연락처로<br className="hidden md:block"/>
-                  <span className="text-white font-medium">가장 먼저 라이브 라운지 초대장을 발송해 드리겠습니다.</span>
+                  현재 엔진 알고리즘 최적화 및 최종 스트레스 테스트를 진행 중입니다.<br className="hidden md:block"/>
+                  테스트가 완료되는 시점에 맞춰 남겨주신 이메일로<br className="hidden md:block"/>
+                  <span className="text-white font-medium">가장 먼저 메타트레이더(MT4/MT5) 라이브 모니터링 계좌 접속 정보를 제공해 드리겠습니다.</span>
                 </p>
                 <div className="inline-flex items-center justify-center gap-2 bg-[#1e2230] text-[#a1a1aa] px-6 py-3 rounded-full text-[14px] font-medium border border-[#3b82f6]/20">
                   <span className="relative flex h-2.5 w-2.5 mr-1">
@@ -267,8 +267,8 @@ export default function TreiaFunnelPage() {
                   <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-[#14171f] border border-[#1e2230] rounded-xl px-5 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#10B981] transition-all" placeholder="성함 또는 닉네임을 입력하세요" />
                 </div>
                 <div>
-                  <label className="block text-[13px] font-mono tracking-widest text-[#7a7f8e] uppercase mb-2">Contact</label>
-                  <input required type="text" value={formData.contact} onChange={(e) => setFormData({...formData, contact: e.target.value})} className="w-full bg-[#14171f] border border-[#1e2230] rounded-xl px-5 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#10B981] transition-all" placeholder="회신받으실 이메일 주소 또는 전화번호" />
+                  <label className="block text-[13px] font-mono tracking-widest text-[#7a7f8e] uppercase mb-2">Email</label>
+                  <input required type="email" value={formData.contact} onChange={(e) => setFormData({...formData, contact: e.target.value})} className="w-full bg-[#14171f] border border-[#1e2230] rounded-xl px-5 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#10B981] transition-all" placeholder="초대장을 받으실 이메일 주소를 입력하세요" />
                 </div>
                 <div>
                   <label className="block text-[13px] font-mono tracking-widest text-[#7a7f8e] uppercase mb-2">Inquiry Type</label>
