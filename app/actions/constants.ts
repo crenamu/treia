@@ -148,19 +148,43 @@ export const DIRECT_PRODUCT_URLS: Record<string, string> = {
   '01013000110000000001': 'https://www.kbanknow.com/ib20/mnu/FPMDPT010100', // 케이뱅크 코드K 정기예금 (신규 코드 대응)
   '10-01-20-024-0046-0000': 'https://www.jbbank.co.kr/gdnc_smyr_direct.act', // 전북은행 JB 다이렉트 예금
   'HB_OFFLINE_DEP': 'https://www.hbsb.co.kr/deposit/online-time-deposit', // HB저축은행 비대면 정기예금
+  '10-011-133-0008': 'https://nhlink.nonghyup.com/servlet/BFDCM1021R.view?WEB=Y&wrs_c=1000313840001&psnFncWrsC=10001160&listServiceId=BFDCM1013R', // NH농협 NH올원e예금
+  '124': 'https://www.suhyup-bank.com/ib20/mnu/FPD00008?PRODNO=124', // SH수협 헤이(Hey)정기예금
+  '10511008000996000': 'https://mbanking.imbank.co.kr/com_ebz_mbs_00001.act?svcId=fis_ebz_sbs_21030_depo&PD_CD=10511008000996000', // iM뱅크(대구) iM주거래예금
   '4': 'https://www.kebhana.com/cont/mall/mall08/mall0801/mall080101/1479088_115126.jsp', // 하나은행 하나의정기예금
   '207-0134-16': 'https://bank.shinhan.com/index.jsp?sns_type=fb&cr=020102010110&pcd=207013416', // 신한은행 신한My플러스 정기예금
   '207-0135-12': 'https://m.shinhan.com/mw/fin/pg/PR0401S0000F01?mid=220011112006&pid=207013512&type=now', // 신한은행 쏠편한 정기예금
   '01211310142': 'https://mybank.ibk.co.kr/uib/jsp/guest/ntr/ntr70/ntr7010/PNTR701000_i2.jsp?lncd=01&grcd=21&tmcd=131&pdcd=0130', // IBK기업은행 IBK굴리기통장
+  '00320342': 'https://www.standardchartered.co.kr/np/kr/pl/et/DepositDetail.jsp?id=639', // SC제일은행 e-그린세이브예금
+  '10511008001166004': 'https://mbanking.imbank.co.kr/com_ebz_mbs_00001.act?svcId=fis_ebz_sbs_21030_depo&PD_CD=10511008001166004', // iM뱅크 iM함께예금
+  '01030500510002': 'https://www.busanbank.co.kr/ib/v/p/FPD00008.do?PRODNO=01030500510002', // 부산은행 LIVE정기예금
+  'TD11300027000': 'https://pbank.kjbank.com/ib20/mnu/FPD00008?PRODNO=TD11300027000', // 광주은행 미즈월복리정기예금
+  '101272000006': 'https://www.jejubank.co.kr/np/kr/pl/et/DepositDetail.jsp?id=101272000006', // 제주은행 제주Dream 정기예금
+  '21001115': 'https://www.knbank.co.kr/ib/v/p/FPD00008.do?PRODNO=21001115', // 경남은행 BNK더조은정기예금
+  '06492': 'https://www.kdb.co.kr/ni/ia/md/selectMdPrdtDetail.do?prdtCd=06492', // 산업은행 KDB 정기예금
+  '10120114300011': 'https://www.suhyup-bank.com/ib20/mnu/FPD00008?PRODNO=10120114300011', // 수협은행 Sh해양플라스틱Zero!예금
+  '240005': 'https://www.hk-sb.co.kr/deposit/iteminfo?prd_no=240005', // 흥국저축은행 E-정기예금
+  '240036': 'https://www.daehanbank.co.kr/prdt/prdt_01.do', // 대한저축은행 정기예금
+  'OK_E_ANSIM': 'https://www.oksavingsbank.com/sub/product/deposit/prdt010403.do', // OK저축은행 OK e-안심앱플러스정기예금
   
   // --- 적금 (Savings) ---
   'WR0001S': 'https://spot.wooribank.com/pot/Dream?withyou=PRDEP0012&cc=c010528:c010531;c012425:c012425&PL_PRD_CD=P020002129', // 우리은행 WON적금
   'WR0001L': 'https://spot.wooribank.com/pot/Dream?withyou=PRDEP0012&cc=c010528:c010531;c012425:c012425&PL_PRD_CD=P020002129', // 우리은행 WON적금 (코드 보완)
+  'WR0001F': 'https://spot.wooribank.com/pot/Dream?withyou=PRDEP0012&cc=c010528:c010531;c012425:c012425&PL_PRD_CD=P020002135', // 우리은행 우리SUPER주거래적금
   '10-01-30-355-0002': 'https://www.kakaobank.com/products/savings', // 카카오뱅크 자유적금
+  '10-01-30-355-0005': 'https://www.kakaobank.com/products/26weeks', // 카카오뱅크 26주적금
   '1001303001004': 'https://www.tossbank.com/product-service/savings/savings-freedom', // 토스뱅크 자유 적금
+  '1001303001001': 'https://www.tossbank.com/product-service/savings/savings-growing', // 토스뱅크 키워봐요 적금
   '01012000210000000000': 'https://www.kbanknow.com/ib20/mnu/FPMISA020000', // 케이뱅크 주거래우대 자유적금
   '01012000200000000003': 'https://www.kbanknow.com/ib20/mnu/FPMISA010100', // 케이뱅크 코드K 자유적금
-  '230-0119-85': 'https://bank.shinhan.com/index.jsp?sns_type=fb&cr=020102010110&pcd=230011985', // 신한은행 신한 알.쏠 적금
+  '230-0111-85': 'https://bank.shinhan.com/index.jsp?sns_type=fb&cr=020102010110&pcd=230011185', // 신한은행 신한 알.쏠 적금
+  '10521001001166004': 'https://mbanking.imbank.co.kr/com_ebz_mbs_00001.act?svcId=fis_ebz_sbs_21030_depo&PD_CD=10521001001166004', // iM뱅크 iM함께적금
+  '01020400490002': 'https://www.busanbank.co.kr/ib/v/p/FPD00008.do?PRODNO=01020400490002', // 부산은행 펫 적금
+  'TD11330029000': 'https://pbank.kjbank.com/ib20/mnu/FPD00008?PRODNO=TD11330029000', // 광주은행 해피라이프_여행스케치적금V
+  '10-01-30-031-0018-0000': 'https://www.jbbank.co.kr/gdnc_smyr_direct.act', // 전북은행 JB 다이렉트적금
+  '310038': 'https://www.moasbank.co.kr/main/prdt/prdt03/prdt03_01.do?seq=206', // 모아저축은행 e-모아 정기적금
+  '310010': 'https://www.insungbank.co.kr/prdt/prdt03_01.do?prdt_cd=04', // 인성저축은행 e-정기적금
+  '310005': 'https://www.burimsbank.co.kr/ib/prdt/prdt_01.do', // 부림저축은행 e-정기적금
   
   // --- 대출 (Loan) ---
   'L00000001': 'https://www.kakaobank.com/products/loan/credit', // 카카오뱅크 신용대출
