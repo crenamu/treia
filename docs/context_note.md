@@ -1,6 +1,6 @@
 # 핀테이블(FinTable) 맥락 노트 (Context Note)
 
-_최종 업데이트: 2026-03-22 (일) 14:30 KST_ (긴급 개선 작업 완료)
+_최종 업데이트: 2026-03-18 (수) 21:30 KST_ (Treia 퍼널 및 자동화 구축)
 
 ---
 
@@ -38,6 +38,11 @@ _최종 업데이트: 2026-03-22 (일) 14:30 KST_ (긴급 개선 작업 완료)
 ---
 
 ### 3. 주요 업데이트 이력
+
+#### [2026-03-18] Treia 랜딩페이지 개편 및 무비용 리드 자동화 (Treia Funnel Overhaul)
+- **독립 레이아웃 (Layout Isolation)**: `LayoutWrapper`를 통해 FinTable과 Treia의 디자인 컨텍스트를 분리하고 다크 테마 적용.
+- **마케팅 퍼널 고도화**: 네거티브한 워딩 제거, 프리미엄 금융 SaaS 용어('Treia 자동매매 프로그램', '모니터링 계좌')로 통일 후 5단계 설득 논리(왜 Gold CFD인가, 파멸 방어 로직 등) 강화.
+- **무비용 백엔드 파이프라인 (No-Cost Backend Automation)**: Zapier/Make 없이 Next.js Serverless API(`/api/lead`) + 파이어베이스(`treia_leads` DB) + 텔레그램 Bot API 통신을 활용하여 이메일 중복 체크 및 365일 실시간 관리자 알림(Lead Gen) 완비.
 
 #### [2026-03-22] 긴급 UX 및 데이터 개선 (Emergency Refinement)
 - **가독성 및 대비 강화**: 텍스트 컬러를 더 어두운 톤으로 조정하고 배경색(`#F5F3EF`)을 보정하여 시각적 피로도 감소 및 콘텐츠 집중도 향상.

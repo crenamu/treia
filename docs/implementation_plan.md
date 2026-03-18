@@ -23,3 +23,9 @@
 - **Card Enhancement**: Integrated high-quality generated card images and detailed benefit information.
 - **Mobile Usability**: Improved horizontal scrolling for simulators and responsive card layouts.
 - **Smart Direct Linking**: Expanded direct product mapping to avoid generic search links.
+
+## Phase 5: Treia Sub-brand Lead Generation Funnel & Automation (Completed)
+- **Isolated Layout**: Implemented `LayoutWrapper` to separate the Treia landing page from the FinTable context.
+- **Copywriting & Aesthetic**: Replaced negative/cheap phrasing with premium SaaS terminology (Treia Gold Auto-Trading Engine) and applied a consistent glowing hero grid pattern.
+- **Backend Automation**: Next.js Serverless API (`/api/lead`) integrated with Firebase Firestore for lead storage (with email deduplication logic) and Telegram Bot for instant free admin push notifications.
+- **Waitlist Logic**: Replaced direct channel links with a Waitlist UX offering an MT4/MT5 Investor password as a high-converting lead magnet.

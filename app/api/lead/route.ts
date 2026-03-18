@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
 import { sendTelegramMessage } from '@/lib/telegram';
 
 export async function POST(req: Request) {
@@ -10,13 +10,25 @@ export async function POST(req: Request) {
 
     if (!name || !contact) {
       return NextResponse.json(
-        { success: false, message: '이름과 연락처는 필수입니다.' },
+        { success: false, message: '이름과 이메일은 필수입니다.' },
         { status: 400 }
       );
     }
 
-    // 1. Firebase Firestore에 데이터 저장
     const leadsRef = collection(db, 'treia_leads');
+
+    // 1. 기존 가입 이메일 중복 체크
+    const q = query(leadsRef, where('contact', '==', contact));
+    const querySnapshot = await getDocs(q);
+    
+    if (!querySnapshot.empty) {
+      return NextResponse.json(
+        { success: false, message: '이미 등록된 대기자 이메일입니다.' },
+        { status: 400 }
+      );
+    }
+
+    // 2. Firebase Firestore에 데이터 저장
     await addDoc(leadsRef, {
       name,
       contact,
