@@ -30,12 +30,19 @@
 - **Backend Automation**: Next.js Serverless API (`/api/lead`) integrated with Firebase Firestore for lead storage (with email deduplication logic) and Telegram Bot for instant free admin push notifications.
 - **Waitlist Logic**: Replaced direct channel links with a Waitlist UX offering an MT4/MT5 Investor password as a high-converting lead magnet.
 
-## Phase 6: Treia Funnel Redesign (6-Screen Scrollytelling) [Completed: 2026-03-19]
-1. **[구조 설계]** 기존 퍼널을 폐기하고 100vh 단위의 원페이지 스크롤 6-Screen(Vision, Philosophy, Canvas, Mechanism, Proof, Invite) 플로우로 대체
+## Phase 6: Treia Funnel Redesign (Scrollytelling & Proof) [Completed: 2026-03-19]
+1. **[구조 설계]** 기존 퍼널을 폐기하고 100vh 단위의 원페이지 스크롤 10-Screen 플로우로 확장
 2. **[디자인 고도화]** #c8a84b 골드 포인트 컬러와 미니멀리즘 다크 테마 기반 프리미엄 UI 설계 (fade-in 인터랙션 적용)
-3. **[콘텐츠 인포그래픽]** 147회 실거래(Hoonil Choi) 내역을 SVG 기반의 성장 곡선 및 Net Flow 파이 차트로 대시보드화
-4. **[리드 캡처]** 6번째 Screen에서 직접 MT5 Investor Password 사전 예약 신청 폼 연동 완료
+3. **[콘텐츠 인포그래픽]** 실제 1000불 거래 내역 기반의 SVG 성장 곡선 및 Net Flow 통계 대시보드 구현
+4. **[리드 캡처]** MT5 Investor Password 사전 예약 신청 폼 및 관리자 알림 자동화 연동
 
-## Phase 7: Code Quality & Dev Environment (In Progress)
-- [x] Integrate `@biomejs/biome` via pnpm to resolve VS Code extension binary errors.
+## Phase 7: Admin & Delivery Automation [Completed: 2026-03-19]
+1. **[Admin Dashboard]** `/treia/admin` 페이지 구현. 비밀번호 보호 및 실시간 신청자 리스트 조회/승인 기능.
+2. **[Email Automation]** `nodemailer` 기반의 전용 이메일 발송 API (`/api/admin/send-email`) 구축. 블랙/골드 톤의 프리미엄 HTML 템플릿 적용.
+3. **[Internal Guide]** 외부 노션 대신 자체 웹페이지 가이드(`/treia/guide`) 구축. 3단계 모바일 접속 매뉴얼 및 MT5 가이드 최적화.
+4. **[Copywriting Refinement]** 자본주의적 신뢰 논리(시드 확보 명분) 및 1년 한정 개방(FOMO) 전략 FAQ 섹션 최종 완성.
+
+## Phase 8: Code Quality & Dev Environment (Completed)
+- [x] Integrate `@biomejs/biome` via pnpm.
 - [x] Initialize `biome.json` for standardized formatting and linting.
+- [x] Resolve unused imports and quote escaping linting issues in Treia pages.
