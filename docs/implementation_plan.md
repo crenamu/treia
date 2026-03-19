@@ -30,6 +30,12 @@
 - **Backend Automation**: Next.js Serverless API (`/api/lead`) integrated with Firebase Firestore for lead storage (with email deduplication logic) and Telegram Bot for instant free admin push notifications.
 - **Waitlist Logic**: Replaced direct channel links with a Waitlist UX offering an MT4/MT5 Investor password as a high-converting lead magnet.
 
-## Phase 6: Code Quality & Dev Environment (In Progress)
+## Phase 6: Treia Funnel Redesign (6-Screen Scrollytelling) [Completed: 2026-03-19]
+1. **[구조 설계]** 기존 퍼널을 폐기하고 100vh 단위의 원페이지 스크롤 6-Screen(Vision, Philosophy, Canvas, Mechanism, Proof, Invite) 플로우로 대체
+2. **[디자인 고도화]** #c8a84b 골드 포인트 컬러와 미니멀리즘 다크 테마 기반 프리미엄 UI 설계 (fade-in 인터랙션 적용)
+3. **[콘텐츠 인포그래픽]** 147회 실거래(Hoonil Choi) 내역을 SVG 기반의 성장 곡선 및 Net Flow 파이 차트로 대시보드화
+4. **[리드 캡처]** 6번째 Screen에서 직접 MT5 Investor Password 사전 예약 신청 폼 연동 완료
+
+## Phase 7: Code Quality & Dev Environment (In Progress)
 - [x] Integrate `@biomejs/biome` via pnpm to resolve VS Code extension binary errors.
 - [x] Initialize `biome.json` for standardized formatting and linting.

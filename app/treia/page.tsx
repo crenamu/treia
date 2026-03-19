@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ArrowRight, ShieldCheck, Activity, Maximize2, Layers, Globe, CheckCircle2 } from "lucide-react";
-import TelegramSignals from "@/components/TelegramSignals";
+import { Layers, Lock, Target, ArrowUpRight, Globe, CheckCircle2 } from "lucide-react";
 
 export default function TreiaFunnelPage() {
-  const [formData, setFormData] = useState({ name: "", contact: "", inquiry: "사전 예약: 실시간 운용 라운지" });
+  const [formData, setFormData] = useState({ name: "", contact: "", inquiry: "사전 예약: MT5 실시간 관전자 계정" });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -12,17 +11,14 @@ export default function TreiaFunnelPage() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry, i) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setTimeout(
-              () => entry.target.classList.add("opacity-100", "translate-y-0"),
-              i * 80,
-            );
-            entry.target.classList.remove("opacity-0", "translate-y-6");
+            entry.target.classList.add("opacity-100", "translate-y-0");
+            entry.target.classList.remove("opacity-0", "translate-y-12");
           }
         });
       },
-      { threshold: 0.1 },
+      { threshold: 0.2 },
     );
 
     document.querySelectorAll(".reveal").forEach((el) => {
@@ -61,264 +57,301 @@ export default function TreiaFunnelPage() {
   };
 
   return (
-    <div className="w-full bg-[#080808] text-[#f2f2f2] font-sans break-keep overflow-x-hidden selection:bg-[#10B981] selection:text-[#0a0a0a]">
-      {/* SECTION 1. Hero (최상단 훅) */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 pt-20 pb-32">
+    <div className="w-full bg-[#050505] text-[#f2f2f2] font-sans break-keep overflow-x-hidden selection:bg-[#c8a84b] selection:text-[#050505]">
+      
+      {/* Screen 1: The Vision */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6">
+        {/* Background Effects */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#10B981]/10 blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c8a84b]/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
-        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-          <div className="w-16 h-16 rounded-2xl bg-[#10B981]/10 border border-[#10B981]/30 flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
-            <ShieldCheck className="text-[#10B981]" size={32} strokeWidth={1.5} />
+        <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms]">
+          <div className="font-mono text-[12px] md:text-[15px] text-[#c8a84b] tracking-[6px] uppercase mb-10">
+            Treia Gold Algorithm Engine
           </div>
-          <h1 className="font-outfit text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.3] md:leading-[1.4] tracking-tight text-white mb-8">
-            투자의 감정을 지우고,<br />원칙만 남기다.
+          <h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-light leading-[1.3] tracking-tighter text-white mb-10">
+            투자는 당신의 일상을 <br className="hidden md:block"/> 지키기 위한 수단이어야 합니다.
           </h1>
-          <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-2xl leading-[1.8] md:leading-[1.9] font-light">
-            MDD(최대 낙폭) 10% 이내 강력 통제.<br />
-            당신의 계좌가 터지지 않도록 가장 현대적인 &apos;안전벨트&apos;를 제공하는<br />
-            <span className="text-white font-medium">Treia 골드 자동매매 프로그램</span>
+          <p className="text-[17px] md:text-[24px] text-[#7a7f8e] max-w-3xl leading-[1.8] font-light">
+            모니터 앞에서 보내는 긴장된 시간들, 이제는 본업과 가족에게 돌려주십시오. <br className="hidden lg:block"/>
+            감정의 소모 없이, 24시간 정교한 원칙으로 작동하는 생존형 자산 관리 알고리즘.
           </p>
         </div>
 
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
-          <span className="font-mono text-[10px] tracking-[4px] uppercase text-[#3f3f46]">scroll down</span>
-          <div className="w-px h-14 bg-[#1e1e1e] overflow-hidden relative">
-            <div className="absolute inset-0 bg-[#10B981] animate-pulse"></div>
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-500">
+          <span className="font-mono text-[11px] tracking-[5px] uppercase text-[#444]">Scroll</span>
+          <div className="w-px h-16 bg-[#1a1a1a] overflow-hidden relative">
+            <div className="absolute inset-0 bg-[#c8a84b] animate-[pulse_2s_infinite]"></div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 2. Story (공감대 형성) */}
-      <section className="w-full bg-[#0a0a0a] border-y border-[#1e1e1e] py-32 px-6">
-        <div className="max-w-4xl mx-auto text-center reveal opacity-0 translate-y-6 transition-all duration-700">
-          <h2 className="font-outfit text-3xl md:text-5xl font-medium tracking-tight text-white mb-8 leading-[1.4]">
-            아직도 밤새 차트를 보며<br className="block md:hidden" /> 기도하는 매매를 하십니까?
-          </h2>
-          <p className="text-[17px] md:text-[19px] text-[#7a7f8e] leading-[1.9] font-light mx-auto max-w-3xl">
-            일확천금을 약속하는 자극적인 문구로 현혹하지 않습니다.<br />
-            단기 수익률을 덜어내더라도, <span className="text-white font-medium">&apos;밤에 발 뻗고 잘 수 있는 견고한 안정성&apos;</span>을 설계하는 데 집중했습니다.<br />
-            Treia 자동매매 엔진은 인간의 욕심과 공포 없이, 오직 검증된 원칙대로만 위기를 끊어냅니다.
-          </p>
-        </div>
-      </section>
-
-      {/* SECTION 3. 핵심 차별점 (안전성 증명) */}
-      <section className="w-full relative">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
-        <div className="fixed top-1/4 right-1/4 w-[400px] h-[400px] bg-[#10B981]/5 blur-[100px] rounded-full pointer-events-none z-0"></div>
-
-        {/* Intro */}
-        <div className="min-h-[100svh] flex flex-col justify-center items-center text-center relative z-10 px-6 reveal opacity-0 translate-y-6 transition-all duration-700">
-          <div className="font-mono text-[13px] text-[#10B981] tracking-[3px] uppercase mb-4">
-            System Core Principles
-          </div>
-          <h2 className="font-outfit text-4xl md:text-6xl font-medium tracking-tight text-white mb-6">
-            계좌 청산을 방어하는<br className="md:hidden"/> 3중 안전 로직
-          </h2>
-          <div className="w-px h-24 bg-[#1e1e1e] mt-12 overflow-hidden relative">
-            <div className="absolute inset-0 bg-[#10B981] animate-pulse"></div>
-          </div>
-        </div>
-
-        {/* Item 1 */}
-        <div className="min-h-[100svh] flex flex-col justify-center items-center text-center relative z-10 px-6 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
-          <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#10B981]/5 border border-[#10B981]/20 flex items-center justify-center text-[#10B981] shadow-[0_0_50px_rgba(16,185,129,0.1)] mb-12">
-            <Layers size={48} strokeWidth={1.5} />
-          </div>
-          <h3 className="text-[32px] md:text-[50px] font-bold text-white mb-8">01. 마틴게일·물타기<br className="block md:hidden"/> 절대 금지</h3>
-          <p className="text-[18px] md:text-[24px] text-[#7a7f8e] leading-[1.8] font-light max-w-2xl">
-            수익 복구를 위해 랏(Lot)을 기하급수적으로 늘리는 <strong className="text-white font-medium">도박성 로직을 원천 차단했습니다.</strong><br/><br/>
-            1번의 방향성의 틀림이 전체 자산의 붕괴로 이어지지 않습니다.
-          </p>
-        </div>
-
-        {/* Item 2 */}
-        <div className="min-h-[100svh] flex flex-col justify-center items-center text-center relative z-10 px-6 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
-          <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#10B981]/5 border border-[#10B981]/20 flex items-center justify-center text-[#10B981] shadow-[0_0_50px_rgba(16,185,129,0.1)] mb-12">
-            <Maximize2 size={48} strokeWidth={1.5} />
-          </div>
-          <h3 className="text-[32px] md:text-[50px] font-bold text-white mb-8">02. 철저한 손절선<br className="block md:hidden"/> 강력 통제</h3>
-          <p className="text-[18px] md:text-[24px] text-[#7a7f8e] leading-[1.8] font-light max-w-2xl">
-            진입 직후 리스크가 고정됩니다. 인간은 버티다 손절 타이밍을 놓치지만,<br/><br/>
-            <strong className="text-white font-medium">알고리즘은 정해진 수치 도달 시 0.1초의 망설임 없이 기계적으로 청산합니다.</strong>
-          </p>
-        </div>
-
-        {/* Item 3 */}
-        <div className="min-h-[100svh] flex flex-col justify-center items-center text-center relative z-10 px-6 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
-          <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#10B981]/5 border border-[#10B981]/20 flex items-center justify-center text-[#10B981] shadow-[0_0_50px_rgba(16,185,129,0.1)] mb-12">
-            <Activity size={48} strokeWidth={1.5} />
-          </div>
-          <h3 className="text-[32px] md:text-[50px] font-bold text-white mb-8 leading-[1.3]">03. 인간의 한계,<br/> 감정의 완벽한 배제</h3>
-          <p className="text-[18px] md:text-[24px] text-[#7a7f8e] leading-[1.8] font-light max-w-3xl">
-            초일류 트레이더라면 수동 매매가 엔진보다 우월할 수 있습니다. 하지만 인간은 손실의 공포와 수익의 환희 앞에서 반드시 흔들립니다.<br/><br/>
-            <strong className="text-white font-medium">Treia 자동매매 엔진은 예외 없이 정해진 원칙만을 100% 실행합니다.</strong>
-          </p>
-        </div>
-      </section>
-
-      {/* SECTION 4. 왜 금(Gold) CFD 인가? */}
-      <section className="w-full bg-[#0a0a0a] border-t border-[#1e1e1e] relative">
+      {/* Screen 2: The Philosophy */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111]">
+        <div className="absolute bottom-0 w-full h-[50vh] bg-gradient-to-t from-[#c8a84b]/5 to-transparent z-0"></div>
         
-        {/* Intro */}
-        <div className="min-h-[100svh] flex flex-col justify-center items-center text-center px-6 reveal opacity-0 translate-y-6 transition-all duration-700 relative z-10 py-20">
-          <h2 className="font-outfit text-4xl md:text-6xl font-medium tracking-tight text-white mb-24 leading-[1.4]">
-            왜 수많은 자산 중<br />&apos;<span className="text-[#c8a84b]">금(Gold) CFD</span>&apos; 일까요?
+        <div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-10 leading-[1.4]">
+            시장을 예측하려 하지 않습니다. <br/> 철저하게 <span className="text-[#c8a84b] italic pr-2">대응</span>할 뿐입니다.
           </h2>
-          <div className="w-px h-24 bg-[#1e1e1e] overflow-hidden relative mx-auto">
-            <div className="absolute inset-0 bg-[#c8a84b] animate-pulse"></div>
-          </div>
-        </div>
-
-        {/* Insight 1 */}
-        <div className="min-h-[100svh] flex flex-col justify-center items-center text-center relative z-10 px-6 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
-          <div className="flex items-center justify-center gap-4 text-[#c8a84b] mb-8">
-            <ArrowRight size={32} />
-            <span className="font-mono tracking-widest uppercase text-[16px]">Insight 01</span>
-          </div>
-          <h3 className="text-[32px] md:text-[50px] font-bold text-white mb-8">양방향성과 레버리지라는<br/> &apos;양날의 검&apos;</h3>
-          <p className="text-[18px] md:text-[24px] text-[#7a7f8e] leading-[1.8] font-light">
-            CFD(차액결제거래)는 하락장에서도 매도(Sell) 포지션으로 수익을 낼 수 있으며,<br className="hidden md:block"/> 적은 증거금으로도 유연하게 한도를 조절할 수 있습니다.<br/><br/>
-            하지만 이 강력한 자유도는 통제하지 못하면 독이 됩니다.<br/>
-            <strong className="text-white font-medium">철저한 매매 원칙의 실천이 수동보다 자동매매 엔진에서 더 빛을 발하는 이유입니다.</strong>
-          </p>
-        </div>
-
-        {/* Insight 2 */}
-        <div className="min-h-[100svh] flex flex-col justify-center items-center text-center relative z-10 px-6 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
-          <div className="flex items-center justify-center gap-4 text-[#c8a84b] mb-8">
-            <ShieldCheck size={32} />
-            <span className="font-mono tracking-widest uppercase text-[16px]">Insight 02</span>
-          </div>
-          <h3 className="text-[32px] md:text-[50px] font-bold text-white mb-8">왜 CME(선물)가 아닌<br/> CFD인가?</h3>
-          <p className="text-[18px] md:text-[24px] text-[#7a7f8e] leading-[1.8] font-light">
-            CME(달러 결제 선물) 시장은 진입 장벽이 높고 치명적인 만기일(롤오버)의 제약이 존재합니다.<br/><br/>
-            반면 CFD는 <strong className="text-white font-medium">만기일의 압박 없이 전략의 연속성을 유지</strong>하며,<br className="hidden md:block"/> Micro Lot 단위로 리스크를 극도로 세밀하게 쪼개어 방어할 수 있습니다.
-          </p>
-        </div>
-
-        {/* Insight 3 */}
-        <div className="min-h-[100svh] flex flex-col justify-center items-center text-center relative z-10 px-6 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
-          <div className="flex items-center justify-center gap-4 text-[#c8a84b] mb-8">
-            <Globe size={32} />
-            <span className="font-mono tracking-widest uppercase text-[16px]">Insight 03</span>
-          </div>
-          <h3 className="text-[32px] md:text-[50px] font-bold text-white mb-8 leading-[1.3]">노이즈 없는 거대<br/> 실물 기축 자산, 금</h3>
-          <p className="text-[18px] md:text-[24px] text-[#7a7f8e] leading-[1.8] font-light">
-            금(XAUUSD)은 전 세계 자금이 모이는 가장 무거운 실물 자산입니다.<br/><br/>
-            작전 세력이나 자잘한 노이즈에 쉽게 흔들리지 않고 거대하고 일정한 파동을 형성하기에,<br className="hidden md:block"/> <strong className="text-white font-medium">알고리즘이 수학적 통계와 확률을 발휘하기에 가장 정직한 종목</strong>입니다.
+          <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
+            위대한 투자자들도 시장의 거대한 파도 앞에서는 겸손합니다. <br className="hidden md:block"/>
+            Treia는 시장을 이기려는 오만을 버렸습니다. <br/><br/>
+            대신, 어떤 변동성 속에서도 미리 설정된 방어선을 지키고 살아남는 <br className="hidden md:block"/>
+            <strong className="text-white font-medium">&apos;생존의 원칙&apos;</strong>을 기술로 구현했습니다. <br/>
+            예측할 수 없는 내일도, 시스템 안에서는 통제 가능한 데이터가 됩니다.
           </p>
         </div>
       </section>
 
-      {/* SECTION 5. 실시간 운용 라운지 (Offer & Gate) */}
-      <section id="lounge" className="w-full bg-[#080808] border-y border-[#1e1e1e] py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
-        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#3b82f6]/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 -translate-x-1/2"></div>
-        
-        <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center reveal opacity-0 translate-y-6 transition-all duration-700">
-          <div>
-            <div className="font-mono text-[13px] text-[#3b82f6] tracking-[3px] uppercase mb-4">
-              Live Trading Lounge
+      {/* Screen 3: The Canvas */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111] overflow-hidden">
+        {/* Subtle Gold Accents */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#c8a84b]/10 blur-[150px] mix-blend-screen pointer-events-none"></div>
+
+        <div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
+          <div className="flex justify-center mb-8">
+            <div className="w-24 h-24 border border-[#c8a84b]/30 rounded-full flex items-center justify-center text-[#c8a84b] shadow-[0_0_50px_rgba(200,168,75,0.15)] relative">
+              <div className="absolute inset-2 border border-[#c8a84b]/10 rounded-full animate-[spin_10s_linear_infinite]"></div>
+              <Globe size={40} strokeWidth={1} />
             </div>
-            <h2 className="font-outfit text-3xl md:text-5xl font-medium tracking-tight text-white mb-6 leading-[1.3]">
-              Treia 자동매매 엔진의 의사결정을<br />
-              <span className="text-[#3b82f6]">실시간으로 투명하게 감시하십시오.</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-10 leading-[1.4]">
+            알고리즘이 가장 완벽하게 작동하는 무대, <br/> 순수한 실물 자산 <span className="text-[#c8a84b] font-normal">&apos;금(Gold)&apos;</span>
+          </h2>
+          <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
+            개별 기업의 훌륭한 비전과 내재 가치를 평가하는 주식 시장과 달리, <br className="hidden md:block"/>
+            전 세계 자금이 모이는 금(XAUUSD) 시장은 외부 노이즈에 강하고 일정한 거시적 파동을 그립니다.<br/><br/>
+            여기에 상승과 하락 모든 방향에서 유연하게 대응할 수 있는 CFD 환경을 결합하여, <br className="hidden md:block"/>
+            <strong className="text-white font-medium">시장의 흐름에 가장 순응하는 투자 모델</strong>을 완성했습니다.
+          </p>
+        </div>
+      </section>
+
+      {/* Screen 4: The Mechanism */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-32 border-t border-[#111]">
+        <div className="relative z-10 text-center mb-24 reveal opacity-0 translate-y-12 transition-all duration-1000">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white leading-[1.4]">
+            리스크를 통제하는 <br className="md:hidden"/> <span className="text-[#c8a84b]">3가지 견고한 안전장치</span>
+          </h2>
+        </div>
+
+        <div className="relative w-full max-w-3xl mx-auto flex flex-col gap-16 md:gap-24 z-10">
+          <div className="absolute left-[39px] md:left-[59px] top-10 bottom-10 w-px bg-[#1a1a1a]"></div>
+
+          {/* Item 1 */}
+          <div className="flex gap-8 md:gap-12 items-start relative reveal opacity-0 translate-y-12 transition-all duration-1000">
+            <div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)]">
+              <Layers size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />
+            </div>
+            <div className="pt-2 md:pt-6">
+              <h3 className="text-2xl md:text-4xl font-normal text-white mb-4">합리적인 자산 배분</h3>
+              <p className="text-[17px] md:text-[21px] text-[#7a7f8e] leading-[1.8] font-light">
+                극단적인 배수 진입(마틴게일)을 전면 차단하고, <strong className="text-white font-medium">계좌가 감당할 수 있는 철저한 예산 안에서만</strong> 움직입니다.
+              </p>
+            </div>
+          </div>
+
+          {/* Item 2 */}
+          <div className="flex gap-8 md:gap-12 items-start relative reveal opacity-0 translate-y-12 transition-all duration-1000 delay-100">
+            <div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)]">
+              <Lock size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />
+            </div>
+            <div className="pt-2 md:pt-6">
+              <h3 className="text-2xl md:text-4xl font-normal text-white mb-4">흔들림 없는 방어선</h3>
+              <p className="text-[17px] md:text-[21px] text-[#7a7f8e] leading-[1.8] font-light">
+                진입과 동시에 리스크의 한계를 명확히 설정하여, <strong className="text-white font-medium">단 한 번의 방향성 오류가 치명상으로 이어지는 것을 방지</strong>합니다.
+              </p>
+            </div>
+          </div>
+
+          {/* Item 3 */}
+          <div className="flex gap-8 md:gap-12 items-start relative reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200">
+            <div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)]">
+              <Target size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />
+            </div>
+            <div className="pt-2 md:pt-6">
+              <h3 className="text-2xl md:text-4xl font-normal text-white mb-4">탄력적인 수익 추적</h3>
+              <p className="text-[17px] md:text-[21px] text-[#7a7f8e] leading-[1.8] font-light">
+                강력한 추세가 형성되면 <strong className="text-white font-medium">익절 구간을 유연하게 확장(Trailing)</strong>하여, 시장이 허락하는 기회를 온전히 담아냅니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Screen 5: The Proof */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-32 border-t border-[#111]">
+        <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col items-center flex-1">
+          
+          <div className="text-center mb-16 reveal opacity-0 translate-y-12 transition-all duration-1000">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-white mb-8 leading-[1.4] tracking-tight">
+              극단적인 변동성, <br className="md:hidden"/> 그 속에서 증명된 <span className="font-normal text-[#c8a84b]">시스템의 평온함.</span>
             </h2>
-            <p className="text-[16px] text-[#7a7f8e] leading-[1.8] mb-8">
-              도대체 언제 사고, 언제 손절하는가? 수익률 뒤에 숨겨진 진짜 매매 기록을 낱낱이 공개합니다. 우리 파트너들은 봇이 어떻게 위기를 방어하는지 데모 환경(텔레그램)에서 먼저 검증합니다.
+            <p className="text-[17px] md:text-[22px] text-[#7a7f8e] leading-[1.8] font-light max-w-4xl mx-auto">
+              최근 글로벌 금리 발표(FOMC) 등 시장이 거칠게 요동치는 구간에서도 Treia 엔진은 평정심을 잃지 않았습니다. <br className="hidden md:block"/>
+              방향이 어긋났을 때는 <strong className="text-white">-$36 선에서 안전하게 끊어내고</strong>, 기회를 포착했을 때는 <strong className="text-white">+$63까지 수익을 온전히 추적해 낸</strong> 실제 기록입니다.
             </p>
-            <div className="flex items-center gap-4 text-[14px] font-medium text-white bg-[#1e2230] p-4 rounded-xl inline-flex mb-8 lg:mb-0">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-              </span>
-              현재 알고리즘 투명성 리포트 배포 중
+          </div>
+
+          <div className="w-full bg-[#0d0e12] border border-[#22242e] rounded-[32px] p-8 md:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-16 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200">
+            
+            {/* Top Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-[#22242e]">
+              <div className="flex flex-col items-center pt-6 md:pt-0">
+                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[4px] mb-4">최근 실거래 검증</div>
+                <div className="text-5xl md:text-6xl font-light text-white">147<span className="text-2xl text-[#c8a84b] ml-1">회</span></div>
+              </div>
+              <div className="flex flex-col items-center pt-6 md:pt-0">
+                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[4px] mb-4">알고리즘 승률</div>
+                <div className="text-5xl md:text-6xl font-light text-white">80.95<span className="text-2xl text-[#c8a84b] font-outfit ml-1">%</span></div>
+              </div>
+              <div className="flex flex-col items-center pt-6 md:pt-0">
+                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[4px] mb-4">수익 창출 지표 (Profit Factor)</div>
+                <div className="text-5xl md:text-6xl font-light text-white font-outfit">3.58</div>
+              </div>
+            </div>
+
+            {/* Dashboard Visuals */}
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+              
+              {/* Chart Mockup */}
+              <div className="lg:col-span-3 bg-[#13151b] border border-[#23252d] rounded-2xl p-6 md:p-8 flex flex-col relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#3b82f6]/5 blur-[80px] rounded-full point-events-none transform translate-x-1/2 -translate-y-1/2"></div>
+                <div className="flex justify-between items-start mb-10 relative z-10">
+                  <div className="text-left text-sm font-mono text-[#a1a1aa] tracking-widest uppercase">Growth Curve ($1,000 기준)</div>
+                  <div className="text-right">
+                     <span className="block text-[#3b82f6] font-outfit text-3xl font-light">+$992.90</span>
+                     <span className="text-[#7a7f8e] text-xs uppercase tracking-widest">+99.2% Growth</span>
+                  </div>
+                </div>
+                {/* SVG Area */}
+                <div className="flex-1 w-full min-h-[160px] relative flex items-end">
+                  <svg viewBox="0 0 400 100" className="w-full h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" preserveAspectRatio="none">
+                    <path d="M0,80 L50,80 L80,70 L100,75 L150,75 L180,90 L200,90 L250,50 L300,50 L350,15 L400,10 L400,100 L0,100 Z" fill="url(#gradient-blue)" opacity="0.3" />
+                    <path d="M0,80 L50,80 L80,70 L100,75 L150,75 L180,90 L200,90 L250,50 L300,50 L350,15 L400,10" fill="none" stroke="#3b82f6" strokeWidth="2.5" />
+                    <circle cx="400" cy="10" r="4" fill="#60a5fa" className="animate-pulse" />
+                    <defs>
+                      <linearGradient id="gradient-blue" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.8" />
+                        <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div className="absolute inset-0 border-b border-l border-[#2a2d36] pointer-events-none"></div>
+                </div>
+              </div>
+
+              {/* Profit vs Loss */}
+              <div className="lg:col-span-2 bg-[#13151b] border border-[#23252d] rounded-2xl p-6 md:p-8 flex flex-col justify-center relative overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 w-[200px] h-[200px] bg-[#10B981]/5 blur-[60px] rounded-full point-events-none transform -translate-x-1/2 -translate-y-1/2"></div>
+                <div className="text-center mb-6 relative z-10">
+                   <span className="text-sm font-mono text-[#a1a1aa] tracking-widest uppercase">Profit Ratio</span>
+                </div>
+                
+                <div className="flex gap-4 items-center justify-between w-full h-full relative z-10">
+                   
+                   <div className="flex flex-col items-center">
+                     <span className="text-[#10B981] font-outfit text-2xl font-light mb-1">+$1,372</span>
+                     <span className="text-[#a1a1aa] text-[10px] uppercase tracking-widest">Gross Profit</span>
+                   </div>
+
+                   <div className="relative w-32 h-32 md:w-40 md:h-40 flex-shrink-0 mx-auto">
+                     <svg viewBox="0 0 36 36" className="w-full h-full drop-shadow-2xl">
+                       <path strokeDasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#ef4444" strokeWidth="3" className="opacity-80" />
+                       <path strokeDasharray="78.1, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#10B981" strokeWidth="3" />
+                     </svg>
+                     <div className="absolute inset-0 flex items-center justify-center flex-col">
+                       <span className="text-[#f2f2f2] text-2xl font-light font-outfit">+$989</span>
+                       <span className="text-[12px] text-[#7a7f8e] uppercase tracking-widest mt-1">Net Flow</span>
+                     </div>
+                   </div>
+
+                   <div className="flex flex-col items-center">
+                     <span className="text-[#ef4444] font-outfit text-2xl font-light mb-1">-$383</span>
+                     <span className="text-[#a1a1aa] text-[10px] uppercase tracking-widest">Gross Loss</span>
+                   </div>
+
+                </div>
+              </div>
+
             </div>
           </div>
           
-          <div className="w-full">
-            <TelegramSignals />
+        </div>
+      </section>
+
+      {/* Screen 6: The Invite (CTA) */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-32 border-t border-[#333] bg-gradient-to-t from-[#0a0a0d] to-[#040404]">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-px bg-gradient-to-r from-transparent via-[#c8a84b] to-transparent"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#c8a84b]/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div className="max-w-3xl w-full mx-auto relative z-10 text-center flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-1000">
+          
+          <h2 className="text-4xl md:text-6xl font-light text-white mb-8 tracking-tight leading-[1.3]">
+            투명한 &apos;현재&apos;를 당신의 <br className="hidden md:block"/> 눈으로 직접 확인하십시오.
+          </h2>
+          <p className="text-[17px] md:text-[22px] text-[#a1a1aa] leading-[1.8] font-light max-w-2xl mb-16">
+            과거의 가공된 데이터보다 중요한 것은, 지금 이 순간 어떻게 작동하고 있는가입니다. <br/>
+            Treia 엔진의 심장부인 <strong className="text-white font-medium">&apos;MT5 실시간 관전자 계정(Investor Password)&apos;</strong>을 한정된 분들께 우선 공개합니다. <br/><br/>
+            기계의 차가운 원칙이 만들어내는 일상을 직접 경험해 보십시오.
+          </p>
+
+          <div className="w-full bg-[#0a0b0e]/80 backdrop-blur-xl border border-[#c8a84b]/20 p-8 md:p-12 rounded-[32px] shadow-[0_0_80px_rgba(200,168,75,0.05)]">
+             {!isSubmitted ? (
+               <form onSubmit={handleSubmit} className="flex flex-col gap-6 text-left">
+                 
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                   <div className="flex flex-col gap-2">
+                     <label className="text-[13px] text-[#a1a1aa] ml-2 tracking-widest uppercase">성함</label>
+                     <input 
+                       type="text" 
+                       required 
+                       placeholder="성함을 입력해주세요"
+                       className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-2xl focus:outline-none focus:border-[#c8a84b]/50 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light"
+                       value={formData.name}
+                       onChange={(e) => setFormData({...formData, name: e.target.value})}
+                     />
+                   </div>
+                   <div className="flex flex-col gap-2">
+                     <label className="text-[13px] text-[#a1a1aa] ml-2 tracking-widest uppercase">연락처</label>
+                     <input 
+                       type="tel" 
+                       required 
+                       placeholder="010-0000-0000"
+                       className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-2xl focus:outline-none focus:border-[#c8a84b]/50 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light"
+                       value={formData.contact}
+                       onChange={(e) => setFormData({...formData, contact: e.target.value})}
+                     />
+                   </div>
+                 </div>
+
+                 {errorMsg && <p className="text-red-400 text-sm mt-2 ml-2">{errorMsg}</p>}
+
+                 <button 
+                   type="submit" 
+                   disabled={isLoading}
+                   className="w-full mt-4 bg-gradient-to-r from-[#c8a84b] to-[#a38531] text-white text-[18px] font-medium py-6 rounded-2xl hover:opacity-90 transition-opacity flex items-center justify-center gap-3 disabled:opacity-50 shadow-[0_10px_30px_rgba(200,168,75,0.2)]"
+                 >
+                   {isLoading ? "접수 중..." : "MT5 관전자 계정 접속 정보 받기"} 
+                   {!isLoading && <ArrowUpRight size={24} />}
+                 </button>
+               </form>
+             ) : (
+               <div className="flex flex-col items-center justify-center py-8 text-center animate-fade-in">
+                 <div className="w-20 h-20 bg-[#10B981]/10 rounded-full flex items-center justify-center text-[#10B981] mb-6 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                   <CheckCircle2 size={40} strokeWidth={1.5} />
+                 </div>
+                 <h3 className="text-2xl text-white font-medium mb-4">계정 신청이 완료되었습니다.</h3>
+                 <p className="text-[#a1a1aa] leading-relaxed font-light">
+                   입력하신 연락처로 MT5 관전자 계정 로그인 정보(ID, Password, Server)를 발송해 드릴 예정입니다.<br/> 잠시만 기다려주시면 감사하겠습니다.
+                 </p>
+               </div>
+             )}
           </div>
         </div>
       </section>
 
-      {/* SECTION 6. 간편 문의 폼 (Lead Gen) & Legal */}
-      <section className="w-full py-32 px-6 relative overflow-hidden bg-[#0a0a0a]">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at bottom, rgba(16,185,129,0.05) 0%, transparent 60%)" }}></div>
-        
-        <div className="relative z-10 max-w-2xl mx-auto reveal opacity-0 translate-y-6 transition-all duration-700">
-          <div className="text-center mb-12">
-            <h2 className="font-outfit text-3xl md:text-4xl font-medium tracking-tight text-white mb-4">
-              Treia 골드 자동매매 프로그램 사전 예약
-            </h2>
-            <p className="text-[#7a7f8e]">더 자세한 성능 분석이나 라이선스 도입 사전 예약을 진행해주세요.</p>
-          </div>
-
-          <div className="bg-[#0f1117] border border-[#1e1e1e] rounded-3xl p-8 md:p-12 mb-16 shadow-2xl">
-            {isSubmitted ? (
-              <div className="text-center py-10 animate-fade-in">
-                <div className="w-16 h-16 rounded-full bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6] mx-auto mb-6">
-                  <CheckCircle2 size={32} />
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">사전 예약이 접수되었습니다.</h3>
-                <p className="text-[#a1a1aa] mb-8 leading-[1.8]">
-                  현재 엔진 알고리즘 최적화 및 최종 스트레스 테스트를 진행 중입니다.<br className="hidden md:block"/>
-                  테스트가 완료되는 시점에 맞춰 남겨주신 이메일로<br className="hidden md:block"/>
-                  <span className="text-white font-medium">가장 먼저 메타트레이더(MT4/MT5) 라이브 모니터링 계좌 접속 정보를 제공해 드리겠습니다.</span>
-                </p>
-                <div className="inline-flex items-center justify-center gap-2 bg-[#1e2230] text-[#a1a1aa] px-6 py-3 rounded-full text-[14px] font-medium border border-[#3b82f6]/20">
-                  <span className="relative flex h-2.5 w-2.5 mr-1">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                  </span>
-                  대기자 명단(Waitlist) 등록 완료
-                </div>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                <div>
-                  <label className="block text-[13px] font-mono tracking-widest text-[#7a7f8e] uppercase mb-2">Name</label>
-                  <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-[#14171f] border border-[#1e2230] rounded-xl px-5 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#10B981] transition-all" placeholder="성함 또는 닉네임을 입력하세요" />
-                </div>
-                <div>
-                  <label className="block text-[13px] font-mono tracking-widest text-[#7a7f8e] uppercase mb-2">Email</label>
-                  <input required type="email" value={formData.contact} onChange={(e) => setFormData({...formData, contact: e.target.value})} className="w-full bg-[#14171f] border border-[#1e2230] rounded-xl px-5 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-[#10B981] transition-all" placeholder="초대장을 받으실 이메일 주소를 입력하세요" />
-                </div>
-                <div>
-                  <label className="block text-[13px] font-mono tracking-widest text-[#7a7f8e] uppercase mb-2">Inquiry Type</label>
-                  <div className="relative">
-                    <select value={formData.inquiry} onChange={(e) => setFormData({...formData, inquiry: e.target.value})} className="w-full appearance-none bg-[#14171f] border border-[#1e2230] rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#10B981] transition-all cursor-pointer">
-                      <option value="사전 예약: 실시간 운용 라운지">실시간 운용 라운지(데모) 사전 예약</option>
-                      <option value="사전 예약: 시스템 라이선스 도입">알고리즘 소프트웨어 도입 사전 예약</option>
-                      <option value="기타 제휴 문의">기타 제휴 문의</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none text-gray-500">
-                      ▼
-                    </div>
-                  </div>
-                </div>
-                <button disabled={isLoading} type="submit" className="w-full mt-4 bg-[#10B981] hover:bg-[#0ea5e9] text-white py-5 rounded-xl text-[16px] font-bold tracking-wide transition-all flex items-center justify-center gap-2 group shadow-[0_4px_14px_rgba(16,185,129,0.2)] hover:shadow-[0_4px_14px_rgba(14,165,233,0.3)] disabled:opacity-50 disabled:cursor-not-allowed">
-                  {isLoading ? '신청 처리 중...' : '문의 남기고 안내 받기'}
-                  {!isLoading && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
-                </button>
-                {errorMsg && <p className="text-red-400 text-sm text-center mt-2">{errorMsg}</p>}
-              </form>
-            )}
-          </div>
-
-          <div className="text-center md:text-left text-[#52525b] text-[12px] leading-[1.8] bg-[#0f1117]/50 rounded-xl p-6 border border-[#1e2230]/50">
-            <h4 className="font-bold text-[#7a7f8e] mb-2 uppercase tracking-widest text-[11px]">법적 고지 (Legal Disclaimer)</h4>
-            <div className="flex flex-col gap-2">
-              <p>1. <strong>유사수신 및 투자일임 금지</strong>: Treia_No1은 고객의 투자금을 직접 대리 운용하거나 일임받지 않습니다. 우리는 사용자의 개인 계좌 환경에 설치하여 고객의 완전한 통제 하에 활용할 수 있는 &apos;개인용 매매 보조 소프트웨어 라이선스(로직)&apos;만을 구독/판매합니다.</p>
-              <p>2. <strong>원금 손실 가능성</strong>: 본 소프트웨어는 차트 로직과 과거 데이터를 기반으로 설계된 보조 도구일 뿐, 알고리즘 매매가 수익을 100% 보장하지 않습니다. 금융 시장(CFD/XAUUSD 등)의 가격 변동 및 레버리지 사용에 따라 원금 손실이 발생할 수 있습니다.</p>
-              <p>3. <strong>투자 책임</strong>: 소프트웨어 사용 여부와 설정의 결정권은 전적으로 사용자(고객)에게 있으며, 거래 결과에 따른 최종적인 수익과 손실의 책임은 모두 본인에게 귀속됩니다. 당사는 정보 제공 및 기술적 도구 공급자의 역할만을 수행합니다.</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

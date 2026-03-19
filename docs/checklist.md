@@ -13,6 +13,7 @@
   - [x] API 장애 대비 **Mock 데이터 폴백(Fallback)** 구현 (Premium Experience 보존)
 - [x] 금융감독원 적금 상품 API 연동 (`/api/savings`)
   - [x] 적금 특화 데이터 매핑 및 정렬
+  - [x] API 연동 지연 시 **AI 시뮬레이션 데이터** 자동 전환
 - [x] 공공데이터포털(LH/SH 통합) 마이홈포털 API 연동 (`/api/housing`)
   - [x] LH 및 SH 공고 통합 수집 및 정규화
   - [x] API 연동 지연 시 **AI 시뮬레이션 데이터** 자동 전환
@@ -111,4 +112,7 @@
 
 ## 7. 최적화 및 유지보수 (진행 중)
 - [x] **Biome 린터/포매터 통합**: IDE 확장 오류 해결(`pnpm add -D @biomejs/biome`) 및 초기화.
-- [x] **Treia 랜딩페이지 퍼널 분할**: 3중 안전 로직 및 CFD 관련 섹션을 좁은 그리드에서 스크롤텔링(Scrollytelling) 기반의 심층 레이아웃으로 넓게 재구성.
+- [x] **Treia 랜딩페이지 퍼널 전면 개편**: 
+  - [x] 리더캠프 V2 Treia Gold Algorithm Engine 6-Screen 기획안 적용(100vh 스크롤)
+  - [x] MT5 실제 거래 내역(1000불 147회) 기반 인포그래픽 대시보드 신규 구현
+  - [x] 우아한 페이드인 애니메이션(Scrollytelling) 적용 완료
