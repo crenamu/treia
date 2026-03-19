@@ -507,25 +507,46 @@ export default function TreiaFunnelPage() {
                </form>
              ) : (
                <div className="flex flex-col items-center justify-center py-12 text-center animate-fade-in">
-                 <div className="w-20 h-20 bg-[#10B981]/10 rounded-full flex items-center justify-center text-[#10B981] mb-8 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
-                   <CheckCircle2 size={40} strokeWidth={1.5} />
+                 <div className="text-5xl md:text-6xl mb-8 animate-bounce">
+                   👏
                  </div>
-                 <h3 className="text-3xl text-white font-medium mb-6 tracking-tight">계정 신청이 완료되었습니다.</h3>
-                 <p className="text-[#a1a1aa] leading-relaxed font-light text-[18px]">
-                   검토 후 입력하신 이메일로 2주간 열람 가능한 <br className="hidden md:block"/>
-                   MT5 관전자 계정 로그인 정보(ID, Password, Server)를 정중히 안내해 드릴 예정입니다.<br/><br/>
+                 <h3 className="text-3xl text-white font-medium mb-6 tracking-tight">신청이 완료되었습니다!</h3>
+                 <p className="text-[#a1a1aa] leading-[1.8] font-light text-[17px] md:text-[19px] break-keep max-w-xl mx-auto">
+                   남겨주신 사유를 꼼꼼히 검토한 후, 개방 대상자로 선정되신 분들께 한해 <br className="hidden md:block"/>
+                   입력하신 이메일(또는 텔레그램)로 <strong className="text-white font-medium">[관전자 계정 접속 ID/PW]</strong>와 <strong className="text-white font-medium">[3분 만에 끝나는 접속 가이드 링크]</strong>를 안전하게 발송해 드릴 예정입니다.<br/><br/>
                    잠시만 기다려주시면 감사하겠습니다.
                  </p>
                </div>
              )}
               
              {/* Legal Disclaimer */}
-             <div className="mt-16 pt-8 border-t border-[#1a1a1a] text-center">
-               <p className="text-[13px] text-[#7a7f8e] font-light leading-[1.8] tracking-wide break-keep">
-                 본 테스트 결과(수익률, 승률 등)는 과거의 데모 운용 데이터이며 미래의 수익을 보장하지 않습니다.<br className="hidden lg:block"/>
-                 차액결제거래(CFD)는 높은 변동성을 수반하며 원금 초과 손실의 위험이 있습니다.<br className="hidden lg:block"/>
-                 본 서비스는 투자 권유가 아니며, 알고리즘 기술 검증 목적의 소프트웨어 라이선스 체험에 한합니다.
-               </p>
+             <div className="mt-20 pt-10 border-t border-[#1a1a1a] text-left">
+               <h4 className="text-[#c8a84b] text-[13px] font-mono tracking-widest uppercase mb-6">시스템 운용 특성 및 리스크 안내</h4>
+               
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-[13px] text-[#7a7f8e] font-light leading-[1.8] break-keep">
+                 
+                 <div className="flex flex-col gap-2">
+                   <strong className="text-white font-medium block">1. 살아있는 시장을 위한 지속적인 알고리즘 진화</strong>
+                   <p>Treia 엔진은 과거에 머물러 있는 고정된 기계가 아닙니다. 시장의 새로운 변동성 패턴에 대응하고 방어력을 극대화하기 위해, 시스템은 작은 세부 설정(Parameter)부터 핵심 로직까지 지속적인 테스트와 업데이트를 거칩니다. 이 과정에서 알고리즘의 매매 템포나 진입 기준은 더 나은 생존을 위해 사전 예고 없이 유연하게 조정될 수 있습니다.</p>
+                 </div>
+
+                 <div className="flex flex-col gap-2">
+                   <strong className="text-white font-medium block">2. 브로커 및 물리적 환경에 따른 체결 오차 (슬리피지)</strong>
+                   <p>Treia 코어 엔진에서 동일한 진입/청산 신호가 발생하더라도, 실제 체결 결과는 사용자가 이용하는 브로커의 서버 상태, 네트워크 지연 속도(Ping), 해당 시점의 시장 유동성에 따라 달라질 수 있습니다. 이로 인해 마스터 계좌와 완전히 동일한 가격에 체결되지 않는 &apos;슬리피지(Slippage)&apos;나 &apos;스프레드(Spread) 벌어짐&apos; 현상이 발생할 수 있으며, 이는 자동매매의 자연스러운 물리적 특성입니다.</p>
+                 </div>
+
+                 <div className="flex flex-col gap-2">
+                   <strong className="text-white font-medium block">3. 통제 불가능한 거시적 충격 (블랙스완) 대응 한계</strong>
+                   <p>시스템은 철저한 기계적 손절선(방어선)을 구축하고 있으나, 전쟁, 자연재해, 혹은 시장에 극단적인 충격을 주는 예측 불가능한 뉴스(블랙스완) 발생 시에는 금융 시장 자체가 마비될 수 있습니다. 브로커의 호가가 비어버리거나 거래소의 주문 접수가 거부되는 등, 물리적으로 체결이 불가능한 극한의 상황에서 발생하는 손실은 알고리즘이 통제할 수 없는 영역입니다.</p>
+                 </div>
+
+                 <div className="flex flex-col gap-2">
+                   <strong className="text-white font-medium block">4. 최종 운용 결정권과 자산의 귀속</strong>
+                   <p>본 알고리즘 소프트웨어는 투자의 확률적 우위를 점하기 위한 강력한 보조 도구일 뿐, 어떠한 경우에도 100%의 절대 수익이나 무손실을 보장하는 마법이 아닙니다. 소프트웨어의 가동 및 중지, 자금 투입 규모의 결정권은 전적으로 사용자 본인에게 있으며, 모든 금융 거래의 최종적인 결과와 책임은 사용자에게 귀속됩니다. 본 서비스는 알고리즘 기술 검증 목적의 소프트웨어 라이선스 체험에 한합니다.</p>
+                 </div>
+
+               </div>
+               
              </div>
           </div>
         </div>

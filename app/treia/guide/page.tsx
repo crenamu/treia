@@ -1,154 +1,146 @@
-"use client";
-import {
-  Monitor,
-  Download,
-  Zap,
-  ShieldCheck,
-  Play,
-  ArrowRight,
-  Settings,
-  Cpu,
-} from "lucide-react";
+import { MoveDown, Smartphone, Search, Key, LineChart } from 'lucide-react';
 
 export default function GuidePage() {
   return (
-    <div className="container mx-auto px-4 py-12 flex flex-col gap-16 max-w-5xl">
-      {/* Hero Section */}
-      <header className="flex flex-col items-center text-center gap-6">
-        <div className="px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-[0.2em]">
-          Master Class
-        </div>
-        <h1 className="text-4xl md:text-5xl font-outfit font-black text-white tracking-tight uppercase leading-[1.1]">
-          MT5 자동매매 설치 <br />{" "}
-          <span className="text-amber-500">완벽 마스터 가이드</span>
-        </h1>
-        <p className="text-gray-400 text-sm max-w-xl leading-relaxed">
-          12년 경력 트레이더의 노하우를 담았습니다. <br />
-          복잡한 설치 과정 없이 AI가 검증한 최적의 세팅으로 즉시 시작하세요.
-        </p>
-      </header>
-
-      {/* Steps Section */}
-      <div className="grid grid-cols-1 gap-8">
-        <GuideStep
-          num="01"
-          title="메타트레이더 5(MT5) 설치"
-          desc="전문 알고리즘 매매를 위한 표준 플랫폼입니다. 브로커 홈페이지에서 다운로드 후 설치를 완료하세요."
-          icon={<Monitor size={20} />}
-        />
-        <GuideStep
-          num="02"
-          title="EA(Expert Advisor) 파일 경로 복사"
-          desc="Treia에서 제공하거나 MQL5 마켓에서 구한 .mq5 또는 .ex5 파일을 MT5의 'MQL5 > Experts' 폴더에 복사합니다."
-          icon={<Download size={20} />}
-          isHighlight
-        />
-        <GuideStep
-          num="03"
-          title="알고리즘 트레이딩 활성화"
-          desc="MT5 상단 메뉴의 '알고리즘 트레이딩' 버튼을 클릭하여 초록색으로 활성화합니다. (가장 많이 실수하는 단계!)"
-          icon={<Zap size={20} />}
-        />
-        <GuideStep
-          num="04"
-          title="셋파일(.set) 로딩 및 구동"
-          desc="EA 설정창에서 '입력 변수' 탭의 '불러오기' 버튼을 눌러 Treia가 검증한 최적화 세팅값을 로드합니다."
-          icon={<Settings size={20} />}
-        />
-      </div>
-
-      {/* Pro Tips Section */}
-      <section className="p-8 md:p-12 rounded-[40px] bg-gradient-to-br from-gray-900 to-black border border-gray-800 flex flex-col gap-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 opacity-5">
-          <Cpu size={120} className="text-white" />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
-            <ShieldCheck size={24} />
-          </div>
-          <h2 className="text-2xl font-outfit font-black text-white uppercase italic tracking-tight">
-            트레이아 PRO의 연구/검증 원칙
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex flex-col gap-3">
-            <h4 className="text-sm font-bold text-white flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> 커뮤니티
-              전략 검증 (Audit)
-            </h4>
-            <p className="text-xs text-gray-500 leading-relaxed font-medium">
-              커뮤니티에 올라온 아티클은 AI와 운영진이 리스크 요인(마틴게일,
-              그리드 여부)을 직접 연구합니다. 검증 배지가 달린 전략만을
-              신뢰하세요.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h4 className="text-sm font-bold text-white flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> 백테스팅
-              & 포워드 테스트
-            </h4>
-            <p className="text-xs text-gray-500 leading-relaxed font-medium">
-              모든 추천 EA는 최소 3년 이상의 틱데이터 백테스팅과 6개월 이상의
-              실거래 포워드 데이터 분석을 거칩니다.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <div className="flex flex-col items-center gap-6 py-12 border-t border-gray-800">
-        <h3 className="text-xl font-bold text-white text-center">
-          지금 바로 첫 번째 자동매매를 시작해볼까요?
-        </h3>
-        <div className="flex flex-wrap justify-center gap-4">
-          <button className="px-8 py-4 rounded-xl bg-amber-500 text-black font-black text-xs uppercase tracking-widest hover:bg-white transition-all shadow-xl flex items-center gap-2">
-            EA 마켓 바로가기 <ArrowRight size={16} />
-          </button>
-          <button className="px-8 py-4 rounded-xl bg-gray-900 border border-gray-800 text-white font-black text-xs uppercase tracking-widest hover:border-gray-500 transition-all flex items-center gap-2">
-            튜토리얼 영상 시청 <Play size={16} />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function GuideStep({
-  num,
-  title,
-  desc,
-  icon,
-  isHighlight,
-}: {
-  num: string;
-  title: string;
-  desc: string;
-  icon: React.ReactNode;
-  isHighlight?: boolean;
-}) {
-  return (
-    <div
-      className={`p-8 rounded-3xl border transition-all flex flex-col md:flex-row gap-6 md:items-center ${isHighlight ? "bg-amber-500/5 border-amber-500/30" : "bg-gray-900/40 border-gray-800 hover:border-gray-700"}`}
-    >
-      <div className="flex items-center gap-4 flex-1">
-        <span className="text-3xl font-outfit font-black text-gray-800">
-          {num}
-        </span>
-        <div className="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400">
-          {icon}
-        </div>
-        <div className="flex flex-col gap-1">
-          <h3 className="text-lg font-bold text-white">{title}</h3>
-          <p className="text-xs text-gray-500 leading-relaxed font-medium max-w-lg">
-            {desc}
+    <div className="min-h-screen bg-[#050505] text-[#f2f2f2] font-sans">
+      
+      {/* Header */}
+      <header className="py-20 text-center px-6 relative border-b border-[#111] overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#c8a84b]/10 blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="relative z-10 max-w-3xl mx-auto">
+          <p className="text-[#c8a84b] font-mono text-sm tracking-[4px] uppercase mb-4">Treia Gold Algorithm Engine</p>
+          <h1 className="text-3xl md:text-5xl font-light tracking-tight text-white mb-6">
+            실시간 엔진 감시를 위한 <br/> <strong className="font-medium">3분 모바일 접속 가이드</strong>
+          </h1>
+          <p className="text-[16px] md:text-[19px] text-[#a1a1aa] leading-[1.8] font-light">
+            전 세계 1위 트레이딩 플랫폼인 MT5(MetaTrader 5) 앱을 통해<br className="hidden md:block"/>
+            어떠한 조작도 불가능한 트레이아 엔진의 실시간 구동 내역을 100% 투명하게 확인하십시오.
           </p>
         </div>
-      </div>
-      <button className="px-4 py-2 rounded-lg bg-gray-800 text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:bg-gray-700 transition-all whitespace-nowrap">
-        자세히 보기
-      </button>
+      </header>
+
+      {/* Steps */}
+      <main className="max-w-4xl mx-auto py-24 px-6 flex flex-col gap-24">
+        
+        {/* Step 1 */}
+        <section className="relative">
+          <div className="flex flex-col md:flex-row gap-12 items-center">
+            {/* 텍스트 영역 */}
+            <div className="flex-1">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-[#111] border border-[#222] flex items-center justify-center text-[#c8a84b] font-mono text-xl">1</div>
+                <h2 className="text-2xl md:text-3xl font-medium text-white">앱 다운로드</h2>
+              </div>
+              <p className="text-[17px] text-[#a1a1aa] leading-[1.9] font-light mb-6 break-keep">
+                스마트폰의 앱 스토어(또는 플레이 스토어)에서 <strong className="text-white">`MetaTrader 5`</strong>를 검색하여 설치해 주십시오.<br/>
+                전 세계 트레이더들이 사용하는 글로벌 인증 공식 애플리케이션입니다.
+              </p>
+              <div className="flex gap-4">
+                 <span className="px-4 py-2 bg-[#1a1a1a] text-[#888] rounded-lg text-sm border border-[#2a2a2a] flex items-center gap-2">
+                   <Smartphone size={16}/> iOS (Apple)
+                 </span>
+                 <span className="px-4 py-2 bg-[#1a1a1a] text-[#888] rounded-lg text-sm border border-[#2a2a2a] flex items-center gap-2">
+                   <Smartphone size={16}/> Android (Google)
+                 </span>
+              </div>
+            </div>
+            
+            {/* 이미지 영역 (나중에 대표님이 캡처본 넣을 곳) */}
+            <div className="flex-1 w-full relative">
+              <div className="aspect-[9/16] max-w-[300px] mx-auto bg-[#0a0a0a] border border-[#222] rounded-3xl flex flex-col items-center justify-center text-[#555] shadow-2xl relative overflow-hidden">
+                <Smartphone size={40} className="mb-4 opacity-50"/>
+                <span className="text-sm font-light">[대표님 캡처 이미지 삽입 영역]</span>
+                <span className="text-xs mt-2 text-[#444] text-center px-4">앱 스토어에서 MetaTrader 5 검색 화면</span>
+                {/* 실사용 시 여기에 <Image src="/images/step1.png" fill className="object-cover" /> 과 같이 넣으시면 됩니다. */}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 화살표 구분선 */}
+        <div className="flex justify-center text-[#222]"><MoveDown size={40} strokeWidth={1}/></div>
+
+        {/* Step 2 */}
+        <section className="relative">
+          <div className="flex flex-col md:flex-row-reverse gap-12 items-center">
+            {/* 텍스트 영역 */}
+            <div className="flex-1">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-[#111] border border-[#222] flex items-center justify-center text-[#c8a84b] font-mono text-xl">2</div>
+                <h2 className="text-2xl md:text-3xl font-medium text-white">서버 검색</h2>
+              </div>
+              <p className="text-[17px] text-[#a1a1aa] leading-[1.9] font-light break-keep">
+                앱 실행 후 <strong className="text-white">[설정] - [새 계좌]</strong> 추가 버튼을 누른 뒤, 상단의 검색창에 <strong className="text-white">&apos;Infinox&apos;</strong>를 타이핑해 주십시오.<br/><br/>
+                목록에 나타나는 <strong className="text-[#c8a84b] font-medium">&quot;InfinoxLimited-MT5Demo&quot;</strong> 서버를 한 번 터치하시면 됩니다.
+              </p>
+            </div>
+            
+            {/* 이미지 영역 */}
+            <div className="flex-1 w-full relative">
+              <div className="aspect-[9/16] max-w-[300px] mx-auto bg-[#0a0a0a] border border-[#222] rounded-3xl flex flex-col items-center justify-center text-[#555] shadow-2xl relative overflow-hidden">
+                <Search size={40} className="mb-4 opacity-50"/>
+                <span className="text-sm font-light">[대표님 캡처 이미지 삽입 영역]</span>
+                <span className="text-xs mt-2 text-[#444] text-center px-4">새 계좌 화면에서 Infinox 검색 화면</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 화살표 구분선 */}
+        <div className="flex justify-center text-[#222]"><MoveDown size={40} strokeWidth={1}/></div>
+
+        {/* Step 3 */}
+        <section className="relative">
+          <div className="flex flex-col md:flex-row gap-12 items-center">
+            {/* 텍스트 영역 */}
+            <div className="flex-1">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-[#111] border border-[#222] flex items-center justify-center text-[#c8a84b] font-mono text-xl">3</div>
+                <h2 className="text-2xl md:text-3xl font-medium text-white">접속 정보 입력</h2>
+              </div>
+              <p className="text-[17px] text-[#a1a1aa] leading-[1.9] font-light mb-6 break-keep">
+                미리 이메일로 받아두신 <strong className="text-white">[로그인 ID]</strong>와 <strong className="text-[#c8a84b]">[관전자 비밀번호]</strong>를 <strong className="text-white underline underline-offset-4 decoration-[#444]">대소문자 구분</strong>하여 정확히 입력하십시오.<br/><br/>
+                하단의 &apos;로그인&apos; 버튼을 누르는 순간, 실시간 엔진 구동 내역을 100% 투명하게 볼 수 있는 통제실로 입장하게 됩니다.
+              </p>
+              {/* Info Box */}
+              <div className="bg-[#10B981]/5 border border-[#10B981]/20 rounded-xl p-5 flex items-start gap-4">
+                <Key className="text-[#10B981] w-6 h-6 flex-shrink-0 mt-1" />
+                <p className="text-[14px] text-[#888] font-light leading-relaxed">
+                  <strong className="text-[#10B981] font-medium">참고:</strong> 관전자 비밀번호(Investor Password)로 로그인하면, 매매나 출금 같은 조작 권한은 완벽히 차단되며 오직 <strong className="text-white">잔류 포지션 및 거래 내역의 &apos;조회&apos;만 가능</strong>합니다.
+                </p>
+              </div>
+            </div>
+            
+            {/* 이미지 영역 */}
+            <div className="flex-1 w-full relative">
+              <div className="aspect-[9/16] max-w-[300px] mx-auto bg-[#0a0a0a] border border-[#222] rounded-3xl flex flex-col items-center justify-center text-[#555] shadow-2xl relative overflow-hidden">
+                <Key size={40} className="mb-4 opacity-50"/>
+                <span className="text-sm font-light">[대표님 캡처 이미지 삽입 영역]</span>
+                <span className="text-xs mt-2 text-[#444] text-center px-4">로그인 ID 및 비밀번호 입력 화면</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Tip Section */}
+        <section className="mt-12 pt-16 border-t border-[#111]">
+          <div className="bg-[#0a0a0e] border border-[#1a1a1a] rounded-3xl p-8 md:p-12 text-center max-w-3xl mx-auto">
+            <LineChart className="w-12 h-12 text-[#c8a84b] mx-auto mb-6 opacity-80" strokeWidth={1.5} />
+            <h3 className="text-xl md:text-2xl font-medium text-white mb-4">👀 어떻게 보면 되나요?</h3>
+            <p className="text-[16px] text-[#a1a1aa] leading-[1.8] font-light break-keep">
+              하단 메뉴에 위치한 <strong className="text-white border-b border-[#333] pb-0.5">[거래]</strong> 탭에서는 현재 진입 중인 실시간 포지션과 평가 손익을,<br className="hidden md:block"/>
+              <strong className="text-white border-b border-[#333] pb-0.5">[이력]</strong> 탭에서는 과거의 모든 진입/청산의 손익 결과들을 확인하실 수 있습니다.<br/><br/>
+              <span className="text-[#c8a84b] font-medium">알고리즘이 어떻게 철저하게 계좌를 방어하며 복리를 쌓아 올리는지 직접 감상하십시오.</span>
+            </p>
+          </div>
+        </section>
+
+      </main>
+
+      {/* Footer */}
+      <footer className="py-12 border-t border-[#111] text-center">
+        <p className="text-[#444] text-[12px] uppercase tracking-widest">&copy; Treia Algorithm Platform.</p>
+      </footer>
     </div>
   );
 }
