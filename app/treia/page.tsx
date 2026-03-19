@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Layers, Lock, Target, ArrowUpRight, Globe, CheckCircle2, Clock, ShieldCheck, Activity } from "lucide-react";
 
 export default function TreiaFunnelPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", inquiry: "사전 예약: 개인용 자동매매 소프트웨어 라이선스" });
+  const [formData, setFormData] = useState({ name: "", email: "", reason: "", inquiry: "사전 예약: 개인용 자동매매 소프트웨어 라이선스" });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -242,7 +242,7 @@ export default function TreiaFunnelPage() {
             어제 새벽 미장 금리 발표로 시장이 요동칠 때, <br className="hidden md:block"/>
             수동 매매자들은 공포에 질려 뜬눈으로 밤을 새웠습니다. <br/><br/>
             하지만 트레이아 유저들은 평온하게 숙면을 취했습니다. <br className="hidden md:block"/>
-            <strong className="text-white font-medium">감정이 없는 엔진이 칼같이 위험을 차단하고, 수익 구간만 발라먹었기 때문입니다.</strong>
+            <strong className="text-white font-medium">감정이 없는 엔진이 칼같이 위험을 차단하고, 수익 구간만 온전히 취했기 때문입니다.</strong>
           </p>
         </div>
       </section>
@@ -255,7 +255,8 @@ export default function TreiaFunnelPage() {
           <div className="reveal opacity-0 translate-y-12 transition-all duration-1000 text-center lg:text-left">
             <span className="text-[#c8a84b] font-mono text-sm tracking-[4px] uppercase block mb-6">Benefit 3. 계좌의 생존</span>
             <h2 className="text-3xl md:text-5xl lg:text-5xl xl:text-6xl font-light tracking-tight text-white mb-8 leading-[1.4]">
-              잃지 않는 자만이 <br/> 결국 복리를 누립니다.
+              <span className="bg-[#c8a84b] text-[#0a0a0a] px-3 py-1 font-bold inline-block mb-2">잃지 않는 자만이</span><br/>
+              결국 복리를 누립니다.
             </h2>
             <p className="text-[17px] md:text-[21px] text-[#7a7f8e] leading-[1.8] font-light max-w-xl mx-auto lg:mx-0">
               수익 극대화보다 중요한 것은 <strong>&apos;계좌의 생존&apos;</strong>입니다. <br/>
@@ -265,30 +266,30 @@ export default function TreiaFunnelPage() {
             </p>
           </div>
           
-          {/* Visual Data Representation */}
+          {/* Visual Data Representation - Refined */}
           <div className="reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200 w-full">
-            <div className="bg-[#0a0b0e] border border-[#1e2028] rounded-[32px] p-8 md:p-12 shadow-2xl relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#ef4444]/5 blur-[80px] rounded-full point-events-none transform translate-x-1/2 -translate-y-1/2"></div>
+            <div className="bg-[#0a0b0e] border border-[#1e2028] rounded-[32px] p-10 md:p-14 shadow-2xl relative overflow-visible">
+               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#ef4444]/5 blur-[80px] rounded-full pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
                
-               <h3 className="text-white font-mono text-sm tracking-widest uppercase mb-12 text-center lg:text-left">복구율의 함정 (The Trap of Drawdown)</h3>
+               <h3 className="text-[#a1a1aa] font-mono text-sm tracking-widest uppercase mb-16 text-center lg:text-left relative z-10">THE TRAP OF DRAWDOWN</h3>
                
-               <div className="flex flex-col gap-10">
+               <div className="flex flex-col gap-12 relative z-10">
                  {/* -50% Loss */}
-                 <div className="flex items-center gap-6">
-                   <div className="text-4xl font-light text-[#ef4444] w-28 shrink-0">-50%</div>
-                   <div className="flex-1">
-                     <div className="h-6 w-1/2 bg-[#ef4444] rounded-r-lg relative">
-                        <span className="absolute left-full ml-4 text-sm text-[#7a7f8e] whitespace-nowrap">계좌 반토막</span>
+                 <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+                   <div className="text-5xl font-light text-[#ef4444] w-32 shrink-0">-50%</div>
+                   <div className="flex-1 w-full">
+                     <div className="h-4 w-1/2 bg-[#ef4444] rounded-full relative shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+                        <span className="absolute top-8 left-0 text-[13px] text-[#7a7f8e] md:whitespace-nowrap font-medium tracking-wide">계좌 반토막</span>
                      </div>
                    </div>
                  </div>
 
                  {/* +100% Need */}
-                 <div className="flex items-center gap-6">
-                   <div className="text-4xl font-light text-[#10B981] w-28 shrink-0">+100%</div>
-                   <div className="flex-1">
-                     <div className="h-6 w-full bg-[#10B981] rounded-r-lg relative">
-                        <span className="absolute left-full -ml-[80px] md:ml-4 text-sm text-white font-bold whitespace-nowrap drop-shadow-md">원금 복구에 필요한 수익률</span>
+                 <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8 mt-4 md:mt-0">
+                   <div className="text-5xl font-light text-[#10B981] w-32 shrink-0">+100%</div>
+                   <div className="flex-1 w-full">
+                     <div className="h-4 w-full bg-[#10B981] rounded-full relative shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                        <span className="absolute top-8 right-0 md:right-auto md:left-full md:-ml-[120px] text-[13px] text-white font-bold md:whitespace-nowrap tracking-wide drop-shadow-md">원금 복구에 필요한 수익률</span>
                      </div>
                    </div>
                  </div>
@@ -309,16 +310,23 @@ export default function TreiaFunnelPage() {
               실제 데이터로 증명된 <br className="md:hidden"/> <span className="font-normal text-[#c8a84b]">시스템의 방어력.</span>
             </h2>
             <p className="text-[17px] md:text-[22px] text-[#7a7f8e] leading-[1.8] font-light max-w-4xl mx-auto">
-              방향이 어긋났을 때는 <strong className="text-white">-$36 선에서 안전하게 끊어내고</strong>, 기회를 포착했을 때는 <strong className="text-white">+$63까지 수익을 온전히 추적해 낸</strong> 투명한 실제 기록입니다.
+              방향이 어긋났을 때는 <strong className="text-white">설정된 최소한의 방어선(-3.6%)에서 안전하게 끊어내고</strong>, 기회를 포착했을 때는 <strong className="text-white">그 수 배에 달하는 수익(+6.3%)을 온전히 추적해 낸</strong> 투명한 실제 기록입니다.
             </p>
           </div>
 
           <div className="w-full bg-[#0d0e12] border border-[#22242e] rounded-[32px] p-8 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-12 lg:gap-16 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200">
             
+            {/* Context Info */}
+            <div className="flex flex-col md:flex-row justify-between items-center text-sm font-mono tracking-widest text-[#7a7f8e] uppercase border-b border-[#22242e] pb-6 gap-4">
+               <div>Data Source: <span className="text-[#c8a84b]">MT5 데모 운용 서버 (실 구동 테스트)</span></div>
+               <div>기간: 1개월 (총 147회 매매)</div>
+               <div>초기 자본: $1,000.00</div>
+            </div>
+
             {/* Top Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-[#22242e]">
               <div className="flex flex-col items-center pt-6 md:pt-0">
-                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[2px] mb-4">최근 실거래 검증</div>
+                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[2px] mb-4">라이브 포워드 테스트</div>
                 <div className="text-5xl md:text-6xl font-light text-white">147<span className="text-2xl text-[#c8a84b] ml-1">회</span></div>
               </div>
               <div className="flex flex-col items-center pt-6 md:pt-0">
@@ -418,65 +426,88 @@ export default function TreiaFunnelPage() {
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-white mb-8 tracking-tight leading-[1.3]">
             투명한 &apos;현재&apos;를 당신의 <br className="hidden md:block"/> 눈으로 직접 확인하십시오.
           </h2>
-          <p className="text-[17px] md:text-[22px] text-[#a1a1aa] leading-[1.8] font-light max-w-2xl mb-16">
-            과거의 가공된 데이터보다 중요한 것은, 지금 이 순간 어떻게 작동하고 있는가입니다. <br/>
-            Treia 엔진의 심장부인 <strong className="text-white font-medium">&apos;MT5 실시간 관전자 계정(Investor Password)&apos;</strong>을 한정된 분들께 우선 공개합니다. <br/><br/>
-            기계의 차가운 원칙이 만들어내는 일상을 직접 경험해 보십시오.
+          <p className="text-[17px] md:text-[22px] text-[#a1a1aa] leading-[1.8] font-light max-w-3xl mb-16">
+            모든 분들께 무분별하게 제공하지 않습니다. <br/>
+            알고리즘 시스템의 가치와 필요성을 깊이 공감하고, 직접 검증을 통해 본인의 투자 원칙을 세우고자 하는 <strong className="text-white font-medium">소수의 분들에게만 2주간 정중하게 개방해 드립니다.</strong> <br/><br/>
+            과거의 가공된 수익률보다 중요한 것, 지금 이 순간 알고리즘의 흔들림 없는 원칙이 만들어내는 일상을 가장 맑은 시선으로 경험해 보십시오.
           </p>
 
-          <div className="w-full bg-[#0a0b0e]/80 backdrop-blur-xl border border-[#c8a84b]/20 p-8 md:p-12 rounded-[32px] shadow-[0_0_80px_rgba(200,168,75,0.05)]">
+          <div className="w-full bg-[#0a0b0e]/80 backdrop-blur-xl border border-[#c8a84b]/20 p-8 md:p-12 lg:p-16 rounded-[32px] shadow-[0_0_80px_rgba(200,168,75,0.05)] text-left">
              {!isSubmitted ? (
-               <form onSubmit={handleSubmit} className="flex flex-col gap-6 text-left">
+               <form onSubmit={handleSubmit} className="flex flex-col gap-8">
                  
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                   <div className="flex flex-col gap-2">
-                     <label htmlFor="name" className="text-[13px] text-[#a1a1aa] ml-2 tracking-widest uppercase">성함</label>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                   <div className="flex flex-col gap-3">
+                     <label htmlFor="name" className="text-[14px] text-[#a1a1aa] ml-2 tracking-widest uppercase font-medium">성함</label>
                      <input 
                        id="name"
                        type="text" 
                        required 
                        placeholder="성함을 입력해주세요"
-                       className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-2xl focus:outline-none focus:border-[#c8a84b]/50 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light"
+                       className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-xl focus:outline-none focus:border-[#c8a84b]/70 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light text-[16px]"
                        value={formData.name}
                        onChange={(e) => setFormData({...formData, name: e.target.value})}
                      />
                    </div>
-                   <div className="flex flex-col gap-2">
-                     <label htmlFor="email" className="text-[13px] text-[#a1a1aa] ml-2 tracking-widest uppercase">이메일</label>
+                   <div className="flex flex-col gap-3">
+                     <label htmlFor="email" className="text-[14px] text-[#a1a1aa] ml-2 tracking-widest uppercase font-medium">이메일</label>
                      <input 
                        id="email"
                        type="email" 
                        required 
                        placeholder="example@gmail.com"
-                       className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-2xl focus:outline-none focus:border-[#c8a84b]/50 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light"
+                       className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-xl focus:outline-none focus:border-[#c8a84b]/70 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light text-[16px]"
                        value={formData.email}
                        onChange={(e) => setFormData({...formData, email: e.target.value})}
                      />
                    </div>
                  </div>
 
-                 {errorMsg && <p className="text-red-400 text-sm mt-2 ml-2">{errorMsg}</p>}
+                 <div className="flex flex-col gap-3">
+                   <label htmlFor="reason" className="text-[14px] text-[#a1a1aa] ml-2 tracking-widest uppercase font-medium">알고리즘 검증 신청 사유 (선택)</label>
+                   <textarea 
+                     id="reason"
+                     rows={3}
+                     placeholder="현재 겪고 계신 투자의 어려움이나, 관전자 계정을 통해 어떤 부분을 확인하고 싶으신지 솔직하게 남겨주시면 감사하겠습니다."
+                     className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-xl focus:outline-none focus:border-[#c8a84b]/70 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light text-[16px] resize-none"
+                     value={formData.reason}
+                     onChange={(e) => setFormData({...formData, reason: e.target.value})}
+                   />
+                 </div>
+
+                 {errorMsg && <p className="text-red-400 text-sm ml-2">{errorMsg}</p>}
 
                  <button 
                    type="submit" 
                    disabled={isLoading}
-                   className="w-full mt-4 bg-gradient-to-r from-[#c8a84b] to-[#a38531] text-white text-[18px] font-medium py-6 rounded-2xl hover:opacity-90 transition-opacity flex items-center justify-center gap-3 disabled:opacity-50 shadow-[0_10px_30px_rgba(200,168,75,0.2)]"
+                   className="w-full mt-2 bg-[#c8a84b] hover:bg-[#d4b55c] text-black text-[18px] font-bold py-6 rounded-xl hover:cursor-pointer transition-colors flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                  >
-                   {isLoading ? "접수 중..." : "MT5 관전자 계정 접속 정보 받기"} 
+                   {isLoading ? "접수 중..." : "관전자 계정 신청하기 (2주 체험권)"} 
                    {!isLoading && <ArrowUpRight size={24} />}
                  </button>
                </form>
              ) : (
-               <div className="flex flex-col items-center justify-center py-8 text-center animate-fade-in">
-                 <div className="w-20 h-20 bg-[#10B981]/10 rounded-full flex items-center justify-center text-[#10B981] mb-6 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+               <div className="flex flex-col items-center justify-center py-12 text-center animate-fade-in">
+                 <div className="w-20 h-20 bg-[#10B981]/10 rounded-full flex items-center justify-center text-[#10B981] mb-8 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
                    <CheckCircle2 size={40} strokeWidth={1.5} />
                  </div>
-                 <h3 className="text-2xl text-white font-medium mb-4">계정 신청이 완료되었습니다.</h3>
-                 <p className="text-[#a1a1aa] leading-relaxed font-light">
-                   입력하신 이메일로 MT5 관전자 계정 로그인 정보(ID, Password, Server)를 발송해 드릴 예정입니다.<br/> 잠시만 기다려주시면 감사하겠습니다.
+                 <h3 className="text-3xl text-white font-medium mb-6 tracking-tight">계정 신청이 완료되었습니다.</h3>
+                 <p className="text-[#a1a1aa] leading-relaxed font-light text-[18px]">
+                   검토 후 입력하신 이메일로 2주간 열람 가능한 <br className="hidden md:block"/>
+                   MT5 관전자 계정 로그인 정보(ID, Password, Server)를 정중히 안내해 드릴 예정입니다.<br/><br/>
+                   잠시만 기다려주시면 감사하겠습니다.
                  </p>
                </div>
              )}
+              
+             {/* Legal Disclaimer */}
+             <div className="mt-16 pt-8 border-t border-[#1a1a1a] text-center">
+               <p className="text-[11px] text-[#444] font-light leading-relaxed tracking-widest uppercase">
+                 본 테스트 결과(수익률, 승률 등)는 과거의 데모 운용 데이터이며 미래의 수익을 보장하지 않습니다.<br className="hidden md:block"/>
+                 차액결제거래(CFD)는 높은 변동성을 수반하며 원금 초과 손실의 위험이 있습니다.<br className="hidden md:block"/>
+                 본 서비스는 투자 권유가 아니며, 알고리즘 기술 검증 목적의 소프트웨어 라이선스 체험에 한합니다.
+               </p>
+             </div>
           </div>
         </div>
       </section>
