@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Layers, Lock, Target, ArrowUpRight, Globe, CheckCircle2, Clock, ShieldCheck, Activity } from "lucide-react";
+import { Layers, Lock, Target, ArrowUpRight, Globe, Clock, ShieldCheck } from "lucide-react";
 
 export default function TreiaFunnelPage() {
   const [formData, setFormData] = useState({ name: "", email: "", reason: "", inquiry: "사전 예약: 개인용 자동매매 소프트웨어 라이선스" });
@@ -431,6 +431,99 @@ export default function TreiaFunnelPage() {
               하지만 글로벌 표준 금융 트레이딩 플랫폼인 MT5(MetaTrader 5)의 <strong className="text-white font-medium">&apos;관전자 계정(Investor Password)&apos;</strong>은 조작이 원천적으로 불가능합니다. 오직 거래 서버 시스템에 실시간으로 기록되는 <strong className="text-white font-medium">실시간 체결 내역, 현재 보유 중인 포지션 비율, 그리고 정확한 계좌 잔고</strong>만을 제3자가 100% 투명하게 &apos;조회만&apos; 할 수 있도록 권한을 열어주는 시스템입니다.<br/><br/>
               이를 통해 당신은 엔진이 약속한 방어선이 진짜로 지켜지고 있는지, 가감 없는 생생한 민낯을 직접 검증할 수 있습니다.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Screen 8.7: FAQ */}
+      <section className="relative py-24 md:py-32 px-6 border-t border-[#111] bg-[#030303]">
+        <div className="max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
+          <div className="text-center mb-16">
+            <span className="text-[#c8a84b] font-mono text-sm tracking-[4px] uppercase block mb-4">FAQ</span>
+            <h2 className="text-3xl md:text-5xl font-light tracking-tight text-white">자주 묻는 질문</h2>
+          </div>
+          
+          <div className="space-y-6">
+            {/* Q1 */}
+            <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
+              <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
+                <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
+                <span>이렇게 훌륭한 시스템이라면 혼자 사용하시지, <br className="md:hidden"/> 왜 라이선스를 대여하시나요?</span>
+              </h3>
+              <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
+                <p><strong className="text-white font-medium block mb-2">A. 안정적인 트레이딩 자본(Seed) 확보와 시스템 고도화를 위한 가장 합리적인 선택이기 때문입니다.</strong>
+                Treia 엔진은 본래 저 자신의 자산을 안전하게 운용하기 위해 개발한 시스템입니다. 하지만 금융 시장에서 시스템이 창출하는 절대적인 수익금은 결국 &apos;초기 운용 자본(Seed)&apos;의 규모에 비례합니다.</p>
+                <p>저는 이 완성된 시스템을 저 혼자만의 계좌에 머물게 하는 대신, 저의 투자 철학에 공감해 주시는 파트너분들께 소프트웨어 라이선스로 제공하는 길을 택했습니다. 이를 통해 발생하는 라이선스 구독 수익은 저의 개인 트레이딩 시드를 안정적으로 확대하고, 시스템을 더욱 정교하게 업데이트하는 R&D 자금으로 온전히 재투자됩니다.</p>
+                <p>고객님께서는 수년의 개발 시간과 시행착오 없이 완성된 방어 시스템을 일상에 도입하시고, 저는 시스템을 스케일업(Scale-up)할 수 있는 든든한 동력을 얻는 가장 투명하고 건강한 파트너십입니다.</p>
+              </div>
+            </div>
+
+            {/* Q2 */}
+            <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
+              <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
+                <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
+                <span>제 개인 컴퓨터나 스마트폰을 <br className="md:hidden"/> 24시간 계속 켜두어야 하나요?</span>
+              </h3>
+              <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
+                <p><strong className="text-white font-medium block mb-2">A. 아닙니다. 고객님의 일상에 전혀 지장을 주지 않습니다.</strong>
+                Treia 엔진은 일반 PC가 아닌, 365일 무중단으로 안전하게 작동하는 클라우드 가상 서버(VPS) 환경에 세팅하는 것을 권장해 드립니다.</p>
+                <p>한 번 세팅이 완료되면, 고객님의 컴퓨터나 스마트폰 전원이 꺼져 있어도 시스템은 독립적인 서버에서 24시간 쉬지 않고 시장을 모니터링하며 계좌를 지켜냅니다.</p>
+              </div>
+            </div>
+
+            {/* Q3 */}
+            <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
+              <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
+                <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
+                <span>기계가 돌아가고 있을 때, <br className="md:hidden"/> 제가 직접 매수나 익절을 섞어서 해도 될까요?</span>
+              </h3>
+              <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
+                <p><strong className="text-white font-medium block mb-2">A. 시스템의 온전한 성능 발휘를 위해 수동 개입은 권장해 드리지 않습니다.</strong>
+                Treia 엔진은 진입하는 그 순간, 이미 계좌 전체의 예산과 방어선을 수학적으로 정밀하게 계산해 둡니다. 만약 수동으로 포지션을 종료하거나 추가하시게 되면, 이 정교한 밸런스가 흐트러져 알고리즘 본연의 방어력이 제대로 발휘되지 않을 수 있습니다.</p>
+                <p>투자의 감정과 스트레스를 시스템에 온전히 맡기시고, 고객님께서는 평온하게 결과만 확인해 주시기를 정중히 권해드립니다.</p>
+              </div>
+            </div>
+
+            {/* Q4 */}
+            <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
+              <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
+                <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
+                <span>관전 후, 나중에 제 계좌에 <br className="md:hidden"/> 이 시스템을 도입하려면 어떻게 해야 하나요?</span>
+              </h3>
+              <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
+                <p><strong className="text-white font-medium block mb-2">A. 사전 체험을 신청하신 분들께 가장 먼저 정식 라이선스 도입 안내를 드립니다.</strong>
+                현재는 4월 정식 런칭을 앞두고, 시스템의 가치를 투명하게 증명해 보이는 &apos;사전 검증 기간&apos;입니다.</p>
+                <p>지금 [MT5 관전자 계정]을 신청하셔서 2주간 시스템의 퍼포먼스를 충분히 경험해 보십시오. 가치를 확신하신 분들께 한하여, 정식 런칭 시점에 개인 계좌 연동 방법과 소프트웨어 라이선스(월 구독형) 도입 절차를 개별적으로 상세히 안내해 드릴 예정입니다.</p>
+              </div>
+            </div>
+
+            {/* Q5 */}
+            <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
+              <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
+                <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
+                <span>서버 세팅이나 프로그램 설치를 해본 적이 없는데, <br className="md:hidden"/> 초보자도 이용할 수 있나요?</span>
+              </h3>
+              <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
+                <p><strong className="text-white font-medium block mb-2">A. 네, IT 지식이 전혀 없으셔도 완벽하게 구동하실 수 있도록 모든 과정을 지원해 드립니다.</strong>
+                정식 라이선스를 도입하시는 파트너분들께는, 컴퓨터에 익숙하지 않으신 분들도 클릭 몇 번으로 세팅을 마칠 수 있는 [초간단 시각화 매뉴얼]을 제공해 드립니다.</p>
+                <p>복잡한 기술적 고민은 저희가 대신하겠습니다. 고객님께서는 그저 닦아놓은 안전한 서버 환경 위에서, Treia 엔진이 흔들림 없이 작동하는 것을 편안하게 누리시기만 하면 됩니다. <br className="hidden md:block"/> <span className="text-[#888] text-[14px] mt-2 block">(필요시 1:1 원격 세팅 지원도 함께 제공해 드릴 예정입니다.)</span></p>
+              </div>
+            </div>
+
+            {/* Q6 */}
+            <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
+              <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
+                <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
+                <span>이 시스템은 한 번 구독하면 <br className="md:hidden"/> 평생 이용할 수 있나요?</span>
+              </h3>
+              <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
+                <p><strong className="text-white font-medium block mb-2">A. 아니요, 개인 투자자를 대상으로 한 퍼블릭 라이선스 개방은 최대 1년 이내로 한정될 예정입니다.</strong>
+                Treia 엔진의 최종 목적지는 개인용 소프트웨어 판매가 아닌, 거대 자본을 운용하는 &apos;기관급(B2B) 트레이딩 솔루션&apos;으로의 전환입니다. 따라서 일반 투자자분들을 대상으로 한 현재의 라이선스 대여는, 초기 스케일업(Scale-up) 과정이 완료되는 시점까지만 한시적으로 진행되며 이후 신규 진입의 문은 영구적으로 닫힙니다.</p>
+                <p>이 짧고도 강렬한 파트너십 기간 동안, 고객님께서는 흔들림 없는 일상과 초기 시드머니를 확보하십시오. 더불어, 완벽하게 감정이 배제된 기계가 어떻게 위기를 방어하고 시장의 파동을 타는지 그 &apos;차가운 원칙&apos;을 곁에서 지켜보십시오.</p>
+                <p className="text-[#c8a84b] font-medium">문이 닫히기 전, 이 압도적인 생존의 궤적에 동승하십시오.</p>
+              </div>
+            </div>
+            
           </div>
         </div>
       </section>
