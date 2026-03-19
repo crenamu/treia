@@ -18,9 +18,6 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
                Treia
              </span>
            </Link>
-           <a href="#lounge" className="text-xs font-bold bg-[#1e2230] text-[#a1a1aa] hover:bg-[#10B981] hover:text-white px-4 py-2 rounded-full transition-all">
-             라이브 라운지 
-           </a>
         </header>
 
         {/* Mian Content without max-w-5xl padding */}

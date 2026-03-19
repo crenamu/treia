@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Layers, Lock, Target, ArrowUpRight, Globe, CheckCircle2 } from "lucide-react";
+import { Layers, Lock, Target, ArrowUpRight, Globe, CheckCircle2, Clock, ShieldCheck, Activity } from "lucide-react";
 
 export default function TreiaFunnelPage() {
-  const [formData, setFormData] = useState({ name: "", contact: "", inquiry: "사전 예약: MT5 실시간 관전자 계정" });
+  const [formData, setFormData] = useState({ name: "", email: "", inquiry: "사전 예약: 개인용 자동매매 소프트웨어 라이선스" });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -18,7 +18,7 @@ export default function TreiaFunnelPage() {
           }
         });
       },
-      { threshold: 0.2 },
+      { threshold: 0.15 },
     );
 
     document.querySelectorAll(".reveal").forEach((el) => {
@@ -30,7 +30,7 @@ export default function TreiaFunnelPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.contact) return;
+    if (!formData.name || !formData.email) return;
     
     setIsLoading(true);
     setErrorMsg('');
@@ -56,12 +56,31 @@ export default function TreiaFunnelPage() {
     }
   };
 
+  const chartData = [0.97, 1.57, 33.46, 33.77, 66.85, 67.41, 81.86, 113.39, 115.27, 116.26, 116.86, 130.48, 144.1, 159.12, 174.05, 187.36, 151.14, 115.57, 87.55, 59.53, 36.71, 19.76, 20.32, 20.92, 11.76, 5.03, 3.08, 15.13, 15.71, 16.31, 22.47, 23.09, 23.69, 24.29, 24.98, 30.72, 36.75, 47.77, 58.01, 57.98, 57.49, 55.2, 53.28, 56.1, 20.14, -15.92, -49.27, -82.7, -65.65, -59.97, -66.87, -65.91, -64.95, -64.35, -63.75, -62.89, -62.29, -56.56, -50.12, -43.68, -43.08, -42.48, -41.88, -41.28, -40.69, -40.09, -39.49, -38.89, -38.29, -37.69, -30.53, -23.37, -16.21, -7.89, 3.89, 15.67, 27.45, 39.23, 54.84, 70.45, 86.06, 102.86, 121.72, 142.45, 163.18, 170.14, 177.14, 186.14, 189.88, 191.55, 193.29, 182.99, 172.76, 165.06, 157.38, 152.65, 149.87, 148.55, 147.29, 147.35, 145.85, 144.64, 147.37, 151.82, 157.52, 169.41, 181.21, 208.3, 235.39, 285.71, 337.05, 360.62, 384.19, 429.67, 475.15, 497.38, 519.61, 562.77, 605.93, 626.64, 647.35, 648.73, 658.92, 669.36, 669.97, 704.29, 767.28, 776.59, 792.86, 802.17, 818.44, 827.75, 837.06, 853.33, 869.6, 879.19, 888.78, 897.96, 907.14, 917.89, 928.64, 939.37, 950.1, 959.14, 968.18, 977.24, 986.3];
+  
+  // Create SVG path string dynamically
+  const width = 800;
+  const height = 200;
+  const minVal = -100; // a bit below -82.7
+  const maxVal = 1000; // a bit above 986.3
+  const range = maxVal - minVal;
+  const stepX = width / (chartData.length - 1);
+  
+  const generatePath = (data: number[]) => {
+    return data.map((val, i) => {
+      const x = i * stepX;
+      const y = height - ((val - minVal) / range) * height;
+      return `${i === 0 ? 'M' : 'L'}${x},${y}`;
+    }).join(' ');
+  };
+  const dPath = generatePath(chartData);
+  const dFill = `${dPath} L${width},${height} L0,${height} Z`;
+
   return (
     <div className="w-full bg-[#050505] text-[#f2f2f2] font-sans break-keep overflow-x-hidden selection:bg-[#c8a84b] selection:text-[#050505]">
       
       {/* Screen 1: The Vision */}
       <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6">
-        {/* Background Effects */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c8a84b]/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
@@ -106,7 +125,6 @@ export default function TreiaFunnelPage() {
 
       {/* Screen 3: The Canvas */}
       <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111] overflow-hidden">
-        {/* Subtle Gold Accents */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#c8a84b]/10 blur-[150px] mix-blend-screen pointer-events-none"></div>
 
         <div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
@@ -122,7 +140,7 @@ export default function TreiaFunnelPage() {
           <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
             개별 기업의 훌륭한 비전과 내재 가치를 평가하는 주식 시장과 달리, <br className="hidden md:block"/>
             전 세계 자금이 모이는 금(XAUUSD) 시장은 외부 노이즈에 강하고 일정한 거시적 파동을 그립니다.<br/><br/>
-            여기에 상승과 하락 모든 방향에서 유연하게 대응할 수 있는 CFD 환경을 결합하여, <br className="hidden md:block"/>
+            여기에 상승과 하락 모든 방향에서 유연하게 대응할 수 있는 CFD(차액결제거래) 환경을 결합하여, <br className="hidden md:block"/>
             <strong className="text-white font-medium">시장의 흐름에 가장 순응하는 투자 모델</strong>을 완성했습니다.
           </p>
         </div>
@@ -139,7 +157,6 @@ export default function TreiaFunnelPage() {
         <div className="relative w-full max-w-3xl mx-auto flex flex-col gap-16 md:gap-24 z-10">
           <div className="absolute left-[39px] md:left-[59px] top-10 bottom-10 w-px bg-[#1a1a1a]"></div>
 
-          {/* Item 1 */}
           <div className="flex gap-8 md:gap-12 items-start relative reveal opacity-0 translate-y-12 transition-all duration-1000">
             <div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)]">
               <Layers size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />
@@ -152,7 +169,6 @@ export default function TreiaFunnelPage() {
             </div>
           </div>
 
-          {/* Item 2 */}
           <div className="flex gap-8 md:gap-12 items-start relative reveal opacity-0 translate-y-12 transition-all duration-1000 delay-100">
             <div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)]">
               <Lock size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />
@@ -165,7 +181,6 @@ export default function TreiaFunnelPage() {
             </div>
           </div>
 
-          {/* Item 3 */}
           <div className="flex gap-8 md:gap-12 items-start relative reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200">
             <div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)]">
               <Target size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />
@@ -180,34 +195,138 @@ export default function TreiaFunnelPage() {
         </div>
       </section>
 
-      {/* Screen 5: The Proof */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-32 border-t border-[#111]">
+      {/* Screen 5: Benefit 1 - Time Freedom */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111] bg-[#030303]">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-900/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
+          <div className="mb-8 flex justify-center">
+            <div className="w-20 h-20 rounded-2xl bg-[#0a0b0e] border border-[#1e2028] flex items-center justify-center shadow-2xl">
+              <Clock className="w-10 h-10 text-blue-400" strokeWidth={1.5} />
+            </div>
+          </div>
+          <span className="text-blue-400 font-mono text-sm tracking-[4px] uppercase block mb-6">Benefit 1. 시간의 자유</span>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-10 leading-[1.4]">
+            당신의 낮과 밤을 돌려드립니다.
+          </h2>
+          <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
+            회의 중에 주식 창을 몰래 보며 땀 흘릴 필요가 없습니다. <br className="hidden md:block"/>
+            트레이아 골드 알고리즘 엔진은 당신이 본업에 집중하고, 가족과 저녁을 먹고, <br className="hidden md:block"/>
+            깊은 잠에 빠진 순간에도 <strong className="text-white font-medium">24시간 당신의 계좌를 모니터링</strong>합니다.<br/><br/>
+            당신은 아침에 일어나 밤새 엔진이 지켜낸 결과만 확인하십시오.
+          </p>
+        </div>
+      </section>
+
+      {/* Screen 6: Benefit 2 - Psychological Peace */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111] bg-[#050505] overflow-hidden">
+        
+        {/* Abstract Whipsaw Chart Background */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center">
+           <svg viewBox="0 0 1000 400" className="w-[150%] h-auto stroke-[#ef4444]" preserveAspectRatio="none" fill="none" strokeWidth="1">
+             <path d="M0,200 L100,190 L120,250 L140,150 L160,280 L180,100 L200,350 L220,50 L240,300 L260,150 L280,250 L300,190 L1000,190" strokeDasharray="5,5" />
+           </svg>
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
+          <div className="mb-8 flex justify-center">
+            <div className="w-20 h-20 rounded-2xl bg-[#0a0b0e] border border-[#1e2028] flex items-center justify-center shadow-2xl relative">
+              <ShieldCheck className="w-10 h-10 text-[#10B981]" strokeWidth={1.5} />
+            </div>
+          </div>
+          <span className="text-[#10B981] font-mono text-sm tracking-[4px] uppercase block mb-6">Benefit 2. 심리적 평온</span>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-10 leading-[1.4]">
+            FOMC 금리 발표의 밤, <br/> 숙면을 취하십시오.
+          </h2>
+          <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
+            어제 새벽 미장 금리 발표로 시장이 요동칠 때, <br className="hidden md:block"/>
+            수동 매매자들은 공포에 질려 뜬눈으로 밤을 새웠습니다. <br/><br/>
+            하지만 트레이아 유저들은 평온하게 숙면을 취했습니다. <br className="hidden md:block"/>
+            <strong className="text-white font-medium">감정이 없는 엔진이 칼같이 위험을 차단하고, 수익 구간만 발라먹었기 때문입니다.</strong>
+          </p>
+        </div>
+      </section>
+
+      {/* Screen 7: Benefit 3 - Account Survival */}
+      <section className="relative min-h-[100svh] flex justify-center items-center px-6 py-20 border-t border-[#111] bg-[#030303]">
+        
+        <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          <div className="reveal opacity-0 translate-y-12 transition-all duration-1000 text-center lg:text-left">
+            <span className="text-[#c8a84b] font-mono text-sm tracking-[4px] uppercase block mb-6">Benefit 3. 계좌의 생존</span>
+            <h2 className="text-3xl md:text-5xl lg:text-5xl xl:text-6xl font-light tracking-tight text-white mb-8 leading-[1.4]">
+              잃지 않는 자만이 <br/> 결국 복리를 누립니다.
+            </h2>
+            <p className="text-[17px] md:text-[21px] text-[#7a7f8e] leading-[1.8] font-light max-w-xl mx-auto lg:mx-0">
+              수익 극대화보다 중요한 것은 <strong>&apos;계좌의 생존&apos;</strong>입니다. <br/>
+              -50% 손실을 입으면 원금을 복구하기 위해 +100%의 수익을 내야 합니다. <br/><br/>
+              트레이아 엔진의 최우선 목표는 화려한 대박이 아닙니다. <br className="hidden lg:block"/>
+              <strong className="text-white font-medium">철저한 기계적 손절로 치명상을 막고, 잃지 않는 매매를 누적시켜 거대한 복리의 마법을 완성하는 것</strong>입니다.
+            </p>
+          </div>
+          
+          {/* Visual Data Representation */}
+          <div className="reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200 w-full">
+            <div className="bg-[#0a0b0e] border border-[#1e2028] rounded-[32px] p-8 md:p-12 shadow-2xl relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#ef4444]/5 blur-[80px] rounded-full point-events-none transform translate-x-1/2 -translate-y-1/2"></div>
+               
+               <h3 className="text-white font-mono text-sm tracking-widest uppercase mb-12 text-center lg:text-left">복구율의 함정 (The Trap of Drawdown)</h3>
+               
+               <div className="flex flex-col gap-10">
+                 {/* -50% Loss */}
+                 <div className="flex items-center gap-6">
+                   <div className="text-4xl font-light text-[#ef4444] w-28 shrink-0">-50%</div>
+                   <div className="flex-1">
+                     <div className="h-6 w-1/2 bg-[#ef4444] rounded-r-lg relative">
+                        <span className="absolute left-full ml-4 text-sm text-[#7a7f8e] whitespace-nowrap">계좌 반토막</span>
+                     </div>
+                   </div>
+                 </div>
+
+                 {/* +100% Need */}
+                 <div className="flex items-center gap-6">
+                   <div className="text-4xl font-light text-[#10B981] w-28 shrink-0">+100%</div>
+                   <div className="flex-1">
+                     <div className="h-6 w-full bg-[#10B981] rounded-r-lg relative">
+                        <span className="absolute left-full -ml-[80px] md:ml-4 text-sm text-white font-bold whitespace-nowrap drop-shadow-md">원금 복구에 필요한 수익률</span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+               
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Screen 8: The Proof (Infographic Dashboard) */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#111]">
         <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col items-center flex-1">
           
           <div className="text-center mb-16 reveal opacity-0 translate-y-12 transition-all duration-1000">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-white mb-8 leading-[1.4] tracking-tight">
-              극단적인 변동성, <br className="md:hidden"/> 그 속에서 증명된 <span className="font-normal text-[#c8a84b]">시스템의 평온함.</span>
+              실제 데이터로 증명된 <br className="md:hidden"/> <span className="font-normal text-[#c8a84b]">시스템의 방어력.</span>
             </h2>
             <p className="text-[17px] md:text-[22px] text-[#7a7f8e] leading-[1.8] font-light max-w-4xl mx-auto">
-              최근 글로벌 금리 발표(FOMC) 등 시장이 거칠게 요동치는 구간에서도 Treia 엔진은 평정심을 잃지 않았습니다. <br className="hidden md:block"/>
-              방향이 어긋났을 때는 <strong className="text-white">-$36 선에서 안전하게 끊어내고</strong>, 기회를 포착했을 때는 <strong className="text-white">+$63까지 수익을 온전히 추적해 낸</strong> 실제 기록입니다.
+              방향이 어긋났을 때는 <strong className="text-white">-$36 선에서 안전하게 끊어내고</strong>, 기회를 포착했을 때는 <strong className="text-white">+$63까지 수익을 온전히 추적해 낸</strong> 투명한 실제 기록입니다.
             </p>
           </div>
 
-          <div className="w-full bg-[#0d0e12] border border-[#22242e] rounded-[32px] p-8 md:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-16 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200">
+          <div className="w-full bg-[#0d0e12] border border-[#22242e] rounded-[32px] p-8 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-12 lg:gap-16 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200">
             
             {/* Top Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-[#22242e]">
               <div className="flex flex-col items-center pt-6 md:pt-0">
-                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[4px] mb-4">최근 실거래 검증</div>
+                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[2px] mb-4">최근 실거래 검증</div>
                 <div className="text-5xl md:text-6xl font-light text-white">147<span className="text-2xl text-[#c8a84b] ml-1">회</span></div>
               </div>
               <div className="flex flex-col items-center pt-6 md:pt-0">
-                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[4px] mb-4">알고리즘 승률</div>
+                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[2px] mb-4">알고리즘 승률</div>
                 <div className="text-5xl md:text-6xl font-light text-white">80.95<span className="text-2xl text-[#c8a84b] font-outfit ml-1">%</span></div>
               </div>
               <div className="flex flex-col items-center pt-6 md:pt-0">
-                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[4px] mb-4">수익 창출 지표 (Profit Factor)</div>
+                <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[2px] mb-4">수익 창출 지표 (Profit Factor)</div>
                 <div className="text-5xl md:text-6xl font-light text-white font-outfit">3.58</div>
               </div>
             </div>
@@ -215,30 +334,36 @@ export default function TreiaFunnelPage() {
             {/* Dashboard Visuals */}
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
               
-              {/* Chart Mockup */}
+              {/* MT5 Actual Data Chart */}
               <div className="lg:col-span-3 bg-[#13151b] border border-[#23252d] rounded-2xl p-6 md:p-8 flex flex-col relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#3b82f6]/5 blur-[80px] rounded-full point-events-none transform translate-x-1/2 -translate-y-1/2"></div>
-                <div className="flex justify-between items-start mb-10 relative z-10">
-                  <div className="text-left text-sm font-mono text-[#a1a1aa] tracking-widest uppercase">Growth Curve ($1,000 기준)</div>
+                <div className="flex justify-between items-start mb-6 relative z-10">
+                  <div className="text-left text-sm font-mono text-[#a1a1aa] tracking-widest uppercase">실제 운용 계좌 성장 곡선 ($1,000 기준)</div>
                   <div className="text-right">
-                     <span className="block text-[#3b82f6] font-outfit text-3xl font-light">+$992.90</span>
-                     <span className="text-[#7a7f8e] text-xs uppercase tracking-widest">+99.2% Growth</span>
+                     <span className="block text-[#3b82f6] font-outfit text-2xl md:text-3xl font-light">+$986.30</span>
+                     <span className="text-[#7a7f8e] text-xs uppercase tracking-widest">Net Profit Flow</span>
                   </div>
                 </div>
                 {/* SVG Area */}
-                <div className="flex-1 w-full min-h-[160px] relative flex items-end">
-                  <svg viewBox="0 0 400 100" className="w-full h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" preserveAspectRatio="none">
-                    <path d="M0,80 L50,80 L80,70 L100,75 L150,75 L180,90 L200,90 L250,50 L300,50 L350,15 L400,10 L400,100 L0,100 Z" fill="url(#gradient-blue)" opacity="0.3" />
-                    <path d="M0,80 L50,80 L80,70 L100,75 L150,75 L180,90 L200,90 L250,50 L300,50 L350,15 L400,10" fill="none" stroke="#3b82f6" strokeWidth="2.5" />
-                    <circle cx="400" cy="10" r="4" fill="#60a5fa" className="animate-pulse" />
+                <div className="flex-1 w-full min-h-[160px] relative flex md:items-end mt-4">
+                  <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]" preserveAspectRatio="none">
+                    <path d={dFill} fill="url(#gradient-blue-real)" opacity="0.3" />
+                    <path d={dPath} fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+                    <circle cx={width} cy={height - ((chartData[chartData.length-1] - minVal) / range) * height} r="5" fill="#60a5fa" className="animate-pulse" />
                     <defs>
-                      <linearGradient id="gradient-blue" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.8" />
+                      <linearGradient id="gradient-blue-real" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.6" />
                         <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
                       </linearGradient>
                     </defs>
                   </svg>
                   <div className="absolute inset-0 border-b border-l border-[#2a2d36] pointer-events-none"></div>
+                  
+                  {/* Annotation for DD */}
+                  <div className="absolute bottom-[20%] left-[25%] hidden md:flex flex-col items-center">
+                    <div className="w-px h-8 bg-dashed bg-[#ef4444]/50 border-l border-dashed border-[#ef4444]"></div>
+                    <span className="text-[10px] text-[#ef4444] font-mono mt-1 whitespace-nowrap">방어선 (Max DD: -$82.70)</span>
+                  </div>
                 </div>
               </div>
 
@@ -251,24 +376,26 @@ export default function TreiaFunnelPage() {
                 
                 <div className="flex gap-4 items-center justify-between w-full h-full relative z-10">
                    
-                   <div className="flex flex-col items-center">
-                     <span className="text-[#10B981] font-outfit text-2xl font-light mb-1">+$1,372</span>
+                   <div className="flex flex-col items-center shrink-0">
+                     <span className="text-[#10B981] font-outfit text-xl md:text-2xl font-light mb-1">+$1,370</span>
                      <span className="text-[#a1a1aa] text-[10px] uppercase tracking-widest">Gross Profit</span>
                    </div>
 
-                   <div className="relative w-32 h-32 md:w-40 md:h-40 flex-shrink-0 mx-auto">
+                   {/* Using authentic 1370 / 384 ratio */}
+                   {/* 1370 / (1370+384) = ~78.1% */}
+                   <div className="relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0 mx-auto">
                      <svg viewBox="0 0 36 36" className="w-full h-full drop-shadow-2xl">
                        <path strokeDasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#ef4444" strokeWidth="3" className="opacity-80" />
                        <path strokeDasharray="78.1, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#10B981" strokeWidth="3" />
                      </svg>
                      <div className="absolute inset-0 flex items-center justify-center flex-col">
-                       <span className="text-[#f2f2f2] text-2xl font-light font-outfit">+$989</span>
-                       <span className="text-[12px] text-[#7a7f8e] uppercase tracking-widest mt-1">Net Flow</span>
+                       <span className="text-[#f2f2f2] text-xl md:text-2xl font-light font-outfit">+$986</span>
+                       <span className="text-[10px] text-[#7a7f8e] uppercase tracking-widest mt-1">Net Flow</span>
                      </div>
                    </div>
 
-                   <div className="flex flex-col items-center">
-                     <span className="text-[#ef4444] font-outfit text-2xl font-light mb-1">-$383</span>
+                   <div className="flex flex-col items-center shrink-0">
+                     <span className="text-[#ef4444] font-outfit text-xl md:text-2xl font-light mb-1">-$384</span>
                      <span className="text-[#a1a1aa] text-[10px] uppercase tracking-widest">Gross Loss</span>
                    </div>
 
@@ -281,14 +408,14 @@ export default function TreiaFunnelPage() {
         </div>
       </section>
 
-      {/* Screen 6: The Invite (CTA) */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-32 border-t border-[#333] bg-gradient-to-t from-[#0a0a0d] to-[#040404]">
+      {/* Screen 9: The Invite (CTA) */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#333] bg-gradient-to-t from-[#0a0a0d] to-[#040404]">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-px bg-gradient-to-r from-transparent via-[#c8a84b] to-transparent"></div>
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#c8a84b]/10 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="max-w-3xl w-full mx-auto relative z-10 text-center flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-1000">
           
-          <h2 className="text-4xl md:text-6xl font-light text-white mb-8 tracking-tight leading-[1.3]">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-white mb-8 tracking-tight leading-[1.3]">
             투명한 &apos;현재&apos;를 당신의 <br className="hidden md:block"/> 눈으로 직접 확인하십시오.
           </h2>
           <p className="text-[17px] md:text-[22px] text-[#a1a1aa] leading-[1.8] font-light max-w-2xl mb-16">
@@ -303,8 +430,9 @@ export default function TreiaFunnelPage() {
                  
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                    <div className="flex flex-col gap-2">
-                     <label className="text-[13px] text-[#a1a1aa] ml-2 tracking-widest uppercase">성함</label>
+                     <label htmlFor="name" className="text-[13px] text-[#a1a1aa] ml-2 tracking-widest uppercase">성함</label>
                      <input 
+                       id="name"
                        type="text" 
                        required 
                        placeholder="성함을 입력해주세요"
@@ -314,14 +442,15 @@ export default function TreiaFunnelPage() {
                      />
                    </div>
                    <div className="flex flex-col gap-2">
-                     <label className="text-[13px] text-[#a1a1aa] ml-2 tracking-widest uppercase">연락처</label>
+                     <label htmlFor="email" className="text-[13px] text-[#a1a1aa] ml-2 tracking-widest uppercase">이메일</label>
                      <input 
-                       type="tel" 
+                       id="email"
+                       type="email" 
                        required 
-                       placeholder="010-0000-0000"
+                       placeholder="example@gmail.com"
                        className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-2xl focus:outline-none focus:border-[#c8a84b]/50 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light"
-                       value={formData.contact}
-                       onChange={(e) => setFormData({...formData, contact: e.target.value})}
+                       value={formData.email}
+                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                      />
                    </div>
                  </div>
@@ -344,7 +473,7 @@ export default function TreiaFunnelPage() {
                  </div>
                  <h3 className="text-2xl text-white font-medium mb-4">계정 신청이 완료되었습니다.</h3>
                  <p className="text-[#a1a1aa] leading-relaxed font-light">
-                   입력하신 연락처로 MT5 관전자 계정 로그인 정보(ID, Password, Server)를 발송해 드릴 예정입니다.<br/> 잠시만 기다려주시면 감사하겠습니다.
+                   입력하신 이메일로 MT5 관전자 계정 로그인 정보(ID, Password, Server)를 발송해 드릴 예정입니다.<br/> 잠시만 기다려주시면 감사하겠습니다.
                  </p>
                </div>
              )}
