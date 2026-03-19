@@ -111,7 +111,7 @@ export default function TreiaFunnelPage() {
         
         <div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-10 leading-[1.4]">
-            시장을 예측하려 하지 않습니다. <br/> 철저하게 <span className="text-[#c8a84b] italic pr-2">대응</span>할 뿐입니다.
+            시장을 예측하려 하지 않습니다. <br/> <span className="bg-[#c8a84b] text-[#0a0a0a] px-3 py-1 font-bold inline-block mt-2">철저하게 대응</span>할 뿐입니다.
           </h2>
           <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
             위대한 투자자들도 시장의 거대한 파도 앞에서는 겸손합니다. <br className="hidden md:block"/>
@@ -207,7 +207,7 @@ export default function TreiaFunnelPage() {
           </div>
           <span className="text-blue-400 font-mono text-sm tracking-[4px] uppercase block mb-6">Benefit 1. 시간의 자유</span>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-10 leading-[1.4]">
-            당신의 낮과 밤을 돌려드립니다.
+            당신의 <span className="bg-[#c8a84b] text-[#0a0a0a] px-3 py-1 font-bold inline-block mb-1">낮과 밤</span>을 돌려드립니다.
           </h2>
           <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
             회의 중에 주식 창을 몰래 보며 땀 흘릴 필요가 없습니다. <br className="hidden md:block"/>
@@ -236,7 +236,7 @@ export default function TreiaFunnelPage() {
           </div>
           <span className="text-[#10B981] font-mono text-sm tracking-[4px] uppercase block mb-6">Benefit 2. 심리적 평온</span>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-10 leading-[1.4]">
-            FOMC 금리 발표의 밤, <br/> 숙면을 취하십시오.
+            FOMC 금리 발표의 밤, <br/> <span className="bg-[#c8a84b] text-[#0a0a0a] px-3 py-1 font-bold inline-block mt-2">숙면을 취하십시오.</span>
           </h2>
           <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
             어제 새벽 미장 금리 발표로 시장이 요동칠 때, <br className="hidden md:block"/>
@@ -416,6 +416,25 @@ export default function TreiaFunnelPage() {
         </div>
       </section>
 
+      {/* Screen 8.5: What is MT5 Investor Password? */}
+      <section className="relative flex flex-col justify-center items-center px-6 py-24 md:py-32 border-t border-[#111] bg-[#050505]">
+        <div className="max-w-4xl w-full mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
+          <div className="bg-[#0a0b0e] border border-[#22242e] rounded-3xl p-8 md:p-12 relative overflow-hidden text-center md:text-left shadow-2xl">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#c8a84b] to-transparent"></div>
+            
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-white mb-6 leading-[1.4]">
+              왜 <span className="bg-[#c8a84b] text-[#0a0a0a] px-3 py-1 font-bold inline-block rounded-sm mb-2 md:mb-0">MT5 관전자 계정</span> 인가요?
+            </h3>
+            
+            <p className="text-[16px] md:text-[19px] text-[#a1a1aa] leading-[1.8] font-light">
+              단순한 엑셀 기반의 백테스트 결과나 부분적으로 캡처된 수익 인증샷은 누구나 쉽게 가장할 수 있습니다.<br/><br/>
+              하지만 글로벌 표준 금융 트레이딩 플랫폼인 MT5(MetaTrader 5)의 <strong className="text-white font-medium">&apos;관전자 계정(Investor Password)&apos;</strong>은 조작이 원천적으로 불가능합니다. 오직 거래 서버 시스템에 실시간으로 기록되는 <strong className="text-white font-medium">실시간 체결 내역, 현재 보유 중인 포지션 비율, 그리고 정확한 계좌 잔고</strong>만을 제3자가 100% 투명하게 &apos;조회만&apos; 할 수 있도록 권한을 열어주는 시스템입니다.<br/><br/>
+              이를 통해 당신은 엔진이 약속한 방어선이 진짜로 지켜지고 있는지, 가감 없는 생생한 민낯을 직접 검증할 수 있습니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Screen 9: The Invite (CTA) */}
       <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#333] bg-gradient-to-t from-[#0a0a0d] to-[#040404]">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-px bg-gradient-to-r from-transparent via-[#c8a84b] to-transparent"></div>
@@ -502,9 +521,9 @@ export default function TreiaFunnelPage() {
               
              {/* Legal Disclaimer */}
              <div className="mt-16 pt-8 border-t border-[#1a1a1a] text-center">
-               <p className="text-[11px] text-[#444] font-light leading-relaxed tracking-widest uppercase">
-                 본 테스트 결과(수익률, 승률 등)는 과거의 데모 운용 데이터이며 미래의 수익을 보장하지 않습니다.<br className="hidden md:block"/>
-                 차액결제거래(CFD)는 높은 변동성을 수반하며 원금 초과 손실의 위험이 있습니다.<br className="hidden md:block"/>
+               <p className="text-[13px] text-[#7a7f8e] font-light leading-[1.8] tracking-wide break-keep">
+                 본 테스트 결과(수익률, 승률 등)는 과거의 데모 운용 데이터이며 미래의 수익을 보장하지 않습니다.<br className="hidden lg:block"/>
+                 차액결제거래(CFD)는 높은 변동성을 수반하며 원금 초과 손실의 위험이 있습니다.<br className="hidden lg:block"/>
                  본 서비스는 투자 권유가 아니며, 알고리즘 기술 검증 목적의 소프트웨어 라이선스 체험에 한합니다.
                </p>
              </div>
