@@ -161,19 +161,12 @@ export default function TreiaFunnelPage() {
       {/* SECTION 4. 왜 금(Gold) CFD 인가? */}
       <section className="w-full bg-[#0a0a0a] border-t border-[#1e1e1e] relative">
         
-        {/* Intro + Chart Box */}
+        {/* Intro */}
         <div className="min-h-[100svh] flex flex-col justify-center items-center text-center px-6 reveal opacity-0 translate-y-6 transition-all duration-700 relative z-10 py-20">
-          <h2 className="font-outfit text-4xl md:text-6xl font-medium tracking-tight text-white mb-16 leading-[1.4]">
+          <h2 className="font-outfit text-4xl md:text-6xl font-medium tracking-tight text-white mb-24 leading-[1.4]">
             왜 수많은 자산 중<br />&apos;<span className="text-[#c8a84b]">금(Gold) CFD</span>&apos; 일까요?
           </h2>
-          <div className="w-full max-w-4xl h-[400px] md:h-[500px] border border-[#1e1e1e] rounded-[32px] md:rounded-[64px] relative overflow-hidden bg-[#0f1117] flex items-center justify-center shadow-[0_0_100px_rgba(200,168,75,0.05)]">
-             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1610315990666-41f221650bfe?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-luminosity"></div>
-             <div className="relative z-10 text-center px-8">
-               <div className="text-[54px] md:text-[96px] font-outfit font-light text-[#c8a84b] mb-4 leading-none mix-blend-screen drop-shadow-2xl">XAUUSD</div>
-               <div className="text-[14px] md:text-[20px] text-[#a1a1aa] tracking-[10px] uppercase">The Ultimate Asset</div>
-             </div>
-          </div>
-          <div className="w-px h-24 bg-[#1e1e1e] mt-24 overflow-hidden relative mx-auto">
+          <div className="w-px h-24 bg-[#1e1e1e] overflow-hidden relative mx-auto">
             <div className="absolute inset-0 bg-[#c8a84b] animate-pulse"></div>
           </div>
         </div>
