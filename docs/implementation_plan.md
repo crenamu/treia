@@ -29,3 +29,7 @@
 - **Copywriting & Aesthetic**: Replaced negative/cheap phrasing with premium SaaS terminology (Treia Gold Auto-Trading Engine) and applied a consistent glowing hero grid pattern.
 - **Backend Automation**: Next.js Serverless API (`/api/lead`) integrated with Firebase Firestore for lead storage (with email deduplication logic) and Telegram Bot for instant free admin push notifications.
 - **Waitlist Logic**: Replaced direct channel links with a Waitlist UX offering an MT4/MT5 Investor password as a high-converting lead magnet.
+
+## Phase 6: Code Quality & Dev Environment (In Progress)
+- [x] Integrate `@biomejs/biome` via pnpm to resolve VS Code extension binary errors.
+- [x] Initialize `biome.json` for standardized formatting and linting.

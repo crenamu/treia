@@ -117,32 +117,51 @@ export default function TreiaFunnelPage() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 reveal opacity-0 translate-y-6 transition-all duration-700">
-          <div className="bg-[#0f1117] border border-[#1e1e1e] p-10 hover:border-[#10B981]/40 transition-all group rounded-2xl">
-            <div className="w-12 h-12 rounded-full bg-[#10B981]/10 flex items-center justify-center text-[#10B981] mb-6">
-              <Layers size={24} />
+        <div className="mt-24 space-y-24 md:space-y-40">
+          {/* Item 1 */}
+          <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-center reveal opacity-0 translate-y-6 transition-all duration-700">
+            <div className="w-full md:w-1/3 flex justify-center">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#10B981]/5 border border-[#10B981]/20 flex items-center justify-center text-[#10B981] shadow-[0_0_50px_rgba(16,185,129,0.1)]">
+                <Layers size={40} strokeWidth={1.5} className="md:w-12 md:h-12" />
+              </div>
             </div>
-            <div className="text-[20px] font-bold text-white mb-4">마틴게일·물타기<br />절대 금지</div>
-            <div className="text-[15px] text-[#7a7f8e] leading-[1.7]">
-              수익 복구를 위해 랏(Lot)을 기하급수적으로 늘리는 도박성 로직을 원천 차단했습니다. 1번의 방향성 틀림이 전체 자산의 붕괴로 이어지지 않습니다.
-            </div>
-          </div>
-          <div className="bg-[#0f1117] border border-[#1e1e1e] p-10 hover:border-[#10B981]/40 transition-all group rounded-2xl">
-            <div className="w-12 h-12 rounded-full bg-[#10B981]/10 flex items-center justify-center text-[#10B981] mb-6">
-              <Maximize2 size={24} />
-            </div>
-            <div className="text-[20px] font-bold text-white mb-4">철저한 손절선<br />시스템 강제 통제</div>
-            <div className="text-[15px] text-[#7a7f8e] leading-[1.7]">
-              진입 직후 리스크가 고정됩니다. 인간은 버티다 손절 타이밍을 놓치지만, 알고리즘은 정해진 수치 도달 시 0.1초의 망설임 없이 기계적으로 청산합니다.
+            <div className="w-full md:w-2/3 text-center md:text-left">
+              <div className="text-[24px] md:text-[36px] font-bold text-white mb-4 md:mb-6">01. 마틴게일·물타기 절대 금지</div>
+              <div className="text-[16px] md:text-[20px] text-[#7a7f8e] leading-[1.8] max-w-2xl font-light mx-auto md:mx-0">
+                수익 복구를 위해 랏(Lot)을 기하급수적으로 늘리는 <strong className="text-white font-medium">도박성 로직을 원천 차단했습니다.</strong><br/>
+                1번의 방향성 틀림이 전체 자산의 붕괴로 이어지지 않습니다.
+              </div>
             </div>
           </div>
-          <div className="bg-[#0f1117] border border-[#1e1e1e] p-10 hover:border-[#10B981]/40 transition-all group rounded-2xl">
-            <div className="w-12 h-12 rounded-full bg-[#10B981]/10 flex items-center justify-center text-[#10B981] mb-6">
-              <Activity size={24} />
+          
+          {/* Item 2 */}
+          <div className="flex flex-col md:flex-row-reverse gap-8 md:gap-16 items-center reveal opacity-0 translate-y-6 transition-all duration-700">
+            <div className="w-full md:w-1/3 flex justify-center">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#10B981]/5 border border-[#10B981]/20 flex items-center justify-center text-[#10B981] shadow-[0_0_50px_rgba(16,185,129,0.1)]">
+                <Maximize2 size={40} strokeWidth={1.5} className="md:w-12 md:h-12" />
+              </div>
             </div>
-            <div className="text-[20px] font-bold text-white mb-4 leading-[1.4]">인간의 한계,<br />감정의 완벽한 배제</div>
-            <div className="text-[15px] text-[#7a7f8e] leading-[1.8]">
-              만약 당신이 세계 초일류 트레이더라면 수동 매매가 엔진보다 우월할 수 있습니다. 하지만 인간은 손실의 공포와 수익의 환희 앞에서 반드시 흔들립니다. Treia 자동매매 엔진은 예외 없이 정해진 원칙만을 100% 실행합니다.
+            <div className="w-full md:w-2/3 text-center md:text-right">
+              <div className="text-[24px] md:text-[36px] font-bold text-white mb-4 md:mb-6">02. 철저한 손절선 강력 통제</div>
+              <div className="text-[16px] md:text-[20px] text-[#7a7f8e] leading-[1.8] max-w-2xl ml-auto font-light mx-auto md:mx-0">
+                진입 직후 리스크가 고정됩니다. 인간은 버티다 손절 타이밍을 놓치지만, <strong className="text-white font-medium">알고리즘은 정해진 수치 도달 시 0.1초의 망설임 없이 기계적으로 청산합니다.</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* Item 3 */}
+          <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-center reveal opacity-0 translate-y-6 transition-all duration-700">
+            <div className="w-full md:w-1/3 flex justify-center">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#10B981]/5 border border-[#10B981]/20 flex items-center justify-center text-[#10B981] shadow-[0_0_50px_rgba(16,185,129,0.1)]">
+                <Activity size={40} strokeWidth={1.5} className="md:w-12 md:h-12" />
+              </div>
+            </div>
+            <div className="w-full md:w-2/3 text-center md:text-left">
+              <div className="text-[24px] md:text-[36px] font-bold text-white mb-4 md:mb-6 leading-[1.4]">03. 인간의 한계,<br className="md:hidden" /> 감정의 완벽한 배제</div>
+              <div className="text-[16px] md:text-[20px] text-[#7a7f8e] leading-[1.8] max-w-2xl font-light mx-auto md:mx-0">
+                초일류 트레이더라면 수동 매매가 엔진보다 우월할 수 있습니다.<br className="hidden md:block"/>
+                하지만 인간은 손실의 공포와 수익의 환희 앞에서 반드시 흔들립니다. <strong className="text-white font-medium">Treia 자동매매 엔진은 예외 없이 정해진 원칙만을 100% 실행합니다.</strong>
+              </div>
             </div>
           </div>
         </div>
@@ -150,48 +169,59 @@ export default function TreiaFunnelPage() {
 
       {/* SECTION 4. 왜 금(Gold) CFD 인가? */}
       <section className="w-full bg-[#0a0a0a] border-t border-[#1e1e1e] py-32 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 items-center reveal opacity-0 translate-y-6 transition-all duration-700">
-          <div className="lg:w-1/2">
-            <h2 className="font-outfit text-3xl md:text-5xl font-medium tracking-tight text-white mb-10 leading-[1.4]">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 items-start">
+          
+          <div className="lg:w-1/2 pt-10">
+            <h2 className="font-outfit text-4xl md:text-5xl font-medium tracking-tight text-white mb-16 md:mb-24 leading-[1.4] reveal opacity-0 translate-y-6 transition-all duration-700">
               왜 수많은 자산 중<br />&apos;금(Gold) CFD&apos; 일까요?
             </h2>
-            <div className="flex flex-col gap-10">
-              <div className="flex gap-5 items-start">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full border border-[#1e1e1e] bg-[#0f1117] flex items-center justify-center text-[#c8a84b] mt-1">
-                  <ArrowRight size={20} />
+            
+            <div className="flex flex-col gap-24 md:gap-32 pb-10 md:pb-32">
+              <div className="flex flex-col gap-6 reveal opacity-0 translate-y-6 transition-all duration-700">
+                <div className="flex items-center gap-4 text-[#c8a84b] mb-2">
+                  <ArrowRight size={28} />
+                  <span className="font-mono tracking-widest uppercase text-[12px] md:text-[14px]">Insight 01</span>
                 </div>
-                <div>
-                  <h4 className="text-[19px] font-bold text-white mb-3">양방향성과 레버리지라는 &apos;양날의 검&apos;</h4>
-                  <p className="text-[16px] text-[#7a7f8e] leading-[1.8]">CFD(차액결제거래)는 하락장에서도 매도(Sell) 포지션으로 수익을 낼 수 있으며, 적은 증거금으로도 유연하게 한도를 조절할 수 있습니다. 하지만 이 강력한 자유도는 통제하지 못하면 독이 됩니다. 철저한 매매 원칙의 실천이 수동보다 자동매매 엔진에서 더 빛을 발하는 이유입니다.</p>
-                </div>
+                <h4 className="text-[22px] md:text-[32px] font-bold text-white mb-2 md:mb-4">양방향성과 레버리지라는 &apos;양날의 검&apos;</h4>
+                <p className="text-[16px] md:text-[18px] text-[#7a7f8e] leading-[1.8] font-light">
+                  CFD(차액결제거래)는 하락장에서도 매도(Sell) 포지션으로 수익을 낼 수 있으며, 적은 증거금으로도 유연하게 한도를 조절할 수 있습니다.<br/><br/>
+                  하지만 이 강력한 자유도는 통제하지 못하면 독이 됩니다. 철저한 매매 원칙의 실천이 수동보다 자동매매 엔진에서 더 빛을 발하는 이유입니다.
+                </p>
               </div>
-              <div className="flex gap-5 items-start">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full border border-[#1e1e1e] bg-[#0f1117] flex items-center justify-center text-[#c8a84b] mt-1">
-                  <ShieldCheck size={20} />
+
+              <div className="flex flex-col gap-6 reveal opacity-0 translate-y-6 transition-all duration-700">
+                <div className="flex items-center gap-4 text-[#c8a84b] mb-2">
+                  <ShieldCheck size={28} />
+                  <span className="font-mono tracking-widest uppercase text-[12px] md:text-[14px]">Insight 02</span>
                 </div>
-                <div>
-                  <h4 className="text-[19px] font-bold text-white mb-3">왜 CME(선물)가 아닌 CFD인가?</h4>
-                  <p className="text-[16px] text-[#7a7f8e] leading-[1.8]">CME(달러 결제 선물) 시장은 진입 장벽(최소 증거금)이 높고 치명적인 만기일(롤오버)의 제약이 존재합니다. 반면 CFD는 만기일의 압박 없이 전략의 연속성을 유지하며, Micro Lot 단위로 리스크를 극도로 세밀하게 쪼개어 방어할 수 있습니다.</p>
-                </div>
+                <h4 className="text-[22px] md:text-[32px] font-bold text-white mb-2 md:mb-4">왜 CME(선물)가 아닌 CFD인가?</h4>
+                <p className="text-[16px] md:text-[18px] text-[#7a7f8e] leading-[1.8] font-light">
+                  CME(달러 결제 선물) 시장은 진입 장벽(최소 증거금)이 높고 치명적인 만기일(롤오버)의 제약이 존재합니다.<br/><br/>
+                  반면 CFD는 만기일의 압박 없이 전략의 연속성을 유지하며, Micro Lot 단위로 리스크를 극도로 세밀하게 쪼개어 방어할 수 있습니다.
+                </p>
               </div>
-              <div className="flex gap-5 items-start">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full border border-[#1e1e1e] bg-[#0f1117] flex items-center justify-center text-[#c8a84b] mt-1">
-                  <Globe size={20} />
+
+              <div className="flex flex-col gap-6 reveal opacity-0 translate-y-6 transition-all duration-700">
+                <div className="flex items-center gap-4 text-[#c8a84b] mb-2">
+                  <Globe size={28} />
+                  <span className="font-mono tracking-widest uppercase text-[12px] md:text-[14px]">Insight 03</span>
                 </div>
-                <div>
-                  <h4 className="text-[19px] font-bold text-white mb-3">노이즈 없는 거대한 실물 기축 자산, 금</h4>
-                  <p className="text-[16px] text-[#7a7f8e] leading-[1.8]">금(XAUUSD)은 전 세계 자금이 모이는 가장 무거운 실물 자산입니다. 작전 세력이나 자잘한 노이즈에 쉽게 흔들리지 않고 거대하고 일정한 파동을 형성하기에, 알고리즘이 수학적 통계와 확률을 발휘하기에 가장 정직한 종목입니다.</p>
-                </div>
+                <h4 className="text-[22px] md:text-[32px] font-bold text-white mb-2 md:mb-4">노이즈 없는 거대 기축 자산, 금</h4>
+                <p className="text-[16px] md:text-[18px] text-[#7a7f8e] leading-[1.8] font-light">
+                  금(XAUUSD)은 전 세계 자금이 모이는 가장 무거운 실물 자산입니다. 작전 세력이나 자잘한 노이즈에 쉽게 흔들리지 않고 거대하고 일정한 파동을 형성하기에, 알고리즘이 수학적 통계를 발휘하기에 가장 정직한 종목입니다.
+                </p>
               </div>
             </div>
           </div>
-          <div className="lg:w-1/2 w-full h-[540px] border border-[#1e1e1e] rounded-2xl relative overflow-hidden bg-[#0f1117] flex items-center justify-center">
+          
+          <div className="lg:w-1/2 w-full h-[540px] lg:h-[700px] border border-[#1e1e1e] rounded-[32px] relative overflow-hidden bg-[#0f1117] flex items-center justify-center lg:sticky lg:top-32 reveal opacity-0 translate-y-6 transition-all duration-700">
              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1610315990666-41f221650bfe?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-30 mix-blend-luminosity"></div>
              <div className="relative z-10 text-center px-8">
-               <div className="text-[64px] font-outfit font-light text-[#c8a84b] mb-4 leading-none">XAUUSD</div>
-               <div className="text-[15px] text-[#a1a1aa] tracking-[5px] uppercase">The Ultimate Asset for Algorithms</div>
+               <div className="text-[64px] md:text-[80px] font-outfit font-light text-[#c8a84b] mb-4 leading-none mix-blend-screen drop-shadow-2xl">XAUUSD</div>
+               <div className="text-[15px] md:text-[18px] text-[#a1a1aa] tracking-[8px] uppercase">The Ultimate Asset</div>
              </div>
           </div>
+
         </div>
       </section>
 
