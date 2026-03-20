@@ -215,8 +215,8 @@ export default function TreiaFunnelPage() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#c8a84b]/5 blur-[80px] rounded-full pointer-events-none"></div>
             <p className="text-[17px] md:text-[21px] text-[#a1a1aa] leading-[1.9] font-light break-keep">
               시장에서 이기는 원칙을 만드는 것도 어렵지만, 더 어려운 건 그 원칙을 감정 없이 매번 그대로 지켜내는 것입니다. <br/><br/>
-              제가 속한 커뮤니티에는 2,000명의 실계좌 트레이더가 있습니다. 같은 교육을 받고, 같은 방식으로 매매합니다. 그 중에는 진짜 천재도 있습니다. <strong className="text-white font-medium">6억 손실 후 3개월 폐관수련을 거쳐 지금은 매일 1억 이상을 버는 사람</strong>도 있고, <strong className="text-white font-medium">100달러를 1년 6개월 만에 1,000만 달러로 만든 전설적인 동료</strong>도 있습니다. <br/><br/>
-              하지만 그들은 극소수입니다. 12년간 그 현실을 직접 보고 겪었습니다. 결론은 하나였습니다. <strong className="text-[#c8a84b] font-semibold">확률 높은 전략을 원칙대로 지키게 만드는 건 사람이 아니라 시스템이어야 한다.</strong> 2년 전 EA 개발을 시작한 이유입니다.
+              제가 속한 커뮤니티에는 2,000명의 실계좌 트레이더가 있습니다. 같은 교육을 받고, 같은 방식으로 매매하지만 결과는 극명합니다. <strong className="text-white font-medium">6억 손실 후 폐관수련을 거쳐 매일 1억 이상을 버는 천재</strong>도 있고, <strong className="text-white font-medium">100달러를 1년 6개월 만에 1,000만 달러로 만든 전설적인 동료</strong>도 있습니다. <br/><br/>
+              하지만 그들은 3% 미만의 극소수입니다. 12년간 그 현실을 보며 깨달은 것은, 아무리 훌륭한 전략도 인간의 심리 앞에서는 무너진다는 사실입니다. <strong className="text-[#c8a84b] font-semibold">파레토 법칙보다 훨씬 희박한 이 시장의 승률을 뚫고 원칙을 지키게 만드는 건 사람이 아니라 시스템이어야 합니다.</strong> 이것이 2년 전 Treia 엔진 개발을 시작한 단 하나의 이유입니다.
             </p>
           </div>
 
@@ -618,11 +618,22 @@ export default function TreiaFunnelPage() {
             <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
               <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
                 <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
+                <span>왜 인원을 무제한으로 받지 않고 선별적으로 제한하시나요?</span>
+              </h3>
+              <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
+                <p><strong className="text-white font-medium block mb-2">A. 엔진의 퍼포먼스(Edge) 보호와 슬리피지 방어를 위한 필수적인 조치입니다.</strong>
+                1,000명 이상의 유저가 동일한 가격대에 거대 주문을 동시에 넣으면 호가창 밀림(Slippage)이 발생하여 본래의 수익률이 저하될 수 있습니다. 또한 전략 노출과 브로커 리스크를 관리하기 위해, Treia는 상시 개방이 아닌 철저한 선별 초대 방식으로만 운영하며 엔진의 희소성을 유지합니다.</p>
+              </div>
+            </div>
+
+            <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
+              <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
+                <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
                 <span>매월 구독료를 내면 계속 사용할 수 있나요?</span>
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
-                <p><strong className="text-white font-medium block mb-2">A. 현재는 모의 프론트테스트 단계입니다.</strong>
-                실계좌 검증이 완료되면 MT5 관전자 계정을 선별 초대하고, 이후 구독형 또는 라이선스 방식으로 정식 오픈할 예정입니다.</p>
+                <p><strong className="text-white font-medium block mb-2">A. 현재는 로드맵 1단계인 모의 프론트테스트 단계입니다.</strong>
+                향후 실계좌 검증이 완료되면, 신청자 중 선별된 분들께 한해 MT5 관전자 계정을 개방합니다. 이후 고액 자산가들을 위한 티어별 라이선스 체계로 정식 런칭할 예정입니다.</p>
               </div>
             </div>
 
@@ -703,12 +714,12 @@ export default function TreiaFunnelPage() {
         <div className="max-w-3xl w-full mx-auto relative z-10 text-center flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-1000">
           
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-white mb-8 tracking-tight leading-[1.3]">
-            투명한 &apos;현재&apos;를 당신의 <br className="hidden md:block"/> 눈으로 직접 확인하십시오.
+            투명한 &apos;가치&apos;를 <br className="hidden md:block"/> 선별된 소수에게만 개방합니다.
           </h2>
           <p className="text-[17px] md:text-[22px] text-[#a1a1aa] leading-[1.8] font-light max-w-3xl mb-16">
-            모든 분들께 무분별하게 제공하지 않습니다. <br/>
-            알고리즘 시스템의 가치를 깊이 공감하고, 직접 검증을 통해 본인의 투자 원칙을 세우고자 하는 <strong className="text-white font-medium">소수의 분들에게만 2주간 정중하게 개방해 드립니다.</strong> <br/><br/>
-            지금 이 순간 흔들림 없는 원칙이 만들어내는 일상을 경험해 보십시오.
+            모든 분들게 무분별한 라이선스 개방은 하지 않습니다. <br/>
+            알고리즘 엔진의 보호를 위해 <strong className="text-white font-medium">신청 사유를 신중히 검토한 후, 선정되신 분들께 한하여</strong> 관전자 계정과 사전 체험 기회를 정중하게 개방해 드립니다. <br/><br/>
+            Treia와 함께 성숙한 투자 여정을 시작할 파트너가 되어주십시오.
           </p>
 
           <div className="w-full bg-[#0a0b0e]/80 backdrop-blur-xl border border-[#c8a84b]/20 p-8 md:p-12 lg:p-16 rounded-[32px] shadow-[0_0_80px_rgba(200,168,75,0.05)] text-left">
