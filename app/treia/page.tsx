@@ -12,7 +12,6 @@ import {
   X 
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function TreiaFunnelPage() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -20,6 +19,13 @@ export default function TreiaFunnelPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  const LogoIcon = ({ className = "w-full h-full" }: { className?: string }) => (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <path d="M50 15 L85 80 L15 80 Z" stroke="#c8a84b" strokeWidth="6" strokeLinejoin="round" />
+      <path d="M40 40 H60 M50 40 V65" stroke="#c8a84b" strokeWidth="6" strokeLinecap="round" />
+    </svg>
+  );
 
   useEffect(() => {
     document.documentElement.style.scrollBehavior = "smooth";
@@ -98,14 +104,8 @@ export default function TreiaFunnelPage() {
       <header className="fixed top-0 left-0 w-full z-[100] bg-[#050505]/95 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3 group">
-            <div className="relative w-8 h-8 rounded-full overflow-hidden border border-[#c8a84b]/20">
-              <Image 
-                src="/treia_logo_v2.png" 
-                alt="Treia Logo" 
-                width={32}
-                height={32}
-                className="object-contain group-hover:scale-110 transition-transform duration-300 contrast-[1.1]"
-              />
+            <div className="w-8 h-8 flex items-center justify-center">
+              <LogoIcon className="w-full h-full group-hover:scale-110 transition-transform duration-300" />
             </div>
             <span className="font-outfit text-xl font-light tracking-widest text-[#c8a84b] uppercase">Treia</span>
           </Link>
@@ -141,19 +141,13 @@ export default function TreiaFunnelPage() {
         </div>
       </header>
 
-      <section id="hero" className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c8a84b]/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
+      <section id="hero" className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6">
+        <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#c8a84b]/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms]">
-          <div className="relative w-24 h-24 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 border border-[#c8a84b]/10 rounded-[28%] p-4 bg-black/40 backdrop-blur-sm">
-            <Image 
-              src="/treia_logo_v2.png" 
-              alt="Treia Gold Logo" 
-              width={96}
-              height={96}
-              className="object-contain drop-shadow-[0_0_15px_rgba(200,168,75,0.4)] contrast-[1.1]"
-            />
+          <div className="w-24 h-24 mb-10 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
+            <LogoIcon className="w-full h-full drop-shadow-[0_0_20px_rgba(200,168,75,0.4)]" />
           </div>
           <div className="font-mono text-[12px] md:text-[15px] text-[#c8a84b] tracking-[6px] uppercase mb-10">
             Treia Gold Algorithm Engine
