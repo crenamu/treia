@@ -98,7 +98,7 @@ export default function TreiaFunnelPage() {
           <Link href="/treia" className="flex items-center gap-3 group">
             <div className="relative w-8 h-8">
               <Image 
-                src="/treia_logo_gold_minimal_1773991628966.png" 
+                src="/treia_logo.png" 
                 alt="Treia Logo" 
                 width={32}
                 height={32}
@@ -146,7 +146,7 @@ export default function TreiaFunnelPage() {
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms]">
           <div className="relative w-24 h-24 mb-6 reveal opacity-0 scale-90 transition-all duration-1000">
             <Image 
-              src="/treia_logo_gold_minimal_1773991628966.png" 
+              src="/treia_logo.png" 
               alt="Treia Gold Logo" 
               width={96}
               height={96}
