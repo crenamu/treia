@@ -22,6 +22,8 @@ export default function TreiaFunnelPage() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
+    document.documentElement.style.scrollBehavior = "smooth";
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -93,16 +95,16 @@ export default function TreiaFunnelPage() {
     <div className="w-full bg-[#050505] text-[#f2f2f2] font-sans break-keep overflow-x-hidden selection:bg-[#c8a84b] selection:text-[#050505]">
       
       {/* Sticky Header */}
-      <header className="fixed top-0 left-0 w-full z-[100] bg-[#050505]/80 backdrop-blur-md border-b border-white/5">
+      <header className="fixed top-0 left-0 w-full z-[100] bg-[#050505]/95 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/treia" className="flex items-center gap-3 group">
-            <div className="relative w-8 h-8">
+          <Link href="#hero" className="flex items-center gap-3 group">
+            <div className="relative w-8 h-8 rounded-full overflow-hidden border border-[#c8a84b]/20">
               <Image 
-                src="/treia_logo.png" 
+                src="/treia_logo_v2.png" 
                 alt="Treia Logo" 
                 width={32}
                 height={32}
-                className="object-contain group-hover:scale-110 transition-transform duration-300"
+                className="object-contain group-hover:scale-110 transition-transform duration-300 contrast-[1.1]"
               />
             </div>
             <span className="font-outfit text-xl font-light tracking-widest text-[#c8a84b] uppercase">Treia</span>
@@ -139,18 +141,18 @@ export default function TreiaFunnelPage() {
         </div>
       </header>
 
-      <section id="hero" className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6">
+      <section id="hero" className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c8a84b]/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c8a84b]/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms]">
-          <div className="relative w-24 h-24 mb-6 reveal opacity-0 scale-90 transition-all duration-1000">
+          <div className="relative w-24 h-24 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 border border-[#c8a84b]/10 rounded-[28%] p-4 bg-black/40 backdrop-blur-sm">
             <Image 
-              src="/treia_logo.png" 
+              src="/treia_logo_v2.png" 
               alt="Treia Gold Logo" 
               width={96}
               height={96}
-              className="object-contain drop-shadow-[0_0_20px_rgba(200,168,75,0.3)]"
+              className="object-contain drop-shadow-[0_0_15px_rgba(200,168,75,0.4)] contrast-[1.1]"
             />
           </div>
           <div className="font-mono text-[12px] md:text-[15px] text-[#c8a84b] tracking-[6px] uppercase mb-10">
