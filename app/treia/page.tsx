@@ -113,7 +113,9 @@ export default function TreiaFunnelPage() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-10 text-[13px] font-mono tracking-widest uppercase text-[#7a7f8e]">
             <Link href="#philosophy" className="hover:text-[#c8a84b] transition-colors">Philosophy</Link>
+            <Link href="#origin" className="hover:text-[#c8a84b] transition-colors">Origin</Link>
             <Link href="#benefits" className="hover:text-[#c8a84b] transition-colors">Benefits</Link>
+            <Link href="#why-treia" className="hover:text-[#c8a84b] transition-colors">Why Treia</Link>
             <Link href="#proof" className="hover:text-[#c8a84b] transition-colors">Proof</Link>
             <Link href="#faq" className="hover:text-[#c8a84b] transition-colors">FAQ</Link>
             <Link href="#apply" className="bg-[#c8a84b] text-[#050505] px-5 py-2.5 rounded-full font-bold hover:bg-[#d4b55c] transition-all hover:scale-105">Apply</Link>
@@ -130,10 +132,12 @@ export default function TreiaFunnelPage() {
         </div>
 
         {/* Mobile Nav */}
-        <div className={`md:hidden absolute top-20 left-0 w-full bg-[#0a0a0d] border-b border-white/5 transition-all duration-300 overflow-hidden ${isNavOpen ? 'max-h-[400px] border-b border-white/10' : 'max-h-0'}`}>
+        <div className={`md:hidden absolute top-20 left-0 w-full bg-[#0a0a0d] border-b border-white/5 transition-all duration-300 overflow-hidden ${isNavOpen ? 'max-h-[500px] border-b border-white/10' : 'max-h-0'}`}>
           <div className="px-6 py-10 flex flex-col gap-8 text-center text-sm font-mono tracking-widest uppercase text-[#7a7f8e]">
             <Link href="#philosophy" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">Philosophy</Link>
+            <Link href="#origin" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">Origin</Link>
             <Link href="#benefits" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">Benefits</Link>
+            <Link href="#why-treia" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">Why Treia</Link>
             <Link href="#proof" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">Proof</Link>
             <Link href="#faq" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">FAQ</Link>
             <Link href="#apply" onClick={() => setIsNavOpen(false)} className="text-[#c8a84b] font-bold">Apply Now</Link>
@@ -180,7 +184,7 @@ export default function TreiaFunnelPage() {
       </section>
 
       {/* Screen 2: The Philosophy */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111]">
+      <section id="philosophy" className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111]">
         <div className="absolute bottom-0 w-full h-[50vh] bg-gradient-to-t from-[#c8a84b]/5 to-transparent z-0"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
@@ -194,6 +198,63 @@ export default function TreiaFunnelPage() {
             <strong className="text-white font-medium">&apos;생존의 원칙&apos;</strong>을 기술로 구현했습니다. <br/>
             예측할 수 없는 내일도, 시스템 안에서는 통제 가능한 데이터가 됩니다.
           </p>
+        </div>
+      </section>
+
+      {/* Screen 2.5: THE ORIGIN */}
+      <section id="origin" className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-24 border-t border-[#111] bg-[#050505]">
+        <div className="max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
+          <div className="text-center mb-16">
+            <span className="text-[#c8a84b] font-mono text-sm tracking-[4px] uppercase block mb-6">THE ORIGIN</span>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-10 leading-[1.4]">
+              12년의 수업료가 <br className="md:hidden"/> <span className="text-[#c8a84b]">이 엔진을 만들었습니다.</span>
+            </h2>
+          </div>
+          
+          <div className="bg-[#0a0b0e] border border-[#1a1a1a] rounded-3xl p-8 md:p-12 mb-16 shadow-2xl relative overflow-hidden text-left">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#c8a84b]/5 blur-[80px] rounded-full pointer-events-none"></div>
+            <p className="text-[17px] md:text-[21px] text-[#a1a1aa] leading-[1.9] font-light break-keep">
+              시장에서 이기는 원칙을 만드는 것도 어렵지만, 더 어려운 건 그 원칙을 감정 없이 매번 그대로 지켜내는 것입니다. <br/><br/>
+              제가 속한 커뮤니티에는 2,000명의 실계좌 트레이더가 있습니다. 같은 교육을 받고, 같은 방식으로 매매합니다. 그 중에는 진짜 천재도 있습니다. <strong className="text-white font-medium">6억 손실 후 3개월 폐관수련을 거쳐 지금은 매일 1억 이상을 버는 사람</strong>도 있고, <strong className="text-white font-medium">100달러를 1년 6개월 만에 1,000만 달러로 만든 전설적인 동료</strong>도 있습니다. <br/><br/>
+              하지만 그들은 극소수입니다. 12년간 그 현실을 직접 보고 겪었습니다. 결론은 하나였습니다. <strong className="text-[#c8a84b] font-semibold">확률 높은 전략을 원칙대로 지키게 만드는 건 사람이 아니라 시스템이어야 한다.</strong> 2년 전 EA 개발을 시작한 이유입니다.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative text-left">
+            <div className="absolute top-1/2 left-0 right-0 h-px bg-[#1a1a1a] hidden md:block -translate-y-1/2 z-0"></div>
+            
+            <div className="bg-[#0f0f12] border border-[#c8a84b]/30 p-8 rounded-2xl relative z-10 shadow-xl group hover:border-[#c8a84b] transition-colors">
+              <div className="absolute top-0 right-8 -translate-y-1/2 bg-[#c8a84b] text-[#050505] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Current</div>
+              <div className="text-[#c8a84b] font-mono text-xl mb-4">1단계</div>
+              <h4 className="text-white text-lg font-medium mb-4">모의 프론트테스트</h4>
+              <p className="text-[#7a7f8e] text-sm leading-relaxed font-light">
+                실제 시장 데이터로 EA를 구동하며 매일 최적화합니다. 어제의 데이터가 오늘 아침 업데이트로 이어집니다.
+              </p>
+            </div>
+
+            <div className="bg-[#0a0a0d] border border-[#1a1a1a] p-8 rounded-2xl relative z-10 shadow-lg">
+              <div className="text-[#444] font-mono text-xl mb-4">2단계</div>
+              <h4 className="text-white/60 text-lg font-medium mb-4">실계좌 테스트</h4>
+              <p className="text-[#444] text-sm leading-relaxed font-light">
+                모의 테스트가 안정화되면 실제 자금으로 전환합니다. 수익률과 MDD를 실계좌 기준으로 다시 검증합니다.
+              </p>
+            </div>
+
+            <div className="bg-[#0a0a0d] border border-[#1a1a1a] p-8 rounded-2xl relative z-10 shadow-lg">
+              <div className="text-[#444] font-mono text-xl mb-4">3단계</div>
+              <h4 className="text-white/60 text-lg font-medium mb-4">관전자 초대</h4>
+              <p className="text-[#444] text-sm leading-relaxed font-light">
+                실계좌 트랙레코드가 쌓이면 MT5 관전자 계정을 선별 초대합니다. 숫자를 직접 보고 판단하세요.
+              </p>
+            </div>
+          </div>
+          
+          <div className="mt-16 text-center">
+            <Link href="#apply" className="inline-flex items-center gap-3 text-[#c8a84b] hover:text-white transition-colors group">
+              <span className="font-medium tracking-[2px] uppercase text-sm">지금 신청하시면 관전자 초대 시 가장 먼저 연락드립니다.</span>
+              <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -372,6 +433,55 @@ export default function TreiaFunnelPage() {
         </div>
       </section>
 
+      {/* Screen 7.5: WHY TREIA (Comparison Table) */}
+      <section id="why-treia" className="relative py-24 md:py-32 px-6 border-t border-[#111] bg-[#050505]">
+        <div className="max-w-5xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
+          <div className="text-center mb-16">
+            <span className="text-[#c8a84b] font-mono text-sm tracking-[4px] uppercase block mb-6">WHY TREIA</span>
+            <h2 className="text-3xl md:text-5xl font-light tracking-tight text-white mb-8 leading-[1.4]">
+              같은 자동매매, <span className="text-[#c8a84b]">다른 게임입니다.</span>
+            </h2>
+            <p className="text-[#7a7f8e] text-[17px] md:text-[20px] max-w-2xl mx-auto font-light leading-relaxed">
+              국내에도 검증된 자동매매 시스템이 있습니다. 하지만 대부분 국내 주식 시장을 대상으로 합니다. Treia는 다른 무대에서 다른 방식으로 작동합니다.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto mb-12">
+            <table className="w-full text-left min-w-[600px] border-collapse">
+              <thead>
+                <tr className="border-b border-[#222]">
+                  <th className="py-6 px-4 text-[#444] font-mono text-xs uppercase tracking-widest">분류</th>
+                  <th className="py-6 px-4 text-[#7a7f8e] font-normal text-sm">일반 자동매매</th>
+                  <th className="py-6 px-4 text-[#c8a84b] font-bold text-lg">Treia Gold Engine</th>
+                </tr>
+              </thead>
+              <tbody className="text-[15px] md:text-[16px]">
+                {[
+                  { label: "투자 종목", common: "국내 주식", treia: "XAUUSD (금 CFD)" },
+                  { label: "운용 시간", common: "장중 6.5시간", treia: "24시간" },
+                  { label: "매매 방향", common: "매수 전용", treia: "상승·하락 모두" },
+                  { label: "목표 수익", common: "연 20~40%", treia: "월 10%+ (보수적 세팅)" },
+                  { label: "리스크 한도", common: "미명시", treia: "최대 5% 이하" },
+                  { label: "검증 방식", common: "수익 인증샷", treia: "MT5 관전자 계정 (조작 불가)" },
+                  { label: "최소 시드", common: "수천만 원", treia: "$1,000 (약 135만 원)" }
+                ].map((row, idx) => (
+                  <tr key={idx} className="border-b border-[#111] hover:bg-white/[0.02] transition-colors">
+                    <td className="py-6 px-4 text-[#7a7f8e] font-light">{row.label}</td>
+                    <td className="py-6 px-4 text-[#555] font-light">{row.common}</td>
+                    <td className="py-6 px-4 text-white font-medium">{row.treia}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-12 bg-[#0a0b0e] border border-[#1a1a1a] p-8 rounded-2xl text-center">
+            <p className="text-[15px] md:text-[17px] text-[#7a7f8e] leading-[1.8] font-light break-keep">
+              <strong className="text-white font-medium">💡 보조 설명:</strong> 금(XAUUSD) 시장은 전 세계 자금이 24시간 움직이는 순수한 매크로 시장입니다. 개별 기업 이슈나 작전 세력의 영향을 받지 않습니다. 상승장에도, 하락장에도 방향만 맞으면 수익이 납니다. 알고리즘이 가장 잘 작동하는 무대입니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Screen 8: The Proof (Dashboard) */}
       <section id="proof" className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#111]">
         <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col items-center flex-1">
@@ -388,7 +498,10 @@ export default function TreiaFunnelPage() {
           <div className="w-full bg-[#0d0e12] border border-[#22242e] rounded-[32px] p-8 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-12 lg:gap-16 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200">
             
             <div className="flex flex-col md:flex-row justify-between items-center text-sm font-mono tracking-widest text-[#7a7f8e] uppercase border-b border-[#22242e] pb-6 gap-4">
-               <div>Data Source: <span className="text-[#c8a84b]">MT5 데모 운용 서버 (실 구동 테스트)</span></div>
+               <div className="text-left">
+                 <div className="text-[#c8a84b] mb-1">Data Source: MT5 데모 운용 서버 (실 구동 테스트)</div>
+                 <div className="text-[10px] text-[#555] normal-case tracking-normal">백테스트가 아닌 실제 시장에서 구동한 모의 프론트테스트 결과입니다. <br className="md:hidden"/> 브로커: 한텍 / 기간: 1개월 / 종목: XAUUSD / 세팅: 멀티타임프레임</div>
+               </div>
                <div>기간: 1개월 (총 147회 매매)</div>
                <div>초기 자본: $1,000.00</div>
             </div>
@@ -508,8 +621,8 @@ export default function TreiaFunnelPage() {
                 <span>매월 구독료를 내면 계속 사용할 수 있나요?</span>
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
-                <p><strong className="text-white font-medium block mb-2">A. 본 시스템은 월 단위 구독형 서비스로 제공되며, 일반 투자자를 대상으로 한 라이선스 개방은 최대 1년 이내로 한정될 예정입니다.</strong>
-                Treia 엔진의 최종 목적지는 기관급(Institutional) 트레이딩 솔루션으로의 도약입니다. 현재는 시스템의 더 큰 진화를 위해 다양한 실전 데이터를 확보하고 스케일업(Scale-up)하는 과정에 있습니다. 이 한시적인 파트너십 기간 동안, 고객님께서는 흔들림 없는 일상과 초기 자본(Seed)을 확보하시고, 저희는 시스템을 고도화하는 긍정적인 시너지를 기대합니다.</p>
+                <p><strong className="text-white font-medium block mb-2">A. 현재는 모의 프론트테스트 단계입니다.</strong>
+                실계좌 검증이 완료되면 MT5 관전자 계정을 선별 초대하고, 이후 구독형 또는 라이선스 방식으로 정식 오픈할 예정입니다.</p>
               </div>
             </div>
 
