@@ -1,8 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Layers, Lock, Target, ArrowUpRight, Globe, Clock, ShieldCheck } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  ShieldCheck, 
+  Clock, 
+  Globe,
+  Layers,
+  Lock,
+  Target,
+  Menu,
+  X 
+} from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function TreiaFunnelPage() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", reason: "", inquiry: "사전 예약: 개인용 자동매매 소프트웨어 라이선스" });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -79,12 +92,67 @@ export default function TreiaFunnelPage() {
   return (
     <div className="w-full bg-[#050505] text-[#f2f2f2] font-sans break-keep overflow-x-hidden selection:bg-[#c8a84b] selection:text-[#050505]">
       
-      {/* Screen 1: The Vision */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6">
+      {/* Sticky Header */}
+      <header className="fixed top-0 left-0 w-full z-[100] bg-[#050505]/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <Link href="/treia" className="flex items-center gap-3 group">
+            <div className="relative w-8 h-8">
+              <Image 
+                src="/treia_logo_gold_minimal_1773991628966.png" 
+                alt="Treia Logo" 
+                width={32}
+                height={32}
+                className="object-contain group-hover:scale-110 transition-transform duration-300"
+              />
+            </div>
+            <span className="font-outfit text-xl font-light tracking-widest text-[#c8a84b] uppercase">Treia</span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-10 text-[13px] font-mono tracking-widest uppercase text-[#7a7f8e]">
+            <Link href="#philosophy" className="hover:text-[#c8a84b] transition-colors">Philosophy</Link>
+            <Link href="#benefits" className="hover:text-[#c8a84b] transition-colors">Benefits</Link>
+            <Link href="#proof" className="hover:text-[#c8a84b] transition-colors">Proof</Link>
+            <Link href="#faq" className="hover:text-[#c8a84b] transition-colors">FAQ</Link>
+            <Link href="#apply" className="bg-[#c8a84b] text-[#050505] px-5 py-2.5 rounded-full font-bold hover:bg-[#d4b55c] transition-all hover:scale-105">Apply</Link>
+          </nav>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden text-white"
+            onClick={() => setIsNavOpen(!isNavOpen)}
+            aria-label="Toggle Menu"
+          >
+            {isNavOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Nav */}
+        <div className={`md:hidden absolute top-20 left-0 w-full bg-[#0a0a0d] border-b border-white/5 transition-all duration-300 overflow-hidden ${isNavOpen ? 'max-h-[400px] border-b border-white/10' : 'max-h-0'}`}>
+          <div className="px-6 py-10 flex flex-col gap-8 text-center text-sm font-mono tracking-widest uppercase text-[#7a7f8e]">
+            <Link href="#philosophy" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">Philosophy</Link>
+            <Link href="#benefits" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">Benefits</Link>
+            <Link href="#proof" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">Proof</Link>
+            <Link href="#faq" onClick={() => setIsNavOpen(false)} className="hover:text-[#c8a84b]">FAQ</Link>
+            <Link href="#apply" onClick={() => setIsNavOpen(false)} className="text-[#c8a84b] font-bold">Apply Now</Link>
+          </div>
+        </div>
+      </header>
+
+      <section id="hero" className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6">
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c8a84b]/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms]">
+          <div className="relative w-24 h-24 mb-6 reveal opacity-0 scale-90 transition-all duration-1000">
+            <Image 
+              src="/treia_logo_gold_minimal_1773991628966.png" 
+              alt="Treia Gold Logo" 
+              width={96}
+              height={96}
+              className="object-contain drop-shadow-[0_0_20px_rgba(200,168,75,0.3)]"
+            />
+          </div>
           <div className="font-mono text-[12px] md:text-[15px] text-[#c8a84b] tracking-[6px] uppercase mb-10">
             Treia Gold Algorithm Engine
           </div>
@@ -200,7 +268,7 @@ export default function TreiaFunnelPage() {
       </section>
 
       {/* Screen 5: Benefit 1 - Time Freedom */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111] bg-[#030303]">
+      <section id="benefits" className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111] bg-[#030303]">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-900/5 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
@@ -303,7 +371,7 @@ export default function TreiaFunnelPage() {
       </section>
 
       {/* Screen 8: The Proof (Dashboard) */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#111]">
+      <section id="proof" className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#111]">
         <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col items-center flex-1">
           
           <div className="text-center mb-16 reveal opacity-0 translate-y-12 transition-all duration-1000">
@@ -424,7 +492,7 @@ export default function TreiaFunnelPage() {
       </section>
 
       {/* Screen 8.7: FAQ */}
-      <section className="relative py-24 md:py-32 px-6 border-t border-[#111] bg-[#030303]">
+      <section id="faq" className="relative py-24 md:py-32 px-6 border-t border-[#111] bg-[#030303]">
         <div className="max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
           <div className="text-center mb-16 text-left">
             <span className="text-[#c8a84b] font-mono text-sm tracking-[4px] uppercase block mb-4">FAQ</span>
@@ -513,7 +581,7 @@ export default function TreiaFunnelPage() {
       </section>
 
       {/* Screen 9: CTA */}
-      <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#333] bg-gradient-to-t from-[#0a0a0d] to-[#040404]">
+      <section id="apply" className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#333] bg-gradient-to-t from-[#0a0a0d] to-[#040404]">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-px bg-gradient-to-r from-transparent via-[#c8a84b] to-transparent"></div>
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#c8a84b]/10 blur-[120px] rounded-full pointer-events-none"></div>
 
