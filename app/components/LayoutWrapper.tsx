@@ -9,28 +9,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   const isTreia = pathname?.startsWith('/treia');
 
   if (isTreia) {
-    return (
-      <div className="min-h-screen bg-[#080808] text-[#f5f0e8] flex flex-col font-sans selection:bg-[#10B981] selection:text-[#0a0a0a] overflow-x-hidden">
-        {/* Simple Treia Header */}
-        <header className="fixed top-0 w-full z-50 bg-[#080808]/80 backdrop-blur-md border-b border-[#1e1e1e] py-4 px-6 md:px-12 flex justify-between items-center transition-all">
-           <Link href="/treia" className="flex items-center gap-1 group">
-             <span className="text-xl md:text-2xl font-black tracking-widest uppercase text-white hover:text-[#10B981] transition-colors">
-               Treia
-             </span>
-           </Link>
-        </header>
-
-        {/* Mian Content without max-w-5xl padding */}
-        <main className="flex-1 w-full m-0 p-0 relative">
-          {children}
-        </main>
-        
-        {/* Simple Treia Footer */}
-        <footer className="border-t border-[#1e1e1e] bg-[#0a0a0a] py-8 text-center text-xs text-[#52525b] font-mono tracking-widest">
-           © 2026 TREIA INTELLIGENCE. ALL RIGHTS RESERVED.
-        </footer>
-      </div>
-    );
+    return <>{children}</>;
   }
 
   // FinTable Layout

@@ -101,10 +101,10 @@ export default function TreiaFunnelPage() {
           <Link href="#hero" className="flex items-center">
             <div className="relative h-8 md:h-10 w-32 md:w-40">
               <Image 
-                src="/treia_logo_final.png" 
+                src="/treia_logo_removed_bg.png" 
                 alt="Treia Logo" 
                 fill
-                className="object-contain object-left group-hover:scale-105 transition-transform duration-300 mix-blend-screen"
+                className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
                 priority
               />
             </div>
@@ -148,10 +148,10 @@ export default function TreiaFunnelPage() {
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms]">
           <div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
             <Image 
-              src="/treia_logo_final.png"
+              src="/treia_logo_removed_bg.png"
               alt="Treia Gold Logo"
               fill
-              className="object-contain mix-blend-screen"
+              className="object-contain"
               priority
             />
           </div>
