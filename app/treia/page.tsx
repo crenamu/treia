@@ -98,13 +98,13 @@ export default function TreiaFunnelPage() {
       {/* Sticky Header */}
       <header className="fixed top-0 left-0 w-full z-[100] bg-[#050505]/95 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="#hero" className="flex items-center group">
+          <Link href="#hero" className="flex items-center">
             <div className="relative h-8 md:h-10 w-32 md:w-40">
               <Image 
                 src="/treia_logo_final.png" 
                 alt="Treia Logo" 
                 fill
-                className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
+                className="object-contain object-left group-hover:scale-105 transition-transform duration-300 mix-blend-screen"
                 priority
               />
             </div>
@@ -146,20 +146,20 @@ export default function TreiaFunnelPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#c8a84b]/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms]">
-          <div className="relative w-48 h-20 md:w-64 md:h-32 mb-10 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
+          <div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
             <Image 
               src="/treia_logo_final.png"
               alt="Treia Gold Logo"
               fill
-              className="object-contain"
+              className="object-contain mix-blend-screen"
               priority
             />
           </div>
           <div className="font-mono text-[12px] md:text-[15px] text-[#c8a84b] tracking-[6px] uppercase mb-10">
             Treia Gold Algorithm Engine
           </div>
-          <div className="text-[#c8a84b] font-medium tracking-[2px] mb-6 text-sm md:text-lg border border-[#c8a84b]/30 px-4 py-1.5 rounded-full bg-[#c8a84b]/5">
-            개인용 AI 자동매매 소프트웨어 라이선스
+          <div className="text-[#c8a84b] font-medium tracking-[3px] mb-10 text-sm md:text-lg border border-[#c8a84b]/20 px-6 py-2 rounded-full bg-[#c8a84b]/5 uppercase font-mono">
+            Algorithm Engine v3.0
           </div>
           <h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-light leading-[1.3] tracking-tighter text-white mb-10">
             투자는 당신의 일상을 <br className="hidden md:block"/> 지키기 위한 수단이어야 합니다.
