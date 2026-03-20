@@ -110,10 +110,9 @@
 **최종 업데이트:** 2026-03-19 (목) 21:20 KST
 **상태:** **[전체 주요 퍼널 및 자동화 구축 완료]**
 
-## 7. Treia 퍼널 및 자동화 (Completed)
-- [x] **Treia 랜딩페이지 전면 개편**: 10-Screen 시네마틱 스크롤텔링(Scrollytelling) 적용.
-- [x] **실제 데이터 시각화**: $1000 실거래 기반 SVG 차트 및 통계 대시보드 구축.
-- [x] **운영 자동화**: Admin 대시보드 및 Nodemailer 기반 승인 메일 발송 API 구현.
-- [x] **자체 가이드**: `/treia/guide` 내부 웹 매뉴얼 구축 (노션 대체).
-- [x] **심리 마케팅 FAQ**: 자본주의적 신뢰 서사 및 1년 한정 개방(FOMO) 전략 반영 완료.
-- [x] **코드 최적화**: Biome 기반 린팅 및 JSX 문법 오류(Escape) 전수 수정.
+## 8. Treia 콘텐츠 고도화 및 통합 (완료)
+- [x] **Phase 1: Brand & Philosophy**: 라이선스 명칭 추가 및 Hero/철학 문구 보정.
+- [x] **Phase 2: Benefits & Infographic**: 구체적 혜택 사례(FOMC 등) 업데이트 및 Drawdown 포인트 강화.
+- [x] **Phase 3: Proof & Trust**: MT5 관전자 계정 조작 불가 논리 보강.
+- [x] **Phase 4: FAQ Expansion**: 기존 7개 핵심 질문 통합 및 고도화 (총 10개 질문의 가치 함축).
+- [x] **Phase 5: CTA & Legal**: 신청 폼 라벨링 및 면책 조항 핵심 요약 교체(리스크 통제 문구 강화).

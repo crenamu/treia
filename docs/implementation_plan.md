@@ -42,7 +42,12 @@
 3. **[Internal Guide]** 외부 노션 대신 자체 웹페이지 가이드(`/treia/guide`) 구축. 3단계 모바일 접속 매뉴얼 및 MT5 가이드 최적화.
 4. **[Copywriting Refinement]** 자본주의적 신뢰 논리(시드 확보 명분) 및 1년 한정 개방(FOMO) 전략 FAQ 섹션 최종 완성.
 
-## Phase 8: Code Quality & Dev Environment (Completed)
-- [x] Integrate `@biomejs/biome` via pnpm.
-- [x] Initialize `biome.json` for standardized formatting and linting.
-- [x] Resolve unused imports and quote escaping linting issues in Treia pages.
+## Phase 8: Treia 콘텐츠 고도화 및 통합 (Completed: 2026-03-20)
+- [x] **Phase 1: Brand & Philosophy**: 라이선스 명칭 추가 및 Hero/철학 문구 보정.
+- [x] **Phase 2: Benefits & Infographic**: 구체적 혜택 사례(FOMC 등) 업데이트 및 Drawdown 포인트 강화.
+- [x] **Phase 3: Proof & Trust**: MT5 관전자 계정 조작 불가 논리 보강.
+- [x] **Phase 4: FAQ Expansion**: 기존 7개 핵심 질문 통합 및 고도화 (총 10개 질문 가치 함축).
+- [x] **Phase 5: CTA & Legal**: 신청 폼 라벨링 및 면책 조항 핵심 요약 교체(리스크 고지 강화).
+
+---
+**최종 업데이트:** 2026-03-20 (금)

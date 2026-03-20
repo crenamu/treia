@@ -61,8 +61,8 @@ export default function TreiaFunnelPage() {
   // Create SVG path string dynamically
   const width = 800;
   const height = 200;
-  const minVal = -100; // a bit below -82.7
-  const maxVal = 1000; // a bit above 986.3
+  const minVal = -100;
+  const maxVal = 1000;
   const range = maxVal - minVal;
   const stepX = width / (chartData.length - 1);
   
@@ -88,12 +88,16 @@ export default function TreiaFunnelPage() {
           <div className="font-mono text-[12px] md:text-[15px] text-[#c8a84b] tracking-[6px] uppercase mb-10">
             Treia Gold Algorithm Engine
           </div>
+          <div className="text-[#c8a84b] font-medium tracking-[2px] mb-6 text-sm md:text-lg border border-[#c8a84b]/30 px-4 py-1.5 rounded-full bg-[#c8a84b]/5">
+            개인용 AI 자동매매 소프트웨어 라이선스
+          </div>
           <h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-light leading-[1.3] tracking-tighter text-white mb-10">
             투자는 당신의 일상을 <br className="hidden md:block"/> 지키기 위한 수단이어야 합니다.
           </h1>
           <p className="text-[17px] md:text-[24px] text-[#7a7f8e] max-w-3xl leading-[1.8] font-light">
             모니터 앞에서 보내는 긴장된 시간들, 이제는 본업과 가족에게 돌려주십시오. <br className="hidden lg:block"/>
-            감정의 소모 없이, 24시간 정교한 원칙으로 작동하는 생존형 자산 관리 알고리즘.
+            내 손가락의 뇌동매매를 잠그고, 시스템의 견고한 원칙만 남깁니다. <br className="hidden lg:block"/>
+            감정의 소모 없이 24시간 정교하게 작동하는 생존형 자산 관리 알고리즘.
           </p>
         </div>
 
@@ -111,7 +115,7 @@ export default function TreiaFunnelPage() {
         
         <div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-10 leading-[1.4]">
-            시장을 예측하려 하지 않습니다. <br/> <span className="bg-[#c8a84b] text-[#0a0a0a] px-3 py-1 font-bold inline-block mt-2">철저하게 대응</span>할 뿐입니다.
+            &quot;시장을 예측하려 하지 않습니다. <br/> <span className="bg-[#c8a84b] text-[#0a0a0a] px-3 py-1 font-bold inline-block mt-2">철저하게 대응</span>할 뿐입니다.&quot;
           </h2>
           <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
             위대한 투자자들도 시장의 거대한 파도 앞에서는 겸손합니다. <br className="hidden md:block"/>
@@ -211,7 +215,7 @@ export default function TreiaFunnelPage() {
           </h2>
           <p className="text-[17px] md:text-[22px] text-[#7a7f8e] max-w-3xl mx-auto leading-[1.9] font-light">
             회의 중에 주식 창을 몰래 보며 땀 흘릴 필요가 없습니다. <br className="hidden md:block"/>
-            트레이아 골드 알고리즘 엔진은 당신이 본업에 집중하고, 가족과 저녁을 먹고, <br className="hidden md:block"/>
+            트레이아 알고리즘 엔진은 당신이 본업에 집중하고, 가족과 저녁을 먹고, <br className="hidden md:block"/>
             깊은 잠에 빠진 순간에도 <strong className="text-white font-medium">24시간 당신의 계좌를 모니터링</strong>합니다.<br/><br/>
             당신은 아침에 일어나 밤새 엔진이 지켜낸 결과만 확인하십시오.
           </p>
@@ -224,6 +228,7 @@ export default function TreiaFunnelPage() {
         {/* Abstract Whipsaw Chart Background */}
         <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center">
            <svg viewBox="0 0 1000 400" className="w-[150%] h-auto stroke-[#ef4444]" preserveAspectRatio="none" fill="none" strokeWidth="1">
+             <title>Whipsaw Background Chart</title>
              <path d="M0,200 L100,190 L120,250 L140,150 L160,280 L180,100 L200,350 L220,50 L240,300 L260,150 L280,250 L300,190 L1000,190" strokeDasharray="5,5" />
            </svg>
         </div>
@@ -266,7 +271,6 @@ export default function TreiaFunnelPage() {
             </p>
           </div>
           
-          {/* Visual Data Representation - Refined */}
           <div className="reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200 w-full">
             <div className="bg-[#0a0b0e] border border-[#1e2028] rounded-[32px] p-10 md:p-14 shadow-2xl relative overflow-visible">
                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#ef4444]/5 blur-[80px] rounded-full pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
@@ -274,7 +278,6 @@ export default function TreiaFunnelPage() {
                <h3 className="text-[#a1a1aa] font-mono text-sm tracking-widest uppercase mb-16 text-center lg:text-left relative z-10">THE TRAP OF DRAWDOWN</h3>
                
                <div className="flex flex-col gap-12 relative z-10">
-                 {/* -50% Loss */}
                  <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
                    <div className="text-5xl font-light text-[#ef4444] w-32 shrink-0">-50%</div>
                    <div className="flex-1 w-full">
@@ -284,7 +287,6 @@ export default function TreiaFunnelPage() {
                    </div>
                  </div>
 
-                 {/* +100% Need */}
                  <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8 mt-4 md:mt-0">
                    <div className="text-5xl font-light text-[#10B981] w-32 shrink-0">+100%</div>
                    <div className="flex-1 w-full">
@@ -294,14 +296,13 @@ export default function TreiaFunnelPage() {
                    </div>
                  </div>
                </div>
-               
             </div>
           </div>
 
         </div>
       </section>
 
-      {/* Screen 8: The Proof (Infographic Dashboard) */}
+      {/* Screen 8: The Proof (Dashboard) */}
       <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#111]">
         <div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col items-center flex-1">
           
@@ -316,14 +317,12 @@ export default function TreiaFunnelPage() {
 
           <div className="w-full bg-[#0d0e12] border border-[#22242e] rounded-[32px] p-8 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col gap-12 lg:gap-16 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200">
             
-            {/* Context Info */}
             <div className="flex flex-col md:flex-row justify-between items-center text-sm font-mono tracking-widest text-[#7a7f8e] uppercase border-b border-[#22242e] pb-6 gap-4">
                <div>Data Source: <span className="text-[#c8a84b]">MT5 데모 운용 서버 (실 구동 테스트)</span></div>
                <div>기간: 1개월 (총 147회 매매)</div>
                <div>초기 자본: $1,000.00</div>
             </div>
 
-            {/* Top Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-[#22242e]">
               <div className="flex flex-col items-center pt-6 md:pt-0">
                 <div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[2px] mb-4">라이브 포워드 테스트</div>
@@ -339,12 +338,9 @@ export default function TreiaFunnelPage() {
               </div>
             </div>
 
-            {/* Dashboard Visuals */}
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-              
-              {/* MT5 Actual Data Chart */}
               <div className="lg:col-span-3 bg-[#13151b] border border-[#23252d] rounded-2xl p-6 md:p-8 flex flex-col relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#3b82f6]/5 blur-[80px] rounded-full point-events-none transform translate-x-1/2 -translate-y-1/2"></div>
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#3b82f6]/5 blur-[80px] rounded-full pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
                 <div className="flex justify-between items-start mb-6 relative z-10">
                   <div className="text-left text-sm font-mono text-[#a1a1aa] tracking-widest uppercase">실제 운용 계좌 성장 곡선 ($1,000 기준)</div>
                   <div className="text-right">
@@ -352,9 +348,9 @@ export default function TreiaFunnelPage() {
                      <span className="text-[#7a7f8e] text-xs uppercase tracking-widest">Net Profit Flow</span>
                   </div>
                 </div>
-                {/* SVG Area */}
                 <div className="flex-1 w-full min-h-[160px] relative flex md:items-end mt-4">
                   <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]" preserveAspectRatio="none">
+                    <title>Account Growth Chart</title>
                     <path d={dFill} fill="url(#gradient-blue-real)" opacity="0.3" />
                     <path d={dPath} fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
                     <circle cx={width} cy={height - ((chartData[chartData.length-1] - minVal) / range) * height} r="5" fill="#60a5fa" className="animate-pulse" />
@@ -366,8 +362,6 @@ export default function TreiaFunnelPage() {
                     </defs>
                   </svg>
                   <div className="absolute inset-0 border-b border-l border-[#2a2d36] pointer-events-none"></div>
-                  
-                  {/* Annotation for DD */}
                   <div className="absolute bottom-[20%] left-[25%] hidden md:flex flex-col items-center">
                     <div className="w-px h-8 bg-dashed bg-[#ef4444]/50 border-l border-dashed border-[#ef4444]"></div>
                     <span className="text-[10px] text-[#ef4444] font-mono mt-1 whitespace-nowrap">방어선 (Max DD: -$82.70)</span>
@@ -375,24 +369,21 @@ export default function TreiaFunnelPage() {
                 </div>
               </div>
 
-              {/* Profit vs Loss */}
               <div className="lg:col-span-2 bg-[#13151b] border border-[#23252d] rounded-2xl p-6 md:p-8 flex flex-col justify-center relative overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 w-[200px] h-[200px] bg-[#10B981]/5 blur-[60px] rounded-full point-events-none transform -translate-x-1/2 -translate-y-1/2"></div>
+                <div className="absolute top-1/2 left-1/2 w-[200px] h-[200px] bg-[#10B981]/5 blur-[60px] rounded-full pointer-events-none transform -translate-x-1/2 -translate-y-1/2"></div>
                 <div className="text-center mb-6 relative z-10">
                    <span className="text-sm font-mono text-[#a1a1aa] tracking-widest uppercase">Profit Ratio</span>
                 </div>
                 
                 <div className="flex gap-4 items-center justify-between w-full h-full relative z-10">
-                   
                    <div className="flex flex-col items-center shrink-0">
                      <span className="text-[#10B981] font-outfit text-xl md:text-2xl font-light mb-1">+$1,370</span>
                      <span className="text-[#a1a1aa] text-[10px] uppercase tracking-widest">Gross Profit</span>
                    </div>
 
-                   {/* Using authentic 1370 / 384 ratio */}
-                   {/* 1370 / (1370+384) = ~78.1% */}
                    <div className="relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0 mx-auto">
                      <svg viewBox="0 0 36 36" className="w-full h-full drop-shadow-2xl">
+                       <title>Profit Ratio Chart</title>
                        <path strokeDasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#ef4444" strokeWidth="3" className="opacity-80" />
                        <path strokeDasharray="78.1, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#10B981" strokeWidth="3" />
                      </svg>
@@ -406,13 +397,10 @@ export default function TreiaFunnelPage() {
                      <span className="text-[#ef4444] font-outfit text-xl md:text-2xl font-light mb-1">-$384</span>
                      <span className="text-[#a1a1aa] text-[10px] uppercase tracking-widest">Gross Loss</span>
                    </div>
-
                 </div>
               </div>
-
             </div>
           </div>
-          
         </div>
       </section>
 
@@ -426,11 +414,11 @@ export default function TreiaFunnelPage() {
               왜 <span className="bg-[#c8a84b] text-[#0a0a0a] px-3 py-1 font-bold inline-block rounded-sm mb-2 md:mb-0">MT5 관전자 계정</span> 인가요?
             </h3>
             
-            <p className="text-[16px] md:text-[19px] text-[#a1a1aa] leading-[1.8] font-light">
-              단순한 엑셀 기반의 백테스트 결과나 부분적으로 캡처된 수익 인증샷은 누구나 쉽게 가장할 수 있습니다.<br/><br/>
+            <div className="text-[16px] md:text-[19px] text-[#a1a1aa] leading-[1.8] font-light break-keep">
+              <p>단순한 엑셀 기반의 백테스트 결과나 부분적으로 캡처된 수익 인증샷은 누구나 쉽게 가장할 수 있습니다.<br/><br/>
               하지만 글로벌 표준 금융 트레이딩 플랫폼인 MT5(MetaTrader 5)의 <strong className="text-white font-medium">&apos;관전자 계정(Investor Password)&apos;</strong>은 조작이 원천적으로 불가능합니다. 오직 거래 서버 시스템에 실시간으로 기록되는 <strong className="text-white font-medium">실시간 체결 내역, 현재 보유 중인 포지션 비율, 그리고 정확한 계좌 잔고</strong>만을 제3자가 100% 투명하게 &apos;조회만&apos; 할 수 있도록 권한을 열어주는 시스템입니다.<br/><br/>
-              이를 통해 당신은 엔진이 약속한 방어선이 진짜로 지켜지고 있는지, 가감 없는 생생한 민낯을 직접 검증할 수 있습니다.
-            </p>
+              이를 통해 당신은 엔진이 약속한 방어선이 진짜로 지켜지고 있는지, 가감 없는 생생한 민낯을 직접 검증할 수 있습니다.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -438,97 +426,93 @@ export default function TreiaFunnelPage() {
       {/* Screen 8.7: FAQ */}
       <section className="relative py-24 md:py-32 px-6 border-t border-[#111] bg-[#030303]">
         <div className="max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 text-left">
             <span className="text-[#c8a84b] font-mono text-sm tracking-[4px] uppercase block mb-4">FAQ</span>
             <h2 className="text-3xl md:text-5xl font-light tracking-tight text-white">자주 묻는 질문</h2>
           </div>
           
-          <div className="space-y-6">
-            {/* Q1 */}
+          <div className="space-y-6 text-left">
             <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
               <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
                 <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
-                <span>이렇게 훌륭한 시스템이라면 혼자 사용하시지, <br className="md:hidden"/> 왜 라이선스를 대여하시나요?</span>
+                <span>매월 구독료를 내면 계속 사용할 수 있나요?</span>
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
-                <p><strong className="text-white font-medium block mb-2">A. 안정적인 트레이딩 자본(Seed) 확보와 시스템 고도화를 위한 가장 합리적인 선택이기 때문입니다.</strong>
-                Treia 엔진은 본래 저 자신의 자산을 안전하게 운용하기 위해 개발한 시스템입니다. 하지만 금융 시장에서 시스템이 창출하는 절대적인 수익금은 결국 &apos;초기 운용 자본(Seed)&apos;의 규모에 비례합니다.</p>
-                <p>저는 이 완성된 시스템을 저 혼자만의 계좌에 머물게 하는 대신, 저의 투자 철학에 공감해 주시는 파트너분들께 소프트웨어 라이선스로 제공하는 길을 택했습니다. 이를 통해 발생하는 라이선스 구독 수익은 저의 개인 트레이딩 시드를 안정적으로 확대하고, 시스템을 더욱 정교하게 업데이트하는 R&D 자금으로 온전히 재투자됩니다.</p>
-                <p>고객님께서는 수년의 개발 시간과 시행착오 없이 완성된 방어 시스템을 일상에 도입하시고, 저는 시스템을 스케일업(Scale-up)할 수 있는 든든한 동력을 얻는 가장 투명하고 건강한 파트너십입니다.</p>
+                <p><strong className="text-white font-medium block mb-2">A. 본 시스템은 월 단위 구독형 서비스로 제공되며, 일반 투자자를 대상으로 한 라이선스 개방은 최대 1년 이내로 한정될 예정입니다.</strong>
+                Treia 엔진의 최종 목적지는 기관급(Institutional) 트레이딩 솔루션으로의 도약입니다. 현재는 시스템의 더 큰 진화를 위해 다양한 실전 데이터를 확보하고 스케일업(Scale-up)하는 과정에 있습니다. 이 한시적인 파트너십 기간 동안, 고객님께서는 흔들림 없는 일상과 초기 자본(Seed)을 확보하시고, 저희는 시스템을 고도화하는 긍정적인 시너지를 기대합니다.</p>
               </div>
             </div>
 
-            {/* Q2 */}
             <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
               <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
                 <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
-                <span>제 개인 컴퓨터나 스마트폰을 <br className="md:hidden"/> 24시간 계속 켜두어야 하나요?</span>
+                <span>프로그램은 어떻게 설치하며, 24시간 켜두어야 하나요?</span>
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
-                <p><strong className="text-white font-medium block mb-2">A. 아닙니다. 고객님의 일상에 전혀 지장을 주지 않습니다.</strong>
-                Treia 엔진은 일반 PC가 아닌, 365일 무중단으로 안전하게 작동하는 클라우드 가상 서버(VPS) 환경에 세팅하는 것을 권장해 드립니다.</p>
-                <p>한 번 세팅이 완료되면, 고객님의 컴퓨터나 스마트폰 전원이 꺼져 있어도 시스템은 독립적인 서버에서 24시간 쉬지 않고 시장을 모니터링하며 계좌를 지켜냅니다.</p>
+                <p><strong className="text-white font-medium block mb-2">A. 고객님의 PC 또는 클라우드(VPS) 서버를 통해 구동하실 수 있도록 상세한 가이드를 제공합니다.</strong>
+                본 프로그램은 개인 PC나 노트북에 직접 설치하여 운영하실 수 있습니다. 단, 알고리즘의 완벽한 방어력을 위해 24시간 중단 없이 구동되어야 합니다. 24시간 구동이 부담스러우시거나 세팅이 어려우신 경우, 원격 지원을 통해 쾌적한 클라우드(VPS) 가상 서버 환경을 갖추실 수 있도록 정중히 도와드립니다.</p>
               </div>
             </div>
 
-            {/* Q3 */}
             <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
               <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
                 <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
-                <span>기계가 돌아가고 있을 때, <br className="md:hidden"/> 제가 직접 매수나 익절을 섞어서 해도 될까요?</span>
+                <span>투자금은 얼마가 필요하며, 수동 매매를 섞어도 되나요?</span>
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
-                <p><strong className="text-white font-medium block mb-2">A. 시스템의 온전한 성능 발휘를 위해 수동 개입은 권장해 드리지 않습니다.</strong>
-                Treia 엔진은 진입하는 그 순간, 이미 계좌 전체의 예산과 방어선을 수학적으로 정밀하게 계산해 둡니다. 만약 수동으로 포지션을 종료하거나 추가하시게 되면, 이 정교한 밸런스가 흐트러져 알고리즘 본연의 방어력이 제대로 발휘되지 않을 수 있습니다.</p>
-                <p>투자의 감정과 스트레스를 시스템에 온전히 맡기시고, 고객님께서는 평온하게 결과만 확인해 주시기를 정중히 권해드립니다.</p>
+                <p><strong className="text-white font-medium block mb-2">A. 최소 권장 자금은 $1,000 이상이며, 시스템의 밸런스를 위해 수동 개입은 권장하지 않습니다.</strong>
+                안정적인 방어력을 위한 권장 자금은 $5,000 이상이나, 효용을 먼저 경험해 보실 수 있도록 최소 $1,000(약 135만 원)부터 구동 가능하게 설계하였습니다. 알고리즘에 대한 신뢰가 충분히 쌓였을 때 자본을 늘려가시는 것을 권장하며, 투자의 판단은 시스템에 온전히 맡기시길 당부드립니다.</p>
               </div>
             </div>
 
-            {/* Q4 */}
             <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
               <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
                 <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
-                <span>관전 후, 나중에 제 계좌에 <br className="md:hidden"/> 이 시스템을 도입하려면 어떻게 해야 하나요?</span>
+                <span>해외 증권사 이용과 투자금 송금은 합법적이고 안전한가요?</span>
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
-                <p><strong className="text-white font-medium block mb-2">A. 사전 체험을 신청하신 분들께 가장 먼저 정식 라이선스 도입 안내를 드립니다.</strong>
-                현재는 4월 정식 런칭을 앞두고, 시스템의 가치를 투명하게 증명해 보이는 &apos;사전 검증 기간&apos;입니다.</p>
-                <p>지금 [MT5 관전자 계정]을 신청하셔서 2주간 시스템의 퍼포먼스를 충분히 경험해 보십시오. 가치를 확신하신 분들께 한하여, 정식 런칭 시점에 개인 계좌 연동 방법과 소프트웨어 라이선스(월 구독형) 도입 절차를 개별적으로 상세히 안내해 드릴 예정입니다.</p>
+                <p><strong className="text-white font-medium block mb-2">A. 네, 글로벌 금융당국의 규제와 대한민국 트래블룰을 준수하는 100% 합법적인 거래입니다.</strong>
+                FCA 등 최상위 규제를 받는 정식 증권사에 본인 명의 계좌를 개설합니다. 투자금 송금 시 수수료가 저렴한 디지털 자산 네트워크(USDT 등)를 활용하며, 이는 공식 가상자산 거래소를 거쳐 투명하게 전송됩니다. 수익금은 매년 5월 국세청에 파생상품 양도소득세(11%)로 당당하게 신고하실 수 있습니다.</p>
               </div>
             </div>
 
-            {/* Q5 */}
             <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
               <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
                 <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
-                <span>서버 세팅이나 프로그램 설치를 해본 적이 없는데, <br className="md:hidden"/> 초보자도 이용할 수 있나요?</span>
+                <span>훌륭한 시스템이라면 혼자 사용하시지, 왜 라이선스를 대여하시나요?</span>
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
-                <p><strong className="text-white font-medium block mb-2">A. 네, IT 지식이 전혀 없으셔도 완벽하게 구동하실 수 있도록 모든 과정을 지원해 드립니다.</strong>
-                정식 라이선스를 도입하시는 파트너분들께는, 컴퓨터에 익숙하지 않으신 분들도 클릭 몇 번으로 세팅을 마칠 수 있는 [초간단 시각화 매뉴얼]을 제공해 드립니다.</p>
-                <p>복잡한 기술적 고민은 저희가 대신하겠습니다. 고객님께서는 그저 닦아놓은 안전한 서버 환경 위에서, Treia 엔진이 흔들림 없이 작동하는 것을 편안하게 누리시기만 하면 됩니다. <br className="hidden md:block"/> <span className="text-[#888] text-[14px] mt-2 block">(필요시 1:1 원격 세팅 지원도 함께 제공해 드릴 예정입니다.)</span></p>
+                <p><strong className="text-white font-medium block mb-2">A. 안정적인 트레이딩 자본(Seed) 확보와 시스템 고도화를 위한 합리적인 선택입니다.</strong>
+                Treia 엔진은 시드 규모에 비례하여 수익이 창출됩니다. 라이선스 수익은 개인 시드를 확대하고 엔진을 더 정교하게 업데이트하는 R&D 자금으로 재투자됩니다. 고객님은 시행착오 없이 완성된 시스템을 얻고, 저는 시스템을 스케일업할 동력을 얻는 건강한 파트너십입니다.</p>
               </div>
             </div>
 
-            {/* Q6 */}
             <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
               <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
                 <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
-                <span>이 시스템은 한 번 구독하면 <br className="md:hidden"/> 평생 이용할 수 있나요?</span>
+                <span>관전 후, 나중에 제 계좌에 이 시스템을 도입하려면 어떻게 해야 하나요?</span>
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
-                <p><strong className="text-white font-medium block mb-2">A. 아니요, 개인 투자자를 대상으로 한 퍼블릭 라이선스 개방은 최대 1년 이내로 한정될 예정입니다.</strong>
-                Treia 엔진의 최종 목적지는 개인용 소프트웨어 판매가 아닌, 거대 자본을 운용하는 &apos;기관급(B2B) 트레이딩 솔루션&apos;으로의 전환입니다. 따라서 일반 투자자분들을 대상으로 한 현재의 라이선스 대여는, 초기 스케일업(Scale-up) 과정이 완료되는 시점까지만 한시적으로 진행되며 이후 신규 진입의 문은 영구적으로 닫힙니다.</p>
-                <p>이 짧고도 강렬한 파트너십 기간 동안, 고객님께서는 흔들림 없는 일상과 초기 시드머니를 확보하십시오. 더불어, 완벽하게 감정이 배제된 기계가 어떻게 위기를 방어하고 시장의 파동을 타는지 그 &apos;차가운 원칙&apos;을 곁에서 지켜보십시오.</p>
-                <p className="text-[#c8a84b] font-medium">문이 닫히기 전, 이 압도적인 생존의 궤적에 동승하십시오.</p>
+                <p><strong className="text-white font-medium block mb-2">A. 사전 체험을 신청하신 분들께 가장 먼저 정식 도입 절차를 안내해 드립니다.</strong>
+                지금 [MT5 관전자 계정]을 신청하셔서 2주간 퍼포먼스를 충분히 경험해 보십시오. 가치를 확신하신 분들께 한하여 정식 런칭 시점에 개인 계좌 연동 방법과 라이선스 도입 절차를 개별적으로 상세히 안내해 드릴 예정입니다.</p>
               </div>
             </div>
-            
+
+            <div className="bg-[#0a0b0e] p-8 md:p-10 rounded-2xl border border-[#1a1a1a] hover:border-[#c8a84b]/30 transition-colors">
+              <h3 className="text-[18px] md:text-[21px] font-medium text-white mb-5 flex items-start gap-4 leading-[1.5]">
+                <span className="text-[#c8a84b] font-outfit text-2xl mt-0.5">Q.</span> 
+                <span>서버 세팅이나 프로그램 설치를 해본 적이 없는데, 초보자도 이용할 수 있나요?</span>
+              </h3>
+              <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
+                <p><strong className="text-white font-medium block mb-2">A. 네, IT 지력이 없으셔도 완벽하게 구동하실 수 있도록 모든 과정을 지원해 드립니다.</strong>
+                정식 파트너분들께는 클릭 몇 번으로 세팅을 마칠 수 있는 [초간단 시각화 매뉴얼]을 제공하며, 필요시 1:1 원격 세팅 지원도 병행합니다. 복잡한 기술적 고민은 저희가 대신하겠습니다.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Screen 9: The Invite (CTA) */}
+      {/* Screen 9: CTA */}
       <section className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-20 border-t border-[#333] bg-gradient-to-t from-[#0a0a0d] to-[#040404]">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-px bg-gradient-to-r from-transparent via-[#c8a84b] to-transparent"></div>
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#c8a84b]/10 blur-[120px] rounded-full pointer-events-none"></div>
@@ -540,14 +524,13 @@ export default function TreiaFunnelPage() {
           </h2>
           <p className="text-[17px] md:text-[22px] text-[#a1a1aa] leading-[1.8] font-light max-w-3xl mb-16">
             모든 분들께 무분별하게 제공하지 않습니다. <br/>
-            알고리즘 시스템의 가치와 필요성을 깊이 공감하고, 직접 검증을 통해 본인의 투자 원칙을 세우고자 하는 <strong className="text-white font-medium">소수의 분들에게만 2주간 정중하게 개방해 드립니다.</strong> <br/><br/>
-            과거의 가공된 수익률보다 중요한 것, 지금 이 순간 알고리즘의 흔들림 없는 원칙이 만들어내는 일상을 가장 맑은 시선으로 경험해 보십시오.
+            알고리즘 시스템의 가치를 깊이 공감하고, 직접 검증을 통해 본인의 투자 원칙을 세우고자 하는 <strong className="text-white font-medium">소수의 분들에게만 2주간 정중하게 개방해 드립니다.</strong> <br/><br/>
+            지금 이 순간 흔들림 없는 원칙이 만들어내는 일상을 경험해 보십시오.
           </p>
 
           <div className="w-full bg-[#0a0b0e]/80 backdrop-blur-xl border border-[#c8a84b]/20 p-8 md:p-12 lg:p-16 rounded-[32px] shadow-[0_0_80px_rgba(200,168,75,0.05)] text-left">
              {!isSubmitted ? (
                <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-                 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                    <div className="flex flex-col gap-3">
                      <label htmlFor="name" className="text-[14px] text-[#a1a1aa] ml-2 tracking-widest uppercase font-medium">성함</label>
@@ -562,12 +545,12 @@ export default function TreiaFunnelPage() {
                      />
                    </div>
                    <div className="flex flex-col gap-3">
-                     <label htmlFor="email" className="text-[14px] text-[#a1a1aa] ml-2 tracking-widest uppercase font-medium">이메일</label>
+                     <label htmlFor="email" className="text-[14px] text-[#a1a1aa] ml-2 tracking-widest uppercase font-medium">이메일 (또는 연락처)</label>
                      <input 
                        id="email"
-                       type="email" 
+                       type="text" 
                        required 
-                       placeholder="example@gmail.com"
+                       placeholder="example@gmail.com 또는 010-0000-0000"
                        className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-xl focus:outline-none focus:border-[#c8a84b]/70 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light text-[16px]"
                        value={formData.email}
                        onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -592,54 +575,31 @@ export default function TreiaFunnelPage() {
                  <button 
                    type="submit" 
                    disabled={isLoading}
-                   className="w-full mt-2 bg-[#c8a84b] hover:bg-[#d4b55c] text-black text-[18px] font-bold py-6 rounded-xl hover:cursor-pointer transition-colors flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                   className="w-full mt-2 bg-[#c8a84b] hover:bg-[#d4b55c] text-black text-[18px] font-bold py-6 rounded-xl transition-colors flex items-center justify-center gap-3 disabled:opacity-50 shadow-lg"
                  >
                    {isLoading ? "접수 중..." : "관전자 계정 신청하기 (2주 체험권)"} 
                    {!isLoading && <ArrowUpRight size={24} />}
                  </button>
                </form>
              ) : (
-               <div className="flex flex-col items-center justify-center py-12 text-center animate-fade-in">
-                 <div className="text-5xl md:text-6xl mb-8 animate-bounce">
-                   👏
-                 </div>
+               <div className="flex flex-col items-center justify-center py-12 text-center">
+                 <div className="text-5xl md:text-6xl mb-8 animate-bounce">👏</div>
                  <h3 className="text-3xl text-white font-medium mb-6 tracking-tight">신청이 완료되었습니다!</h3>
                  <p className="text-[#a1a1aa] leading-[1.8] font-light text-[17px] md:text-[19px] break-keep max-w-xl mx-auto">
                    남겨주신 사유를 꼼꼼히 검토한 후, 개방 대상자로 선정되신 분들께 한해 <br className="hidden md:block"/>
-                   입력하신 이메일(또는 텔레그램)로 <strong className="text-white font-medium">[관전자 계정 접속 ID/PW]</strong>와 <strong className="text-white font-medium">[3분 만에 끝나는 접속 가이드 링크]</strong>를 안전하게 발송해 드릴 예정입니다.<br/><br/>
-                   잠시만 기다려주시면 감사하겠습니다.
+                   입력하신 이메일(또는 연락처)로 <strong className="text-white font-medium">[관전자 계정 접속 ID/PW]</strong>와 <strong className="text-white font-medium">[접속 가이드]</strong>를 안전하게 발송해 드릴 예정입니다.
                  </p>
                </div>
              )}
-              
-             {/* Legal Disclaimer */}
+               
              <div className="mt-20 pt-10 border-t border-[#1a1a1a] text-left">
-               <h4 className="text-[#c8a84b] text-[13px] font-mono tracking-widest uppercase mb-6">시스템 운용 특성 및 리스크 안내</h4>
+               <h4 className="text-[#c8a84b] text-[13px] font-mono tracking-widest uppercase mb-6">Footer Disclaimer (면책 및 고지)</h4>
                
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-[13px] text-[#7a7f8e] font-light leading-[1.8] break-keep">
-                 
-                 <div className="flex flex-col gap-2">
-                   <strong className="text-white font-medium block">1. 살아있는 시장을 위한 지속적인 알고리즘 진화</strong>
-                   <p>Treia 엔진은 과거에 머물러 있는 고정된 기계가 아닙니다. 시장의 새로운 변동성 패턴에 대응하고 방어력을 극대화하기 위해, 시스템은 작은 세부 설정(Parameter)부터 핵심 로직까지 지속적인 테스트와 업데이트를 거칩니다. 이 과정에서 알고리즘의 매매 템포나 진입 기준은 더 나은 생존을 위해 사전 예고 없이 유연하게 조정될 수 있습니다.</p>
-                 </div>
-
-                 <div className="flex flex-col gap-2">
-                   <strong className="text-white font-medium block">2. 브로커 및 물리적 환경에 따른 체결 오차 (슬리피지)</strong>
-                   <p>Treia 코어 엔진에서 동일한 진입/청산 신호가 발생하더라도, 실제 체결 결과는 사용자가 이용하는 브로커의 서버 상태, 네트워크 지연 속도(Ping), 해당 시점의 시장 유동성에 따라 달라질 수 있습니다. 이로 인해 마스터 계좌와 완전히 동일한 가격에 체결되지 않는 &apos;슬리피지(Slippage)&apos;나 &apos;스프레드(Spread) 벌어짐&apos; 현상이 발생할 수 있으며, 이는 자동매매의 자연스러운 물리적 특성입니다.</p>
-                 </div>
-
-                 <div className="flex flex-col gap-2">
-                   <strong className="text-white font-medium block">3. 통제 불가능한 거시적 충격 (블랙스완) 대응 한계</strong>
-                   <p>시스템은 철저한 기계적 손절선(방어선)을 구축하고 있으나, 전쟁, 자연재해, 혹은 시장에 극단적인 충격을 주는 예측 불가능한 뉴스(블랙스완) 발생 시에는 금융 시장 자체가 마비될 수 있습니다. 브로커의 호가가 비어버리거나 거래소의 주문 접수가 거부되는 등, 물리적으로 체결이 불가능한 극한의 상황에서 발생하는 손실은 알고리즘이 통제할 수 없는 영역입니다.</p>
-                 </div>
-
-                 <div className="flex flex-col gap-2">
-                   <strong className="text-white font-medium block">4. 최종 운용 결정권과 자산의 귀속</strong>
-                   <p>본 알고리즘 소프트웨어는 투자의 확률적 우위를 점하기 위한 강력한 보조 도구일 뿐, 어떠한 경우에도 100%의 절대 수익이나 무손실을 보장하는 마법이 아닙니다. 소프트웨어의 가동 및 중지, 자금 투입 규모의 결정권은 전적으로 사용자 본인에게 있으며, 모든 금융 거래의 최종적인 결과와 책임은 사용자에게 귀속됩니다. 본 서비스는 알고리즘 기술 검증 목적의 소프트웨어 라이선스 체험에 한합니다.</p>
-                 </div>
-
+               <div className="flex flex-col gap-4 text-[13px] text-[#7a7f8e] font-light leading-[1.8] break-keep">
+                 <p>• 본 테스트 결과는 데모 운용 데이터이며 미래의 수익을 보장하지 않습니다.</p>
+                 <p>• 차액결제거래(CFD)는 높은 변동성을 수반하며 원금 초과 손실의 위험이 있습니다.</p>
+                 <p>• 본 서비스는 투자 권유가 아니며, 고객 본인의 판단에 의한 소프트웨어 라이선스 체험 및 렌탈에 한합니다. 통신 지연 등에 의한 체결 오차가 발생할 수 있으며, 투자의 모든 최종 결정과 법적 책임은 사용자 본인에게 있습니다.</p>
                </div>
-               
              </div>
           </div>
         </div>
