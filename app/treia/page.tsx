@@ -450,7 +450,7 @@ export default function TreiaFunnelPage() {
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
                 <p><strong className="text-white font-medium block mb-2">A. 고객님의 PC 또는 클라우드(VPS) 서버를 통해 구동하실 수 있도록 상세한 가이드를 제공합니다.</strong>
-                본 프로그램은 개인 PC나 노트북에 직접 설치하여 운영하실 수 있습니다. 단, 알고리즘의 완벽한 방어력을 위해 24시간 중단 없이 구동되어야 합니다. 24시간 구동이 부담스러우시거나 세팅이 어려우신 경우, 원격 지원을 통해 쾌적한 클라우드(VPS) 가상 서버 환경을 갖추실 수 있도록 정중히 도와드립니다.</p>
+                본 프로그램은 개인 PC나 인터넷 환경에서 직접 설치하여 운영하실 수 있습니다. 단, 알고리즘의 완벽한 방어력을 위해 24시간 중단 없이 구동되어야 합니다. PC를 계속 켜두기 어려운 환경이거나 세팅이 생소하신 경우, 원격 지원을 제공하여 쾌적한 클라우드(VPS) 가상 서버 환경을 안전하게 갖추실 수 있도록 초기 정착을 도와드립니다.</p>
               </div>
             </div>
 
@@ -504,8 +504,8 @@ export default function TreiaFunnelPage() {
                 <span>서버 세팅이나 프로그램 설치를 해본 적이 없는데, 초보자도 이용할 수 있나요?</span>
               </h3>
               <div className="md:pl-10 text-[16px] md:text-[17px] text-[#a1a1aa] leading-[1.9] font-light space-y-4 break-keep">
-                <p><strong className="text-white font-medium block mb-2">A. 네, IT 지력이 없으셔도 완벽하게 구동하실 수 있도록 모든 과정을 지원해 드립니다.</strong>
-                정식 파트너분들께는 클릭 몇 번으로 세팅을 마칠 수 있는 [초간단 시각화 매뉴얼]을 제공하며, 필요시 1:1 원격 세팅 지원도 병행합니다. 복잡한 기술적 고민은 저희가 대신하겠습니다.</p>
+                <p><strong className="text-white font-medium block mb-2">A. 네, IT 지식과 상관없이 누구나 독립적으로 운용하실 수 있도록 &apos;초간단 시각화 매뉴얼&apos;을 제공합니다.</strong>
+                정식 라이선스를 도입하시는 분들께는 클릭 몇 번으로 세팅을 마칠 수 있는 가이드를 제공하며, 필요 시 초기 세팅을 돕는 원격 지원을 병행합니다. 복잡한 설치 과정은 매뉴얼에 따라 쉽게 통과하실 수 있으며, 고객님께서는 오직 엔진의 퍼포먼스를 누리는 것에만 집중하시면 됩니다.</p>
               </div>
             </div>
           </div>
@@ -559,10 +559,11 @@ export default function TreiaFunnelPage() {
                  </div>
 
                  <div className="flex flex-col gap-3">
-                   <label htmlFor="reason" className="text-[14px] text-[#a1a1aa] ml-2 tracking-widest uppercase font-medium">알고리즘 검증 신청 사유 (선택)</label>
+                   <label htmlFor="reason" className="text-[14px] text-[#a1a1aa] ml-2 tracking-widest uppercase font-medium">알고리즘 검증 신청 사유 (필수)</label>
                    <textarea 
                      id="reason"
                      rows={3}
+                      required
                      placeholder="현재 겪고 계신 투자의 어려움이나, 관전자 계정을 통해 어떤 부분을 확인하고 싶으신지 솔직하게 남겨주시면 감사하겠습니다."
                      className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-xl focus:outline-none focus:border-[#c8a84b]/70 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light text-[16px] resize-none"
                      value={formData.reason}
@@ -593,16 +594,37 @@ export default function TreiaFunnelPage() {
              )}
                
              <div className="mt-20 pt-10 border-t border-[#1a1a1a] text-left">
-               <h4 className="text-[#c8a84b] text-[13px] font-mono tracking-widest uppercase mb-6">Footer Disclaimer (면책 및 고지)</h4>
-               
-               <div className="flex flex-col gap-4 text-[13px] text-[#7a7f8e] font-light leading-[1.8] break-keep">
-                 <p>• 본 테스트 결과는 데모 운용 데이터이며 미래의 수익을 보장하지 않습니다.</p>
-                 <p>• 차액결제거래(CFD)는 높은 변동성을 수반하며 원금 초과 손실의 위험이 있습니다.</p>
-                 <p>• 본 서비스는 투자 권유가 아니며, 고객 본인의 판단에 의한 소프트웨어 라이선스 체험 및 렌탈에 한합니다. 통신 지연 등에 의한 체결 오차가 발생할 수 있으며, 투자의 모든 최종 결정과 법적 책임은 사용자 본인에게 있습니다.</p>
+               <h4 className="text-[#c8a84b] text-[13px] font-mono tracking-widest uppercase mb-6">시스템 운용 특성 및 리스크 고지</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-[13px] text-[#7a7f8e] font-light leading-[1.8] break-keep">
+                  <div className="flex flex-col gap-2">
+                    <strong className="text-white font-medium block">1. 살아있는 시장을 위한 지속적인 알고리즘 진화</strong>
+                    <p>Treia 엔진은 고정된 기계가 아닙니다. 시장의 새로운 변동성 패턴에 대응하고 방어력을 극대화하기 위해 로직은 상시 보완됩니다. 이 과정에서 알고리즘의 매매 템포나 진입 기준은 사전 예고 없이 유연하게 조정될 수 있습니다.</p>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <strong className="text-white font-medium block">2. 브로커 및 물리적 환경에 따른 체결 오차 (슬리피지)</strong>
+                    <p>실제 체결 결과는 사용자가 이용하는 브로커의 서버 상태, 네트워크 지연 속도(Ping), 유동성에 따라 달라질 수 있습니다. 이로 인해 마스터 계좌와 완벽히 동일한 가격에 체결되지 않는 &apos;슬리피지&apos; 현상이 발생할 수 있으며, 이는 자동매매의 물리적 특성입니다.</p>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <strong className="text-white font-medium block">3. 통제 불가능한 거시적 충격 (블랙스완) 대응 한계</strong>
+                    <p>전쟁, 자연재해, 혹은 시장에 극단적인 충격을 주는 예측 불가능한 뉴스 발생 시에는 주문 임계치를 넘어서는 등 물리적으로 알고리즘의 통제가 불가능한 영역이 발생할 수 있습니다.</p>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <strong className="text-white font-medium block">4. 최종 운용 결정권과 자산의 귀속</strong>
+                    <p>본 소프트웨어는 투자의 확률적 우위를 위한 보조 도구일 뿐, 무손실을 보장하지 않습니다. 소프트웨어 가동 여부 결정권은 전적으로 사용자 본인에게 있으며, 모든 금융 거래의 최종적인 결과와 책임은 사용자에게 귀속됩니다.</p>
+                  </div>
+                </div>
+
+                <div className="mt-10 pt-6 border-t border-[#1a1a1a]/50 flex flex-col gap-3 text-[12px] text-[#555]">
+                  <p>• 본 테스트 결과는 데모 운용 데이터이며 미래의 수익을 보장하지 않습니다.</p>
+                  <p>• 차액결제거래(CFD)는 높은 변동성을 수반하며 원금 초과 손실의 위험이 있습니다.</p>
+                  <p>• 본 서비스는 투자 권유가 아니며, 고객 본인의 판단에 의한 라이선스 체험 및 렌탈에 한합니다. 투자의 모든 최종 결정과 법적 책임은 사용자 본인에게 있습니다.</p>
+                </div>
                </div>
              </div>
           </div>
-        </div>
       </section>
 
     </div>
