@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { motion, useInView, animate } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 export default function TreiaFunnelPage() {
 	const [isNavOpen, setIsNavOpen] = useState(false);
@@ -464,59 +465,47 @@ export default function TreiaFunnelPage() {
 				<div className="relative w-full max-w-3xl mx-auto flex flex-col gap-16 md:gap-24 z-10">
 					<div className="absolute left-[39px] md:left-[59px] top-10 bottom-10 w-px bg-[#1a1a1a]"></div>
 
-					<div className="flex gap-8 md:gap-12 items-start relative reveal opacity-0 translate-y-12 transition-all duration-1000">
-						<div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)]">
-							<Layers size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />
-						</div>
-						<div className="pt-2 md:pt-6">
-							<h3 className="text-2xl md:text-4xl font-normal text-white mb-4">
-								합리적인 자산 배분
-							</h3>
-							<p className="text-[17px] md:text-[21px] text-[#7a7f8e] leading-[1.8] font-light">
-								극단적인 배수 진입(마틴게일)을 전면 차단하고,{" "}
-								<strong className="text-white font-medium">
-									계좌가 감당할 수 있는 철저한 예산 안에서만
-								</strong>{" "}
-								움직입니다.
-							</p>
-						</div>
-					</div>
-
-					<div className="flex gap-8 md:gap-12 items-start relative reveal opacity-0 translate-y-12 transition-all duration-1000 delay-100">
-						<div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)]">
-							<Lock size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />
-						</div>
-						<div className="pt-2 md:pt-6">
-							<h3 className="text-2xl md:text-4xl font-normal text-white mb-4">
-								흔들림 없는 방어선
-							</h3>
-							<p className="text-[17px] md:text-[21px] text-[#7a7f8e] leading-[1.8] font-light">
-								진입과 동시에 리스크의 한계를 명확히 설정하여,{" "}
-								<strong className="text-white font-medium">
-									단 한 번의 방향성 오류가 치명상으로 이어지는 것을 방지
-								</strong>
-								합니다.
-							</p>
-						</div>
-					</div>
-
-					<div className="flex gap-8 md:gap-12 items-start relative reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200">
-						<div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)]">
-							<Target size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />
-						</div>
-						<div className="pt-2 md:pt-6">
-							<h3 className="text-2xl md:text-4xl font-normal text-white mb-4">
-								탄력적인 수익 추적
-							</h3>
-							<p className="text-[17px] md:text-[21px] text-[#7a7f8e] leading-[1.8] font-light">
-								강력한 추세가 형성되면{" "}
-								<strong className="text-white font-medium">
-									익절 구간을 유연하게 확장(Trailing)
-								</strong>
-								하여, 시장이 허락하는 기회를 온전히 담아냅니다.
-							</p>
-						</div>
-					</div>
+					{[
+						{
+							icon: <Layers size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />,
+							title: "합리적인 자산 배분",
+							text: "극단적인 배수 진입(마틴게일)을 전면 차단하고, 계좌가 감당할 수 있는 철저한 예산 안에서만 움직입니다.",
+							delay: 0
+						},
+						{
+							icon: <Lock size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />,
+							title: "흔들림 없는 방어선",
+							text: "진입과 동시에 리스크의 한계를 명확히 설정하여, 단 한 번의 방향성 오류가 치명상으로 이어지는 것을 방지합니다.",
+							delay: 0.2
+						},
+						{
+							icon: <Target size={32} strokeWidth={1.5} className="md:w-12 md:h-12" />,
+							title: "탄력적인 수익 추적",
+							text: "강력한 추세가 형성되면 익절 구간을 유연하게 확장(Trailing)하여, 시장이 허락하는 기회를 온전히 담아냅니다.",
+							delay: 0.4
+						}
+					].map((item, idx) => (
+						<motion.div 
+							key={idx}
+							initial={{ opacity: 0, x: -30 }}
+							whileInView={{ opacity: 1, x: 0 }}
+							transition={{ duration: 0.8, delay: item.delay }}
+							viewport={{ once: true }}
+							className="flex gap-8 md:gap-12 items-start relative"
+						>
+							<div className="relative z-10 flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a0a0a] border border-[#c8a84b]/30 flex items-center justify-center text-[#c8a84b] shadow-[0_0_30px_rgba(200,168,75,0.1)] group hover:border-[#c8a84b] transition-colors">
+								{item.icon}
+							</div>
+							<div className="pt-2 md:pt-6">
+								<h3 className="text-2xl md:text-4xl font-normal text-white mb-4 group-hover:text-[#c8a84b] transition-colors">
+									{item.title}
+								</h3>
+								<p className="text-[17px] md:text-[21px] text-[#7a7f8e] leading-[1.8] font-light break-keep">
+									{item.text}
+								</p>
+							</div>
+						</motion.div>
+					))}
 				</div>
 			</section>
 
@@ -656,11 +645,17 @@ export default function TreiaFunnelPage() {
 										-50%
 									</div>
 									<div className="flex-1 w-full">
-										<div className="h-4 w-1/2 bg-[#ef4444] rounded-full relative shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+										<motion.div 
+											initial={{ width: 0 }}
+											whileInView={{ width: "50%" }}
+											transition={{ duration: 1, ease: "easeOut" }}
+											viewport={{ once: true }}
+											className="h-4 bg-[#ef4444] rounded-full relative shadow-[0_0_15px_rgba(239,68,68,0.3)]"
+										>
 											<span className="absolute top-8 left-0 text-[13px] text-[#7a7f8e] md:whitespace-nowrap font-medium tracking-wide">
 												계좌 반토막
 											</span>
-										</div>
+										</motion.div>
 									</div>
 								</div>
 
@@ -669,11 +664,17 @@ export default function TreiaFunnelPage() {
 										+100%
 									</div>
 									<div className="flex-1 w-full">
-										<div className="h-4 w-full bg-[#10B981] rounded-full relative shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+										<motion.div 
+											initial={{ width: 0 }}
+											whileInView={{ width: "100%" }}
+											transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
+											viewport={{ once: true }}
+											className="h-4 bg-[#10B981] rounded-full relative shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+										>
 											<span className="absolute top-8 right-0 md:right-auto md:left-full md:-ml-[120px] text-[13px] text-white font-bold md:whitespace-nowrap tracking-wide drop-shadow-md">
 												원금 복구에 필요한 수익률
 											</span>
-										</div>
+										</motion.div>
 									</div>
 								</div>
 							</div>
@@ -823,13 +824,14 @@ export default function TreiaFunnelPage() {
 							<div>초기 자본: $5,000.00</div>
 						</div>
 
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-[#22242e]">
+						<div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-[#22242e]">
 							<div className="flex flex-col items-center pt-6 md:pt-0">
 								<div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[2px] mb-4">
 									라이브 포워드 테스트
 								</div>
 								<div className="text-5xl md:text-6xl font-light text-white">
-									147<span className="text-2xl text-[#c8a84b] ml-1">회</span>
+									<Counter value={147} />
+									<span className="text-2xl text-[#c8a84b] ml-1">회</span>
 								</div>
 							</div>
 							<div className="flex flex-col items-center pt-6 md:pt-0">
@@ -837,7 +839,7 @@ export default function TreiaFunnelPage() {
 									알고리즘 승률
 								</div>
 								<div className="text-5xl md:text-6xl font-light text-white">
-									80.95
+									<Counter value={80.95} decimals={2} />
 									<span className="text-2xl text-[#c8a84b] font-outfit ml-1">
 										%
 									</span>
@@ -848,7 +850,16 @@ export default function TreiaFunnelPage() {
 									수익 창출 지표 (Profit Factor)
 								</div>
 								<div className="text-5xl md:text-6xl font-light text-white font-outfit">
-									3.58
+									<Counter value={3.58} decimals={2} />
+								</div>
+							</div>
+							<div className="flex flex-col items-center pt-6 md:pt-0 pl-0 md:pl-4">
+								<div className="text-[#a1a1aa] font-mono text-[12px] uppercase tracking-[2px] mb-4">
+									최대 낙폭 (MAX DD)
+								</div>
+								<div className="text-5xl md:text-6xl font-light text-[#ef4444]">
+									<Counter value={14.72} decimals={2} />
+									<span className="text-2xl text-[#ef4444] font-outfit ml-1">%</span>
 								</div>
 							</div>
 						</div>
@@ -876,18 +887,24 @@ export default function TreiaFunnelPage() {
 										preserveAspectRatio="none"
 									>
 										<title>Account Growth Chart</title>
-										<path
+										<motion.path
 											d={dFill}
 											fill="url(#gradient-blue-real)"
 											opacity="0.3"
+											initial={{ opacity: 0 }}
+											whileInView={{ opacity: 0.3 }}
+											transition={{ duration: 1.5 }}
 										/>
-										<path
+										<motion.path
 											d={dPath}
 											fill="none"
 											stroke="#3b82f6"
 											strokeWidth="2.5"
 											strokeLinejoin="round"
 											strokeLinecap="round"
+											initial={{ pathLength: 0 }}
+											whileInView={{ pathLength: 1 }}
+											transition={{ duration: 2, ease: "easeInOut" }}
 										/>
 										<circle
 											cx={width}
@@ -942,7 +959,7 @@ export default function TreiaFunnelPage() {
 								<div className="flex gap-4 items-center justify-between w-full h-full relative z-10">
 									<div className="flex flex-col items-center shrink-0">
 										<span className="text-[#10B981] font-outfit text-xl md:text-2xl font-light mb-1">
-											+$1,370
+											+$<Counter value={1370} />
 										</span>
 										<span className="text-[#a1a1aa] text-[10px] uppercase tracking-widest">
 											Gross Profit
@@ -955,25 +972,31 @@ export default function TreiaFunnelPage() {
 											className="w-full h-full drop-shadow-2xl"
 										>
 											<title>Profit Ratio Chart</title>
-											<path
+											<motion.path
 												strokeDasharray="100, 100"
 												d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
 												fill="none"
 												stroke="#ef4444"
 												strokeWidth="3"
 												className="opacity-80"
+												initial={{ pathLength: 0 }}
+												whileInView={{ pathLength: 1 }}
+												transition={{ duration: 1 }}
 											/>
-											<path
+											<motion.path
 												strokeDasharray="78.1, 100"
 												d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
 												fill="none"
 												stroke="#10B981"
 												strokeWidth="3"
+												initial={{ pathLength: 0 }}
+												whileInView={{ pathLength: 0.781 }}
+												transition={{ duration: 1.5, ease: "easeOut" }}
 											/>
 										</svg>
 										<div className="absolute inset-0 flex items-center justify-center flex-col">
 											<span className="text-[#f2f2f2] text-xl md:text-2xl font-light font-outfit">
-												+$986
+												+$<Counter value={986} />
 											</span>
 											<span className="text-[10px] text-[#7a7f8e] uppercase tracking-widest mt-1">
 												Net Flow
@@ -983,13 +1006,65 @@ export default function TreiaFunnelPage() {
 
 									<div className="flex flex-col items-center shrink-0">
 										<span className="text-[#ef4444] font-outfit text-xl md:text-2xl font-light mb-1">
-											-$384
+											-$<Counter value={384} />
 										</span>
 										<span className="text-[#a1a1aa] text-[10px] uppercase tracking-widest">
 											Gross Loss
 										</span>
 									</div>
 								</div>
+							</div>
+						</div>
+
+						{/* New: Detailed Backtest Report Grid */}
+						<div className="mt-20 pt-16 border-t border-[#22242e] w-full">
+							<div className="text-center mb-12">
+								<span className="text-[#c8a84b] font-mono text-xs tracking-[3px] uppercase block mb-4">
+									Detailed Strategy Backtest
+								</span>
+								<h3 className="text-2xl md:text-3xl font-light text-white mb-6">
+									백테스트 통계 데이터 (2026.01.01 - 03.20)
+								</h3>
+								<p className="text-[#7a7f8e] text-sm md:text-base font-light max-w-2xl mx-auto mb-10">
+									단순한 수익률 곡선을 넘어, 히스토리와 포지션 보유 기간 등 
+									전략의 본질적인 통계를 투명하게 공개합니다.
+								</p>
+							</div>
+
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+								<div className="group relative bg-[#0a0b0e] border border-[#1a1a1a] rounded-2xl p-4 transition-all hover:border-[#c8a84b]/40">
+									<div className="aspect-[4/3] relative rounded-xl overflow-hidden mb-4">
+										<Image src="/backtest_holding.png" alt="Holding Time Chart" fill className="object-cover" />
+									</div>
+									<h4 className="text-white text-sm font-medium mb-2">포지션 보유 시간 분석</h4>
+									<p className="text-[#555] text-xs font-light tracking-tight">Time Distribution by Holding</p>
+								</div>
+								<div className="group relative bg-[#0a0b0e] border border-[#1a1a1a] rounded-2xl p-4 transition-all hover:border-[#c8a84b]/40">
+									<div className="aspect-[4/3] relative rounded-xl overflow-hidden mb-4">
+										<Image src="/backtest_history.png" alt="Trade History Chart" fill className="object-cover" />
+									</div>
+									<h4 className="text-white text-sm font-medium mb-2">과거 거래 히스토리</h4>
+									<p className="text-[#555] text-xs font-light tracking-tight">Trade Execution History Mapping</p>
+								</div>
+								<div className="group relative bg-[#0a0b0e] border border-[#1a1a1a] rounded-2xl p-4 transition-all hover:border-[#c8a84b]/40">
+									<div className="aspect-[4/3] relative rounded-xl overflow-hidden mb-4">
+										<Image src="/backtest_mfemae.png" alt="MFE/MAE Chart" fill className="object-cover" />
+									</div>
+									<h4 className="text-white text-sm font-medium mb-2">수익/손실 분포도 (MFE/MAE)</h4>
+									<p className="text-[#555] text-xs font-light tracking-tight">Statistical Dispersion by Profit Curve</p>
+								</div>
+							</div>
+
+							<div className="flex justify-center">
+								<a 
+									href="/backtest_report.html" 
+									target="_blank" 
+									rel="noopener noreferrer"
+									className="group flex items-center gap-3 bg-[#13151b] border border-[#23252d] px-8 py-4 rounded-xl text-[#c8a84b] hover:bg-[#c8a84b] hover:text-black transition-all"
+								>
+									<span className="text-sm font-bold">백테스트 상세 리포트 전문 보기</span>
+									<ArrowUpRight size={18} />
+								</a>
 							</div>
 						</div>
 					</div>
@@ -1033,6 +1108,38 @@ export default function TreiaFunnelPage() {
 								이를 통해 당신은 엔진이 약속한 방어선이 진짜로 지켜지고 있는지,
 								가감 없는 생생한 민낯을 직접 검증할 수 있습니다.
 							</p>
+						</div>
+					</div>
+
+					{/* New: MT5 Trading Session Video */}
+					<div className="max-w-4xl w-full mx-auto mt-16 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-300">
+						<div className="text-center mb-8">
+							<span className="text-[#c8a84b] font-mono text-[10px] tracking-[4px] uppercase block mb-3">
+								Live Execution
+							</span>
+							<h4 className="text-xl md:text-2xl font-light text-white mb-6">
+								실제 MT5 매매 구동 세션 확인
+							</h4>
+						</div>
+						<div className="relative aspect-video w-full bg-[#0a0b0e] border border-[#22242e] rounded-3xl overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] group">
+							<video 
+								className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+								autoPlay 
+								muted 
+								loop 
+								playsInline 
+								controls
+							>
+								<source src="/trading_demo.mp4" type="video/mp4" />
+								브라우저가 비디오 재생을 지원하지 않습니다.
+							</video>
+							
+							<div className="absolute top-6 left-6 flex items-center gap-3 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+								<div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
+								<span className="text-[10px] font-mono tracking-widest uppercase text-white/80">
+									Actual Trading Logic v3.0
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -1443,4 +1550,23 @@ export default function TreiaFunnelPage() {
 			</footer>
 		</div>
 	);
+}
+
+function Counter({ value, decimals = 0 }: { value: number; decimals?: number }) {
+	const [count, setCount] = useState(0);
+	const ref = useRef(null);
+	const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+	useEffect(() => {
+		if (isInView) {
+			const controls = animate(0, value, {
+				duration: 2,
+				ease: [0.16, 1, 0.3, 1], // easeOutQuart
+				onUpdate: (latest) => setCount(latest),
+			});
+			return () => controls.stop();
+		}
+	}, [isInView, value]);
+
+	return <span ref={ref}>{count.toFixed(decimals)}</span>;
 }
