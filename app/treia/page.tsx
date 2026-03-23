@@ -1102,7 +1102,7 @@ export default function TreiaFunnelPage() {
 											<p className="text-[#a1a1aa] text-[16px] md:text-[18px] font-light leading-relaxed mb-10 break-keep">
 												{slide.description}
 											</p>
-											<ul className="space-y-4">
+											<ul className="space-y-4 mb-10">
 												{slide.analysis.map((point, pIdx) => (
 													<motion.li 
 														key={pIdx}
@@ -1116,19 +1116,28 @@ export default function TreiaFunnelPage() {
 													</motion.li>
 												))}
 											</ul>
+											
+											<motion.div
+												whileHover={{ x: 8 }}
+												transition={{ type: "spring", stiffness: 400, damping: 10 }}
+											>
+												<Link 
+													href="/report" 
+													className="inline-flex items-center gap-2 text-[#c8a84b] font-mono text-xs tracking-widest uppercase hover:text-white transition-colors group"
+												>
+													<span>View Deep Analysis Report</span>
+													<ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
+												</Link>
+											</motion.div>
 										</div>
 									</motion.div>
 								))}
 							</div>
 
 							<div className="flex flex-col items-center mt-32">
-								<Link 
-									href="/report" 
-									className="group flex items-center gap-4 bg-[#c8a84b] text-[#050505] px-12 py-6 rounded-2xl font-bold hover:bg-white transition-all shadow-[0_20px_40px_rgba(200,168,75,0.2)] hover:shadow-[0_25px_50px_rgba(200,168,75,0.4)] hover:-translate-y-1"
-								>
-									<span className="text-lg">백테스트 인포그래픽 전체 분석 보기</span>
-									<ArrowUpRight size={24} />
-								</Link>
+								<p className="text-[#7a7f8e] text-xs font-mono uppercase tracking-[5px]">
+									Data Proven Reliability
+								</p>
 							</div>
 						</div>
 					</div>
