@@ -1204,7 +1204,7 @@ export default function TreiaFunnelPage() {
 										A. 사전 체험을 신청하신 분들께 가장 먼저 정식 도입 절차를
 										안내해 드립니다.
 									</strong>
-									지금 [MT5 관전자 계정]을 신청하셔서 2주간 퍼포먼스를 충분히
+									지금 [MT5 관전자 계정]을 신청하셔서 생생하게 공유되는 퍼포먼스를 직접
 									경험해 보십시오. 가치를 확신하신 분들께 한하여 정식 런칭
 									시점에 개인 계좌 연동 방법과 라이선스 도입 절차를 개별적으로
 									상세히 안내해 드릴 예정입니다.
@@ -1254,12 +1254,9 @@ export default function TreiaFunnelPage() {
 						소수에게만 개방합니다.
 					</h2>
 					<p className="text-[17px] md:text-[22px] text-[#a1a1aa] leading-[1.8] font-light max-w-3xl mb-16">
-						모든 분들게 무분별한 라이선스 개방은 하지 않습니다. <br />
-						알고리즘 엔진의 보호를 위해{" "}
-						<strong className="text-white font-medium">
-							신청 사유를 신중히 검토한 후, 선정되신 분들께 한하여
-						</strong>{" "}
-						관전자 계정과 사전 체험 기회를 정중하게 개방해 드립니다. <br />
+						Treia의 기술력과 가치를 더욱 많은 분들과 투명하게 나누고자 합니다. <br />
+						아래 양식을 통해 신청해 주시면, 확인 후 등록하신 연락처로 <br />
+						<strong className="text-white font-medium">관전자 계정 및 접속 가이드</strong>를 정중하게 안내해 드립니다. <br />
 						<br />
 						Treia와 함께 성숙한 투자 여정을 시작할 파트너가 되어주십시오.
 					</p>
@@ -1339,7 +1336,7 @@ export default function TreiaFunnelPage() {
 								>
 									{isLoading
 										? "접수 중..."
-										: "관전자 계정 신청하기 (2주 체험권)"}
+										: "관전자 계정 신청하기"}
 									{!isLoading && <ArrowUpRight size={24} />}
 								</button>
 							</form>
@@ -1352,17 +1349,10 @@ export default function TreiaFunnelPage() {
 									신청이 완료되었습니다!
 								</h3>
 								<p className="text-[#a1a1aa] leading-[1.8] font-light text-[17px] md:text-[19px] break-keep max-w-xl mx-auto">
-									남겨주신 사유를 꼼꼼히 검토한 후, 개방 대상자로 선정되신
-									분들께 한해 <br className="hidden md:block" />
-									입력하신 이메일(또는 연락처)로{" "}
-									<strong className="text-white font-medium">
-										[관전자 계정 접속 ID/PW]
-									</strong>
-									와{" "}
-									<strong className="text-white font-medium">
-										[접속 가이드]
-									</strong>
-									를 안전하게 발송해 드릴 예정입니다.
+									신청해 주셔서 감사합니다! <br />
+									입력하신 이메일(또는 연락처)로 확인 절차를 거쳐 <br className="hidden md:block" />
+									순차적으로 <strong className="text-white font-medium">[관전자 계정 접속 ID/PW]</strong>와 <br className="hidden md:block" />
+									<strong className="text-white font-medium">[접속 가이드]</strong>를 안전하게 발송해 드릴 예정입니다.
 								</p>
 							</div>
 						)}
