@@ -813,7 +813,7 @@ export default function TreiaFunnelPage() {
 								<div className="text-[#c8a84b] mb-1">
 									Data Source: MT5 데모 운용 서버 (실 구동 테스트)
 								</div>
-								<div className="text-[10px] text-[#555] normal-case tracking-normal">
+								<div className="text-[12px] text-[#a1a1aa] normal-case tracking-normal mt-2">
 									백테스트가 아닌 실제 시장에서 구동한 모의 프론트테스트
 									결과입니다. <br className="md:hidden" /> 브로커: 한텍 / 기간:
 									1개월 / 종목: XAUUSD / 세팅: 멀티타임프레임
