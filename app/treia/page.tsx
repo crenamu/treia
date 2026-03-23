@@ -371,7 +371,7 @@ export default function TreiaFunnelPage() {
 								파레토 법칙보다 훨씬 희박한 이 시장의 승률을 뚫고 원칙을 지키게
 								만드는 건 사람이 아니라 시스템이어야 합니다.
 							</strong>{" "}
-							이것이 2년 전 Treia 엔진 개발을 시작한 단 하나의 이유입니다.
+							이것이 Treia 엔진 개발을 시작한 단 하나의 이유입니다.
 						</p>
 					</div>
 
