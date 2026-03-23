@@ -10,11 +10,8 @@ export default function LayoutWrapper({
 	children: React.ReactNode;
 }) {
 	const pathname = usePathname();
-	const isTreia = pathname === "/" || pathname?.startsWith("/treia");
-
-	if (isTreia) {
-		return <>{children}</>;
-	}
+	// Temporary hide FinTable layout everywhere until user requests back
+	return <>{children}</>;
 
 	// FinTable Layout
 	return (
