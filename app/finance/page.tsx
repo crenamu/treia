@@ -3,11 +3,11 @@
 import { AnimatePresence } from "framer-motion";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import BankSelectionModal from "../components/BankSelectionModal";
-import CompactProductCard from "../components/CompactProductCard";
-import HorizontalFilterBar from "../components/HorizontalFilterBar";
-import TaxCalculatorWidget from "../components/TaxCalculatorWidget";
-import { getProducts, type Product } from "../api/finance/actions/finance"; // 경로 조정
+import BankSelectionModal from "@/components/BankSelectionModal";
+import CompactProductCard from "@/components/CompactProductCard";
+import HorizontalFilterBar from "@/components/HorizontalFilterBar";
+import TaxCalculatorWidget from "@/components/TaxCalculatorWidget";
+import { getProducts, type Product } from "@/app/actions/finance";
 
 const PREFERENTIAL_FILTERS = [
 	{ id: "카드사용", label: "카드사용" },
