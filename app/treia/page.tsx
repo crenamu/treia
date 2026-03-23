@@ -1038,7 +1038,7 @@ export default function TreiaFunnelPage() {
 										title: "자금 회전의 극대화",
 										subTitle: "포지션 보유 시간 분석 (Holding Time)",
 										description: "트레이아 알고리즘은 불확실한 시장에 오래 머물지 않습니다. 평균 보유 시간을 최소화하여 자금 회전력을 높이고, 예기치 못한 시장 충격(Black Swan)에 노출되는 시간을 원천적으로 줄입니다.",
-										image: "/backtest_holding.png",
+										chart: <HoldingTimeChart />,
 										analysis: [
 											"초단기~단기 포지션 위주의 빠른 익절",
 											"복리 효과를 극대화하는 자금 순환 구조",
@@ -1051,7 +1051,7 @@ export default function TreiaFunnelPage() {
 										title: "유동성의 골든타임을 공략",
 										subTitle: "과거 거래 히스토리 (Trade History)",
 										description: "아무 때나 매매하지 않습니다. 전 세계 자금이 집중되는 런던과 뉴욕 세션의 겹치는 시간대를 정밀 타격하여, 가장 매끄러운 가격 움직임 속에서 확실한 수익 기회만을 포착합니다.",
-										image: "/backtest_history.png",
+										chart: <TradeHistoryChart />,
 										analysis: [
 											"거래량 밀집 시간대 집중 매매",
 											"요일별 변동성 데이터에 기반한 진입",
@@ -1064,7 +1064,7 @@ export default function TreiaFunnelPage() {
 										title: "통계적 우위의 증거",
 										subTitle: "수익/손실 분포도 (MFE/MAE)",
 										description: "손실은 짧게 끊고, 수익은 끝까지 추격합니다. 가격이 일시적으로 밀리는 폭(MAE)을 엄격히 통제하면서도, 유리한 흐름(MFE)을 탔을 때는 최대치의 수익을 확보하는 통계적 우위를 입증합니다.",
-										image: "/backtest_mfemae.png",
+										chart: <MfeMaeChart />,
 										analysis: [
 											"평균 손실폭 대비 압도적인 평균 수익폭",
 											"방어선(Stop Loss)의 철저한 기계적 이행",
@@ -1082,11 +1082,8 @@ export default function TreiaFunnelPage() {
 										className={`flex flex-col ${idx % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}
 									>
 										<div className="flex-1 w-full lg:w-1/2">
-											<div className="relative group bg-[#0a0b0e] border border-[#1a1a1a] rounded-[40px] p-4 md:p-6 transition-all hover:border-[#c8a84b]/30 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
-												<div className="relative aspect-[16/10] rounded-[24px] overflow-hidden">
-													<Image src={slide.image} alt={slide.title} fill className="object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
-													<div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
-												</div>
+											<div className="relative bg-[#0a0b0e] border border-[#1a1a1a] rounded-[40px] p-6 md:p-8 min-h-[300px] flex items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.5)] overflow-hidden">
+												{slide.chart}
 											</div>
 										</div>
 										<div className="flex-1 w-full lg:w-1/2 text-left">
@@ -1128,15 +1125,13 @@ export default function TreiaFunnelPage() {
 								<p className="text-[#7a7f8e] text-sm mb-8 font-light italic">
 									* 위 모든 분석은 조작이 불가능한 원본 리포트 데이터를 기반으로 추출되었습니다.
 								</p>
-								<a 
-									href="/backtest_report.html" 
-									target="_blank" 
-									rel="noopener noreferrer"
+								<Link 
+									href="/report" 
 									className="group flex items-center gap-4 bg-[#c8a84b] text-[#050505] px-10 py-5 rounded-2xl font-bold hover:bg-white transition-all shadow-[0_10px_30px_rgba(200,168,75,0.2)] hover:shadow-[0_15px_40px_rgba(200,168,75,0.4)] hover:-translate-y-1"
 								>
-									<span>백테스트 전체 리포트(HTML) 다운로드</span>
+									<span>백테스트 전체 리포트 상세 보기</span>
 									<ArrowUpRight size={20} />
-								</a>
+								</Link>
 							</div>
 						</div>
 					</div>
@@ -1641,4 +1636,152 @@ function Counter({ value, decimals = 0 }: { value: number; decimals?: number }) 
 	}, [isInView, value]);
 
 	return <span ref={ref}>{count.toFixed(decimals)}</span>;
+}
+
+function HoldingTimeChart() {
+	const dots = Array.from({ length: 40 }, (_, i) => ({
+		id: i,
+		x: Math.random() * 100,
+		y: Math.random() * 100,
+		delay: Math.random() * 4,
+		duration: 2 + Math.random() * 3,
+	}));
+
+	return (
+		<div className="relative w-full h-full flex items-center justify-center">
+			<div className="absolute inset-0 bg-blue-500/5 blur-3xl rounded-full"></div>
+			<svg viewBox="0 0 400 200" className="w-full h-full overflow-visible">
+				<line x1="40" y1="20" x2="40" y2="180" stroke="#222" strokeWidth="1" />
+				<line x1="40" y1="180" x2="360" y2="180" stroke="#222" strokeWidth="1" />
+
+				{dots.map((dot) => (
+					<motion.circle
+						key={dot.id}
+						initial={{ opacity: 0, r: 0 }}
+						animate={{
+							opacity: [0, 0.7, 0],
+							r: [0, 3, 0],
+						}}
+						transition={{
+							duration: dot.duration,
+							repeat: Infinity,
+							delay: dot.delay,
+							ease: "easeInOut",
+						}}
+						cx={40 + dot.x * 3.2}
+						cy={180 - dot.y * 1.5}
+						fill="#3b82f6"
+					/>
+				))}
+				<rect
+					x="40"
+					y="130"
+					width="320"
+					height="50"
+					fill="#3b82f6"
+					fillOpacity="0.03"
+				/>
+			</svg>
+			<div className="absolute bottom-6 right-10 text-[9px] font-mono text-blue-500/40 uppercase tracking-[2px]">
+				High Rotation Strategy
+			</div>
+		</div>
+	);
+}
+
+function TradeHistoryChart() {
+	const bars = [
+		15, 20, 35, 60, 85, 95, 80, 45, 30, 20, 15, 10, 12, 25, 55, 80, 70, 50, 40,
+		30,
+	];
+
+	return (
+		<div className="relative w-full h-full flex items-end justify-center p-8 pt-16">
+			<div className="absolute inset-0 bg-green-500/5 blur-3xl rounded-full"></div>
+			<div className="flex items-end gap-1.5 md:gap-3 w-full h-full">
+				{bars.map((height, i) => (
+					<motion.div
+						key={i}
+						initial={{ height: 0, opacity: 0 }}
+						whileInView={{ height: `${height}%`, opacity: 1 }}
+						transition={{ duration: 1.2, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+						className="flex-1 rounded-t-md relative group"
+						style={{
+							backgroundColor: i >= 13 || i <= 6 ? "#10b981" : "#1a1c23",
+							opacity: i >= 13 || i <= 6 ? 0.8 : 0.2,
+						}}
+					>
+						<div
+							className={`absolute -top-6 left-1/2 -translate-x-1/2 text-[8px] font-mono text-[#10b981] opacity-0 group-hover:opacity-100 transition-opacity`}
+						>
+							{height}%
+						</div>
+					</motion.div>
+				))}
+			</div>
+			<div className="absolute top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-green-500/50 uppercase tracking-[4px] whitespace-nowrap">
+				Liquidity Session Intensity
+			</div>
+		</div>
+	);
+}
+
+function MfeMaeChart() {
+	const points = Array.from({ length: 35 }, (_, i) => ({
+		id: i,
+		x: Math.random() * 100,
+		y: Math.random() * 80 + 20,
+		result: Math.random() > 0.25 ? "win" : "loss",
+	}));
+
+	return (
+		<div className="relative w-full h-full flex items-center justify-center">
+			<div className="absolute inset-0 bg-amber-500/5 blur-3xl rounded-full"></div>
+			<svg viewBox="0 0 400 200" className="w-full h-full overflow-visible">
+				<motion.line
+					initial={{ pathLength: 0, opacity: 0 }}
+					whileInView={{ pathLength: 1, opacity: 0.3 }}
+					transition={{ duration: 2 }}
+					x1="40"
+					y1="180"
+					x2="360"
+					y2="60"
+					stroke="#c8a84b"
+					strokeWidth="1.5"
+					strokeDasharray="4 4"
+				/>
+				<motion.line
+					initial={{ scaleX: 0 }}
+					whileInView={{ scaleX: 1 }}
+					transition={{ duration: 1.5, delay: 0.5 }}
+					x1="40"
+					y1="140"
+					x2="360"
+					y2="140"
+					stroke="#ef4444"
+					strokeWidth="1"
+					strokeDasharray="2 2"
+					style={{ originX: 0 }}
+					className="opacity-40"
+				/>
+
+				{points.map((p) => (
+					<motion.circle
+						key={p.id}
+						initial={{ opacity: 0, scale: 0 }}
+						whileInView={{ opacity: 1, scale: 1 }}
+						transition={{ delay: p.id * 0.03 + 0.2 }}
+						cx={40 + p.x * 3.2}
+						cy={200 - p.y * 1.8}
+						r={p.result === "win" ? 3.5 : 2.5}
+						fill={p.result === "win" ? "#10b981" : "#ef4444"}
+						className="drop-shadow-sm"
+					/>
+				))}
+			</svg>
+			<div className="absolute top-6 right-10 text-[10px] font-mono text-amber-500/50 uppercase tracking-[2px]">
+				Risk-Restricted Profit Zone
+			</div>
+		</div>
+	);
 }
