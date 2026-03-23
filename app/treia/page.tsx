@@ -1016,54 +1016,126 @@ export default function TreiaFunnelPage() {
 							</div>
 						</div>
 
-						{/* New: Detailed Backtest Report Grid */}
-						<div className="mt-20 pt-16 border-t border-[#22242e] w-full">
-							<div className="text-center mb-12">
-								<span className="text-[#c8a84b] font-mono text-xs tracking-[3px] uppercase block mb-4">
-									Detailed Strategy Backtest
+						{/* Enhanced: Detailed Backtest Insight Slides */}
+						<div className="mt-32 pt-20 border-t border-[#22242e] w-full">
+							<div className="text-center mb-24">
+								<span className="text-[#c8a84b] font-mono text-xs tracking-[5px] uppercase block mb-4">
+									Data Deep Dive
 								</span>
-								<h3 className="text-2xl md:text-3xl font-light text-white mb-6">
-									백테스트 통계 데이터 (2026.01.01 - 03.20)
+								<h3 className="text-3xl md:text-5xl font-light text-white mb-8">
+									데이터가 말하는 <span className="text-[#c8a84b]">시스템의 본질</span>
 								</h3>
-								<p className="text-[#7a7f8e] text-sm md:text-base font-light max-w-2xl mx-auto mb-10">
-									단순한 수익률 곡선을 넘어, 히스토리와 포지션 보유 기간 등 
-									전략의 본질적인 통계를 투명하게 공개합니다.
+								<p className="text-[#7a7f8e] text-base md:text-lg font-light max-w-3xl mx-auto">
+									표면적인 수익률 곡선 뒤에 숨겨진 트레이아만의 정교한 알고리즘 설계도를 
+									세 가지 핵심 지표를 통해 분석합니다.
 								</p>
 							</div>
 
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-								<div className="group relative bg-[#0a0b0e] border border-[#1a1a1a] rounded-2xl p-4 transition-all hover:border-[#c8a84b]/40">
-									<div className="aspect-[4/3] relative rounded-xl overflow-hidden mb-4">
-										<Image src="/backtest_holding.png" alt="Holding Time Chart" fill className="object-cover" />
-									</div>
-									<h4 className="text-white text-sm font-medium mb-2">포지션 보유 시간 분석</h4>
-									<p className="text-[#555] text-xs font-light tracking-tight">Time Distribution by Holding</p>
-								</div>
-								<div className="group relative bg-[#0a0b0e] border border-[#1a1a1a] rounded-2xl p-4 transition-all hover:border-[#c8a84b]/40">
-									<div className="aspect-[4/3] relative rounded-xl overflow-hidden mb-4">
-										<Image src="/backtest_history.png" alt="Trade History Chart" fill className="object-cover" />
-									</div>
-									<h4 className="text-white text-sm font-medium mb-2">과거 거래 히스토리</h4>
-									<p className="text-[#555] text-xs font-light tracking-tight">Trade Execution History Mapping</p>
-								</div>
-								<div className="group relative bg-[#0a0b0e] border border-[#1a1a1a] rounded-2xl p-4 transition-all hover:border-[#c8a84b]/40">
-									<div className="aspect-[4/3] relative rounded-xl overflow-hidden mb-4">
-										<Image src="/backtest_mfemae.png" alt="MFE/MAE Chart" fill className="object-cover" />
-									</div>
-									<h4 className="text-white text-sm font-medium mb-2">수익/손실 분포도 (MFE/MAE)</h4>
-									<p className="text-[#555] text-xs font-light tracking-tight">Statistical Dispersion by Profit Curve</p>
-								</div>
+							<div className="flex flex-col gap-32 md:gap-48">
+								{[
+									{
+										tag: "Efficiency",
+										title: "자금 회전의 극대화",
+										subTitle: "포지션 보유 시간 분석 (Holding Time)",
+										description: "트레이아 알고리즘은 불확실한 시장에 오래 머물지 않습니다. 평균 보유 시간을 최소화하여 자금 회전력을 높이고, 예기치 못한 시장 충격(Black Swan)에 노출되는 시간을 원천적으로 줄입니다.",
+										image: "/backtest_holding.png",
+										analysis: [
+											"초단기~단기 포지션 위주의 빠른 익절",
+											"복리 효과를 극대화하는 자금 순환 구조",
+											"시장 노출 시간 감소 → 리스크 관리 최적화"
+										],
+										color: "#3b82f6"
+									},
+									{
+										tag: "Precision",
+										title: "유동성의 골든타임을 공략",
+										subTitle: "과거 거래 히스토리 (Trade History)",
+										description: "아무 때나 매매하지 않습니다. 전 세계 자금이 집중되는 런던과 뉴욕 세션의 겹치는 시간대를 정밀 타격하여, 가장 매끄러운 가격 움직임 속에서 확실한 수익 기회만을 포착합니다.",
+										image: "/backtest_history.png",
+										analysis: [
+											"거래량 밀집 시간대 집중 매매",
+											"요일별 변동성 데이터에 기반한 진입",
+											"불필요한 횡보장 매매 배제로 승률 제고"
+										],
+										color: "#10b981"
+									},
+									{
+										tag: "Stability",
+										title: "통계적 우위의 증거",
+										subTitle: "수익/손실 분포도 (MFE/MAE)",
+										description: "손실은 짧게 끊고, 수익은 끝까지 추격합니다. 가격이 일시적으로 밀리는 폭(MAE)을 엄격히 통제하면서도, 유리한 흐름(MFE)을 탔을 때는 최대치의 수익을 확보하는 통계적 우위를 입증합니다.",
+										image: "/backtest_mfemae.png",
+										analysis: [
+											"평균 손실폭 대비 압도적인 평균 수익폭",
+											"방어선(Stop Loss)의 철저한 기계적 이행",
+											"수익 구간 확장(Trailing) 기술의 실효성 증명"
+										],
+										color: "#c8a84b"
+									}
+								].map((slide, idx) => (
+									<motion.div 
+										key={idx}
+										initial={{ opacity: 0, y: 50 }}
+										whileInView={{ opacity: 1, y: 0 }}
+										transition={{ duration: 1 }}
+										viewport={{ once: true, margin: "-100px" }}
+										className={`flex flex-col ${idx % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}
+									>
+										<div className="flex-1 w-full lg:w-1/2">
+											<div className="relative group bg-[#0a0b0e] border border-[#1a1a1a] rounded-[40px] p-4 md:p-6 transition-all hover:border-[#c8a84b]/30 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+												<div className="relative aspect-[16/10] rounded-[24px] overflow-hidden">
+													<Image src={slide.image} alt={slide.title} fill className="object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
+													<div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
+												</div>
+											</div>
+										</div>
+										<div className="flex-1 w-full lg:w-1/2 text-left">
+											<span 
+												className="font-mono text-[11px] tracking-[4px] uppercase px-3 py-1 rounded-sm mb-6 inline-block"
+												style={{ backgroundColor: `${slide.color}20`, color: slide.color }}
+											>
+												{slide.tag}
+											</span>
+											<h4 className="text-2xl md:text-4xl font-light text-white mb-2 leading-tight">
+												{slide.title}
+											</h4>
+											<div className="text-[#c8a84b] font-mono text-xs mb-8 tracking-widest uppercase">
+												{slide.subTitle}
+											</div>
+											<p className="text-[#a1a1aa] text-[16px] md:text-[18px] font-light leading-relaxed mb-10 break-keep">
+												{slide.description}
+											</p>
+											<ul className="space-y-4">
+												{slide.analysis.map((point, pIdx) => (
+													<motion.li 
+														key={pIdx}
+														initial={{ opacity: 0, x: 20 }}
+														whileInView={{ opacity: 1, x: 0 }}
+														transition={{ delay: 0.5 + (pIdx * 0.1) }}
+														className="flex items-start gap-4 text-white/90 text-[14px] md:text-[16px] font-light"
+													>
+														<span className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: slide.color }}></span>
+														{point}
+													</motion.li>
+												))}
+											</ul>
+										</div>
+									</motion.div>
+								))}
 							</div>
 
-							<div className="flex justify-center">
+							<div className="flex flex-col items-center mt-32">
+								<p className="text-[#7a7f8e] text-sm mb-8 font-light italic">
+									* 위 모든 분석은 조작이 불가능한 원본 리포트 데이터를 기반으로 추출되었습니다.
+								</p>
 								<a 
 									href="/backtest_report.html" 
 									target="_blank" 
 									rel="noopener noreferrer"
-									className="group flex items-center gap-3 bg-[#13151b] border border-[#23252d] px-8 py-4 rounded-xl text-[#c8a84b] hover:bg-[#c8a84b] hover:text-black transition-all"
+									className="group flex items-center gap-4 bg-[#c8a84b] text-[#050505] px-10 py-5 rounded-2xl font-bold hover:bg-white transition-all shadow-[0_10px_30px_rgba(200,168,75,0.2)] hover:shadow-[0_15px_40px_rgba(200,168,75,0.4)] hover:-translate-y-1"
 								>
-									<span className="text-sm font-bold">백테스트 상세 리포트 전문 보기</span>
-									<ArrowUpRight size={18} />
+									<span>백테스트 전체 리포트(HTML) 다운로드</span>
+									<ArrowUpRight size={20} />
 								</a>
 							</div>
 						</div>
