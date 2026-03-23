@@ -1,23 +1,38 @@
-import { db } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, where } from 'firebase/firestore';
+import {
+	addDoc,
+	collection,
+	getDocs,
+	query,
+	serverTimestamp,
+	where,
+} from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 const seedEducation = async () => {
-  const educationRef = collection(db, 'treia_education');
-  
-  // 중복 저장 방지를 위한 간단한 체크
-  const q = query(educationRef, where("title", "==", "[브로커 가이드] 안전한 트레이딩 환경: 브로커 선택 기준과 팩트 체크"));
-  const querySnapshot = await getDocs(q);
-  
-  if (!querySnapshot.empty) {
-    console.log("이미 존재하는 포스팅입니다.");
-    return;
-  }
+	const educationRef = collection(db, "treia_education");
 
-  const post = {
-    title: "[브로커 가이드] 안전한 트레이딩 환경: 브로커 선택 기준과 팩트 체크",
-    category: "브로커 가이드",
-    excerpt: "해외 브로커에 대한 오해와 진실, 그리고 안전한 거래 환경을 스스로 판별하기 위한 5가지 객관적 기준을 제시합니다.",
-    content: `
+	// 중복 저장 방지를 위한 간단한 체크
+	const q = query(
+		educationRef,
+		where(
+			"title",
+			"==",
+			"[브로커 가이드] 안전한 트레이딩 환경: 브로커 선택 기준과 팩트 체크",
+		),
+	);
+	const querySnapshot = await getDocs(q);
+
+	if (!querySnapshot.empty) {
+		console.log("이미 존재하는 포스팅입니다.");
+		return;
+	}
+
+	const post = {
+		title: "[브로커 가이드] 안전한 트레이딩 환경: 브로커 선택 기준과 팩트 체크",
+		category: "브로커 가이드",
+		excerpt:
+			"해외 브로커에 대한 오해와 진실, 그리고 안전한 거래 환경을 스스로 판별하기 위한 5가지 객관적 기준을 제시합니다.",
+		content: `
 ### 1. 브로커 본체와 유통 경로의 분리
 많은 트레이더들이 특정 해외 브로커를 위험하다고 오해하는 이유는, 브로커 자체의 결함보다는 **중간 단계에서 활동하는 불법 다단계 영업직**들의 행태 때문인 경우가 많습니다. 
 글로벌 금융 규제 기관(FCA 등)에 가입된 브로커는 시스템적 안정성을 갖추고 있으나, 이를 이용해 "고수익 보장"이나 "지인 모집 인센티브"를 홍보하는 조직은 반드시 피해야 합니다.
@@ -36,19 +51,20 @@ const seedEducation = async () => {
 - **독립적 선택**: 트레이아는 위에서 제시한 객관적 기준에 부합하는 환경에서만 매매 데이터를 추출하며, 사용자는 제공된 기준을 바탕으로 본인에게 가장 적합한 증권사를 **직접 비교하고 선택**해야 합니다.
 - **리스크 고지**: 해외 브로커는 국내와 비교해 적은 시드머니로 레버리지를 활용할 수 있는 장점이 있으나, 예금자 보호 범위 등 국가별 법적 보호 체계가 다를 수 있음을 반드시 인지해야 합니다.
     `,
-    thumbnail: "https://images.unsplash.com/photo-1611974714652-960205d8bc11?auto=format&fit=crop&q=80&w=800",
-    isPublished: true,
-    order: 1,
-    createdAt: serverTimestamp(),
-    app: 'treia'
-  };
+		thumbnail:
+			"https://images.unsplash.com/photo-1611974714652-960205d8bc11?auto=format&fit=crop&q=80&w=800",
+		isPublished: true,
+		order: 1,
+		createdAt: serverTimestamp(),
+		app: "treia",
+	};
 
-  try {
-    await addDoc(educationRef, post);
-    console.log("교육 콘텐츠 시딩 완료!");
-  } catch (error) {
-    console.error("Error seeding education:", error);
-  }
+	try {
+		await addDoc(educationRef, post);
+		console.log("교육 콘텐츠 시딩 완료!");
+	} catch (error) {
+		console.error("Error seeding education:", error);
+	}
 };
 
 seedEducation();

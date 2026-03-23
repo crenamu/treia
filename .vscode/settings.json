@@ -1,0 +1,29 @@
+{
+	"python.analysis.indexing": false,
+	"python.analysis.include": ["scripts/*.py"],
+	"python.analysis.autoImportCompletions": false,
+	"python.analysis.typeCheckingMode": "off",
+	"python.languageServer": "None",
+	"python.envFile": "${workspaceFolder}/.env",
+	"python.experiments.enabled": false,
+	"python.experiments.optOutFrom": ["All"],
+	"python.analysis.exclude": [
+		"**/node_modules",
+		"**/dist",
+		"**/.next"
+	],
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "biomejs.biome",
+	"biome.enabled": true,
+	"[python]": {
+		"editor.defaultFormatter": "ms-python.python"
+	},
+	"search.exclude": {
+		"**/.next": true,
+		"**/node_modules": true,
+		"**/dist": true
+	},
+	"files.associations": {
+		"*.tsx": "typescriptjsx"
+	}
+}

@@ -65,7 +65,11 @@ _최종 업데이트: 2026-03-20 (금) 22:00 KST_ (Treia 랜딩페이지 섹션 
 - **Email Automation (`nodemailer`)**: 블랙/골드 톤의 럭셔리 HTML 메일 템플릿 연동 및 발송 API 구축.
 - **Internal Web Guide (`/treia/guide`)**: 노션 가이드를 대체하는 고품격 자체 웹 매뉴얼 구축 (Placeholder 이미지 틀 완비).
 - **Psychological FAQ**: 자본주의적 신용 논리(시드 확보 명분) 및 1년 한정 개방(FOMO) 전략을 반영한 FAQ 6종 최종 고도화.
-- **Lint & Clean-up**: Biome 린터 기반 코드 정리 및 Treia 페이지 내 비정상 import, 따옴표 escape 오류 전수 수정.
+- **Phase 10: VS Code 환경 안정화 (완료)**
+  - Python Interpreter 무한 로딩 이슈 해결 (indexing: false, include scope 제한)
+  - Biome 린터 기반 0 에러 달성 (전체 13개 이상 에러 수정 완료)
+  - TypeScript 빌드 오류 해결 (ShareSaveButtons.tsx Hoisting 문제 수정)
+  - .biomeignore 도입으로 Tailwind v4 문법 경고 차단 (전체 빌드 Pass 확인)
 
 #### [2026-03-20] Treia 랜딩페이지 섹션 확장 & 비즈니스 모델 논의
 

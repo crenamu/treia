@@ -1,0 +1,52 @@
+app\treia\page.tsx:182:6 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    181 │ 					{/* Mobile Menu Toggle */}
+  > 182 │ 					<button
+        │ 					^^^^^^^
+  > 183 │ 						className="md:hidden text-white"
+  > 184 │ 						onClick={() => setIsNavOpen(!isNavOpen)}
+  > 185 │ 						aria-label="Toggle Menu"
+  > 186 │ 					>
+        │ 					^
+    187 │ 						{isNavOpen ? <X size={28} /> : <Menu size={28} />}
+    188 │ 					</button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+app\treia\page.tsx:773:16 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Avoid using the index of an array as key property in an element.
+  
+    771 │ 								].map((row, idx) => (
+    772 │ 									<tr
+  > 773 │ 										key={idx}
+        │ 										     ^^^
+    774 │ 										className="border-b border-[#111] hover:bg-white/[0.02] transition-colors"
+    775 │ 									>
+  
+  i This is the source of the key value.
+  
+    769 │ 										treia: "$1,000 (약 135만 원)",
+    770 │ 									},
+  > 771 │ 								].map((row, idx) => (
+        │ 								            ^^^
+    772 │ 									<tr
+    773 │ 										key={idx}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+Checked 1 file in 34ms. No fixes applied.
+Found 2 errors.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+

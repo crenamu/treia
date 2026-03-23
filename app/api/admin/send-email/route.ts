@@ -1,29 +1,32 @@
-import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
-import { db } from '@/lib/firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from "firebase/firestore";
+import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
+import { db } from "@/lib/firebase";
 
 export async function POST(req: Request) {
-  try {
-    const { leadId, email, name, notionUrl } = await req.json();
+	try {
+		const { leadId, email, name, notionUrl } = await req.json();
 
-    if (!leadId || !email || !name) {
-      return NextResponse.json({ success: false, message: '필수 정보 누락' }, { status: 400 });
-    }
+		if (!leadId || !email || !name) {
+			return NextResponse.json(
+				{ success: false, message: "필수 정보 누락" },
+				{ status: 400 },
+			);
+		}
 
-    // 1. nodemailer 설정 (Gmail 등 SMTP)
-    // env 파일에 SMTP_USER (ex: myemail@gmail.com), SMTP_PASS (앱 비밀번호) 셋팅 필요
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+		// 1. nodemailer 설정 (Gmail 등 SMTP)
+		// env 파일에 SMTP_USER (ex: myemail@gmail.com), SMTP_PASS (앱 비밀번호) 셋팅 필요
+		const transporter = nodemailer.createTransport({
+			host: "smtp.gmail.com",
+			port: 465,
+			secure: true,
+			auth: {
+				user: process.env.SMTP_USER,
+				pass: process.env.SMTP_PASS,
+			},
+		});
 
-    const emailHtml = `
+		const emailHtml = `
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -58,7 +61,7 @@ export async function POST(req: Request) {
 
             <div style="text-align: center; margin-top: 40px;">
                 <p style="font-size: 14px; color: #a1a1aa; margin-bottom: 15px;">👇 처음이신가요?</p>
-                <a href="${notionUrl || '#'}" target="_blank" style="display: inline-block; background-color: #c8a84b; color: #000; text-decoration: none; padding: 18px 30px; border-radius: 8px; font-weight: bold; font-size: 16px;">
+                <a href="${notionUrl || "#"}" target="_blank" style="display: inline-block; background-color: #c8a84b; color: #000; text-decoration: none; padding: 18px 30px; border-radius: 8px; font-weight: bold; font-size: 16px;">
                     3분 만에 끝나는 모바일 접속 가이드 보기
                 </a>
             </div>
@@ -72,24 +75,30 @@ export async function POST(req: Request) {
 </html>
     `;
 
-    // 2. 이메일 전송
-    await transporter.sendMail({
-      from: `"Treia Support" <${process.env.SMTP_USER}>`,
-      to: email,
-      subject: 'Treia_No1 실시간 관전자 계정 발급 완료 (선착순)',
-      html: emailHtml,
-    });
+		// 2. 이메일 전송
+		await transporter.sendMail({
+			from: `"Treia Support" <${process.env.SMTP_USER}>`,
+			to: email,
+			subject: "Treia_No1 실시간 관전자 계정 발급 완료 (선착순)",
+			html: emailHtml,
+		});
 
-    // 3. 발송 완료 후 Firestore DB 내 해당 리드 status 업데이트 ('new' -> 'approved')
-    const leadRef = doc(db, 'treia_leads', leadId);
-    await updateDoc(leadRef, {
-      status: 'approved',
-      approvedAt: new Date(), // 서버 타임스탬프 대신 JS Date를 보냄 (클라이언트 편의상)
-    });
+		// 3. 발송 완료 후 Firestore DB 내 해당 리드 status 업데이트 ('new' -> 'approved')
+		const leadRef = doc(db, "treia_leads", leadId);
+		await updateDoc(leadRef, {
+			status: "approved",
+			approvedAt: new Date(), // 서버 타임스탬프 대신 JS Date를 보냄 (클라이언트 편의상)
+		});
 
-    return NextResponse.json({ success: true, message: '발송에 성공했습니다.' });
-  } catch (error) {
-    console.error('Email sending error:', error);
-    return NextResponse.json({ success: false, message: '이메일 발송 중 오류가 발생했습니다.' }, { status: 500 });
-  }
+		return NextResponse.json({
+			success: true,
+			message: "발송에 성공했습니다.",
+		});
+	} catch (error) {
+		console.error("Email sending error:", error);
+		return NextResponse.json(
+			{ success: false, message: "이메일 발송 중 오류가 발생했습니다." },
+			{ status: 500 },
+		);
+	}
 }

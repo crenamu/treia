@@ -1,0 +1,253 @@
+app\treia\page.tsx:2:1 assist/source/organizeImports  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × The imports and exports are not sorted.
+  
+    1 │ "use client";
+  > 2 │ import { useEffect, useState } from "react";
+      │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    3 │ import {·
+    4 │   ArrowUpRight,·
+  
+  i Safe fix: Organize Imports (Biome)
+  
+      1   1 │   "use client";␍
+      2     │ - import·{·useEffect,·useState·}·from·"react";␍
+      3     │ - import·{·␍
+      4     │ - ··ArrowUpRight,·␍
+      5     │ - ··ShieldCheck,·␍
+      6     │ - ··Clock,·␍
+      7     │ - ··Globe,␍
+      8     │ - ··Layers,␍
+      9     │ - ··Lock,␍
+     10     │ - ··Target,␍
+     11     │ - ··Menu,␍
+     12     │ - ··X·␍
+     13     │ - }·from·"lucide-react";␍
+          2 │ + import·{·␍
+          3 │ + ··ArrowUpRight,·␍
+          4 │ + ··Clock,·␍
+          5 │ + ··Globe,␍
+          6 │ + ··Layers,␍
+          7 │ + ··Lock,␍
+          8 │ + ··Menu,␍
+          9 │ + ··ShieldCheck,·␍
+         10 │ + ··Target,␍
+         11 │ + ··X·␍
+         12 │ + }·from·"lucide-react";␍
+         13 │ + import·Image·from·"next/image";␍
+     14  14 │   import Link from "next/link";␍
+     15     │ - import·Image·from·"next/image";␍
+         15 │ + import·{·useEffect,·useState·}·from·"react";␍
+     16  16 │   ␍
+     17  17 │   export default function TreiaFunnelPage() {␍
+  
+
+app\treia\page.tsx:125:11 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    124 │           {/* Mobile Menu Toggle */}
+  > 125 │           <button·
+        │           ^^^^^^^^
+  > 126 │             className="md:hidden text-white"
+  > 127 │             onClick={() => setIsNavOpen(!isNavOpen)}
+  > 128 │             aria-label="Toggle Menu"
+  > 129 │           >
+        │           ^
+    130 │             {isNavOpen ? <X size={28} /> : <Menu size={28} />}
+    131 │           </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+app\treia\page.tsx:468:28 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Avoid using the index of an array as key property in an element.
+  
+    466 │                   { label: "최소 시드", common: "수천만 원", treia: "$1,000 (약 135만 원)" }
+    467 │                 ].map((row, idx) => (
+  > 468 │                   <tr key={idx} className="border-b border-[#111] hover:bg-white/[0.02] transition-colors">
+        │                            ^^^
+    469 │                     <td className="py-6 px-4 text-[#7a7f8e] font-light">{row.label}</td>
+    470 │                     <td className="py-6 px-4 text-[#555] font-light">{row.common}</td>
+  
+  i This is the source of the key value.
+  
+    465 │                   { label: "검증 방식", common: "수익 인증샷", treia: "MT5 관전자 계정 (조작 불가)" },
+    466 │                   { label: "최소 시드", common: "수천만 원", treia: "$1,000 (약 135만 원)" }
+  > 467 │                 ].map((row, idx) => (
+        │                             ^^^
+    468 │                   <tr key={idx} className="border-b border-[#111] hover:bg-white/[0.02] transition-colors">
+    469 │                     <td className="py-6 px-4 text-[#7a7f8e] font-light">{row.label}</td>
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+app\treia\page.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+      1      │ - "use·client";␍
+      2      │ - import·{·useEffect,·useState·}·from·"react";␍
+      3      │ - import·{·␍
+      4      │ - ··ArrowUpRight,·␍
+      5      │ - ··ShieldCheck,·␍
+      6      │ - ··Clock,·␍
+      7      │ - ··Globe,␍
+      8      │ - ··Layers,␍
+      9      │ - ··Lock,␍
+     10      │ - ··Target,␍
+     11      │ - ··Menu,␍
+     12      │ - ··X·␍
+     13      │ - }·from·"lucide-react";␍
+     14      │ - import·Link·from·"next/link";␍
+     15      │ - import·Image·from·"next/image";␍
+     16      │ - ␍
+     17      │ - export·default·function·TreiaFunnelPage()·{␍
+     18      │ - ··const·[isNavOpen,·setIsNavOpen]·=·useState(false);␍
+     19      │ - ··const·[formData,·setFormData]·=·useState({·name:·"",·email:·"",·reason:·"",·inquiry:·"사전·예약:·개인용·자동매매·소프트웨어·라이선스"·});␍
+     20      │ - ··const·[isSubmitted,·setIsSubmitted]·=·useState(false);␍
+     21      │ - ··const·[isLoading,·setIsLoading]·=·useState(false);␍
+     22      │ - ··const·[errorMsg,·setErrorMsg]·=·useState("");␍
+     23      │ - ␍
+     24      │ - ␍
+     25      │ - ··useEffect(()·=>·{␍
+     26      │ - ····document.documentElement.style.scrollBehavior·=·"smooth";␍
+     27      │ - ····␍
+     28      │ - ····const·observer·=·new·IntersectionObserver(␍
+     29      │ - ······(entries)·=>·{␍
+     30      │ - ········entries.forEach((entry)·=>·{␍
+     31      │ - ··········if·(entry.isIntersecting)·{␍
+     32      │ - ············entry.target.classList.add("opacity-100",·"translate-y-0");␍
+     33      │ - ············entry.target.classList.remove("opacity-0",·"translate-y-12");␍
+     34      │ - ··········}␍
+     35      │ - ········});␍
+     36      │ - ······},␍
+     37      │ - ······{·threshold:·0.15·},␍
+     38      │ - ····);␍
+     39      │ - ␍
+     40      │ - ····document.querySelectorAll(".reveal").forEach((el)·=>·{␍
+     41      │ - ······observer.observe(el);␍
+     42      │ - ····});␍
+     43      │ - ␍
+     44      │ - ····return·()·=>·observer.disconnect();␍
+     45      │ - ··},·[]);␍
+     46      │ - ␍
+     47      │ - ··const·handleSubmit·=·async·(e:·React.FormEvent)·=>·{␍
+     48      │ - ····e.preventDefault();␍
+     49      │ - ····if·(!formData.name·||·!formData.email)·return;␍
+     50      │ - ····␍
+     51      │ - ····setIsLoading(true);␍
+     52      │ - ····setErrorMsg('');␍
+     53      │ - ····␍
+     54      │ - ····try·{␍
+     55      │ - ······const·res·=·await·fetch('/api/lead',·{␍
+     56      │ - ········method:·'POST',␍
+     57      │ - ········headers:·{·'Content-Type':·'application/json'·},␍
+     58      │ - ········body:·JSON.stringify(formData),␍
+     59      │ - ······});␍
+     60      │ - ······␍
+     61      │ - ······const·data·=·await·res.json();␍
+     62      │ - ······if·(data.success)·{␍
+     63      │ - ········setIsSubmitted(true);␍
+     64      │ - ······}·else·{␍
+     65      │ - ········setErrorMsg(data.message·||·'접수에·실패했습니다.·다시·시도해주세요.');␍
+     66      │ - ······}␍
+     67      │ - ····}·catch·(err)·{␍
+     68      │ - ······console.error(err);␍
+     69      │ - ······setErrorMsg('서버·오류가·발생했습니다.·잠시·후·시도해주세요.');␍
+     70      │ - ····}·finally·{␍
+     71      │ - ······setIsLoading(false);␍
+     72      │ - ····}␍
+     73      │ - ··};␍
+     74      │ - ␍
+     75      │ - ··const·chartData·=·[0.97,·1.57,·33.46,·33.77,·66.85,·67.41,·81.86,·113.39,·115.27,·116.26,·116.86,·130.48,·144.1,·159.12,·174.05,·187.36,·151.14,·115.57,·87.55,·59.53,·36.71,·19.76,·20.32,·20.92,·11.76,·5.03,·3.08,·15.13,·15.71,·16.31,·22.47,·23.09,·23.69,·24.29,·24.98,·30.72,·36.75,·47.77,·58.01,·57.98,·57.49,·55.2,·53.28,·56.1,·20.14,·-15.92,·-49.27,·-82.7,·-65.65,·-59.97,·-66.87,·-65.91,·-64.95,·-64.35,·-63.75,·-62.89,·-62.29,·-56.56,·-50.12,·-43.68,·-43.08,·-42.48,·-41.88,·-41.28,·-40.69,·-40.09,·-39.49,·-38.89,·-38.29,·-37.69,·-30.53,·-23.37,·-16.21,·-7.89,·3.89,·15.67,·27.45,·39.23,·54.84,·70.45,·86.06,·102.86,·121.72,·142.45,·163.18,·170.14,·177.14,·186.14,·189.88,·191.55,·193.29,·182.99,·172.76,·165.06,·157.38,·152.65,·149.87,·148.55,·147.29,·147.35,·145.85,·144.64,·147.37,·151.82,·157.52,·169.41,·181.21,·208.3,·235.39,·285.71,·337.05,·360.62,·384.19,·429.67,·475.15,·497.38,·519.61,·562.77,·605.93,·626.64,·647.35,·648.73,·658.92,·669.36,·669.97,·704.29,·767.28,·776.59,·792.86,·802.17,·818.44,·827.75,·837.06,·853.33,·869.6,·879.19,·888.78,·897.96,·907.14,·917.89,·928.64,·939.37,·950.1,·959.14,·968.18,·977.24,·986.3];␍
+     76      │ - ··␍
+     77      │ - ··//·Create·SVG·path·string·dynamically␍
+     78      │ - ··const·width·=·800;␍
+     79      │ - ··const·height·=·200;␍
+     80      │ - ··const·minVal·=·-100;␍
+     81      │ - ··const·maxVal·=·1000;␍
+     82      │ - ··const·range·=·maxVal·-·minVal;␍
+     83      │ - ··const·stepX·=·width·/·(chartData.length·-·1);␍
+     84      │ - ··␍
+     85      │ - ··const·generatePath·=·(data:·number[])·=>·{␍
+     86      │ - ····return·data.map((val,·i)·=>·{␍
+     87      │ - ······const·x·=·i·*·stepX;␍
+     88      │ - ······const·y·=·height·-·((val·-·minVal)·/·range)·*·height;␍
+     89      │ - ······return·`${i·===·0·?·'M'·:·'L'}${x},${y}`;␍
+     90      │ - ····}).join('·');␍
+     91      │ - ··};␍
+     92      │ - ··const·dPath·=·generatePath(chartData);␍
+     93      │ - ··const·dFill·=·`${dPath}·L${width},${height}·L0,${height}·Z`;␍
+     94      │ - ␍
+     95      │ - ··return·(␍
+     96      │ - ····<div·className="w-full·bg-[#050505]·text-[#f2f2f2]·font-sans·break-keep·overflow-x-hidden·selection:bg-[#c8a84b]·selection:text-[#050505]">␍
+     97      │ - ······␍
+     98      │ - ······{/*·Sticky·Header·*/}␍
+     99      │ - ······<header·className="fixed·top-0·left-0·w-full·z-[100]·bg-[#050505]/95·border-b·border-white/5">␍
+    100      │ - ········<div·className="max-w-7xl·mx-auto·px-6·h-20·flex·items-center·justify-between">␍
+    101      │ - ··········<Link·href="#hero"·className="flex·items-center">␍
+    102      │ - ············<div·className="relative·h-8·md:h-10·w-32·md:w-40">␍
+    103      │ - ··············<Image·␍
+    104      │ - ················src="/treia_logo_removed_bg.png"·␍
+    105      │ - ················alt="Treia·Logo"·␍
+    106      │ - ················fill␍
+    107      │ - ················className="object-contain·object-left·group-hover:scale-105·transition-transform·duration-300"␍
+    108      │ - ················priority␍
+    109      │ - ··············/>␍
+    110      │ - ············</div>␍
+    111      │ - ··········</Link>␍
+    112      │ - ␍
+    113      │ - ··········{/*·Desktop·Nav·*/}␍
+    114      │ - ··········<nav·className="hidden·md:flex·items-center·gap-10·text-[13px]·font-mono·tracking-widest·uppercase·text-[#7a7f8e]">␍
+    115      │ - ············<Link·href="#philosophy"·className="hover:text-[#c8a84b]·transition-colors">Philosophy</Link>␍
+    116      │ - ············<Link·href="#origin"·className="hover:text-[#c8a84b]·transition-colors">Origin</Link>␍
+    117      │ - ············<Link·href="#benefits"·className="hover:text-[#c8a84b]·transition-colors">Benefits</Link>␍
+    118      │ - ············<Link·href="#why-treia"·className="hover:text-[#c8a84b]·transition-colors">Why·Treia</Link>␍
+    119      │ - ············<Link·href="#proof"·className="hover:text-[#c8a84b]·transition-colors">Proof</Link>␍
+    120      │ - ············<Link·href="#faq"·className="hover:text-[#c8a84b]·transition-colors">FAQ</Link>␍
+    121      │ - ············<Link·href="#apply"·className="bg-[#c8a84b]·text-[#050505]·px-5·py-2.5·rounded-full·font-bold·hover:bg-[#d4b55c]·transition-all·hover:scale-105">Apply</Link>␍
+    122      │ - ··········</nav>␍
+    123      │ - ␍
+    124      │ - ··········{/*·Mobile·Menu·Toggle·*/}␍
+    125      │ - ··········<button·␍
+    126      │ - ············className="md:hidden·text-white"␍
+    127      │ - ············onClick={()·=>·setIsNavOpen(!isNavOpen)}␍
+    128      │ - ············aria-label="Toggle·Menu"␍
+    129      │ - ··········>␍
+    130      │ - ············{isNavOpen·?·<X·size={28}·/>·:·<Menu·size={28}·/>}␍
+    131      │ - ··········</button>␍
+    132      │ - ········</div>␍
+    133      │ - ␍
+    134      │ - ········{/*·Mobile·Nav·*/}␍
+    135      │ - ········<div·className={`md:hidden·absolute·top-20·left-0·w-full·bg-[#0a0a0d]·border-b·border-white/5·transition-all·duration-300·overflow-hidden·${isNavOpen·?·'max-h-[500px]·border-b·border-white/10'·:·'max-h-0'}`}>␍
+    136      │ - ··········<div·className="px-6·py-10·flex·flex-col·gap-8·text-center·text-sm·font-mono·tracking-widest·uppercase·text-[#7a7f8e]">␍
+    137      │ - ············<Link·href="#philosophy"·onClick={()·=>·setIsNavOpen(false)}·className="hover:text-[#c8a84b]">Philosophy</Link>␍
+    138      │ - ············<Link·href="#origin"·onClick={()·=>·setIsNavOpen(false)}·className="hover:text-[#c8a84b]">Origin</Link>␍
+    139      │ - ············<Link·href="#benefits"·onClick={()·=>·setIsNavOpen(false)}·className="hover:text-[#c8a84b]">Benefits</Link>␍
+    140      │ - ············<Link·href="#why-treia"·onClick={()·=>·setIsNavOpen(false)}·className="hover:text-[#c8a84b]">Why·Treia</Link>␍
+    141      │ - ············<Link·href="#proof"·onClick={()·=>·setIsNavOpen(false)}·className="hover:text-[#c8a84b]">Proof</Link>␍
+    142      │ - ············<Link·href="#faq"·onClick={()·=>·setIsNavOpen(false)}·className="hover:text-[#c8a84b]">FAQ</Link>␍
+    143      │ - ············<Link·href="#apply"·onClick={()·=>·setIsNavOpen(false)}·className="text-[#c8a84b]·font-bold">Apply·Now</Link>␍
+    144      │ - ··········</div>␍
+    145      │ - ········</div>␍
+    146      │ - ······</header>␍
+    147      │ - ␍
+    148      │ - ······<section·id="hero"·className="relative·min-h-[100svh]·flex·flex-col·justify-center·items-center·text-center·px-6">␍
+    149      │ - ········<div·className="absolute·inset-0·pointer-events-none·opacity-[0.01]"·style={{·backgroundImage:·'linear-gradient(#fff·1px,·transparent·1px),·linear-gradient(90deg,·#fff·1px,·transparent·1px)',·backgroundSize:·'60px·60px'·}}></div>␍
+    150      │ - ········<div·className="absolute·top-1/2·left-1/2·-translate-x-1/2·-translate-y-1/2·w-[500px]·h-[500px]·bg-[#c8a84b]/5·blur-[120px]·rounded-full·pointer-events-none·z-0"></div>␍
+  2146 more lines truncated
+  
+
+Checked 1 file in 36ms. No fixes applied.
+Found 4 errors.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
