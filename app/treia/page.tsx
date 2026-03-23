@@ -1439,6 +1439,18 @@ export default function TreiaFunnelPage() {
 					</div>
 				</div>
 			</section>
+
+			{/* Treia Exclusive Footer */}
+			<footer className="py-20 border-t border-[#1a1a1a] bg-[#050505] text-center">
+				<div className="max-w-7xl mx-auto px-6">
+					<p className="text-[12px] text-[#444] font-mono tracking-widest uppercase mb-4">
+						© 2026 TREIA GROUP. ALL RIGHTS RESERVED.
+					</p>
+					<p className="text-[11px] text-[#333] tracking-wider leading-relaxed">
+						Algorithmic Trading Software Provider & Multi-Asset Intelligence
+					</p>
+				</div>
+			</footer>
 		</div>
 	);
 }

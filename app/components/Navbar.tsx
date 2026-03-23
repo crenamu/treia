@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import UserProfile from "@/components/UserProfile";
 
 const NAV_LINKS = [
-	{ href: "/", label: "정기예금", icon: <Landmark size={18} /> },
+	{ href: "/finance", label: "정기예금", icon: <Landmark size={18} /> },
 	{ href: "/savings", label: "정기적금", icon: <Rocket size={18} /> },
 	{ href: "/loans", label: "대출상품", icon: <ShieldCheck size={18} /> },
 	{ href: "/cards", label: "신용카드", icon: <Star size={18} /> },
@@ -95,7 +95,7 @@ export default function Navbar() {
 									저장목록
 								</NavLink>
 								<Link
-									href="/treia"
+									href="/"
 									className={`flex items-center gap-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-[1px] transition-all shadow-sm ${
 										pathname === "/treia"
 											? "bg-gray-900 text-white"
@@ -172,7 +172,7 @@ export default function Navbar() {
 										active={pathname === "/saved"}
 									/>
 									<SidebarLink
-										href="/treia"
+										href="/"
 										label="Treia 서비스"
 										icon={<Rocket size={18} />}
 										highlight

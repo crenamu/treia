@@ -10,7 +10,7 @@ export default function LayoutWrapper({
 	children: React.ReactNode;
 }) {
 	const pathname = usePathname();
-	const isTreia = pathname?.startsWith("/treia");
+	const isTreia = pathname === "/" || pathname?.startsWith("/treia");
 
 	if (isTreia) {
 		return <>{children}</>;
