@@ -27,6 +27,7 @@ interface License {
   equity?: number;        // 현재 평가금 (EA 보고용)
   profit?: number;        // 누적 수익금 (EA 보고용)
   lastUpdated?: any;
+  strategies?: Record<string, { tf: string; profit: number; updatedAt: string }>;
   createdAt?: any;
 }
 
@@ -481,8 +482,20 @@ function LicensesTab() {
                       </td>
                       <td className="p-4 font-mono text-[#c8a84b] text-sm">{lic.maxLot}</td>
                       <td className="p-4 text-sm font-mono">
-                         <div className="text-[#10b981]">${(lic.profit || 0).toLocaleString()}</div>
-                         <div className="text-[#555] text-[10px]">Eq: ${(lic.equity || 0).toLocaleString()}</div>
+                         <div className="text-[#10b981] font-bold">${(lic.profit || 0).toLocaleString()}</div>
+                         <div className="text-[#555] text-[10px] mb-2">Eq: ${(lic.equity || 0).toLocaleString()}</div>
+                         
+                         {/* 전략별 타임프레임 수익 현황 */}
+                         <div className="flex flex-wrap gap-1 max-w-[150px]">
+                           {lic.strategies && Object.entries(lic.strategies).map(([magic, data]) => (
+                             <div key={magic} className="text-[9px] px-1.5 py-0.5 bg-[#111] border border-[#222] rounded flex gap-1 items-center">
+                               <span className="text-[#777]">{data.tf}</span>
+                               <span className={data.profit >= 0 ? "text-[#10b981]" : "text-[#e05252]"}>
+                                 {data.profit >= 0 ? "+" : ""}{data.profit.toFixed(0)}
+                               </span>
+                             </div>
+                           ))}
+                         </div>
                       </td>
                       <td className="p-4 text-sm">
                         <div className={expired ? "text-[#e05252]" : "text-[#aaa]"}>{lic.expireDate}</div>
