@@ -1572,7 +1572,7 @@ function generateInfographicCurve() {
 
 function useInfographicCountUp(target: number, triggered: boolean, duration = 1400, decimals = 0) {
 	const [val, setVal] = useState(0)
-	const rafRef = useRef<number>()
+	const rafRef = useRef<number | undefined>(undefined)
 
 	useEffect(() => {
 		if (!triggered) return
