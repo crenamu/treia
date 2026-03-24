@@ -1602,22 +1602,22 @@ function MainBacktestInfographic() {
 				<InfographicHeader triggered={isTriggered} />
 				<InfographicChartSection scriptLoaded={scriptLoaded} triggered={isTriggered} />
 
-				{/* 4 Multi-Stats Grid */}
+				{/* 4 Multi-Stats Grid - 차트 이후 순차 노출 */}
 				<div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-					<InfographicCountCard label="Net Profit" target={INFOGRAPHIC_TARGET.profit} prefix="+$" sub={`+${INFOGRAPHIC_TARGET.pct.toFixed(1)}% Yield`} color="#10B981" triggered={isTriggered} delay={400} />
-					<InfographicCountCard label="Profit Factor" target={INFOGRAPHIC_TARGET.pf} decimals={2} sub="Statistical Stability" color="#10B981" triggered={isTriggered} delay={550} />
-					<InfographicCountCard label="Sharpe Ratio" target={INFOGRAPHIC_TARGET.sr} decimals={2} sub="Risk-Adj Return" color="#c8a84b" triggered={isTriggered} delay={700} />
-					<InfographicCountCard label="Max Drawdown" target={INFOGRAPHIC_TARGET.dd} decimals={2} suffix="%" sub="Capital Safety" color="#e05252" triggered={isTriggered} delay={850} />
+					<InfographicCountCard label="Net Profit" target={INFOGRAPHIC_TARGET.profit} prefix="+$" sub={`+${INFOGRAPHIC_TARGET.pct.toFixed(1)}% Yield`} color="#10B981" triggered={isTriggered} delay={2500} />
+					<InfographicCountCard label="Profit Factor" target={INFOGRAPHIC_TARGET.pf} decimals={2} sub="Statistical Stability" color="#10B981" triggered={isTriggered} delay={3100} />
+					<InfographicCountCard label="Sharpe Ratio" target={INFOGRAPHIC_TARGET.sr} decimals={2} sub="Risk-Adj Return" color="#c8a84b" triggered={isTriggered} delay={3700} />
+					<InfographicCountCard label="Max Drawdown" target={INFOGRAPHIC_TARGET.dd} decimals={2} suffix="%" sub="Capital Safety" color="#e05252" triggered={isTriggered} delay={4300} />
 				</div>
 
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-					<InfographicWinRing triggered={isTriggered} />
-					<InfographicProfitBar triggered={isTriggered} />
+					<InfographicWinRing triggered={isTriggered} delay={5000} />
+					<InfographicProfitBar triggered={isTriggered} delay={5700} />
 				</div>
 
 				<div className="grid grid-cols-2 gap-4 md:gap-6">
-					<InfographicDirCard dir="매수 포지션 (Buy)" target={INFOGRAPHIC_TARGET.buy} sub="상승장 대응력" arrow="↑" triggered={isTriggered} delay={1000} />
-					<InfographicDirCard dir="매도 포지션 (Sell)" target={INFOGRAPHIC_TARGET.sell} sub="하락장 하방 수익" arrow="↓" triggered={isTriggered} delay={1200} />
+					<InfographicDirCard dir="매수 포지션 (Buy)" target={INFOGRAPHIC_TARGET.buy} sub="상승장 대응력" arrow="↑" triggered={isTriggered} delay={6400} />
+					<InfographicDirCard dir="매도 포지션 (Sell)" target={INFOGRAPHIC_TARGET.sell} sub="하락장 하방 수익" arrow="↓" triggered={isTriggered} delay={7100} />
 				</div>
                 
 			</div>
@@ -1802,9 +1802,9 @@ function InfographicCountCard({ label, target, prefix = '', suffix = '', decimal
 	)
 }
 
-function InfographicWinRing({ triggered }: { triggered: boolean }) {
+function InfographicWinRing({ triggered, delay = 600 }: { triggered: boolean; delay?: number }) {
 	const [active, setActive] = useState(false)
-	useEffect(() => { if (triggered) setTimeout(() => setActive(true), 600) }, [triggered])
+	useEffect(() => { if (triggered) setTimeout(() => setActive(true), delay) }, [triggered, delay])
 	const rate = useInfographicCountUp(INFOGRAPHIC_TARGET.winRate, active, 1800, 1) as number
 	const total = useInfographicCountUp(INFOGRAPHIC_TARGET.total, active, 1500)
 	const win = useInfographicCountUp(INFOGRAPHIC_TARGET.win, active, 1500)
@@ -1816,7 +1816,7 @@ function InfographicWinRing({ triggered }: { triggered: boolean }) {
 		<motion.div 
 			initial={{ opacity: 0, x: -30 }}
 			animate={triggered ? { opacity: 1, x: 0 } : {}}
-			transition={{ duration: 0.8 }}
+			transition={{ duration: 0.8, delay: delay / 1000 }}
 			className="bg-[#0a0b0e] border border-white/5 rounded-[40px] p-10 md:p-12 flex flex-col items-center justify-center shadow-2xl"
 		>
 			<div className="relative mb-12 transform scale-110 lg:scale-125">
@@ -1851,9 +1851,9 @@ function InfographicWinRing({ triggered }: { triggered: boolean }) {
 	)
 }
 
-function InfographicProfitBar({ triggered }: { triggered: boolean }) {
+function InfographicProfitBar({ triggered, delay = 800 }: { triggered: boolean; delay?: number }) {
 	const [active, setActive] = useState(false)
-	useEffect(() => { if (triggered) setTimeout(() => setActive(true), 800) }, [triggered])
+	useEffect(() => { if (triggered) setTimeout(() => setActive(true), delay) }, [triggered, delay])
 	const [barPct, setBarPct] = useState(0)
 	useEffect(() => {
 		if (!active) return
