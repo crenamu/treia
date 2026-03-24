@@ -6,9 +6,9 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { AuthProvider } from "@/lib/auth-context";
 
 export const metadata: Metadata = {
-	title: "FinTable | 지금 가장 좋은 금리, 한눈에 비교하세요",
+	title: "Treia Gold | 트레이아 자산 관리 알고리즘 엔진",
 	description:
-		"금융감독원 공시 기준 실시간 데이터를 기반으로 당신에게 가장 유리한 금융 상품을 분석합니다.",
+		"데이터 중심의 견고한 생존 원칙. 감정의 소모 없이 24시간 정교하게 작동하는 생존형 자산 관리 알고리즘 엔진, 트레이아.",
 };
 
 export default function RootLayout({

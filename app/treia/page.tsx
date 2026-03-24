@@ -258,7 +258,7 @@ export default function TreiaFunnelPage() {
 				></div>
 				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#c8a84b]/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
-				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms]">
+				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32">
 					<div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
 						<Image
 							src="/treia_white_logo.png"
@@ -287,12 +287,12 @@ export default function TreiaFunnelPage() {
 					</p>
 				</div>
 
-				<div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-500">
-					<span className="font-mono text-[11px] tracking-[5px] uppercase text-[#444]">
+				<div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 reveal opacity-0 translate-y-4 transition-all duration-1000 delay-500">
+					<span className="font-mono text-[9px] tracking-[4px] uppercase text-[#333]">
 						Scroll
 					</span>
-					<div className="w-px h-16 bg-[#1a1a1a] overflow-hidden relative">
-						<div className="absolute inset-0 bg-[#c8a84b] animate-[pulse_2s_infinite]"></div>
+					<div className="w-px h-10 bg-[#1a1a1a] overflow-hidden relative">
+						<div className="absolute inset-0 bg-[#c8a84b]/20 animate-[pulse_2s_infinite]"></div>
 					</div>
 				</div>
 			</section>
