@@ -15,7 +15,7 @@ export default function TreiaFunnelPage() {
 	const [isNavOpen, setIsNavOpen] = useState(false);
 	const [formData, setFormData] = useState({
 		name: "",
-		email: "",
+		contact: "",
 		reason: "",
 		inquiry: "사전 예약: 개인용 자동매매 소프트웨어 라이선스",
 	});
@@ -47,7 +47,7 @@ export default function TreiaFunnelPage() {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		if (!formData.name || !formData.email) return;
+		if (!formData.name || !formData.contact) return;
 
 		setIsLoading(true);
 		setErrorMsg("");
@@ -1362,20 +1362,20 @@ export default function TreiaFunnelPage() {
 									</div>
 									<div className="flex flex-col gap-3">
 										<label
-											htmlFor="email"
+											htmlFor="contact"
 											className="text-[14px] text-[#a1a1aa] ml-2 tracking-widest uppercase font-medium"
 										>
 											이메일 (또는 연락처)
 										</label>
 										<input
-											id="email"
+											id="contact"
 											type="text"
 											required
 											placeholder="example@gmail.com 또는 010-0000-0000"
 											className="w-full bg-[#13151a] border border-[#2a2d36] text-white px-6 py-5 rounded-xl focus:outline-none focus:border-[#c8a84b]/70 focus:ring-1 focus:ring-[#c8a84b]/50 transition-all font-light text-[16px]"
-											value={formData.email}
+											value={formData.contact}
 											onChange={(e) =>
-												setFormData({ ...formData, email: e.target.value })
+												setFormData({ ...formData, contact: e.target.value })
 											}
 										/>
 									</div>
