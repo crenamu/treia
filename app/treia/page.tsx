@@ -246,7 +246,7 @@ export default function TreiaFunnelPage() {
 
 			<section
 				id="hero"
-				className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6"
+				className="relative min-h-[100svh] flex flex-col justify-start items-center text-center px-6 pt-32 md:pt-48 scroll-mt-20"
 			>
 				<div
 					className="absolute inset-0 pointer-events-none opacity-[0.01]"
