@@ -1592,7 +1592,7 @@ function useInfographicCountUp(target: number, triggered: boolean, duration = 14
 function MainBacktestInfographic() {
 	const [scriptLoaded, setScriptLoaded] = useState(false);
 	const sectionRef = useRef<HTMLDivElement>(null);
-	const isTriggered = useInView(sectionRef, { once: true, amount: 0.1 });
+	const isTriggered = useInView(sectionRef, { once: true, amount: 0.3, margin: "-50px 0px" });
 
 	return (
 		<div ref={sectionRef} className="w-full">
@@ -1604,10 +1604,10 @@ function MainBacktestInfographic() {
 
 				{/* 4 Multi-Stats Grid */}
 				<div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-					<InfographicCountCard label="Net Profit" target={INFOGRAPHIC_TARGET.profit} prefix="+$" sub={`+${INFOGRAPHIC_TARGET.pct.toFixed(1)}% Yield`} color="#10B981" triggered={isTriggered} delay={0} />
-					<InfographicCountCard label="Profit Factor" target={INFOGRAPHIC_TARGET.pf} decimals={2} sub="Statistical Stability" color="#10B981" triggered={isTriggered} delay={150} />
-					<InfographicCountCard label="Sharpe Ratio" target={INFOGRAPHIC_TARGET.sr} decimals={2} sub="Risk-Adj Return" color="#c8a84b" triggered={isTriggered} delay={300} />
-					<InfographicCountCard label="Max Drawdown" target={INFOGRAPHIC_TARGET.dd} decimals={2} suffix="%" sub="Capital Safety" color="#e05252" triggered={isTriggered} delay={450} />
+					<InfographicCountCard label="Net Profit" target={INFOGRAPHIC_TARGET.profit} prefix="+$" sub={`+${INFOGRAPHIC_TARGET.pct.toFixed(1)}% Yield`} color="#10B981" triggered={isTriggered} delay={400} />
+					<InfographicCountCard label="Profit Factor" target={INFOGRAPHIC_TARGET.pf} decimals={2} sub="Statistical Stability" color="#10B981" triggered={isTriggered} delay={550} />
+					<InfographicCountCard label="Sharpe Ratio" target={INFOGRAPHIC_TARGET.sr} decimals={2} sub="Risk-Adj Return" color="#c8a84b" triggered={isTriggered} delay={700} />
+					<InfographicCountCard label="Max Drawdown" target={INFOGRAPHIC_TARGET.dd} decimals={2} suffix="%" sub="Capital Safety" color="#e05252" triggered={isTriggered} delay={850} />
 				</div>
 
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1616,8 +1616,8 @@ function MainBacktestInfographic() {
 				</div>
 
 				<div className="grid grid-cols-2 gap-4 md:gap-6">
-					<InfographicDirCard dir="매수 포지션 (Buy)" target={INFOGRAPHIC_TARGET.buy} sub="상승장 대응력" arrow="↑" triggered={isTriggered} delay={0} />
-					<InfographicDirCard dir="매도 포지션 (Sell)" target={INFOGRAPHIC_TARGET.sell} sub="하락장 하방 수익" arrow="↓" triggered={isTriggered} delay={200} />
+					<InfographicDirCard dir="매수 포지션 (Buy)" target={INFOGRAPHIC_TARGET.buy} sub="상승장 대응력" arrow="↑" triggered={isTriggered} delay={1000} />
+					<InfographicDirCard dir="매도 포지션 (Sell)" target={INFOGRAPHIC_TARGET.sell} sub="하락장 하방 수익" arrow="↓" triggered={isTriggered} delay={1200} />
 				</div>
                 
 			</div>
@@ -1662,21 +1662,26 @@ function InfographicChartSection({ scriptLoaded, triggered }: { scriptLoaded: bo
 	const runChart = useCallback(() => {
 		if (animDone.current || !chartRef.current) return
 		animDone.current = true
-		let drawn = 0
-		function drawFrames() {
-			if (!chartRef.current) return
-			const batch = Math.ceil(rawData.length / 55)
-			for (let i = 0; i < batch && drawn < rawData.length; i++) {
-				chartRef.current.data.datasets[0].data[drawn] = rawData[drawn]
-				drawn++
+		
+		// 스크롤 후 시선 안착을 위한 300ms 추가 대기
+		setTimeout(() => {
+			let drawn = 0
+			function drawFrames() {
+				if (!chartRef.current) return
+				// 초당 약 60프레임 기준, 약 2초간 그려지도록 배치 조절
+				const batch = Math.ceil(rawData.length / 100)
+				for (let i = 0; i < batch && drawn < rawData.length; i++) {
+					chartRef.current.data.datasets[0].data[drawn] = rawData[drawn]
+					drawn++
+				}
+				chartRef.current.update('none')
+				const pct = ((rawData[drawn - 1] || 10000) - 10000) / (15965.67 - 10000) * INFOGRAPHIC_TARGET.pct
+				setLiveVal(Math.min(pct, INFOGRAPHIC_TARGET.pct).toFixed(1))
+				if (drawn < rawData.length) requestAnimationFrame(drawFrames)
+				else setLiveVal(INFOGRAPHIC_TARGET.pct.toFixed(1))
 			}
-			chartRef.current.update('none')
-			const pct = ((rawData[drawn - 1] || 10000) - 10000) / (15965.67 - 10000) * INFOGRAPHIC_TARGET.pct
-			setLiveVal(Math.min(pct, INFOGRAPHIC_TARGET.pct).toFixed(1))
-			if (drawn < rawData.length) requestAnimationFrame(drawFrames)
-			else setLiveVal(INFOGRAPHIC_TARGET.pct.toFixed(1))
-		}
-		requestAnimationFrame(drawFrames)
+			requestAnimationFrame(drawFrames)
+		}, 300)
 	}, [rawData])
 
 	useEffect(() => {
