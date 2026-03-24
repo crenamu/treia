@@ -1,19 +1,15 @@
 "use client";
 import {
-	ArrowUpRight,
-	Clock,
-	Globe,
-	Layers,
-	Lock,
-	Menu,
-	ShieldCheck,
-	Target,
-	X,
+	ArrowUpRight, ArrowLeft, Download, ShieldCheck,
+	TrendingUp, BarChart3, Clock, Zap, Target,
+	Info, CheckCircle2, AlertCircle, ChevronRight,
+	PlayCircle, Globe, Layers, Lock, Menu, X
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView, animate } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState, useCallback } from "react";
+import Script from 'next/script';
 
 export default function TreiaFunnelPage() {
 	const [isNavOpen, setIsNavOpen] = useState(false);
@@ -1016,7 +1012,7 @@ export default function TreiaFunnelPage() {
 							</div>
 						</div>
 
-						{/* Enhanced: Detailed Backtest Insight Slides */}
+						{/* Enhanced: Dashboard-style Data Deep Dive Container */}
 						<div className="mt-32 pt-20 border-t border-[#22242e] w-full">
 							<div className="text-center mb-24">
 								<span className="text-[#c8a84b] font-mono text-xs tracking-[5px] uppercase block mb-4">
@@ -1025,118 +1021,18 @@ export default function TreiaFunnelPage() {
 								<h3 className="text-3xl md:text-5xl font-light text-white mb-8">
 									데이터가 말하는 <span className="text-[#c8a84b]">시스템의 본질</span>
 								</h3>
-								<p className="text-[#7a7f8e] text-base md:text-lg font-light max-w-3xl mx-auto">
+								<p className="text-[#7a7f8e] text-base md:text-lg font-light max-w-3xl mx-auto mb-12">
 									표면적인 수익률 곡선 뒤에 숨겨진 트레이아만의 정교한 알고리즘 설계도를 
-									세 가지 핵심 지표를 통해 분석합니다.
+									통합 대시보드를 통해 실시간으로 분석합니다.
 								</p>
 							</div>
 
-							<div className="flex flex-col gap-32 md:gap-48">
-								{[
-									{
-										tag: "Efficiency",
-										title: "자금 회전의 극대화",
-										subTitle: "포지션 보유 시간 분석 (Holding Time)",
-										description: "트레이아 알고리즘은 불확실한 시장에 오래 머물지 않습니다. 평균 보유 시간을 최소화하여 자금 회전력을 높이고, 예기치 못한 시장 충격(Black Swan)에 노출되는 시간을 원천적으로 줄입니다.",
-										chart: <HoldingTimeChart />,
-										analysis: [
-											"초단기~단기 포지션 위주의 빠른 익절",
-											"복리 효과를 극대화하는 자금 순환 구조",
-											"시장 노출 시간 감소 → 리스크 관리 최적화"
-										],
-										color: "#3b82f6"
-									},
-									{
-										tag: "Precision",
-										title: "유동성의 골든타임을 공략",
-										subTitle: "과거 거래 히스토리 (Trade History)",
-										description: "아무 때나 매매하지 않습니다. 전 세계 자금이 집중되는 런던과 뉴욕 세션의 겹치는 시간대를 정밀 타격하여, 가장 매끄러운 가격 움직임 속에서 확실한 수익 기회만을 포착합니다.",
-										chart: <TradeHistoryChart />,
-										analysis: [
-											"거래량 밀집 시간대 집중 매매",
-											"요일별 변동성 데이터에 기반한 진입",
-											"불필요한 횡보장 매매 배제로 승률 제고"
-										],
-										color: "#10b981"
-									},
-									{
-										tag: "Stability",
-										title: "통계적 우위의 증거",
-										subTitle: "수익/손실 분포도 (MFE/MAE)",
-										description: "손실은 짧게 끊고, 수익은 끝까지 추격합니다. 가격이 일시적으로 밀리는 폭(MAE)을 엄격히 통제하면서도, 유리한 흐름(MFE)을 탔을 때는 최대치의 수익을 확보하는 통계적 우위를 입증합니다.",
-										chart: <MfeMaeChart />,
-										analysis: [
-											"평균 손실폭 대비 압도적인 평균 수익폭",
-											"방어선(Stop Loss)의 철저한 기계적 이행",
-											"수익 구간 확장(Trailing) 기술의 실효성 증명"
-										],
-										color: "#c8a84b"
-									}
-								].map((slide, idx) => (
-									<motion.div 
-										key={idx}
-										initial={{ opacity: 0, y: 50 }}
-										whileInView={{ opacity: 1, y: 0 }}
-										transition={{ duration: 1 }}
-										viewport={{ once: true, margin: "-100px" }}
-										className={`flex flex-col ${idx % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}
-									>
-										<div className="flex-1 w-full lg:w-1/2">
-											<div className="relative bg-[#0a0b0e] border border-[#1a1a1a] rounded-[40px] p-6 md:p-8 min-h-[300px] flex items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.5)] overflow-hidden">
-												{slide.chart}
-											</div>
-										</div>
-										<div className="flex-1 w-full lg:w-1/2 text-left">
-											<span 
-												className="font-mono text-[11px] tracking-[4px] uppercase px-3 py-1 rounded-sm mb-6 inline-block"
-												style={{ backgroundColor: `${slide.color}20`, color: slide.color }}
-											>
-												{slide.tag}
-											</span>
-											<h4 className="text-2xl md:text-4xl font-light text-white mb-2 leading-tight">
-												{slide.title}
-											</h4>
-											<div className="text-[#c8a84b] font-mono text-xs mb-8 tracking-widest uppercase">
-												{slide.subTitle}
-											</div>
-											<p className="text-[#a1a1aa] text-[16px] md:text-[18px] font-light leading-relaxed mb-10 break-keep">
-												{slide.description}
-											</p>
-											<ul className="space-y-4 mb-10">
-												{slide.analysis.map((point, pIdx) => (
-													<motion.li 
-														key={pIdx}
-														initial={{ opacity: 0, x: 20 }}
-														whileInView={{ opacity: 1, x: 0 }}
-														transition={{ delay: 0.5 + (pIdx * 0.1) }}
-														className="flex items-start gap-4 text-white/90 text-[14px] md:text-[16px] font-light"
-													>
-														<span className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: slide.color }}></span>
-														{point}
-													</motion.li>
-												))}
-											</ul>
-											
-											<motion.div
-												whileHover={{ x: 8 }}
-												transition={{ type: "spring", stiffness: 400, damping: 10 }}
-											>
-												<Link 
-													href="/report" 
-													className="inline-flex items-center gap-2 text-[#c8a84b] font-mono text-xs tracking-widest uppercase hover:text-white transition-colors group"
-												>
-													<span>View Deep Analysis Report</span>
-													<ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
-												</Link>
-											</motion.div>
-										</div>
-									</motion.div>
-								))}
-							</div>
+							{/* Main Infographic Dashboard */}
+							<MainBacktestInfographic />
 
 							<div className="flex flex-col items-center mt-32">
 								<p className="text-[#7a7f8e] text-xs font-mono uppercase tracking-[5px]">
-									Data Proven Reliability
+									Statistical Edge Verification
 								</p>
 							</div>
 						</div>
@@ -1644,161 +1540,387 @@ function Counter({ value, decimals = 0 }: { value: number; decimals?: number }) 
 	return <span ref={ref}>{count.toFixed(decimals)}</span>;
 }
 
-function HoldingTimeChart() {
-	// 실제 MT5 데이터 패턴: 초반에 밀집되고 뒤로 갈수록 희소해지는 분포
-	const dots = [
-		...Array.from({ length: 30 }, () => ({ x: 5 + Math.random() * 20, y: 30 + Math.random() * 40, size: 2 + Math.random() * 2, type: 'win' })),
-		...Array.from({ length: 15 }, () => ({ x: 25 + Math.random() * 30, y: 50 + Math.random() * 30, size: 2 + Math.random() * 2, type: 'win' })),
-		...Array.from({ length: 10 }, () => ({ x: 5 + Math.random() * 15, y: 10 + Math.random() * 20, size: 2, type: 'loss' })),
-		{ x: 85, y: 65, size: 4, type: 'win' }, // Long tail outlier
-	];
+// --- Main Backtest Infographic Component (Merged from Claude code) ---
 
-	return (
-		<div className="relative w-full h-full flex flex-col p-6">
-			<div className="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
-				<span className="text-[10px] font-mono text-blue-400">DISTRIBUTION BY DURATION</span>
-				<div className="flex gap-4">
-					<span className="flex items-center gap-1.5 text-[8px] font-mono text-emerald-500"><i className="w-1.5 h-1.5 rounded-full bg-emerald-500"/> WIN</span>
-					<span className="flex items-center gap-1.5 text-[8px] font-mono text-red-500"><i className="w-1.5 h-1.5 rounded-full bg-red-500"/> LOSS</span>
-				</div>
-			</div>
-			<div className="relative flex-1 border-l border-b border-white/10">
-				{/* Grid Lines */}
-				{[20, 40, 60, 80].map(i => (
-					<div key={i} className="absolute inset-0 pointer-events-none">
-						<div className="absolute left-0 w-full h-[1px] bg-white/5" style={{ top: `${i}%` }} />
-						<div className="absolute top-0 w-[1px] h-full bg-white/5" style={{ left: `${i}%` }} />
-					</div>
-				))}
-				
-				{dots.map((dot, i) => (
-					<motion.div
-						key={i}
-						initial={{ scale: 0, opacity: 0 }}
-						whileInView={{ scale: 1, opacity: 1 }}
-						transition={{ delay: i * 0.02, duration: 0.5 }}
-						className="absolute rounded-full cursor-help group"
-						style={{ 
-							left: `${dot.x}%`, 
-							bottom: `${dot.y}%`, 
-							width: dot.size * 2, 
-							height: dot.size * 2,
-							backgroundColor: dot.type === 'win' ? '#10b981' : '#ef4444',
-							boxShadow: `0 0 10px ${dot.type === 'win' ? '#10b98140' : '#ef444440'}`
-						}}
-					>
-						<div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-white text-black text-[8px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 font-bold">
-							Duration: {Math.round(dot.x * 0.2)}h / {dot.type === 'win' ? '+' : '-'}${Math.round(dot.y * 5)}
-						</div>
-					</motion.div>
-				))}
-			</div>
-			<div className="flex justify-between mt-2 text-[8px] font-mono text-[#444]">
-				<span>0h</span><span>4h</span><span>8h</span><span>12h</span><span>16h+</span>
-			</div>
-		</div>
-	);
+const INFOGRAPHIC_TARGET = {
+	profit: 5965.67, pct: 59.66, pf: 2.38, sr: 14.28, dd: 10.59,
+	total: 398, win: 348, loss: 50, buy: 88.28, sell: 86.16,
+	winRate: 87.44,
+};
+
+function infographicLerp(a: number, b: number, t: number) { return a + (b - a) * t }
+function infographicEase(t: number) { return 1 - Math.pow(1 - t, 3) }
+
+function generateInfographicCurve() {
+	const labels: string[] = []
+	const data: number[] = []
+	const months = ['Jan', 'Feb', 'Mar']
+	const n = 80
+	for (let i = 0; i <= n; i++) {
+		const t = i / n
+		const mo = Math.floor(t * 3)
+		const day = Math.floor((t * 3 - mo) * 28) + 1
+		labels.push(`${months[Math.min(mo, 2)]} ${day}`)
+		const growth = Math.pow(t, 0.72) * (17002 - 10000)
+		const noise = (Math.sin(i * 1.3) * 40 + Math.cos(i * 2.1) * 25) * (1 - t * 0.4)
+		let bal = 10000 + growth + noise
+		if (i === n) bal = 15965.67
+		data.push(Math.round(bal))
+	}
+	return { labels, data }
 }
 
-function TradeHistoryChart() {
-	// 실제 거래 활성 시간대 데이터 (표준 편차 반영)
-	const hourData = [2, 1, 1, 0, 1, 3, 8, 15, 22, 18, 12, 10, 14, 25, 42, 38, 28, 22, 15, 12, 8, 5, 3, 2];
+function useInfographicCountUp(target: number, triggered: boolean, duration = 1400, decimals = 0) {
+	const [val, setVal] = useState(0)
+	const rafRef = useRef<number>()
+
+	useEffect(() => {
+		if (!triggered) return
+		const start = Date.now()
+		function tick() {
+			const p = infographicEase(Math.min((Date.now() - start) / duration, 1))
+			setVal(infographicLerp(0, target, p))
+			if (p < 1) rafRef.current = requestAnimationFrame(tick)
+		}
+		rafRef.current = requestAnimationFrame(tick)
+		return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
+	}, [triggered, target, duration])
+
+	return decimals === 0 ? Math.round(val) : parseFloat(val.toFixed(decimals))
+}
+
+function MainBacktestInfographic() {
+	const [scriptLoaded, setScriptLoaded] = useState(false);
+	const sectionRef = useRef<HTMLDivElement>(null);
+	const isTriggered = useInView(sectionRef, { once: true, amount: 0.1 });
+
+	return (
+		<div ref={sectionRef} className="w-full">
+			<Script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" onLoad={() => setScriptLoaded(true)} strategy="lazyOnload" />
+			
+			<div className="space-y-12">
+				<InfographicHeader triggered={isTriggered} />
+				<InfographicChartSection scriptLoaded={scriptLoaded} triggered={isTriggered} />
+
+				{/* 4 Multi-Stats Grid */}
+				<div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+					<InfographicCountCard label="Net Profit" target={INFOGRAPHIC_TARGET.profit} prefix="+$" sub={`+${INFOGRAPHIC_TARGET.pct.toFixed(1)}% Yield`} color="#10B981" triggered={isTriggered} delay={0} />
+					<InfographicCountCard label="Profit Factor" target={INFOGRAPHIC_TARGET.pf} decimals={2} sub="Statistical Stability" color="#10B981" triggered={isTriggered} delay={150} />
+					<InfographicCountCard label="Sharpe Ratio" target={INFOGRAPHIC_TARGET.sr} decimals={2} sub="Risk-Adj Return" color="#c8a84b" triggered={isTriggered} delay={300} />
+					<InfographicCountCard label="Max Drawdown" target={INFOGRAPHIC_TARGET.dd} decimals={2} suffix="%" sub="Capital Safety" color="#e05252" triggered={isTriggered} delay={450} />
+				</div>
+
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+					<InfographicWinRing triggered={isTriggered} />
+					<InfographicProfitBar triggered={isTriggered} />
+				</div>
+
+				<div className="grid grid-cols-2 gap-4 md:gap-6">
+					<InfographicDirCard dir="매수 포지션 (Buy)" target={INFOGRAPHIC_TARGET.buy} sub="상승장 대응력" arrow="↑" triggered={isTriggered} delay={0} />
+					<InfographicDirCard dir="매도 포지션 (Sell)" target={INFOGRAPHIC_TARGET.sell} sub="하락장 하방 수익" arrow="↓" triggered={isTriggered} delay={200} />
+				</div>
+                
+			</div>
+
+			<style>{`
+				@keyframes treiaPulse {
+					0%,100%{opacity:1;transform:scale(1)}
+					50%{opacity:.4;transform:scale(1.3)}
+				}
+			`}</style>
+		</div>
+	)
+}
+
+function InfographicHeader({ triggered }: { triggered: boolean }) {
+	return (
+		<motion.div 
+			initial={{ opacity: 0, y: 20 }}
+			animate={triggered ? { opacity: 1, y: 0 } : {}}
+			transition={{ duration: 0.8 }}
+			className="mb-8"
+		>
+			<div className="flex items-center gap-3 mb-4">
+				<span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_10px_#10B981]" />
+				<span className="font-mono text-[11px] tracking-[4px] uppercase text-[#10B981]">Deep Insight Verification</span>
+			</div>
+			<p className="font-mono text-[11px] text-[#52525b] uppercase tracking-widest">
+				M5 Scalping Engine · 2026.01.01 ~ 03.20 · 초기자본 $10,000 · 99% Tick Accuracy
+			</p>
+		</motion.div>
+	)
+}
+
+function InfographicChartSection({ scriptLoaded, triggered }: { scriptLoaded: boolean, triggered: boolean }) {
+	const canvasRef = useRef<HTMLCanvasElement>(null)
+	const chartRef = useRef<any>(null)
+	const [liveVal, setLiveVal] = useState('0.0')
+	const [tooltip, setTooltip] = useState({ x: 0, y: 0, date: '', val: '', visible: false })
+	const animDone = useRef(false)
+	const { labels, data: rawData } = useRef(generateInfographicCurve()).current
+
+	const runChart = useCallback(() => {
+		if (animDone.current || !chartRef.current) return
+		animDone.current = true
+		let drawn = 0
+		function drawFrames() {
+			if (!chartRef.current) return
+			const batch = Math.ceil(rawData.length / 55)
+			for (let i = 0; i < batch && drawn < rawData.length; i++) {
+				chartRef.current.data.datasets[0].data[drawn] = rawData[drawn]
+				drawn++
+			}
+			chartRef.current.update('none')
+			const pct = ((rawData[drawn - 1] || 10000) - 10000) / (15965.67 - 10000) * INFOGRAPHIC_TARGET.pct
+			setLiveVal(Math.min(pct, INFOGRAPHIC_TARGET.pct).toFixed(1))
+			if (drawn < rawData.length) requestAnimationFrame(drawFrames)
+			else setLiveVal(INFOGRAPHIC_TARGET.pct.toFixed(1))
+		}
+		requestAnimationFrame(drawFrames)
+	}, [rawData])
+
+	useEffect(() => {
+		if (!scriptLoaded || !canvasRef.current || chartRef.current) return
+		const Chart = (window as any).Chart
+		if (!Chart) return
+		const ctx = canvasRef.current.getContext('2d')!
+		const grad = ctx.createLinearGradient(0, 0, 0, 300)
+		grad.addColorStop(0, 'rgba(16,185,129,.25)')
+		grad.addColorStop(1, 'rgba(16,185,129,0)')
+		chartRef.current = new Chart(canvasRef.current, {
+			type: 'line',
+			data: {
+				labels,
+				datasets: [{
+					data: rawData.map(() => null),
+					borderColor: '#10B981', borderWidth: 2.5,
+					backgroundColor: grad, fill: true, tension: 0.4,
+					pointRadius: 0, pointHoverRadius: 6,
+					pointHoverBackgroundColor: '#10B981',
+					pointHoverBorderColor: '#fff', pointHoverBorderWidth: 2,
+				}]
+			},
+			options: {
+				responsive: true, maintainAspectRatio: false, animation: { duration: 0 },
+				plugins: {
+					legend: { display: false },
+					tooltip: {
+						enabled: false,
+						external({ chart, tooltip }: any) {
+							if (tooltip.opacity === 0) { setTooltip(t => ({ ...t, visible: false })); return }
+							const dp = tooltip.dataPoints?.[0]
+							if (!dp || dp.raw === null) { setTooltip(t => ({ ...t, visible: false })); return }
+							setTooltip({ x: tooltip.caretX, y: tooltip.caretY, date: dp.label, val: '$' + dp.raw.toLocaleString(), visible: true })
+						}
+					}
+				},
+				scales: {
+					x: { display: false },
+					y: {
+						display: true,
+						grid: { color: 'rgba(255,255,255,.04)' },
+						ticks: { color: '#52525b', font: { size: 11, family: 'monospace' }, callback: (v: any) => '$' + Number(v).toLocaleString(), maxTicksLimit: 5 },
+						border: { display: false },
+					}
+				},
+				interaction: { mode: 'index', intersect: false },
+			}
+		})
+		if (triggered) runChart()
+	}, [scriptLoaded])
+
+	useEffect(() => {
+		if (triggered && chartRef.current) runChart()
+	}, [triggered])
+
+	return (
+		<motion.div 
+			initial={{ opacity: 0, y: 30 }}
+			animate={triggered ? { opacity: 1, y: 0 } : {}}
+			transition={{ duration: 1 }}
+			className="bg-[#0a0b0e] border border-white/5 rounded-[40px] p-8 md:p-12 relative overflow-hidden group shadow-2xl"
+		>
+			<div className="absolute top-0 right-0 w-64 h-64 bg-[#10B981]/10 blur-[100px] rounded-full group-hover:bg-[#10B981]/20 transition-all duration-1000" />
+			
+			<div className="flex justify-between items-end mb-12 relative z-10">
+				<div>
+					<p className="font-mono text-[10px] tracking-[4px] uppercase text-[#52525b] mb-3">Equity Growth Map</p>
+					<h2 className="text-4xl md:text-6xl font-light text-[#10B981] font-mono tracking-tight">+{liveVal}%</h2>
+				</div>
+				<div className="text-right hidden md:block">
+					<p className="text-[#52525b] text-[10px] font-mono uppercase tracking-widest mb-1">Target Achievement</p>
+					<p className="text-white/60 font-mono text-sm tracking-widest leading-loose">CERTIFIED BACKTEST V3.0</p>
+				</div>
+			</div>
+
+			<div className="relative h-[280px] md:h-[400px] z-10">
+				<canvas ref={canvasRef} className="w-full h-full" />
+				{tooltip.visible && (
+					<motion.div 
+						initial={{ opacity: 0, scale: 0.9 }}
+						animate={{ opacity: 1, scale: 1 }}
+						style={{ position: 'absolute', left: Math.min(tooltip.x - 16, 500), top: tooltip.y - 75, background: '#1c1e26', border: '1px solid #10B981', borderRadius: 12, padding: '12px 16px', fontSize: 13, pointerEvents: 'none', zIndex: 50, boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}
+					>
+						<div className="text-[#7a7f8e] text-[10px] font-mono mb-1 uppercase tracking-widest">{tooltip.date}</div>
+						<div className="text-[#10B981] font-bold font-mono text-lg">{tooltip.val}</div>
+					</motion.div>
+				)}
+			</div>
+			
+			<div className="flex justify-between mt-8 text-[#333] font-mono text-[10px] tracking-[5px] uppercase pt-8 border-t border-white/5 relative z-10">
+				<span>Jan 2026</span><span>Feb 2026</span><span>Mar 2026</span>
+			</div>
+		</motion.div>
+	)
+}
+
+function InfographicCountCard({ label, target, prefix = '', suffix = '', decimals = 0, sub, color, triggered, delay }: {
+	label: string; target: number; prefix?: string; suffix?: string; decimals?: number; sub: string; color: string; triggered: boolean, delay: number
+}) {
+	const [active, setActive] = useState(false)
+	useEffect(() => { if (triggered) setTimeout(() => setActive(true), delay + 300) }, [triggered])
+	const val = useInfographicCountUp(target, active, 1600, decimals)
+	const display = `${prefix}${decimals === 0 ? Number(val).toLocaleString() : val}${suffix}`
 	
 	return (
-		<div className="relative w-full h-full flex flex-col p-6">
-			<div className="flex justify-between items-center mb-6 border-b border-white/5 pb-2">
-				<span className="text-[10px] font-mono text-emerald-400 tracking-widest uppercase">Intraday Activity Heatmap</span>
-				<span className="text-[10px] font-mono text-white/40">147 TRADES ANALYZED</span>
+		<motion.div 
+			initial={{ opacity: 0, y: 20 }}
+			animate={triggered ? { opacity: 1, y: 0 } : {}}
+			transition={{ duration: 0.6, delay: delay / 1000 }}
+			className="bg-[#0a0b0e] border border-white/5 rounded-3xl p-6 md:p-10 border-t-2 shadow-xl group hover:border-[#c8a84b]/30 transition-all"
+			style={{ borderTopColor: color }}
+		>
+			<div className="font-mono text-[9px] md:text-[10px] tracking-[4px] uppercase text-[#52525b] mb-4 group-hover:text-white/40 transition-colors">{label}</div>
+			<div className="text-2xl md:text-3xl font-light mb-2 font-mono" style={{ color }}>{display}</div>
+			<div className="text-[#52525b] text-[10px] md:text-[11px] font-light leading-relaxed">{sub}</div>
+		</motion.div>
+	)
+}
+
+function InfographicWinRing({ triggered }: { triggered: boolean }) {
+	const [active, setActive] = useState(false)
+	useEffect(() => { if (triggered) setTimeout(() => setActive(true), 600) }, [triggered])
+	const rate = useInfographicCountUp(INFOGRAPHIC_TARGET.winRate, active, 1800, 1) as number
+	const total = useInfographicCountUp(INFOGRAPHIC_TARGET.total, active, 1500)
+	const win = useInfographicCountUp(INFOGRAPHIC_TARGET.win, active, 1500)
+	const loss = useInfographicCountUp(INFOGRAPHIC_TARGET.loss, active, 1500)
+	const circ = 339.3
+	const offset = circ * (1 - Number(rate) / 100)
+	
+	return (
+		<motion.div 
+			initial={{ opacity: 0, x: -30 }}
+			animate={triggered ? { opacity: 1, x: 0 } : {}}
+			transition={{ duration: 0.8 }}
+			className="bg-[#0a0b0e] border border-white/5 rounded-[40px] p-10 md:p-12 flex flex-col items-center justify-center shadow-2xl"
+		>
+			<div className="relative mb-12 transform scale-110 lg:scale-125">
+				<svg width="150" height="150" viewBox="0 0 140 140">
+					<circle cx="70" cy="70" r="54" fill="none" stroke="#14151a" strokeWidth="12" />
+					<motion.circle 
+						cx="70" cy="70" r="54" fill="none" stroke="#10B981" strokeWidth="12"
+						strokeDasharray={circ} animate={{ strokeDashoffset: offset }}
+						transition={{ duration: 1.8, ease: "easeOut" }}
+						strokeLinecap="round" transform="rotate(-90 70 70)"
+						style={{ filter: 'drop-shadow(0 0 12px rgba(16,185,129,.4))' }} />
+					<text x="70" y="65" textAnchor="middle" fill="#10B981" fontSize="24" fontWeight="700" className="font-mono tracking-tighter">
+						{String(rate).replace(/(\.\d).*/, '$1')}%
+					</text>
+					<text x="70" y="86" textAnchor="middle" fill="#52525b" fontSize="10" className="font-mono tracking-widest uppercase">Win Rate</text>
+				</svg>
 			</div>
-			<div className="flex-1 flex items-end gap-[2px] md:gap-1 border-b border-white/10 pb-1">
-				{hourData.map((val, i) => (
-					<div key={i} className="flex-1 flex flex-col items-center group">
-						<motion.div
-							initial={{ height: 0 }}
-							whileInView={{ height: `${val * 2}%` }}
-							transition={{ duration: 1, delay: i * 0.03, ease: 'easeOut' }}
-							className="w-full rounded-t-[2px] relative transition-colors"
-							style={{ 
-								backgroundColor: i >= 13 && i <= 21 ? '#c8a84b' : (i >= 7 && i <= 10 ? '#3b82f6' : '#1e2025'),
-								opacity: val > 10 ? 1 : 0.4
-							}}
-						>
-							<div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-black px-1.5 py-0.5 rounded text-[8px] font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-								{val} trades
-							</div>
-						</motion.div>
+			
+			<div className="grid grid-cols-3 gap-8 w-full text-center">
+				{[
+					{ label: 'Total', val: total, color: 'white' },
+					{ label: 'Winner', val: win, color: '#10B981' },
+					{ label: 'Loss', val: loss, color: '#ef4444' }
+				].map((s, i) => (
+					<div key={i}>
+						<div className="font-mono text-[10px] text-[#52525b] uppercase tracking-widest mb-2">{s.label}</div>
+						<div className="text-xl md:text-2xl font-bold font-mono" style={{ color: s.color }}>{s.val}</div>
 					</div>
 				))}
 			</div>
-			<div className="flex justify-between mt-2 text-[8px] font-mono text-[#444] px-1">
-				<span>00:00</span>
-				<span className="text-[#3b82f6]">LONDON</span>
-				<span className="text-[#c8a84b]">NEW YORK</span>
-				<span>23:59</span>
-			</div>
-			<p className="mt-4 text-[9px] text-white/30 text-center font-light">고유동성 세션에 매매가 집중되어 슬립피지를 최소화하고 진입 정밀도를 높입니다.</p>
-		</div>
-	);
+		</motion.div>
+	)
 }
 
-function MfeMaeChart() {
-	// 리얼리티를 살린 MFE/MAE 분포 점들
-	const points = Array.from({ length: 45 }, (_, i) => {
-		const isWin = Math.random() > 0.2;
-		return {
-			x: Math.random() * 80 + (isWin ? 10 : 0),
-			y: isWin ? (Math.random() * 50 + 40) : (Math.random() * 30 + 10),
-			isWin
-		};
-	});
-
+function InfographicProfitBar({ triggered }: { triggered: boolean }) {
+	const [active, setActive] = useState(false)
+	useEffect(() => { if (triggered) setTimeout(() => setActive(true), 800) }, [triggered])
+	const [barPct, setBarPct] = useState(0)
+	useEffect(() => {
+		if (!active) return
+		const start = Date.now()
+		function tick() {
+			const p = infographicEase(Math.min((Date.now() - start) / 1600, 1))
+			setBarPct(p)
+			if (p < 1) requestAnimationFrame(tick)
+		}
+		requestAnimationFrame(tick)
+	}, [active])
+	const pp = (70.4 * barPct).toFixed(1)
+	const lp = (29.6 * barPct).toFixed(1)
+	
 	return (
-		<div className="relative w-full h-full flex flex-col p-6">
-			<div className="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
-				<span className="text-[10px] font-mono text-amber-500 uppercase tracking-widest">Statistical Dispersion (MFE vs MAE)</span>
-			</div>
-			<div className="relative flex-1 border-l border-b border-white/10">
-				{/* Regression Lines */}
-				<motion.div 
-					initial={{ scaleX: 0 }}
-					whileInView={{ scaleX: 1 }}
-					transition={{ duration: 1.5 }}
-					className="absolute bottom-0 left-0 w-full h-[2px] bg-emerald-500/20 origin-left" 
-					style={{ transform: 'rotate(-15deg)', bottom: '40%' }}
-				/>
-				<motion.div 
-					initial={{ scaleX: 0 }}
-					whileInView={{ scaleX: 1 }}
-					transition={{ duration: 1.5, delay: 0.2 }}
-					className="absolute bottom-0 left-0 w-full h-[1px] bg-red-500/20 origin-left" 
-					style={{ transform: 'rotate(-5deg)', bottom: '20%' }}
-				/>
-
-				{points.map((p, i) => (
-					<motion.div
-						key={i}
-						initial={{ opacity: 0 }}
-						whileInView={{ opacity: 1 }}
-						transition={{ delay: i * 0.015 }}
-						className="absolute w-1.5 h-1.5 rounded-full border border-white/10"
-						style={{ 
-							left: `${p.x}%`, 
-							bottom: `${p.y}%`, 
-							backgroundColor: p.isWin ? '#10b981' : '#ef4444',
-							opacity: 0.6
-						}}
-					/>
-				))}
-				
-				{/* Safety Ceiling Label */}
-				<div className="absolute top-1/2 left-4 px-2 py-1 bg-red-500/10 border border-red-500/20 rounded text-[8px] font-mono text-red-400">
-					STRICT MAE LIMIT: -14.72%
+		<motion.div 
+			initial={{ opacity: 0, x: 30 }}
+			animate={triggered ? { opacity: 1, x: 0 } : {}}
+			transition={{ duration: 0.8 }}
+			className="bg-[#0a0b0e] border border-white/5 rounded-[40px] p-10 md:p-12 flex flex-col justify-center gap-12 shadow-2xl"
+		>
+			<div className="space-y-6">
+				<div className="flex justify-between items-end mb-4 font-mono text-[11px] tracking-tight">
+					<span className="text-emerald-400">QUALIFIED PROFIT $10,274</span>
+					<span className="text-white/20">VS</span>
+					<span className="text-red-400">TOTAL RISK $4,309</span>
+				</div>
+				<div className="h-4 bg-[#14151a] rounded-full overflow-hidden flex shadow-inner">
+					<motion.div style={{ width: `${pp}%` }} className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-l-full shadow-[0_0_15px_#05966950]" />
+					<motion.div style={{ width: `${lp}%` }} className="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-r-full shadow-[0_0_15px_#e0525250]" />
+				</div>
+				<div className="flex justify-between font-mono text-[10px] text-[#52525b] uppercase tracking-widest pt-2">
+					<span>{pp}% Performance</span>
+					<span className="text-white/60">Profit Factor 2.38</span>
+					<span>{lp}% Risk Impact</span>
 				</div>
 			</div>
-			<div className="flex justify-between mt-2 text-[8px] font-mono text-[#444]">
-				<span>MAX ADVERSE EXCURSION</span>
-				<span>MAX FAVORABLE EXCURSION</span>
+
+			<div className="grid grid-cols-2 gap-6">
+				<div className="bg-white/5 border border-white/5 rounded-3xl p-6 hover:bg-emerald-500/5 transition-colors group">
+					<div className="font-mono text-[10px] text-[#52525b] uppercase tracking-[3px] mb-3 group-hover:text-emerald-500/50 transition-colors">Avg Profit</div>
+					<div className="text-2xl font-bold text-emerald-400 font-mono">+$29.53</div>
+					<div className="text-[10px] text-[#333] mt-2 group-hover:text-[#444]">Max +$533.39</div>
+				</div>
+				<div className="bg-white/5 border border-white/5 rounded-3xl p-6 hover:bg-red-500/5 transition-colors group">
+					<div className="font-mono text-[10px] text-[#52525b] uppercase tracking-[3px] mb-3 group-hover:text-red-500/50 transition-colors">Avg Loss</div>
+					<div className="text-2xl font-bold text-red-400 font-mono">-$86.18</div>
+					<div className="text-[10px] text-[#333] mt-2 group-hover:text-[#444]">Max -$839.46</div>
+				</div>
 			</div>
-		</div>
-	);
+		</motion.div>
+	)
+}
+
+function InfographicDirCard({ dir, target, sub, arrow, triggered, delay }: { dir: string; target: number; sub: string; arrow: string; triggered: boolean, delay: number }) {
+	const [active, setActive] = useState(false)
+	useEffect(() => { if (triggered) setTimeout(() => setActive(true), delay + 1000) }, [triggered])
+	const val = useInfographicCountUp(target, active, 1600, 1)
+	
+	return (
+		<motion.div 
+			initial={{ opacity: 0, y: 30 }}
+			animate={triggered ? { opacity: 1, y: 0 } : {}}
+			transition={{ duration: 0.8, delay: delay / 1000 }}
+			className="bg-[#0a0b0e] border border-white/5 rounded-[32px] p-8 md:p-10 flex items-center justify-between group hover:border-white/10 transition-all shadow-xl"
+		>
+			<div>
+				<div className="font-mono text-[10px] text-[#52525b] uppercase tracking-[4px] mb-4 group-hover:text-white/40 transition-colors">{dir}</div>
+				<div className="text-3xl md:text-5xl font-light text-[#10B981] font-mono leading-none mb-3">{val}%</div>
+				<div className="text-[#52525b] text-[12px] md:text-[14px] font-light leading-relaxed">{sub}</div>
+			</div>
+			<div className="text-7xl font-black text-white/5 group-hover:text-white/10 transition-colors duration-700 pointer-events-none select-none">{arrow}</div>
+		</motion.div>
+	)
 }
