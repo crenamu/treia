@@ -22,6 +22,11 @@ interface License {
   active: boolean;
   tier: string;           // 'observer' | 'starter' | 'pro'
   note: string;
+  investorPassword?: string; // 투자자 비밀번호 (수익금 정산용)
+  balance?: number;       // 현재 잔고 (EA 보고용)
+  equity?: number;        // 현재 평가금 (EA 보고용)
+  profit?: number;        // 누적 수익금 (EA 보고용)
+  lastUpdated?: any;
   createdAt?: any;
 }
 
@@ -241,7 +246,8 @@ const TIER_COLORS: Record<string, string> = {
 
 const EMPTY_FORM = {
   accountId: "", name: "", maxLot: 0.01,
-  expireDate: "", active: true, tier: "observer", note: ""
+  expireDate: "", active: true, tier: "observer", note: "",
+  investorPassword: ""
 };
 
 function LicensesTab() {
@@ -268,7 +274,16 @@ function LicensesTab() {
   const openNew = () => { setEditTarget(null); setForm({ ...EMPTY_FORM }); setShowForm(true); };
   const openEdit = (lic: License) => {
     setEditTarget(lic);
-    setForm({ accountId: lic.accountId, name: lic.name, maxLot: lic.maxLot, expireDate: lic.expireDate, active: lic.active, tier: lic.tier, note: lic.note || "" });
+    setForm({ 
+      accountId: lic.accountId, 
+      name: lic.name, 
+      maxLot: lic.maxLot, 
+      expireDate: lic.expireDate, 
+      active: lic.active, 
+      tier: lic.tier, 
+      note: lic.note || "",
+      investorPassword: lic.investorPassword || ""
+    });
     setShowForm(true);
   };
 
@@ -396,7 +411,16 @@ function LicensesTab() {
                 </button>
               </div>
             </div>
-            <div className="col-span-2 md:col-span-3">
+            <div className="col-span-2 md:col-span-1">
+              <label className="text-[#777] text-xs mb-1 block">투자자 비밀번호 (Investor PW)</label>
+              <input
+                className="w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm font-mono"
+                placeholder="관전자 비번"
+                value={form.investorPassword}
+                onChange={e => setForm(f => ({ ...f, investorPassword: e.target.value }))}
+              />
+            </div>
+            <div className="col-span-2 md:col-span-2">
               <label className="text-[#777] text-xs mb-1 block">메모</label>
               <input
                 className="w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm"
@@ -431,7 +455,7 @@ function LicensesTab() {
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-[#111] border-b border-[#222]">
-                  {["계좌번호", "이름", "티어", "Max Lot", "만료일", "상태", "액션"].map(h => (
+                  {["계좌번호", "이름/비번", "티어", "Max Lot", "수익/잔고", "만료일", "상태", "액션"].map(h => (
                     <th key={h} className="p-4 text-[#777] font-medium text-sm">{h}</th>
                   ))}
                 </tr>
@@ -447,6 +471,7 @@ function LicensesTab() {
                       <td className="p-4 font-mono text-[#10b981] text-sm">{lic.accountId}</td>
                       <td className="p-4 text-white text-sm">
                         <div>{lic.name}</div>
+                        {lic.investorPassword && <div className="text-[#c8a84b] text-[10px] font-mono mt-0.5">PW: {lic.investorPassword}</div>}
                         {lic.note && <div className="text-[#555] text-xs mt-0.5">{lic.note}</div>}
                       </td>
                       <td className="p-4">
@@ -455,6 +480,10 @@ function LicensesTab() {
                         </span>
                       </td>
                       <td className="p-4 font-mono text-[#c8a84b] text-sm">{lic.maxLot}</td>
+                      <td className="p-4 text-sm font-mono">
+                         <div className="text-[#10b981]">${(lic.profit || 0).toLocaleString()}</div>
+                         <div className="text-[#555] text-[10px]">Eq: ${(lic.equity || 0).toLocaleString()}</div>
+                      </td>
                       <td className="p-4 text-sm">
                         <div className={expired ? "text-[#e05252]" : "text-[#aaa]"}>{lic.expireDate}</div>
                         {days !== null && (
