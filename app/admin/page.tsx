@@ -63,8 +63,11 @@ const EMPTY_FORM = {
   expireDate: "", active: true, tier: "observer", note: ""
 };
 
-// 고유 키 생성 도구
-const generateKey = () => "TREIA-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+// 고유 키 생성 도구 (새 규칙: treia_No1-계좌뒷4자리)
+const generateKey = (accountId: string) => {
+  const last4 = accountId.trim().slice(-4) || "0000";
+  return `treia_No1-${last4}`;
+};
 
 // ── 비밀번호 ──
 export default function AdminDashboardPage() {
@@ -265,7 +268,7 @@ function LicensesTab() {
 
   useEffect(() => { fetchLicenses(); }, []);
 
-  const openNew = () => { setEditTarget(null); setForm({ ...EMPTY_FORM, licenseKey: generateKey() }); setShowForm(true); };
+  const openNew = () => { setEditTarget(null); setForm({ ...EMPTY_FORM, licenseKey: "treia_No1-0000" }); setShowForm(true); };
   const openEdit = (lic: License) => {
     setEditTarget(lic);
     setForm({ accountId: lic.accountId, licenseKey: lic.licenseKey || "", name: lic.name, maxLot: lic.maxLot, expireDate: lic.expireDate, active: lic.active, tier: lic.tier, note: lic.note || "" });
@@ -335,9 +338,19 @@ function LicensesTab() {
                 <div className="relative">
                   <input className={`w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm ${f.mono ? "font-mono" : ""} ${f.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
                     placeholder={f.placeholder} value={(form as any)[f.key]} disabled={f.disabled}
-                    onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))} />
+                    onChange={e => {
+                      const val = e.target.value;
+                      setForm(prev => {
+                        const next = { ...prev, [f.key]: val };
+                        // 계좌번호 수정 시 라이선스키 자동 업데이트 (신규 발급 시)
+                        if (f.key === "accountId" && !editTarget) {
+                          next.licenseKey = generateKey(val);
+                        }
+                        return next;
+                      });
+                    }} />
                   {f.key === "licenseKey" && (
-                    <button type="button" onClick={() => setForm(f => ({ ...f, licenseKey: generateKey() }))} 
+                    <button type="button" onClick={() => setForm(f => ({ ...f, licenseKey: generateKey(form.accountId) }))} 
                       className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-[#555] hover:text-[#10b981] transition">
                       <RefreshCw size={14} />
                     </button>
