@@ -10,6 +10,7 @@ import {
   TrendingUp, TrendingDown, Wifi, WifiOff, RefreshCw
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import LayoutWrapper from "@/app/components/LayoutWrapper";
 import { db } from "@/lib/firebase";
 import { ThemeToggle } from "@/app/components/ThemeToggle";
@@ -87,6 +88,16 @@ export default function AdminDashboardPage() {
         <div className="min-h-screen bg-[var(--treia-bg)] flex items-center justify-center p-6">
           <form className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] p-8 rounded-2xl w-full max-w-sm text-center" onSubmit={handleLogin}>
             <div className="flex justify-center mb-6">
+              <div className="relative h-8 w-32">
+                <Image
+                  src="/treia_white_logo.png"
+                  alt="Treia Logo"
+                  fill
+                  className="object-contain dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0"
+                />
+              </div>
+            </div>
+            <div className="flex justify-center mb-6 opacity-30">
               <ThemeToggle />
             </div>
             <h2 className="text-xl text-[var(--treia-text)] font-medium mb-6">Admin Dashboard</h2>
@@ -118,7 +129,17 @@ function AdminContent() {
       <div className="max-w-7xl mx-auto">
         <header className="flex justify-between items-end mb-8 border-b border-[var(--treia-section-border)] pb-6">
           <div>
-            <h1 className="text-3xl text-[var(--treia-text)] font-light tracking-tight mb-2">Treia Admin</h1>
+          <div className="flex items-center gap-4 mb-2">
+            <div className="relative h-7 w-28">
+              <Image
+                src="/treia_white_logo.png"
+                alt="Treia Logo"
+                fill
+                className="object-contain dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0"
+              />
+            </div>
+            <span className="text-xl text-[var(--treia-sub)] font-light border-l border-[var(--treia-section-border)] pl-4 ml-2">Admin</span>
+          </div>
             <p className="text-[var(--treia-sub)] text-sm">신청자 관리 · 라이선스 발급 · EA 실시간 모니터링</p>
           </div>
           <div className="flex items-center gap-4">

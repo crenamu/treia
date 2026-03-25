@@ -124,7 +124,7 @@ export default function TreiaFunnelPage() {
 								src="/treia_white_logo.png"
 								alt="Treia Logo"
 								fill
-								className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
+								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0"
 								priority
 							/>
 						</div>
@@ -1516,6 +1516,16 @@ export default function TreiaFunnelPage() {
 			{/* Treia Exclusive Footer */}
 			<footer className="py-20 border-t border-[var(--treia-section-border)] bg-[var(--treia-bg)] text-center">
 				<div className="max-w-7xl mx-auto px-6">
+					<div className="flex justify-center mb-8">
+						<div className="relative h-8 w-32">
+							<Image
+								src="/treia_white_logo.png"
+								alt="Treia Logo"
+								fill
+								className="object-contain dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0 opacity-80"
+							/>
+						</div>
+					</div>
 					<p className="text-[12px] text-[var(--treia-sub)] font-mono tracking-widest uppercase mb-4">
 						© 2026 TREIA GROUP. ALL RIGHTS RESERVED.
 					</p>
