@@ -90,13 +90,13 @@ export default function AdminDashboardPage() {
             <div className="flex justify-center mb-6">
               <div className="relative h-8 w-32">
                 <Image
-                  src="/treia_white_logo.png"
+                  src="/white_logo.png"
                   alt="Treia Logo Dark"
                   fill
-                  className="object-contain hidden dark:block"
+                  className="object-contain hidden dark:block filter invert brightness-200"
                 />
                 <Image
-                  src="/treia_black_logo.png"
+                  src="/black_logo.png"
                   alt="Treia Logo Light"
                   fill
                   className="object-contain block dark:hidden"
@@ -138,13 +138,13 @@ function AdminContent() {
           <div className="flex items-center gap-4 mb-2">
             <div className="relative h-7 w-28">
               <Image
-                src="/treia_white_logo.png"
+                src="/white_logo.png"
                 alt="Treia Logo Dark"
                 fill
-                className="object-contain hidden dark:block"
+                className="object-contain hidden dark:block filter invert brightness-200"
               />
               <Image
-                src="/treia_black_logo.png"
+                src="/black_logo.png"
                 alt="Treia Logo Light"
                 fill
                 className="object-contain block dark:hidden"

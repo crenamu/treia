@@ -122,15 +122,15 @@ export default function TreiaFunnelPage() {
 						<div className="relative h-8 md:h-10 w-32 md:w-40">
 							{/* Dark Mode Logo (White Text) */}
 							<Image
-								src="/treia_white_logo.png"
+								src="/white_logo.png"
 								alt="Treia Logo Dark"
 								fill
-								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 hidden dark:block"
+								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 hidden dark:block filter invert brightness-200"
 								priority
 							/>
 							{/* Light Mode Logo (Black Text) */}
 							<Image
-								src="/treia_black_logo.png"
+								src="/black_logo.png"
 								alt="Treia Logo Light"
 								fill
 								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 block dark:hidden"
@@ -277,14 +277,14 @@ export default function TreiaFunnelPage() {
 				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32">
 					<div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
 						<Image
-							src="/treia_white_logo.png"
+							src="/white_logo.png"
 							alt="Treia Gold Logo Dark"
 							fill
-							className="object-contain hidden dark:block"
+							className="object-contain hidden dark:block filter invert brightness-200"
 							priority
 						/>
 						<Image
-							src="/treia_black_logo.png"
+							src="/black_logo.png"
 							alt="Treia Gold Logo Light"
 							fill
 							className="object-contain block dark:hidden"
@@ -1535,13 +1535,13 @@ export default function TreiaFunnelPage() {
 					<div className="flex justify-center mb-8">
 						<div className="relative h-8 w-32">
 							<Image
-								src="/treia_white_logo.png"
+								src="/white_logo.png"
 								alt="Treia Logo Dark"
 								fill
-								className="object-contain hidden dark:block opacity-80"
+								className="object-contain hidden dark:block opacity-80 filter invert brightness-200"
 							/>
 							<Image
-								src="/treia_black_logo.png"
+								src="/black_logo.png"
 								alt="Treia Logo Light"
 								fill
 								className="object-contain block dark:hidden opacity-80"
