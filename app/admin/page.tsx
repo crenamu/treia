@@ -41,6 +41,16 @@ interface License {
   [key: string]: unknown;
 }
 
+interface Lead {
+  id: string;
+  name?: string;
+  contact?: string;
+  reason?: string;
+  inquiry?: string;
+  status?: string;
+  createdAt?: { toDate: () => Date };
+}
+
 const TIERS = ["observer", "starter", "pro"];
 const TIER_COLORS: Record<string, string> = {
   observer: "text-[#7a7f8e] bg-[#1e2230]",
@@ -123,7 +133,7 @@ function AdminContent() {
 // TAB 1: LEADS
 // ══════════════════════════════════════════
 function LeadsTab() {
-  const [leads, setLeads] = useState<Array<Record<string, unknown>>>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sendingId, setSendingId] = useState<string | null>(null);
 
@@ -132,7 +142,7 @@ function LeadsTab() {
     try {
       const q = query(collection(db, "treia_leads"), orderBy("createdAt", "desc"));
       const snap = await getDocs(q);
-      setLeads(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setLeads(snap.docs.map(d => ({ id: d.id, ...d.data() } as Lead)));
     } catch (e) { console.error(e); alert("데이터를 불러오지 못했습니다."); }
     finally { setIsLoading(false); }
   };
@@ -177,7 +187,8 @@ function LeadsTab() {
               </thead>
               <tbody className="divide-y divide-[#1a1a1a]">
                 {leads.map((lead) => {
-                  const dateObj = lead.createdAt?.toDate ? lead.createdAt.toDate() : new Date();
+                  const ts = lead.createdAt as { toDate: () => Date } | undefined;
+                  const dateObj = ts?.toDate ? ts.toDate() : new Date();
                   const dateStr = dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
                   const isApproved = lead.status === "approved";
                   return (
@@ -203,7 +214,7 @@ function LeadsTab() {
                       </td>
                       <td className="p-4">
                         <button disabled={isApproved || sendingId === lead.id}
-                          onClick={() => handleSendEmail(lead.id, lead.contact, lead.name)}
+                          onClick={() => handleSendEmail(lead.id, lead.contact || "", lead.name || "")}
                           className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
                             isApproved ? "bg-[#222] text-[#555] cursor-not-allowed" : "bg-[#c8a84b] text-black hover:bg-yellow-600"
                           }`}>
