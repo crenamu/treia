@@ -73,8 +73,17 @@ const generateKey = (accountId: string) => {
 
 // ── 비밀번호 ──
 export default function AdminDashboardPage() {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentTheme = mounted ? theme : 'dark';
+  const logo_src = currentTheme === 'dark' ? '/white_logo.png' : '/black_logo.png';
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,16 +99,10 @@ export default function AdminDashboardPage() {
             <div className="flex justify-center mb-6">
               <div className="relative h-8 w-32">
                 <Image
-                  src="/white_logo.png"
-                  alt="Treia Logo Dark"
+                  src={logo_src}
+                  alt="Treia Logo"
                   fill
-                  className="object-contain hidden dark:block filter invert brightness-200"
-                />
-                <Image
-                  src="/black_logo.png"
-                  alt="Treia Logo Light"
-                  fill
-                  className="object-contain block dark:hidden"
+                  className="object-contain"
                 />
               </div>
             </div>
@@ -117,11 +120,11 @@ export default function AdminDashboardPage() {
     );
   }
 
-  return <LayoutWrapper><AdminContent /></LayoutWrapper>;
+  return <LayoutWrapper><AdminContent logo_src={logo_src} /></LayoutWrapper>;
 }
 
 // ── 메인 ──
-function AdminContent() {
+function AdminContent({ logo_src }: { logo_src: string }) {
   const [activeTab, setActiveTab] = useState<"leads" | "licenses" | "monitor">("leads");
 
   const tabs = [
@@ -138,16 +141,10 @@ function AdminContent() {
           <div className="flex items-center gap-4 mb-2">
             <div className="relative h-7 w-28">
               <Image
-                src="/white_logo.png"
-                alt="Treia Logo Dark"
+                src={logo_src}
+                alt="Treia Logo"
                 fill
-                className="object-contain hidden dark:block filter invert brightness-200"
-              />
-              <Image
-                src="/black_logo.png"
-                alt="Treia Logo Light"
-                fill
-                className="object-contain block dark:hidden"
+                className="object-contain"
               />
             </div>
             <span className="text-xl text-[var(--treia-sub)] font-light border-l border-[var(--treia-section-border)] pl-4 ml-2">Admin</span>

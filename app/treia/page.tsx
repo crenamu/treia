@@ -11,8 +11,20 @@ import { motion, useInView, AnimatePresence, animate } from "framer-motion";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Script from 'next/script';
 import { ThemeToggle } from "@/app/components/ThemeToggle";
+import { useTheme } from "next-themes";
 
 export default function TreiaFunnelPage() {
+	const { theme, setTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	// Hydration guard to ensure theme is loaded correctly
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	// Force default theme to dark if not set, or use mounted status
+	const currentTheme = mounted ? theme : 'dark';
+	const logo_src = currentTheme === 'dark' ? '/white_logo.png' : '/black_logo.png';
 	const [isNavOpen, setIsNavOpen] = useState(false);
 	const [formData, setFormData] = useState({
 		name: "",
@@ -120,20 +132,11 @@ export default function TreiaFunnelPage() {
 				<div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 					<Link href="#hero" className="flex items-center">
 						<div className="relative h-8 md:h-10 w-32 md:w-40">
-							{/* Dark Mode Logo (White Text) */}
 							<Image
-								src="/white_logo.png"
-								alt="Treia Logo Dark"
+								src={logo_src}
+								alt="Treia Logo"
 								fill
-								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 hidden dark:block filter invert brightness-200"
-								priority
-							/>
-							{/* Light Mode Logo (Black Text) */}
-							<Image
-								src="/black_logo.png"
-								alt="Treia Logo Light"
-								fill
-								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 block dark:hidden"
+								className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
 								priority
 							/>
 						</div>
@@ -277,17 +280,10 @@ export default function TreiaFunnelPage() {
 				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32">
 					<div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
 						<Image
-							src="/white_logo.png"
-							alt="Treia Gold Logo Dark"
+							src={logo_src}
+							alt="Treia Gold Logo"
 							fill
-							className="object-contain hidden dark:block filter invert brightness-200"
-							priority
-						/>
-						<Image
-							src="/black_logo.png"
-							alt="Treia Gold Logo Light"
-							fill
-							className="object-contain block dark:hidden"
+							className="object-contain"
 							priority
 						/>
 					</div>
@@ -1535,16 +1531,10 @@ export default function TreiaFunnelPage() {
 					<div className="flex justify-center mb-8">
 						<div className="relative h-8 w-32">
 							<Image
-								src="/white_logo.png"
-								alt="Treia Logo Dark"
+								src={logo_src}
+								alt="Treia Logo"
 								fill
-								className="object-contain hidden dark:block opacity-80 filter invert brightness-200"
-							/>
-							<Image
-								src="/black_logo.png"
-								alt="Treia Logo Light"
-								fill
-								className="object-contain block dark:hidden opacity-80"
+								className="object-contain opacity-80"
 							/>
 						</div>
 					</div>
