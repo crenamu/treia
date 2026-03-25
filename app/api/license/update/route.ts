@@ -1,51 +1,89 @@
 import { NextResponse } from "next/server";
-import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayUnion, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-/**
- * EA에서 호출하여 계좌 및 전략별 현황 업데이트: POST /api/license/update
- * Body: { 
- *   accountId: string, 
- *   magicNumber: number, 
- *   timeframe: string,
- *   balance: number, 
- *   equity: number, 
- *   profit: number,
- *   strategyProfit: number 
- * }
- */
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    const { accountId, magicNumber, timeframe, balance, equity, profit, strategyProfit } = body;
+interface UpdateRequestBody {
+  accountId: string | number;
+  magicNumber?: number;
+  timeframe?: string;
+  balance?: number;
+  equity?: number;
+  profit?: number;
+  strategyProfit?: number;
+}
 
-    if (!accountId) {
-      return NextResponse.json({ success: false, message: "no_account" }, { status: 400 });
+// EA에서 호출: POST /api/license/update
+// 1시간 주기(OnTimer) + 매매 종료 시(OnTrade) 전송
+export async function POST(request: Request) {
+  // API-Key 검증
+  const apiKey = request.headers.get("X-API-Key");
+  if (process.env.TREIA_API_KEY && apiKey !== process.env.TREIA_API_KEY) {
+    return NextResponse.json({ success: false, reason: "unauthorized" }, { status: 401 });
+  }
+
+  let body: UpdateRequestBody;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ success: false, reason: "invalid_json" }, { status: 400 });
+  }
+
+  const { accountId, magicNumber, timeframe, balance, equity, profit, strategyProfit } = body;
+
+  if (!accountId) {
+    return NextResponse.json({ success: false, reason: "no_accountId" }, { status: 400 });
+  }
+
+  try {
+    const docRef = doc(db, "treia_licenses", String(accountId));
+    const snap = await getDoc(docRef);
+
+    if (!snap.exists()) {
+      return NextResponse.json({ success: false, reason: "not_found" });
     }
 
-    const docRef = doc(db, "treia_licenses", accountId.trim());
-    
-    // 전략별 식별 정보 구성 (매직넘버 기준)
-    const strategyKey = `strategies.${magicNumber || 'default'}`;
-    const strategyData = {
-      tf: timeframe || 'unknown',
-      profit: strategyProfit || 0,
-      updatedAt: new Date().toISOString()
+    const now = new Date().toISOString();
+
+    // 현재 상태 업데이트 (최신값 덮어쓰기)
+    const updatePayload: Record<string, unknown> = {
+      lastSeen: serverTimestamp(),
+      lastUpdate: now,
+      balance: balance ?? null,
+      equity: equity ?? null,
+      profit: profit ?? null,
     };
 
-    // 실시간 현황 및 전략별 데이터 업데이트
+    // 타임프레임별 전략 수익 (magicNumber + timeframe 조합으로 키 생성)
+    if (magicNumber !== undefined && timeframe) {
+      const stratKey = `strategy_${magicNumber}_${timeframe}`;
+      updatePayload[stratKey] = {
+        magicNumber,
+        timeframe,
+        strategyProfit: strategyProfit ?? 0,
+        updatedAt: now,
+      };
+    }
+
+    // 히스토리 로그 (최근 48개 유지 - 필요 시 자르기 로직 추가 가능)
+    const historyEntry = {
+      ts: now,
+      balance: balance ?? null,
+      equity: equity ?? null,
+      profit: profit ?? null,
+      magicNumber: magicNumber ?? null,
+      timeframe: timeframe ?? null,
+      strategyProfit: strategyProfit ?? null,
+    };
+
     await updateDoc(docRef, {
-      balance: balance || 0,
-      equity: equity || 0,
-      profit: profit || 0, // 전체 계좌 수익
-      [strategyKey]: strategyData, // 특정 전략(매직넘버)의 수익/타임프레임
-      lastUpdated: serverTimestamp()
+      ...updatePayload,
+      history: arrayUnion(historyEntry),
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, timestamp: now });
 
   } catch (e) {
     console.error("[license/update]", e);
-    return NextResponse.json({ success: false, message: "server_error" }, { status: 500 });
+    return NextResponse.json({ success: false, reason: "server_error" }, { status: 500 });
   }
 }
