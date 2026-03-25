@@ -35,7 +35,7 @@ export default function TreiaFunnelPage() {
 					}
 				});
 			},
-			{ threshold: 0.15 },
+			{ threshold: 0.05 },
 		);
 
 		document.querySelectorAll(".reveal").forEach((el) => {
@@ -1592,7 +1592,7 @@ function useInfographicCountUp(target: number, triggered: boolean, duration = 14
 function MainBacktestInfographic() {
 	const [scriptLoaded, setScriptLoaded] = useState(false);
 	const sectionRef = useRef<HTMLDivElement>(null);
-	const isTriggered = useInView(sectionRef, { once: true, amount: 0.3, margin: "-50px 0px" });
+	const isTriggered = useInView(sectionRef, { once: true, amount: 0.05, margin: "0px" });
 
 	return (
 		<div ref={sectionRef} className="w-full">
@@ -1642,7 +1642,7 @@ function InfographicHeader({ triggered }: { triggered: boolean }) {
 		>
 			<div className="flex items-center gap-3 mb-4">
 				<span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_10px_#10B981]" />
-				<span className="font-mono text-[11px] tracking-[4px] uppercase text-[#10B981]">Deep Insight Verification</span>
+				<span className="font-mono text-[11px] tracking-[4px] uppercase text-[#10B981]">Deep Insight Verification (Format: treia_No1_XXXX)</span>
 			</div>
 			<p className="font-mono text-[11px] text-[#52525b] uppercase tracking-widest">
 				M5 Scalping Engine · 2026.01.01 ~ 03.20 · 초기자본 $10,000 · 99% Tick Accuracy

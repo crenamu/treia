@@ -63,10 +63,10 @@ const EMPTY_FORM = {
   expireDate: "", active: true, tier: "observer", note: ""
 };
 
-// 고유 키 생성 도구 (새 규칙: treia_No1-계좌뒷4자리)
+// 고유 키 생성 도구 (새 규칙: treia_No1_계좌뒷4자리)
 const generateKey = (accountId: string) => {
   const last4 = accountId.trim().slice(-4) || "0000";
-  return `treia_No1-${last4}`;
+  return `treia_No1_${last4}`;
 };
 
 // ── 비밀번호 ──
@@ -268,7 +268,7 @@ function LicensesTab() {
 
   useEffect(() => { fetchLicenses(); }, []);
 
-  const openNew = () => { setEditTarget(null); setForm({ ...EMPTY_FORM, licenseKey: "treia_No1-0000" }); setShowForm(true); };
+  const openNew = () => { setEditTarget(null); setForm({ ...EMPTY_FORM, licenseKey: "treia_No1_0000" }); setShowForm(true); };
   const openEdit = (lic: License) => {
     setEditTarget(lic);
     setForm({ accountId: lic.accountId, licenseKey: lic.licenseKey || "", name: lic.name, maxLot: lic.maxLot, expireDate: lic.expireDate, active: lic.active, tier: lic.tier, note: lic.note || "" });
