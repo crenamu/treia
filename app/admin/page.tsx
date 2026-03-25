@@ -14,6 +14,7 @@ import Image from "next/image";
 import LayoutWrapper from "@/app/components/LayoutWrapper";
 import { db } from "@/lib/firebase";
 import { ThemeToggle } from "@/app/components/ThemeToggle";
+import { useTheme } from "next-themes";
 
 interface License {
   id: string;
