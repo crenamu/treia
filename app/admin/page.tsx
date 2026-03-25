@@ -16,6 +16,7 @@ import { db } from "@/lib/firebase";
 interface License {
   id: string;
   accountId: string;
+  licenseKey: string; // 고유 라이선스 키 추가
   name: string;
   maxLot: number;
   expireDate: string;
@@ -58,9 +59,12 @@ const TIER_COLORS: Record<string, string> = {
   pro:      "text-[#10b981] bg-[#10b981]/10",
 };
 const EMPTY_FORM = {
-  accountId: "", name: "", maxLot: 0.01,
+  accountId: "", licenseKey: "", name: "", maxLot: 0.01,
   expireDate: "", active: true, tier: "observer", note: ""
 };
+
+// 고유 키 생성 도구
+const generateKey = () => "TREIA-" + Math.random().toString(36).substring(2, 10).toUpperCase();
 
 // ── 비밀번호 ──
 export default function AdminDashboardPage() {
@@ -261,10 +265,10 @@ function LicensesTab() {
 
   useEffect(() => { fetchLicenses(); }, []);
 
-  const openNew = () => { setEditTarget(null); setForm({ ...EMPTY_FORM }); setShowForm(true); };
+  const openNew = () => { setEditTarget(null); setForm({ ...EMPTY_FORM, licenseKey: generateKey() }); setShowForm(true); };
   const openEdit = (lic: License) => {
     setEditTarget(lic);
-    setForm({ accountId: lic.accountId, name: lic.name, maxLot: lic.maxLot, expireDate: lic.expireDate, active: lic.active, tier: lic.tier, note: lic.note || "" });
+    setForm({ accountId: lic.accountId, licenseKey: lic.licenseKey || "", name: lic.name, maxLot: lic.maxLot, expireDate: lic.expireDate, active: lic.active, tier: lic.tier, note: lic.note || "" });
     setShowForm(true);
   };
 
@@ -323,13 +327,22 @@ function LicensesTab() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             {[
               { label: "MT5 계좌번호 *", key: "accountId", placeholder: "예: 100106281", mono: true, disabled: !!editTarget },
+              { label: "라이선스 키 (Password) *", key: "licenseKey", placeholder: "TREIA-XXXX-XXXX", mono: true },
               { label: "유저 이름 *", key: "name", placeholder: "예: 홍길동" },
             ].map(f => (
               <div key={f.key}>
                 <label className="text-[#777] text-xs mb-1 block">{f.label}</label>
-                <input className={`w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm ${f.mono ? "font-mono" : ""} ${f.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
-                  placeholder={f.placeholder} value={(form as any)[f.key]} disabled={f.disabled}
-                  onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))} />
+                <div className="relative">
+                  <input className={`w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm ${f.mono ? "font-mono" : ""} ${f.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                    placeholder={f.placeholder} value={(form as any)[f.key]} disabled={f.disabled}
+                    onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))} />
+                  {f.key === "licenseKey" && (
+                    <button type="button" onClick={() => setForm(f => ({ ...f, licenseKey: generateKey() }))} 
+                      className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-[#555] hover:text-[#10b981] transition">
+                      <RefreshCw size={14} />
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
             <div>

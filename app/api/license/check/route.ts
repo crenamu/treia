@@ -2,20 +2,21 @@ import { NextResponse } from "next/server";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-// EA에서 호출: GET /api/license/check?account=100106281
-// Header: X-API-Key: {TREIA_API_KEY} (선택 보안)
+// EA에서 호출: GET /api/license/check?account=100106281&key=TREIA-ABCD
+// Header: X-API-Key: {TREIA_API_KEY} (Developer Secret)
 export async function GET(request: Request) {
-  // API-Key 검증 (환경변수 설정 시 활성화)
+  // 1. 개발자용 API-Key 검증 (WebRequest 헤더에 포함됨)
   const apiKey = request.headers.get("X-API-Key");
   if (process.env.TREIA_API_KEY && apiKey !== process.env.TREIA_API_KEY) {
-    return NextResponse.json({ valid: false, reason: "unauthorized" }, { status: 401 });
+    return NextResponse.json({ valid: false, reason: "unauthorized_ea" }, { status: 401 });
   }
 
   const { searchParams } = new URL(request.url);
   const account = searchParams.get("account");
+  const key = searchParams.get("key"); // 유저가 입력한 고유 키
 
-  if (!account) {
-    return NextResponse.json({ valid: false, reason: "no_account" }, { status: 400 });
+  if (!account || !key) {
+    return NextResponse.json({ valid: false, reason: "missing_params" }, { status: 400 });
   }
 
   try {
@@ -26,6 +27,11 @@ export async function GET(request: Request) {
     }
 
     const data = snap.data();
+
+    // 2. 유저 고유 라이선스 키 검증
+    if (data.licenseKey !== key.trim()) {
+      return NextResponse.json({ valid: false, reason: "invalid_license_key" });
+    }
 
     if (!data.active) {
       return NextResponse.json({ valid: false, reason: "inactive" });
