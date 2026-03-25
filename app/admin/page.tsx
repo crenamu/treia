@@ -114,7 +114,6 @@ function AdminContent() {
   ];
 
   return (
-  return (
     <div className="min-h-screen bg-[var(--treia-bg)] py-16 px-6 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         <header className="flex justify-between items-end mb-8 border-b border-[var(--treia-section-border)] pb-6">
@@ -133,6 +132,7 @@ function AdminContent() {
                 {t.icon} {t.label}
               </button>
             ))}
+            </div>
           </div>
         </header>
         {activeTab === "leads"    && <LeadsTab />}
