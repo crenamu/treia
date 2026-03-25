@@ -91,9 +91,9 @@ export default function AdminDashboardPage() {
             </div>
             <h2 className="text-xl text-[var(--treia-text)] font-medium mb-6">Admin Dashboard</h2>
             <input type="password" placeholder="비밀번호 입력"
-              className="w-full bg-[#111] border border-[#333] text-white p-3 rounded-lg mb-4 text-center"
+              className="w-full bg-[var(--treia-bg)] border border-[var(--treia-card-border)] text-[var(--treia-text)] p-3 rounded-lg mb-4 text-center focus:outline-none focus:border-[#c8a84b]"
               value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button className="w-full bg-[#c8a84b] text-black font-bold py-3 rounded-lg hover:bg-yellow-600 transition">접속하기</button>
+            <button className="w-full bg-[#c8a84b] text-black font-bold py-3 rounded-lg hover:bg-[#d4b55c] transition">접속하기</button>
           </form>
         </div>
       </LayoutWrapper>
@@ -127,7 +127,7 @@ function AdminContent() {
             {tabs.map(t => (
               <button key={t.id} onClick={() => setActiveTab(t.id as any)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition border ${
-                  activeTab === t.id ? t.color : "bg-[#111] text-[#aaa] border-[#333] hover:bg-[#1a1a1a]"
+                  activeTab === t.id ? t.color : "bg-[var(--treia-card)] text-[var(--treia-sub)] border-[var(--treia-card-border)] hover:bg-[var(--treia-bg)]"
                 }`}>
                 {t.icon} {t.label}
               </button>
@@ -181,8 +181,8 @@ function LeadsTab() {
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <p className="text-[#555] text-sm">{leads.length}명 신청</p>
-        <button onClick={fetchLeads} className="bg-[#111] text-[#ccc] px-4 py-2 rounded-lg border border-[#333] text-sm flex items-center gap-2 hover:bg-[#1a1a1a]">
+        <p className="text-[var(--treia-sub)] text-sm">{leads.length}명 신청</p>
+        <button onClick={fetchLeads} className="bg-[var(--treia-card)] text-[var(--treia-sub)] px-4 py-2 rounded-lg border border-[var(--treia-card-border)] text-sm flex items-center gap-2 hover:bg-[var(--treia-bg)]">
           <RefreshCw size={16} /> 새로고침
         </button>
       </div>
@@ -193,9 +193,9 @@ function LeadsTab() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-[#111] border-b border-[#222]">
+                <tr className="bg-[var(--treia-bg)] border-b border-[var(--treia-card-border)]">
                   {["Date","Name","Email","Reason / Inquiry","Status","Action"].map(h => (
-                    <th key={h} className="p-4 text-[#777] font-medium text-sm">{h}</th>
+                    <th key={h} className="p-4 text-[var(--treia-sub)] font-medium text-sm">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -206,13 +206,13 @@ function LeadsTab() {
                   const dateStr = dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
                   const isApproved = lead.status === "approved";
                   return (
-                    <tr key={lead.id} className="hover:bg-[#111]/50 transition">
-                      <td className="p-4 text-sm text-[#888]">{dateStr}</td>
+                    <tr key={lead.id} className="hover:bg-[var(--treia-sub)]/5 transition">
+                      <td className="p-4 text-sm text-[var(--treia-sub)]">{dateStr}</td>
                       <td className="p-4 text-[var(--treia-text)] font-medium">{lead.name}</td>
-                      <td className="p-4 text-[#a1a1aa] font-mono text-sm">
-                        <span className="flex items-center gap-2"><Mail size={14} className="text-[#555]" />{lead.contact}</span>
+                      <td className="p-4 text-[var(--treia-sub)] font-mono text-sm">
+                        <span className="flex items-center gap-2"><Mail size={14} className="opacity-50" />{lead.contact}</span>
                       </td>
-                      <td className="p-4 text-[#aaa] text-sm max-w-xs truncate" title={lead.reason || lead.inquiry}>
+                      <td className="p-4 text-[var(--treia-sub)] text-sm max-w-xs truncate" title={lead.reason || lead.inquiry}>
                         {lead.reason || lead.inquiry || "-"}
                       </td>
                       <td className="p-4">
@@ -230,7 +230,7 @@ function LeadsTab() {
                         <button disabled={isApproved || sendingId === lead.id}
                           onClick={() => handleSendEmail(lead.id, lead.contact || "", lead.name || "")}
                           className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 ${
-                            isApproved ? "bg-[#222] text-[#555] cursor-not-allowed" : "bg-[#c8a84b] text-black hover:bg-yellow-600"
+                            isApproved ? "bg-[var(--treia-bg)] text-[var(--treia-sub)]/50 cursor-not-allowed border border-[var(--treia-card-border)]" : "bg-[#c8a84b] text-black hover:bg-[#d4b55c]"
                           }`}>
                           {sendingId === lead.id ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
                           {isApproved ? "발송됨" : "이메일 쏘기"}
@@ -341,9 +341,9 @@ function LicensesTab() {
               { label: "유저 이름 *", key: "name", placeholder: "예: 홍길동" },
             ].map(f => (
               <div key={f.key}>
-                <label className="text-[#777] text-xs mb-1 block">{f.label}</label>
+                <label className="text-[var(--treia-sub)] text-xs mb-1 block">{f.label}</label>
                 <div className="relative">
-                  <input className={`w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm ${f.mono ? "font-mono" : ""} ${f.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                  <input className={`w-full bg-[var(--treia-bg)] border border-[var(--treia-card-border)] text-[var(--treia-text)] p-2.5 rounded-lg text-sm ${f.mono ? "font-mono" : ""} ${f.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
                     placeholder={f.placeholder} value={(form as any)[f.key]} disabled={f.disabled}
                     onChange={e => {
                       const val = e.target.value;
@@ -366,32 +366,32 @@ function LicensesTab() {
               </div>
             ))}
             <div>
-              <label className="text-[#777] text-xs mb-1 block">티어</label>
-              <select className="w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm"
+              <label className="text-[var(--treia-sub)] text-xs mb-1 block">티어</label>
+              <select className="w-full bg-[var(--treia-bg)] border border-[var(--treia-card-border)] text-[var(--treia-text)] p-2.5 rounded-lg text-sm"
                 value={form.tier} onChange={e => setForm(f => ({ ...f, tier: e.target.value }))}>
                 {TIERS.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-[#777] text-xs mb-1 block">최대 랏 (Max Lot)</label>
-              <input type="number" step="0.01" min="0.01" className="w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm font-mono"
+              <label className="text-[var(--treia-sub)] text-xs mb-1 block">최대 랏 (Max Lot)</label>
+              <input type="number" step="0.01" min="0.01" className="w-full bg-[var(--treia-bg)] border border-[var(--treia-card-border)] text-[var(--treia-text)] p-2.5 rounded-lg text-sm font-mono"
                 placeholder="0.01" value={form.maxLot} onChange={e => setForm(f => ({ ...f, maxLot: parseFloat(e.target.value) || 0.01 }))} />
             </div>
             <div>
-              <label className="text-[#777] text-xs mb-1 block">만료일 *</label>
-              <input type="date" className="w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm"
+              <label className="text-[var(--treia-sub)] text-xs mb-1 block">만료일 *</label>
+              <input type="date" className="w-full bg-[var(--treia-bg)] border border-[var(--treia-card-border)] text-[var(--treia-text)] p-2.5 rounded-lg text-sm"
                 value={form.expireDate} onChange={e => setForm(f => ({ ...f, expireDate: e.target.value }))} />
             </div>
             <div>
-              <label className="text-[#777] text-xs mb-1 block">활성 여부</label>
+              <label className="text-[var(--treia-sub)] text-xs mb-1 block">활성 여부</label>
               <button type="button" onClick={() => setForm(f => ({ ...f, active: !f.active }))}
                 className={`mt-1.5 px-4 py-2 rounded-lg text-sm font-medium transition ${form.active ? "bg-[#10b981] text-black" : "bg-[#333] text-[#888]"}`}>
                 {form.active ? "활성" : "비활성"}
               </button>
             </div>
             <div className="col-span-2 md:col-span-3">
-              <label className="text-[#777] text-xs mb-1 block">메모</label>
-              <input className="w-full bg-[#111] border border-[#333] text-white p-2.5 rounded-lg text-sm"
+              <label className="text-[var(--treia-sub)] text-xs mb-1 block">메모</label>
+              <input className="w-full bg-[var(--treia-bg)] border border-[var(--treia-card-border)] text-[var(--treia-text)] p-2.5 rounded-lg text-sm"
                 placeholder="예: 관전자 1개월 체험, 시드 $3,000"
                 value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))} />
             </div>
@@ -416,7 +416,7 @@ function LicensesTab() {
               <thead>
                 <tr className="bg-[#111] border-b border-[#222]">
                   {["계좌번호","이름","티어","Max Lot","만료일","상태","액션"].map(h => (
-                    <th key={h} className="p-4 text-[#777] font-medium text-sm">{h}</th>
+                    <th key={h} className="p-4 text-[var(--treia-sub)] font-medium text-sm">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -450,7 +450,7 @@ function LicensesTab() {
                         ) : expired ? (
                           <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#e05252]/10 text-[#e05252] rounded-full text-xs font-medium"><ShieldOff size={11} /> Expired</span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#333] text-[#777] rounded-full text-xs font-medium"><ShieldOff size={11} /> Inactive</span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#333] text-[var(--treia-sub)] rounded-full text-xs font-medium"><ShieldOff size={11} /> Inactive</span>
                         )}
                       </td>
                       <td className="p-4">
@@ -566,7 +566,7 @@ function MonitorTab() {
                     </div>
                     <span className={`text-xs px-2 py-0.5 rounded-full ${TIER_COLORS[lic.tier] || ""}`}>{lic.tier}</span>
                   </div>
-                  <div className="text-[#777] text-xs mb-2">{lic.name}</div>
+                  <div className="text-[var(--treia-sub)] text-xs mb-2">{lic.name}</div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <div className="text-[#555] text-xs">잔고</div>
@@ -615,13 +615,13 @@ function MonitorTab() {
                       { label: "미실현 수익", value: selected.profit !== undefined ? `${selected.profit >= 0 ? "+" : ""}$${selected.profit.toFixed(2)}` : "-", color: (selected.profit ?? 0) >= 0 ? "text-[#10b981]" : "text-[#e05252]" },
                       { label: "Max Lot", value: String(selected.maxLot), color: "text-[#c8a84b]" },
                     ].map(item => (
-                      <div key={item.label} className="bg-[#111] rounded-lg p-3">
-                        <div className="text-[#555] text-xs mb-1">{item.label}</div>
-                        <div className={`font-mono text-sm font-bold ${item.color}`}>{item.value}</div>
+                      <div key={item.label} className="bg-[var(--treia-bg)] border border-[var(--treia-card-border)] rounded-lg p-3">
+                        <div className="text-[var(--treia-sub)] text-xs mb-1">{item.label}</div>
+                        <div className={`font-mono text-sm font-bold ${item.color.includes('white') ? 'text-[var(--treia-text)]' : item.color}`}>{item.value}</div>
                       </div>
                     ))}
                   </div>
-                  <div className="text-[#444] text-xs mt-3">
+                  <div className="text-[var(--treia-sub)] text-xs mt-3">
                     마지막 업데이트: {fmtTime(selected.lastUpdate || "")} · 만료일: {selected.expireDate}
                   </div>
                 </div>
@@ -632,12 +632,12 @@ function MonitorTab() {
                     <h4 className="text-[#777] text-xs uppercase tracking-widest font-mono mb-4">전략별 수익 (Magic × TF)</h4>
                     <div className="space-y-2">
                       {getStrategies(selected).map((s: any, i: number) => (
-                        <div key={i} className="flex items-center justify-between bg-[#111] rounded-lg p-3">
+                        <div key={i} className="flex items-center justify-between bg-[var(--treia-bg)] border border-[var(--treia-card-border)] rounded-lg p-3">
                           <div className="flex items-center gap-3">
                             <span className="font-mono text-xs text-[#c8a84b] bg-[#c8a84b]/10 px-2 py-0.5 rounded">
                               {s.timeframe}
                             </span>
-                            <span className="text-[#555] text-xs font-mono">Magic #{s.magicNumber}</span>
+                            <span className="text-[var(--treia-sub)] text-xs font-mono">Magic #{s.magicNumber}</span>
                           </div>
                           <div className={`font-mono text-sm font-bold ${(s.strategyProfit ?? 0) >= 0 ? "text-[#10b981]" : "text-[#e05252]"}`}>
                             {(s.strategyProfit ?? 0) >= 0 ? "+" : ""}${(s.strategyProfit ?? 0).toFixed(2)}
@@ -654,9 +654,9 @@ function MonitorTab() {
                     <h4 className="text-[#777] text-xs uppercase tracking-widest font-mono mb-4">업데이트 히스토리 (최근 10회)</h4>
                     <div className="space-y-1 max-h-60 overflow-y-auto">
                       {[...selected.history].reverse().slice(0, 10).map((h: any, i: number) => (
-                        <div key={i} className="flex items-center justify-between text-xs py-1.5 border-b border-[#1a1a1a]">
-                          <span className="text-[#555] font-mono">{fmtTime(h.ts || h.updatedAt || "")}</span>
-                          <span className="text-[#aaa] font-mono">${(h.balance ?? 0).toFixed(2)}</span>
+                        <div key={i} className="flex items-center justify-between text-xs py-1.5 border-b border-[var(--treia-section-border)]">
+                          <span className="text-[var(--treia-sub)] font-mono">{fmtTime(h.ts || h.updatedAt || "")}</span>
+                          <span className="text-[var(--treia-text)] font-mono">${(h.balance ?? 0).toFixed(2)}</span>
                           <span className={`font-mono ${(h.profit ?? 0) >= 0 ? "text-[#10b981]" : "text-[#e05252]"}`}>
                             {(h.profit ?? 0) >= 0 ? "+" : ""}${(h.profit ?? 0).toFixed(2)}
                           </span>
