@@ -1642,10 +1642,10 @@ function InfographicHeader({ triggered }: { triggered: boolean }) {
 		>
 			<div className="flex items-center gap-3 mb-4">
 				<span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_10px_#10B981]" />
-				<span className="font-mono text-[11px] tracking-[4px] uppercase text-[#10B981]">Deep Insight Verification (Format: treia_No1_XXXX)</span>
+				<span className="font-mono text-[11px] md:text-[11px] tracking-[1px] md:tracking-[4px] uppercase text-[#10B981] break-all">Deep Insight Verification (Format: treia_No1_XXXX)</span>
 			</div>
 			<p className="font-mono text-[11px] text-[#52525b] uppercase tracking-widest">
-				M5 Scalping Engine · 2026.01.01 ~ 03.20 · 초기자본 $10,000 · 99% Tick Accuracy
+				M5 Treia_No1 Engine · 2026.01.01 ~ 03.20 · 초기자본 $10,000 · 99% Tick Accuracy
 			</p>
 		</motion.div>
 	)
@@ -1752,7 +1752,7 @@ function InfographicChartSection({ scriptLoaded, triggered }: { scriptLoaded: bo
 					<p className="font-mono text-[10px] tracking-[4px] uppercase text-[#52525b] mb-3">Equity Growth Map</p>
 					<h2 className="text-4xl md:text-6xl font-light text-[#10B981] font-mono tracking-tight">+{liveVal}%</h2>
 				</div>
-				<div className="text-right hidden md:block">
+				<div className="text-right hidden sm:block">
 					<p className="text-[#52525b] text-[10px] font-mono uppercase tracking-widest mb-1">Target Achievement</p>
 					<p className="text-white/60 font-mono text-sm tracking-widest leading-loose">CERTIFIED BACKTEST V3.0</p>
 				</div>
@@ -1792,7 +1792,7 @@ function InfographicCountCard({ label, target, prefix = '', suffix = '', decimal
 			initial={{ opacity: 0, y: 20 }}
 			animate={triggered ? { opacity: 1, y: 0 } : {}}
 			transition={{ duration: 0.6, delay: delay / 1000 }}
-			className="bg-[#0a0b0e] border border-white/5 rounded-3xl p-6 md:p-10 border-t-2 shadow-xl group hover:border-[#c8a84b]/30 transition-all"
+			className="bg-[#0a0b0e] border border-white/5 rounded-2xl md:rounded-3xl p-4 md:p-10 border-t-2 shadow-xl group hover:border-[#c8a84b]/30 transition-all"
 			style={{ borderTopColor: color }}
 		>
 			<div className="font-mono text-[9px] md:text-[10px] tracking-[4px] uppercase text-[#52525b] mb-4 group-hover:text-white/40 transition-colors">{label}</div>
@@ -1918,7 +1918,7 @@ function InfographicDirCard({ dir, target, sub, arrow, triggered, delay }: { dir
 			initial={{ opacity: 0, y: 30 }}
 			animate={triggered ? { opacity: 1, y: 0 } : {}}
 			transition={{ duration: 0.8, delay: delay / 1000 }}
-			className="bg-[#0a0b0e] border border-white/5 rounded-[32px] p-8 md:p-10 flex items-center justify-between group hover:border-white/10 transition-all shadow-xl"
+			className="bg-[#0a0b0e] border border-white/5 rounded-2xl md:rounded-3xl p-4 md:p-8 flex items-center justify-between shadow-xl group hover:border-[#c8a84b]/30 transition-all"
 		>
 			<div>
 				<div className="font-mono text-[10px] text-[#52525b] uppercase tracking-[4px] mb-4 group-hover:text-white/40 transition-colors">{dir}</div>
