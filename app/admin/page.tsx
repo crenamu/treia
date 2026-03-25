@@ -91,9 +91,15 @@ export default function AdminDashboardPage() {
               <div className="relative h-8 w-32">
                 <Image
                   src="/treia_white_logo.png"
-                  alt="Treia Logo"
+                  alt="Treia Logo Dark"
                   fill
-                  className="object-contain dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0"
+                  className="object-contain hidden dark:block"
+                />
+                <Image
+                  src="/treia_black_logo.png"
+                  alt="Treia Logo Light"
+                  fill
+                  className="object-contain block dark:hidden"
                 />
               </div>
             </div>
@@ -133,9 +139,15 @@ function AdminContent() {
             <div className="relative h-7 w-28">
               <Image
                 src="/treia_white_logo.png"
-                alt="Treia Logo"
+                alt="Treia Logo Dark"
                 fill
-                className="object-contain dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0"
+                className="object-contain hidden dark:block"
+              />
+              <Image
+                src="/treia_black_logo.png"
+                alt="Treia Logo Light"
+                fill
+                className="object-contain block dark:hidden"
               />
             </div>
             <span className="text-xl text-[var(--treia-sub)] font-light border-l border-[var(--treia-section-border)] pl-4 ml-2">Admin</span>

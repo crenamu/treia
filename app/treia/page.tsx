@@ -120,11 +120,20 @@ export default function TreiaFunnelPage() {
 				<div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 					<Link href="#hero" className="flex items-center">
 						<div className="relative h-8 md:h-10 w-32 md:w-40">
+							{/* Dark Mode Logo (White Text) */}
 							<Image
 								src="/treia_white_logo.png"
-								alt="Treia Logo"
+								alt="Treia Logo Dark"
 								fill
-								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0"
+								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 hidden dark:block"
+								priority
+							/>
+							{/* Light Mode Logo (Black Text) */}
+							<Image
+								src="/treia_black_logo.png"
+								alt="Treia Logo Light"
+								fill
+								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 block dark:hidden"
 								priority
 							/>
 						</div>
@@ -266,12 +275,19 @@ export default function TreiaFunnelPage() {
 				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#c8a84b]/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
 				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32">
-					<div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0">
+					<div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
 						<Image
 							src="/treia_white_logo.png"
-							alt="Treia Gold Logo"
+							alt="Treia Gold Logo Dark"
 							fill
-							className="object-contain"
+							className="object-contain hidden dark:block"
+							priority
+						/>
+						<Image
+							src="/treia_black_logo.png"
+							alt="Treia Gold Logo Light"
+							fill
+							className="object-contain block dark:hidden"
 							priority
 						/>
 					</div>
@@ -1520,9 +1536,15 @@ export default function TreiaFunnelPage() {
 						<div className="relative h-8 w-32">
 							<Image
 								src="/treia_white_logo.png"
-								alt="Treia Logo"
+								alt="Treia Logo Dark"
 								fill
-								className="object-contain dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0 opacity-80"
+								className="object-contain hidden dark:block opacity-80"
+							/>
+							<Image
+								src="/treia_black_logo.png"
+								alt="Treia Logo Light"
+								fill
+								className="object-contain block dark:hidden opacity-80"
 							/>
 						</div>
 					</div>
