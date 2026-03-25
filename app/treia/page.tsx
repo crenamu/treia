@@ -124,47 +124,47 @@ export default function TreiaFunnelPage() {
 								src="/treia_white_logo.png"
 								alt="Treia Logo"
 								fill
-								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 dark:invert-0 invert"
+								className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
 								priority
 							/>
 						</div>
 					</Link>
 
 					{/* Desktop Nav */}
-					<nav className="hidden md:flex items-center gap-10 text-[13px] font-mono tracking-widest uppercase text-[#7a7f8e]">
+					<nav className="hidden md:flex items-center gap-10 font-mono text-[10px] tracking-[4px] uppercase text-[var(--treia-sub)]">
 						<Link
 							href="#philosophy"
-							className="hover:text-[#c8a84b] transition-colors"
+							className="hover:text-[var(--treia-gold)] transition-colors"
 						>
 							Philosophy
 						</Link>
 						<Link
 							href="#origin"
-							className="hover:text-[#c8a84b] transition-colors"
+							className="hover:text-[var(--treia-gold)] transition-colors"
 						>
 							Origin
 						</Link>
 						<Link
 							href="#benefits"
-							className="hover:text-[#c8a84b] transition-colors"
+							className="hover:text-[var(--treia-gold)] transition-colors"
 						>
 							Benefits
 						</Link>
 						<Link
 							href="#why-treia"
-							className="hover:text-[#c8a84b] transition-colors"
+							className="hover:text-[var(--treia-gold)] transition-colors"
 						>
 							Why Treia
 						</Link>
 						<Link
 							href="#proof"
-							className="hover:text-[#c8a84b] transition-colors"
+							className="hover:text-[var(--treia-gold)] transition-colors"
 						>
 							Proof
 						</Link>
 						<Link
 							href="#faq"
-							className="hover:text-[#c8a84b] transition-colors"
+							className="hover:text-[var(--treia-gold)] transition-colors"
 						>
 							FAQ
 						</Link>
@@ -271,21 +271,21 @@ export default function TreiaFunnelPage() {
 							src="/treia_white_logo.png"
 							alt="Treia Gold Logo"
 							fill
-							className="object-contain dark:invert-0 invert"
+							className="object-contain"
 							priority
 						/>
 					</div>
-					<div className="font-mono text-[12px] md:text-[15px] text-[#c8a84b] tracking-[6px] uppercase mb-10">
+					<div className="font-mono text-[12px] md:text-[15px] text-[var(--treia-gold)] tracking-[6px] uppercase mb-10">
 						Treia Gold Algorithm Engine
 					</div>
-					<div className="text-[#c8a84b] font-medium tracking-[3px] mb-10 text-sm md:text-lg border border-[#c8a84b]/20 px-6 py-2 rounded-full bg-[#c8a84b]/5 uppercase font-mono">
+					<div className="text-[var(--treia-gold)] font-medium tracking-[3px] mb-10 text-sm md:text-lg border border-[var(--treia-gold)]/20 px-6 py-2 rounded-full bg-[var(--treia-gold)]/5 uppercase font-mono">
 						Algorithm Engine v3.0
 					</div>
-					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-light leading-[1.3] tracking-tighter text-white mb-10">
+					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-light leading-[1.3] tracking-tighter text-[var(--treia-text)] mb-10">
 						투자는 당신의 일상을 <br className="hidden md:block" /> 지키기 위한
 						수단이어야 합니다.
 					</h1>
-					<p className="text-[17px] md:text-[24px] text-[#7a7f8e] max-w-3xl leading-[1.8] font-light">
+					<p className="text-[17px] md:text-[24px] text-[var(--treia-sub)] max-w-3xl leading-[1.8] font-light">
 						모니터 앞에서 보내는 긴장된 시간들, 이제는 본업과 가족에게
 						돌려주십시오. <br className="hidden lg:block" />내 손가락의
 						뇌동매매를 잠그고, 시스템의 견고한 원칙만 남깁니다.{" "}

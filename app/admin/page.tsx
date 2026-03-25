@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import LayoutWrapper from "@/app/components/LayoutWrapper";
 import { db } from "@/lib/firebase";
+import { ThemeToggle } from "@/app/components/ThemeToggle";
 
 interface License {
   id: string;
@@ -83,9 +84,12 @@ export default function AdminDashboardPage() {
   if (!isAuthorized) {
     return (
       <LayoutWrapper>
-        <div className="min-h-screen bg-[#050505] flex items-center justify-center p-6">
-          <form className="bg-[#0a0a0e] border border-[#1a1a1a] p-8 rounded-2xl w-full max-w-sm text-center" onSubmit={handleLogin}>
-            <h2 className="text-xl text-white font-medium mb-6">Admin Dashboard</h2>
+        <div className="min-h-screen bg-[var(--treia-bg)] flex items-center justify-center p-6">
+          <form className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] p-8 rounded-2xl w-full max-w-sm text-center" onSubmit={handleLogin}>
+            <div className="flex justify-center mb-6">
+              <ThemeToggle />
+            </div>
+            <h2 className="text-xl text-[var(--treia-text)] font-medium mb-6">Admin Dashboard</h2>
             <input type="password" placeholder="비밀번호 입력"
               className="w-full bg-[#111] border border-[#333] text-white p-3 rounded-lg mb-4 text-center"
               value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -110,14 +114,17 @@ function AdminContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050505] py-16 px-6">
+  return (
+    <div className="min-h-screen bg-[var(--treia-bg)] py-16 px-6 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
-        <header className="flex justify-between items-end mb-8 border-b border-[#222] pb-6">
+        <header className="flex justify-between items-end mb-8 border-b border-[var(--treia-section-border)] pb-6">
           <div>
-            <h1 className="text-3xl text-white font-light tracking-tight mb-2">Treia Admin</h1>
-            <p className="text-[#a1a1aa] text-sm">신청자 관리 · 라이선스 발급 · EA 실시간 모니터링</p>
+            <h1 className="text-3xl text-[var(--treia-text)] font-light tracking-tight mb-2">Treia Admin</h1>
+            <p className="text-[var(--treia-sub)] text-sm">신청자 관리 · 라이선스 발급 · EA 실시간 모니터링</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <div className="flex gap-2">
             {tabs.map(t => (
               <button key={t.id} onClick={() => setActiveTab(t.id as any)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition border ${
@@ -182,7 +189,7 @@ function LeadsTab() {
       {isLoading ? (
         <div className="flex justify-center py-20"><Loader2 className="animate-spin text-[#c8a84b]" size={40} /></div>
       ) : (
-        <div className="bg-[#0a0a0e] border border-[#1a1a1a] rounded-2xl overflow-hidden">
+        <div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
@@ -201,7 +208,7 @@ function LeadsTab() {
                   return (
                     <tr key={lead.id} className="hover:bg-[#111]/50 transition">
                       <td className="p-4 text-sm text-[#888]">{dateStr}</td>
-                      <td className="p-4 text-white font-medium">{lead.name}</td>
+                      <td className="p-4 text-[var(--treia-text)] font-medium">{lead.name}</td>
                       <td className="p-4 text-[#a1a1aa] font-mono text-sm">
                         <span className="flex items-center gap-2"><Mail size={14} className="text-[#555]" />{lead.contact}</span>
                       </td>
@@ -322,7 +329,7 @@ function LicensesTab() {
       </div>
 
       {showForm && (
-        <div className="bg-[#0a0a0e] border border-[#10b981]/30 rounded-2xl p-6 mb-6">
+        <div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl p-6 shadow-sm">
           <h3 className="text-white font-medium mb-5 flex items-center gap-2">
             <Key size={16} className="text-[#10b981]" />
             {editTarget ? `라이선스 수정 — ${editTarget.accountId}` : "신규 라이선스 발급"}
@@ -403,7 +410,7 @@ function LicensesTab() {
       {isLoading ? (
         <div className="flex justify-center py-20"><Loader2 className="animate-spin text-[#10b981]" size={40} /></div>
       ) : (
-        <div className="bg-[#0a0a0e] border border-[#1a1a1a] rounded-2xl overflow-hidden">
+        <div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
@@ -421,7 +428,7 @@ function LicensesTab() {
                   return (
                     <tr key={lic.id} className="hover:bg-[#111]/50 transition">
                       <td className="p-4 font-mono text-[#10b981] text-sm">{lic.accountId}</td>
-                      <td className="p-4 text-white text-sm">
+                      <td className="p-4 text-[var(--treia-text)] text-sm">
                         <div>{lic.name}</div>
                         {lic.note && <div className="text-[#555] text-xs mt-0.5">{lic.note}</div>}
                       </td>
@@ -547,15 +554,15 @@ function MonitorTab() {
               return (
                 <div key={lic.id}
                   onClick={() => setSelected(lic)}
-                  className={`bg-[#0a0a0e] border rounded-xl p-4 cursor-pointer transition ${
-                    selected?.id === lic.id ? "border-[#3b82f6]" : "border-[#1a1a1a] hover:border-[#333]"
+                  className={`bg-[var(--treia-card)] border rounded-xl p-4 cursor-pointer transition ${
+                    selected?.id === lic.id ? "border-[#3b82f6]" : "border-[var(--treia-card-border)] hover:border-[var(--treia-sub)]"
                   }`}>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       {online
                         ? <Wifi size={13} className="text-[#10b981]" />
                         : <WifiOff size={13} className="text-[#555]" />}
-                      <span className="font-mono text-sm text-white">{lic.accountId}</span>
+                      <span className="font-mono text-sm text-[var(--treia-text)]">{lic.accountId}</span>
                     </div>
                     <span className={`text-xs px-2 py-0.5 rounded-full ${TIER_COLORS[lic.tier] || ""}`}>{lic.tier}</span>
                   </div>
@@ -583,16 +590,16 @@ function MonitorTab() {
           {/* 오른쪽: 상세 */}
           <div className="lg:col-span-2">
             {!selected ? (
-              <div className="bg-[#0a0a0e] border border-[#1a1a1a] rounded-2xl p-10 text-center text-[#555]">
+              <div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl p-10 text-center text-[var(--treia-sub)]">
                 왼쪽에서 계좌를 선택하면 상세 정보가 표시됩니다.
               </div>
             ) : (
               <div className="space-y-4">
                 {/* 계좌 요약 */}
-                <div className="bg-[#0a0a0e] border border-[#1a1a1a] rounded-2xl p-6">
+                <div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <h3 className="text-white font-medium text-lg">{selected.name}</h3>
+                      <h3 className="text-[var(--treia-text)] font-medium text-lg">{selected.name}</h3>
                       <p className="font-mono text-[#10b981] text-sm">{selected.accountId}</p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -621,7 +628,7 @@ function MonitorTab() {
 
                 {/* 타임프레임별 전략 수익 */}
                 {getStrategies(selected).length > 0 && (
-                  <div className="bg-[#0a0a0e] border border-[#1a1a1a] rounded-2xl p-6">
+                  <div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl p-6 shadow-sm">
                     <h4 className="text-[#777] text-xs uppercase tracking-widest font-mono mb-4">전략별 수익 (Magic × TF)</h4>
                     <div className="space-y-2">
                       {getStrategies(selected).map((s: any, i: number) => (
@@ -643,7 +650,7 @@ function MonitorTab() {
 
                 {/* 히스토리 (최근 10개) */}
                 {selected.history && selected.history.length > 0 && (
-                  <div className="bg-[#0a0a0e] border border-[#1a1a1a] rounded-2xl p-6">
+                  <div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl p-6 shadow-sm">
                     <h4 className="text-[#777] text-xs uppercase tracking-widest font-mono mb-4">업데이트 히스토리 (최근 10회)</h4>
                     <div className="space-y-1 max-h-60 overflow-y-auto">
                       {[...selected.history].reverse().slice(0, 10).map((h: any, i: number) => (
