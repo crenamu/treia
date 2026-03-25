@@ -11,19 +11,23 @@ export const metadata: Metadata = {
 		"데이터 중심의 견고한 생존 원칙. 감정의 소모 없이 24시간 정교하게 작동하는 생존형 자산 관리 알고리즘 엔진, 트레이아.",
 };
 
+import { ThemeProvider } from "@/app/components/ThemeProvider";
+
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="ko">
-			<body className="min-h-screen flex flex-col overflow-x-hidden font-sans antialiased text-gray-900 bg-[var(--bg-beige)]">
-				<AuthProvider>
-					<LayoutWrapper>{children}</LayoutWrapper>
-					<ScrollToTop />
-					<GlobalAuthModal />
-				</AuthProvider>
+		<html lang="ko" suppressHydrationWarning>
+			<body className="min-h-screen flex flex-col overflow-x-hidden font-sans antialiased">
+				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+					<AuthProvider>
+						<LayoutWrapper>{children}</LayoutWrapper>
+						<ScrollToTop />
+						<GlobalAuthModal />
+					</AuthProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

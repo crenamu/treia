@@ -10,16 +10,38 @@
 }
 
 :root {
-	/* FinTable Warm & Premium Theme - High Contrast Version */
-	--bg-beige: #f5f3ef; /* Slightly deeper beige for better contrast */
+	/* Light Mode (Soft Off-White) */
+	--treia-bg: #faf9f6;
+	--treia-header: rgba(250, 249, 246, 0.95);
+	--treia-text: #1a1a1a;
+	--treia-sub: #5f6368;
+	--treia-card: #ffffff;
+	--treia-card-border: #e1e4e8;
+	--treia-gold: #b8963d;
+	--treia-section-border: #eeeeee;
+
+	/* Default Base Colors */
+	--bg-beige: #f5f3ef;
 	--bg-card: #f7f6f2;
-	--text-main: #111827; /* Darker charcoal for main text */
-	--text-sub: #374151; /* Darker gray for sub text */
-	--text-muted: #6b7280; /* Slightly darker muted text */
-	--border-light: #e5e7eb; /* More visible border */
-	--accent-green: #059669; /* Slightly deeper green */
-	--accent-orange: #ea580c; /* Deeper orange */
+	--text-main: #111827;
+	--text-sub: #374151;
+	--text-muted: #6b7280;
+	--border-light: #e5e7eb;
+	--accent-green: #059669;
+	--accent-orange: #ea580c;
 	--bg-dark: #12141a;
+}
+
+.dark {
+	/* Dark Mode (Original Premium) */
+	--treia-bg: #050505;
+	--treia-header: rgba(5, 5, 5, 0.95);
+	--treia-text: #f2f2f2;
+	--treia-sub: #7a7f8e;
+	--treia-card: #0a0b0e;
+	--treia-card-border: #1e2028;
+	--treia-gold: #c8a84b;
+	--treia-section-border: #111111;
 }
 
 @layer base {

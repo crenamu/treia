@@ -10,6 +10,7 @@ import Link from "next/link";
 import { motion, useInView, AnimatePresence, animate } from "framer-motion";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Script from 'next/script';
+import { ThemeToggle } from "@/app/components/ThemeToggle";
 
 export default function TreiaFunnelPage() {
 	const [isNavOpen, setIsNavOpen] = useState(false);
@@ -113,9 +114,9 @@ export default function TreiaFunnelPage() {
 	const dFill = `${dPath} L${width},${height} L0,${height} Z`;
 
 	return (
-		<div className="w-full bg-[#050505] text-[#f2f2f2] font-sans break-keep overflow-x-hidden selection:bg-[#c8a84b] selection:text-[#050505]">
+		<div className="w-full bg-[var(--treia-bg)] text-[var(--treia-text)] font-sans break-keep overflow-x-hidden selection:bg-[#c8a84b] selection:text-[#050505]">
 			{/* Sticky Header */}
-			<header className="fixed top-0 left-0 w-full z-[100] bg-[#050505]/95 border-b border-white/5">
+			<header className="fixed top-0 left-0 w-full z-[100] bg-[var(--treia-header)] border-b border-white/5 backdrop-blur-md">
 				<div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 					<Link href="#hero" className="flex items-center">
 						<div className="relative h-8 md:h-10 w-32 md:w-40">
@@ -123,7 +124,7 @@ export default function TreiaFunnelPage() {
 								src="/treia_white_logo.png"
 								alt="Treia Logo"
 								fill
-								className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
+								className="object-contain object-left group-hover:scale-105 transition-transform duration-300 dark:invert-0 invert"
 								priority
 							/>
 						</div>
@@ -167,23 +168,29 @@ export default function TreiaFunnelPage() {
 						>
 							FAQ
 						</Link>
-						<Link
-							href="#apply"
-							className="bg-[#c8a84b] text-[#050505] px-5 py-2.5 rounded-full font-bold hover:bg-[#d4b55c] transition-all hover:scale-105"
-						>
-							Apply
-						</Link>
+						<div className="flex items-center gap-4">
+							<ThemeToggle />
+							<Link
+								href="#apply"
+								className="bg-[#c8a84b] text-[#050505] px-5 py-2.5 rounded-full font-bold hover:bg-[#d4b55c] transition-all hover:scale-105"
+							>
+								Apply
+							</Link>
+						</div>
 					</nav>
 
 					{/* Mobile Menu Toggle */}
-					<button
-						type="button"
-						className="md:hidden text-white"
-						onClick={() => setIsNavOpen(!isNavOpen)}
-						aria-label="Toggle Menu"
-					>
-						{isNavOpen ? <X size={28} /> : <Menu size={28} />}
-					</button>
+					<div className="flex md:hidden items-center gap-4 text-white">
+						<ThemeToggle />
+						<button
+							type="button"
+							className="text-white"
+							onClick={() => setIsNavOpen(!isNavOpen)}
+							aria-label="Toggle Menu"
+						>
+							{isNavOpen ? <X size={28} /> : <Menu size={28} />}
+						</button>
+					</div>
 				</div>
 
 				{/* Mobile Nav */}
@@ -264,7 +271,7 @@ export default function TreiaFunnelPage() {
 							src="/treia_white_logo.png"
 							alt="Treia Gold Logo"
 							fill
-							className="object-contain"
+							className="object-contain dark:invert-0 invert"
 							priority
 						/>
 					</div>
@@ -300,7 +307,7 @@ export default function TreiaFunnelPage() {
 			{/* Screen 2: The Philosophy */}
 			<section
 				id="philosophy"
-				className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111]"
+				className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[var(--treia-section-border)]"
 			>
 				<div className="absolute bottom-0 w-full h-[50vh] bg-gradient-to-t from-[#c8a84b]/5 to-transparent z-0"></div>
 
@@ -331,7 +338,7 @@ export default function TreiaFunnelPage() {
 			{/* Screen 2.5: THE ORIGIN */}
 			<section
 				id="origin"
-				className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-24 border-t border-[#111] bg-[#050505]"
+				className="relative min-h-[100svh] flex flex-col justify-center items-center px-6 py-24 border-t border-[var(--treia-section-border)] bg-[var(--treia-bg)]"
 			>
 				<div className="max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
 					<div className="text-center mb-16">
@@ -508,7 +515,7 @@ export default function TreiaFunnelPage() {
 			{/* Screen 5: Benefit 1 - Time Freedom */}
 			<section
 				id="benefits"
-				className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111] bg-[#030303]"
+				className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[var(--treia-section-border)] bg-[var(--treia-bg)]"
 			>
 				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-900/5 blur-[120px] rounded-full pointer-events-none"></div>
 
@@ -1885,21 +1892,21 @@ function InfographicProfitBar({ triggered, delay = 800 }: { triggered: boolean; 
 					<motion.div style={{ width: `${pp}%` }} className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-l-full shadow-[0_0_15px_#05966950]" />
 					<motion.div style={{ width: `${lp}%` }} className="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-r-full shadow-[0_0_15px_#e0525250]" />
 				</div>
-				<div className="flex justify-between font-mono text-[10px] text-[#52525b] uppercase tracking-widest pt-2">
-					<span>{pp}% Performance</span>
-					<span className="text-white/60">Profit Factor 2.38</span>
-					<span>{lp}% Risk Impact</span>
+				<div className="flex flex-wrap justify-between gap-y-2 font-mono text-[9px] md:text-[10px] text-[#52525b] uppercase tracking-[1px] md:tracking-widest pt-2">
+					<span className="text-emerald-400/80">{pp}% Performance</span>
+					<span className="text-white/60 hidden xs:block">Profit Factor 2.38</span>
+					<span className="text-red-400/80">{lp}% Risk Impact</span>
 				</div>
 			</div>
 
-			<div className="grid grid-cols-2 gap-6">
-				<div className="bg-white/5 border border-white/5 rounded-3xl p-6 hover:bg-emerald-500/5 transition-colors group">
-					<div className="font-mono text-[10px] text-[#52525b] uppercase tracking-[3px] mb-3 group-hover:text-emerald-500/50 transition-colors">Avg Profit</div>
+			<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+				<div className="bg-white/5 border border-white/5 rounded-2xl p-5 md:p-6 hover:bg-emerald-500/5 transition-colors group">
+					<div className="font-mono text-[9px] md:text-[10px] text-[#52525b] uppercase tracking-[3px] mb-2 group-hover:text-emerald-500/50 transition-colors">Avg Profit</div>
 					<div className="text-2xl font-bold text-emerald-400 font-mono">+$29.53</div>
 					<div className="text-[10px] text-[#333] mt-2 group-hover:text-[#444]">Max +$533.39</div>
 				</div>
-				<div className="bg-white/5 border border-white/5 rounded-3xl p-6 hover:bg-red-500/5 transition-colors group">
-					<div className="font-mono text-[10px] text-[#52525b] uppercase tracking-[3px] mb-3 group-hover:text-red-500/50 transition-colors">Avg Loss</div>
+				<div className="bg-white/5 border border-white/5 rounded-2xl p-5 md:p-6 hover:bg-red-500/5 transition-colors group">
+					<div className="font-mono text-[9px] md:text-[10px] text-[#52525b] uppercase tracking-[3px] mb-2 group-hover:text-red-500/50 transition-colors">Avg Loss</div>
 					<div className="text-2xl font-bold text-red-400 font-mono">-$86.18</div>
 					<div className="text-[10px] text-[#333] mt-2 group-hover:text-[#444]">Max -$839.46</div>
 				</div>
