@@ -266,7 +266,7 @@ export default function TreiaFunnelPage() {
 				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#c8a84b]/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
 				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32">
-					<div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
+					<div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center dark:invert-0 invert hue-rotate-180 dark:hue-rotate-0">
 						<Image
 							src="/treia_white_logo.png"
 							alt="Treia Gold Logo"
@@ -295,10 +295,10 @@ export default function TreiaFunnelPage() {
 				</div>
 
 				<div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 reveal opacity-0 translate-y-4 transition-all duration-1000 delay-500">
-					<span className="font-mono text-[9px] tracking-[4px] uppercase text-[#333]">
+					<span className="font-mono text-[9px] tracking-[4px] uppercase text-[var(--treia-sub)]">
 						Scroll
 					</span>
-					<div className="w-px h-10 bg-[#1a1a1a] overflow-hidden relative">
+					<div className="w-px h-10 bg-[var(--treia-section-border)] overflow-hidden relative">
 						<div className="absolute inset-0 bg-[#c8a84b]/20 animate-[pulse_2s_infinite]"></div>
 					</div>
 				</div>
@@ -380,9 +380,9 @@ export default function TreiaFunnelPage() {
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative text-left">
-						<div className="absolute top-1/2 left-0 right-0 h-px bg-[#1a1a1a] hidden md:block -translate-y-1/2 z-0"></div>
+						<div className="absolute top-1/2 left-0 right-0 h-px bg-[var(--treia-card-border)] hidden md:block -translate-y-1/2 z-0"></div>
 
-						<div className="bg-[#0f0f12] border border-[#c8a84b]/30 p-8 rounded-2xl relative z-10 shadow-xl group hover:border-[#c8a84b] transition-colors">
+						<div className="bg-[var(--treia-card)] border border-[#c8a84b]/30 p-8 rounded-2xl relative z-10 shadow-xl group hover:border-[#c8a84b] transition-colors">
 							<div className="absolute top-0 right-8 -translate-y-1/2 bg-[#c8a84b] text-[#050505] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
 								Current
 							</div>
@@ -396,23 +396,23 @@ export default function TreiaFunnelPage() {
 							</p>
 						</div>
 
-						<div className="bg-[#0a0a0d] border border-[#1a1a1a] p-8 rounded-2xl relative z-10 shadow-lg">
-							<div className="text-[#444] font-mono text-xl mb-4">2단계</div>
-							<h4 className="text-white/60 text-lg font-medium mb-4">
+						<div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] p-8 rounded-2xl relative z-10 shadow-lg group hover:border-[#c8a84b]/30 transition-colors">
+							<div className="text-[var(--treia-sub)] font-mono text-xl mb-4">2단계</div>
+							<h4 className="text-[var(--treia-text)] text-lg font-medium mb-4">
 								실계좌 테스트
 							</h4>
-							<p className="text-[#444] text-sm leading-relaxed font-light">
+							<p className="text-[var(--treia-sub)] text-sm leading-relaxed font-light">
 								모의 테스트가 안정화되면 실제 자금으로 전환합니다. 수익률과
 								MDD를 실계좌 기준으로 다시 검증합니다.
 							</p>
 						</div>
 
-						<div className="bg-[#0a0a0d] border border-[#1a1a1a] p-8 rounded-2xl relative z-10 shadow-lg">
-							<div className="text-[#444] font-mono text-xl mb-4">3단계</div>
-							<h4 className="text-white/60 text-lg font-medium mb-4">
+						<div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] p-8 rounded-2xl relative z-10 shadow-lg group hover:border-[#c8a84b]/30 transition-colors">
+							<div className="text-[var(--treia-sub)] font-mono text-xl mb-4">3단계</div>
+							<h4 className="text-[var(--treia-text)] text-lg font-medium mb-4">
 								관전자 초대
 							</h4>
-							<p className="text-[#444] text-sm leading-relaxed font-light">
+							<p className="text-[var(--treia-sub)] text-sm leading-relaxed font-light">
 								실계좌 트랙레코드가 쌓이면 MT5 관전자 계정을 선별 초대합니다.
 								숫자를 직접 보고 판단하세요.
 							</p>
@@ -423,8 +423,8 @@ export default function TreiaFunnelPage() {
 			</section>
 
 			{/* Screen 3: The Canvas */}
-			<section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[#111] overflow-hidden">
-				<div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#c8a84b]/10 blur-[150px] mix-blend-screen pointer-events-none"></div>
+			<section className="relative min-h-[100svh] flex flex-col justify-center items-center text-center px-6 border-t border-[var(--treia-section-border)] overflow-hidden">
+				<div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#c8a84b]/10 blur-[150px] pointer-events-none"></div>
 
 				<div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
 					<div className="flex justify-center mb-8">
@@ -448,7 +448,7 @@ export default function TreiaFunnelPage() {
 						여기에 상승과 하락 모든 방향에서 유연하게 대응할 수 있는
 						CFD(차액결제거래) 환경을 결합하여,{" "}
 						<br className="hidden md:block" />
-						<strong className="text-white font-medium">
+						<strong className="text-[var(--treia-text)] font-medium">
 							시장의 흐름에 가장 순응하는 투자 모델
 						</strong>
 						을 완성했습니다.
@@ -521,7 +521,7 @@ export default function TreiaFunnelPage() {
 
 				<div className="relative z-10 max-w-4xl mx-auto reveal opacity-0 translate-y-12 transition-all duration-1000">
 					<div className="mb-8 flex justify-center">
-						<div className="w-20 h-20 rounded-2xl bg-[#0a0b0e] border border-[#1e2028] flex items-center justify-center shadow-2xl">
+						<div className="w-20 h-20 rounded-2xl bg-[var(--treia-card)] border border-[var(--treia-card-border)] flex items-center justify-center shadow-2xl">
 							<Clock className="w-10 h-10 text-blue-400" strokeWidth={1.5} />
 						</div>
 					</div>
@@ -638,7 +638,7 @@ export default function TreiaFunnelPage() {
 						<div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-[32px] p-10 md:p-14 shadow-2xl relative overflow-visible">
 							<div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#ef4444]/5 blur-[80px] rounded-full pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
 
-							<h3 className="text-[#a1a1aa] font-mono text-sm tracking-widest uppercase mb-16 text-center lg:text-left relative z-10">
+							<h3 className="text-[var(--treia-sub)] font-mono text-sm tracking-widest uppercase mb-16 text-center lg:text-left relative z-10">
 								THE TRAP OF DRAWDOWN
 							</h3>
 
@@ -655,7 +655,7 @@ export default function TreiaFunnelPage() {
 											viewport={{ once: true }}
 											className="h-4 bg-[#ef4444] rounded-full relative shadow-[0_0_15px_rgba(239,68,68,0.3)]"
 										>
-											<span className="absolute top-8 left-0 text-[13px] text-[#7a7f8e] md:whitespace-nowrap font-medium tracking-wide">
+											<span className="absolute top-8 left-0 text-[13px] text-[var(--treia-sub)] md:whitespace-nowrap font-medium tracking-wide">
 												계좌 반토막
 											</span>
 										</motion.div>
@@ -711,13 +711,13 @@ export default function TreiaFunnelPage() {
 						<table className="w-full text-left min-w-[600px] border-collapse">
 							<thead>
 								<tr className="border-b border-[var(--treia-section-border)]">
-									<th className="py-6 px-4 text-[#444] font-mono text-xs uppercase tracking-widest">
+									<th className="py-6 px-4 text-[var(--treia-sub)] font-mono text-xs uppercase tracking-widest">
 										분류
 									</th>
-									<th className="py-6 px-4 text-[#7a7f8e] font-normal text-sm">
+									<th className="py-6 px-4 text-[var(--treia-sub)] font-normal text-sm">
 										일반 자동매매
 									</th>
-									<th className="py-6 px-4 text-[#c8a84b] font-bold text-lg">
+									<th className="py-6 px-4 text-[#c8a84b] font-bold text-lg text-left">
 										Treia Gold Engine
 									</th>
 								</tr>
@@ -757,7 +757,7 @@ export default function TreiaFunnelPage() {
 								].map((row) => (
 									<tr
 										key={row.label}
-										className="border-b border-[#111] hover:bg-white/[0.02] transition-colors"
+										className="border-b border-[var(--treia-card-border)] hover:bg-[var(--treia-sub)]/5 transition-colors"
 									>
 										<td className="py-6 px-4 text-[var(--treia-sub)] font-light">
 											{row.label}
@@ -817,7 +817,7 @@ export default function TreiaFunnelPage() {
 								<div className="text-[#c8a84b] mb-1">
 									Data Source: MT5 데모 운용 서버 (실 구동 테스트)
 								</div>
-								<div className="text-[12px] text-[#a1a1aa] normal-case tracking-normal mt-2">
+								<div className="text-[12px] text-[var(--treia-sub)] normal-case tracking-normal mt-2">
 									백테스트가 아닌 실제 시장에서 구동한 모의 프론트테스트
 									결과입니다. <br className="md:hidden" /> 브로커: <strong>인피녹스(5분봉) · 한텍(2분봉)</strong> / 기간:
 									1개월 / 종목: XAUUSD / 세팅: 멀티타임프레임 라이브
@@ -878,7 +878,7 @@ export default function TreiaFunnelPage() {
 										<span className="block text-[#3b82f6] font-outfit text-2xl md:text-3xl font-light">
 											+$4,931.50
 										</span>
-										<span className="text-[#7a7f8e] text-xs uppercase tracking-widest">
+										<span className="text-[var(--treia-sub)] text-xs uppercase tracking-widest">
 											Net Profit Flow
 										</span>
 									</div>
@@ -964,7 +964,7 @@ export default function TreiaFunnelPage() {
 										<span className="text-[#10B981] font-outfit text-xl md:text-2xl font-light mb-1">
 											+$<Counter value={1370} />
 										</span>
-										<span className="text-[#a1a1aa] text-[10px] uppercase tracking-widest">
+										<span className="text-[var(--treia-sub)] text-[10px] uppercase tracking-widest">
 											Gross Profit
 										</span>
 									</div>
@@ -1038,7 +1038,7 @@ export default function TreiaFunnelPage() {
 							<MainBacktestInfographic />
 
 							<div className="flex flex-col items-center mt-32">
-								<p className="text-[#7a7f8e] text-xs font-mono uppercase tracking-[5px]">
+								<p className="text-[var(--treia-sub)] text-xs font-mono uppercase tracking-[5px]">
 									Statistical Edge Verification
 								</p>
 							</div>
@@ -1706,8 +1706,9 @@ function InfographicChartSection({ scriptLoaded, triggered }: { scriptLoaded: bo
 		const Chart = (window as any).Chart
 		if (!Chart) return
 		const ctx = canvasRef.current.getContext('2d')!
+		const isDark = document.documentElement.classList.contains('dark')
 		const grad = ctx.createLinearGradient(0, 0, 0, 300)
-		grad.addColorStop(0, 'rgba(16,185,129,.25)')
+		grad.addColorStop(0, isDark ? 'rgba(16,185,129,.25)' : 'rgba(16,185,129,.15)')
 		grad.addColorStop(1, 'rgba(16,185,129,0)')
 		chartRef.current = new Chart(canvasRef.current, {
 			type: 'line',
@@ -1740,8 +1741,13 @@ function InfographicChartSection({ scriptLoaded, triggered }: { scriptLoaded: bo
 					x: { display: false },
 					y: {
 						display: true,
-						grid: { color: 'rgba(255,255,255,.04)' },
-						ticks: { color: '#52525b', font: { size: 11, family: 'monospace' }, callback: (v: any) => '$' + Number(v).toLocaleString(), maxTicksLimit: 5 },
+						grid: { color: isDark ? 'rgba(255,255,255,.04)' : 'rgba(0,0,0,.04)' },
+						ticks: { 
+							color: isDark ? '#7a7f8e' : '#52525b', 
+							font: { size: 11, family: 'monospace' }, 
+							callback: (v: any) => '$' + Number(v).toLocaleString(), 
+							maxTicksLimit: 5 
+						},
 						border: { display: false },
 					}
 				},
@@ -1762,7 +1768,7 @@ function InfographicChartSection({ scriptLoaded, triggered }: { scriptLoaded: bo
 			transition={{ duration: 1 }}
 			className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-[40px] p-8 md:p-12 relative overflow-hidden group shadow-2xl"
 		>
-			<div className="absolute top-0 right-0 w-64 h-64 bg-[#10B981]/10 blur-[100px] rounded-full group-hover:bg-[#10B981]/20 transition-all duration-1000" />
+			<div className="absolute top-0 right-0 w-64 h-64 bg-[#10B981]/5 dark:bg-[#10B981]/10 blur-[100px] rounded-full group-hover:bg-[#10B981]/20 transition-all duration-1000" />
 			
 			<div className="flex justify-between items-end mb-12 relative z-10">
 				<div>
@@ -1781,7 +1787,19 @@ function InfographicChartSection({ scriptLoaded, triggered }: { scriptLoaded: bo
 					<motion.div 
 						initial={{ opacity: 0, scale: 0.9 }}
 						animate={{ opacity: 1, scale: 1 }}
-						style={{ position: 'absolute', left: Math.min(tooltip.x - 16, 500), top: tooltip.y - 75, background: 'var(--treia-card)', border: '1px solid #10B981', borderRadius: 12, padding: '12px 16px', fontSize: 13, pointerEvents: 'none', zIndex: 50, boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}
+						style={{ 
+							position: 'absolute', 
+							left: Math.min(tooltip.x - 16, 500), 
+							top: tooltip.y - 75, 
+							background: 'var(--treia-card)', 
+							border: '1px solid var(--treia-card-border)', 
+							borderRadius: 12, 
+							padding: '12px 16px', 
+							fontSize: 13, 
+							pointerEvents: 'none', 
+							zIndex: 50, 
+							boxShadow: '0 10px 30px rgba(0,0,0,0.2)' 
+						}}
 					>
 						<div className="text-[var(--treia-sub)] text-[10px] font-mono mb-1 uppercase tracking-widest">{tooltip.date}</div>
 						<div className="text-[#10B981] font-bold font-mono text-lg">{tooltip.val}</div>
@@ -1848,7 +1866,7 @@ function InfographicWinRing({ triggered, delay = 600 }: { triggered: boolean; de
 					<text x="70" y="65" textAnchor="middle" fill="#10B981" fontSize="24" fontWeight="700" className="font-mono tracking-tighter">
 						{String(rate).replace(/(\.\d).*/, '$1')}%
 					</text>
-					<text x="70" y="86" textAnchor="middle" fill="#52525b" fontSize="10" className="font-mono tracking-widest uppercase">Win Rate</text>
+					<text x="70" y="86" textAnchor="middle" fill="currentColor" fontSize="10" className="font-mono tracking-widest uppercase opacity-40">Win Rate</text>
 				</svg>
 			</div>
 			
