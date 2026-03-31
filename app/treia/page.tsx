@@ -297,9 +297,11 @@ export default function TreiaFunnelPage() {
 							Algorithm Engine v3.0
 						</span>
 					</div>
-					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[72px] font-black leading-[1.1] tracking-[-0.04em] text-[var(--treia-text)] mb-12 impeccable-gradient-text px-4">
-						투자는 당신의 일상을 <br className="hidden md:block" /> 지키기 위한
-						수단이어야 합니다.
+					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-black leading-[1.2] tracking-[-0.04em] text-[var(--treia-text)] mb-12 px-4 whitespace-nowrap">
+						<span className="text-[var(--treia-gold)]">투자는</span>{" "}
+						<span className="bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">당신의 일상을</span> <br className="hidden md:block" />
+						<span className="bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] inline-block mt-2">지키기 위한 수단</span>
+						<span className="text-[var(--treia-gold)]">이어야 합니다.</span>
 					</h1>
 					<p className="text-[17px] md:text-[24px] text-[var(--treia-sub)] max-w-3xl leading-[1.8] font-light">
 						모니터 앞에서 보내는 긴장된 시간들, 이제는 본업과 가족에게
@@ -808,11 +810,10 @@ export default function TreiaFunnelPage() {
 			>
 				<div className="max-w-6xl w-full mx-auto relative z-10 flex flex-col items-center flex-1">
 					<div className="text-center mb-16 reveal opacity-0 translate-y-12 transition-all duration-1000">
-						<h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-[var(--treia-text)] mb-8 leading-[1.4] tracking-tight">
-							실제 데이터로 증명된 <br className="md:hidden" />{" "}
-							<span className="font-normal text-[#c8a84b]">
-								시스템의 방어력.
-							</span>
+						<h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-[var(--treia-text)] mb-10 leading-[1.2] tracking-tight">
+							실제 데이터로 <br className="md:hidden" />{" "}
+							<span className="bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">증명된</span> <br className="md:hidden" />{" "}
+							시스템의 방어력
 						</h2>
 						<p className="text-[17px] md:text-[22px] text-[var(--treia-sub)] leading-[1.8] font-light max-w-4xl mx-auto">
 							방향이 어긋났을 때는{" "}
@@ -843,43 +844,45 @@ export default function TreiaFunnelPage() {
 							<div>초기 자본: $5,000.00</div>
 						</div>
 
-						<div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-[var(--treia-card-border)]">
-							<div className="flex flex-col items-center pt-6 md:pt-0">
-								<div className="text-[var(--treia-sub)] font-mono text-[12px] uppercase tracking-[2px] mb-4">
-									라이브 포워드 테스트
+						<div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-center divide-y md:divide-y-0 md:divide-x divide-white/5 items-center">
+							<div className="flex flex-col items-center pt-8 md:pt-0 group">
+								<div className="text-[var(--treia-sub)] font-mono text-[10px] uppercase tracking-[4px] mb-6 opacity-60">
+									Live Verification
 								</div>
-								<div className="text-5xl md:text-6xl font-light text-[var(--treia-text)]">
+								<div className="text-6xl font-black text-[var(--treia-text)] tracking-tighter mb-2">
 									<Counter value={147} />
-									<span className="text-2xl text-[#c8a84b] ml-1">회</span>
+									<span className="text-xl text-[#c8a84b] ml-1 font-bold">건</span>
 								</div>
+								<div className="bg-[#c8a84b] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest mt-2">Verified</div>
 							</div>
-							<div className="flex flex-col items-center pt-6 md:pt-0">
-								<div className="text-[var(--treia-sub)] font-mono text-[12px] uppercase tracking-[2px] mb-4">
-									알고리즘 승률
+							<div className="flex flex-col items-center pt-8 md:pt-0 group">
+								<div className="text-[var(--treia-sub)] font-mono text-[10px] uppercase tracking-[4px] mb-6 opacity-60">
+									Win Rate
 								</div>
-								<div className="text-5xl md:text-6xl font-light text-[var(--treia-text)]">
+								<div className="text-6xl font-black text-[#c8a84b] tracking-tighter mb-2">
 									<Counter value={80.95} decimals={2} />
-									<span className="text-2xl text-[#c8a84b] font-outfit ml-1">
-										%
-									</span>
+									<span className="text-xl ml-1 font-bold opacity-80">%</span>
 								</div>
+								<div className="bg-white/10 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest mt-2 border border-white/5">Superior</div>
 							</div>
-							<div className="flex flex-col items-center pt-6 md:pt-0">
-								<div className="text-[var(--treia-sub)] font-mono text-[12px] uppercase tracking-[2px] mb-4">
-									수익 창출 지표 (Profit Factor)
+							<div className="flex flex-col items-center pt-8 md:pt-0 group">
+								<div className="text-[var(--treia-sub)] font-mono text-[10px] uppercase tracking-[4px] mb-6 opacity-60">
+									Profit Factor
 								</div>
-								<div className="text-5xl md:text-6xl font-light text-[var(--treia-text)] font-outfit">
+								<div className="text-6xl font-black text-[var(--treia-text)] tracking-tighter mb-2">
 									<Counter value={3.58} decimals={2} />
 								</div>
+								<div className="bg-[#c8a84b] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest mt-2">Robust</div>
 							</div>
-							<div className="flex flex-col items-center pt-6 md:pt-0 pl-0 md:pl-4">
-								<div className="text-[var(--treia-sub)] font-mono text-[12px] uppercase tracking-[2px] mb-4">
-									최대 낙폭 (MAX DD)
+							<div className="flex flex-col items-center pt-8 md:pt-0 group">
+								<div className="text-[var(--treia-sub)] font-mono text-[10px] uppercase tracking-[4px] mb-6 opacity-60">
+									Max Drawdown
 								</div>
-								<div className="text-5xl md:text-6xl font-light text-[#ef4444]">
+								<div className="text-6xl font-black text-[#ef4444] tracking-tighter mb-2">
 									<Counter value={14.72} decimals={2} />
-									<span className="text-2xl text-[#ef4444] font-outfit ml-1">%</span>
+									<span className="text-xl ml-1 font-bold opacity-80">%</span>
 								</div>
+								<div className="bg-[#ef4444]/20 text-[#ef4444] text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest mt-2 border border-[#ef4444]/20">Controlled</div>
 							</div>
 						</div>
 
