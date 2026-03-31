@@ -9,7 +9,7 @@ const firestoreQuery = query;
 import {
   CheckCircle2, ChevronDown, Clock, Loader2, Mail, Send,
   Plus, Trash2, Shield, ShieldOff, Key, Users, Activity,
-  TrendingUp, TrendingDown, Wifi, WifiOff, RefreshCw
+  TrendingUp, TrendingDown, Wifi, WifiOff, RefreshCw, Lock
 } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
