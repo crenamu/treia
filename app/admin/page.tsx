@@ -2,8 +2,10 @@
 
 import {
   collection, getDocs, orderBy, query,
-  doc, setDoc, updateDoc, deleteDoc, serverTimestamp, getDoc
+  doc, setDoc, updateDoc, deleteDoc, serverTimestamp, getDoc,
+  onSnapshot
 } from "firebase/firestore";
+const firestoreQuery = query;
 import {
   CheckCircle2, ChevronDown, Clock, Loader2, Mail, Send,
   Plus, Trash2, Shield, ShieldOff, Key, Users, Activity,
@@ -13,7 +15,6 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import LayoutWrapper from "@/app/components/LayoutWrapper";
 import { db } from "@/lib/firebase";
-import { onSnapshot, collection, query as firestoreQuery } from "firebase/firestore";
 import { ThemeToggle } from "@/app/components/ThemeToggle";
 import { useTheme } from "next-themes";
 
