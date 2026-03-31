@@ -183,6 +183,14 @@ function LeadsTab() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sendingId, setSendingId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [emailTemplate, setEmailTemplate] = useState("intro");
+
+  const templates = [
+    { id: "intro",  label: "관전자 안내", desc: "MT5 접속 정보 및 가이드 발송" },
+    { id: "notice", label: "시스템 공지", desc: "서버 점검 및 정책 변경 안내" },
+    { id: "promo",  label: "정식 등록", desc: "라이선스 가입 및 정식 런칭 안내" },
+  ];
 
   const fetchLeads = async () => {
     setIsLoading(true);
@@ -207,14 +215,57 @@ function LeadsTab() {
       const result = await res.json();
       if (result.success) { alert("발송 완료!"); fetchLeads(); }
       else alert("발송 실패: " + result.message);
-    } catch { alert("네트워크 오류"); }
+    } catch (e: any) { 
+      alert(`발송 실패: ${e.message || "네트워크 오류"}\n\nTIP: .env.local에 SMTP_USER, SMTP_PASS 설정이 되어있는지 확인해주세요.`); 
+    }
     finally { setSendingId(null); }
+  };
+
+  const handleBatchSend = async () => {
+    if (!confirm(`선택한 ${selectedIds.length}명에게 '${templates.find(t => t.id === emailTemplate)?.label}' 템플릿으로 이메일을 발송하시겠습니까?`)) return;
+    setSendingId("batch");
+    let successCount = 0;
+    
+    for (const id of selectedIds) {
+      const lead = leads.find(l => l.id === id);
+      if (!lead || lead.status === "approved") continue;
+      
+      try {
+        const res = await fetch("/api/admin/send-email", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ leadId: id, email: lead.contact, name: lead.name, templateId: emailTemplate, notionUrl: window.location.origin + "/guide" }),
+        });
+        if (res.ok) successCount++;
+      } catch (e) { console.error(`Batch send error for ${id}:`, e); }
+    }
+    
+    alert(`${successCount}명에게 발송 완료!`);
+    setSelectedIds([]);
+    fetchLeads();
+    setSendingId(null);
   };
 
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <p className="text-[var(--treia-sub)] text-sm">{leads.length}명 신청</p>
+        <div className="flex items-center gap-4">
+          <p className="text-[var(--treia-sub)] text-sm">{leads.length}명 신청</p>
+          {selectedIds.length > 0 && (
+            <div className="flex items-center gap-2 animate-in fade-in slide-in-from-left-2">
+              <span className="text-[#c8a84b] text-sm font-bold">{selectedIds.length}명 선택됨</span>
+              <select className="bg-[var(--treia-bg)] border border-[var(--treia-card-border)] text-[var(--treia-text)] text-xs p-1.5 rounded-lg"
+                value={emailTemplate} onChange={(e) => setEmailTemplate(e.target.value)}>
+                {templates.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}
+              </select>
+              <button 
+                onClick={() => handleBatchSend()}
+                disabled={!!sendingId}
+                className="bg-[#c8a84b] text-black px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-[#d4b55c] transition disabled:opacity-50">
+                {sendingId ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />} 일괄 발송
+              </button>
+            </div>
+          )}
+        </div>
         <button onClick={fetchLeads} className="bg-[var(--treia-card)] text-[var(--treia-sub)] px-4 py-2 rounded-lg border border-[var(--treia-card-border)] text-sm flex items-center gap-2 hover:bg-[var(--treia-bg)]">
           <RefreshCw size={16} /> 새로고침
         </button>
@@ -227,6 +278,11 @@ function LeadsTab() {
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-[var(--treia-bg)] border-b border-[var(--treia-card-border)]">
+                  <th className="p-4 w-10">
+                    <input type="checkbox" className="accent-[#c8a84b]"
+                      checked={selectedIds.length === leads.length && leads.length > 0}
+                      onChange={(e) => setSelectedIds(e.target.checked ? leads.map(l => l.id) : [])} />
+                  </th>
                   {["Date","Name","Email","Reason / Inquiry","Status","Action"].map(h => (
                     <th key={h} className="p-4 text-[var(--treia-sub)] font-medium text-sm">{h}</th>
                   ))}
@@ -239,7 +295,15 @@ function LeadsTab() {
                   const dateStr = dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
                   const isApproved = lead.status === "approved";
                   return (
-                    <tr key={lead.id} className="hover:bg-[var(--treia-sub)]/5 transition">
+                    <tr key={lead.id} className={`hover:bg-[var(--treia-sub)]/5 transition ${selectedIds.includes(lead.id) ? "bg-[#c8a84b]/5" : ""}`}>
+                      <td className="p-4 text-center">
+                        <input type="checkbox" className="accent-[#c8a84b]"
+                          checked={selectedIds.includes(lead.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) setSelectedIds(p => [...p, lead.id]);
+                            else setSelectedIds(p => p.filter(id => id !== lead.id));
+                          }} />
+                      </td>
                       <td className="p-4 text-sm text-[var(--treia-sub)]">{dateStr}</td>
                       <td className="p-4 text-[var(--treia-text)] font-medium">{lead.name}</td>
                       <td className="p-4 text-[var(--treia-sub)] font-mono text-sm">
