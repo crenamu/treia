@@ -80,6 +80,10 @@ export default function AdminDashboardPage() {
   const [mounted, setMounted] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState(""); // OTP 입력 추가
+  const [isTrusted, setIsTrusted] = useState(false); // 신뢰 기기 체크
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -88,35 +92,97 @@ export default function AdminDashboardPage() {
   const currentTheme = mounted ? theme : 'dark';
   const logo_src = currentTheme === 'dark' ? '/white_logo.png' : '/black_logo.png';
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "treia1234!") setIsAuthorized(true);
-    else alert("비밀번호가 일치하지 않습니다.");
+    setIsLoading(true);
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/admin/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password, otp, trustDevice: isTrusted }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsAuthorized(true);
+      } else {
+        alert(data.message || "인증에 실패했습니다.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("인증 서버 오류가 발생했습니다.");
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // 페이지 로드 시 기존 세션 유효성 체크
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/admin/auth");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.authenticated) setIsAuthorized(true);
+        }
+      } catch (e) {
+        console.error("Auth check failed:", e);
+      }
+    };
+    checkAuth();
+  }, []);
 
   if (!isAuthorized) {
     return (
       <LayoutWrapper>
         <div className="min-h-screen bg-[var(--treia-bg)] flex items-center justify-center p-6">
-          <form className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] p-8 rounded-2xl w-full max-w-sm text-center" onSubmit={handleLogin}>
-            <div className="flex justify-center mb-6">
-              <div className="relative h-8 w-32">
-                <Image
-                  src={logo_src}
-                  alt="Treia Logo"
-                  fill
-                  className="object-contain"
-                />
+          <form className="impeccable-card p-10 w-full max-w-md text-center bg-black/40 border-white/5" onSubmit={handleLogin}>
+            <div className="flex justify-center mb-10">
+              <div className="relative h-10 w-40">
+                <Image src={logo_src} alt="Treia Logo" fill className="object-contain" />
               </div>
             </div>
-            <div className="flex justify-center mb-6 opacity-30">
-              <ThemeToggle />
+            
+            <h2 className="text-2xl font-black impeccable-gradient-text mb-10 tracking-tight uppercase">Admin Verification</h2>
+            
+            <div className="space-y-4 mb-8">
+              <div className="relative">
+                <Key size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--treia-gold)] opacity-50" />
+                <input type="password" placeholder="Passphrase"
+                  className="w-full bg-black/40 border border-white/10 text-[var(--treia-text)] pl-12 pr-4 py-4 rounded-xl text-sm focus:outline-none focus:border-[#c8a84b] transition-all"
+                  value={password} onChange={(e) => setPassword(e.target.value)} />
+              </div>
+              
+              <div className="relative">
+                <Shield size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#10b981] opacity-50" />
+                <input type="text" placeholder="6-digit OTP code"
+                  className="w-full bg-black/40 border border-white/10 text-[var(--treia-text)] pl-12 pr-4 py-4 rounded-xl text-sm tracking-[10px] text-center focus:outline-none focus:border-[#10b981] transition-all font-black"
+                  maxLength={6}
+                  value={otp} onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ""))} />
+              </div>
             </div>
-            <h2 className="text-xl text-[var(--treia-text)] font-medium mb-6">Admin Dashboard</h2>
-            <input type="password" placeholder="비밀번호 입력"
-              className="w-full bg-[var(--treia-bg)] border border-[var(--treia-card-border)] text-[var(--treia-text)] p-3 rounded-lg mb-4 text-center focus:outline-none focus:border-[#c8a84b]"
-              value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button className="w-full bg-[#c8a84b] text-black font-bold py-3 rounded-lg hover:bg-[#d4b55c] transition">접속하기</button>
+
+            <label className="flex items-center gap-3 mb-8 cursor-pointer group justify-center">
+              <input type="checkbox" className="w-4 h-4 accent-[#c8a84b] border-white/10" 
+                checked={isTrusted} onChange={(e) => setIsTrusted(e.target.checked)} />
+              <span className="text-[11px] text-[var(--treia-sub)] uppercase tracking-widest font-bold group-hover:text-[#c8a84b] transition-colors">
+                Trust this device for 30 days
+              </span>
+            </label>
+
+            <button className="impeccable-button w-full flex items-center justify-center gap-2 group py-4">
+              {isLoading ? <Loader2 size={18} className="animate-spin" /> : (
+                <>
+                  <Lock size={16} />
+                  <span>UNSEAL DASHBOARD</span>
+                </>
+              )}
+            </button>
+            <p className="mt-8 text-[10px] text-[var(--treia-sub)] uppercase tracking-widest opacity-40">
+              Biometric & 2FA Encryption Enabled
+            </p>
           </form>
         </div>
       </LayoutWrapper>
