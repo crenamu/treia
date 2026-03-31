@@ -180,13 +180,15 @@ export default function TreiaFunnelPage() {
 						>
 							FAQ
 						</Link>
-						<div className="flex items-center gap-4">
-							<ThemeToggle />
+						<div className="flex items-center gap-6">
+							<div className="bg-white/5 p-1 rounded-full border border-white/5">
+								<ThemeToggle />
+							</div>
 							<Link
 								href="#apply"
-								className="bg-[#c8a84b] text-[#050505] px-5 py-2.5 rounded-full font-bold hover:bg-[#d4b55c] transition-all hover:scale-105"
+								className="impeccable-button text-[11px] uppercase tracking-[2px] py-2 px-6"
 							>
-								Apply
+								Apply Now
 							</Link>
 						</div>
 					</nav>
@@ -287,13 +289,15 @@ export default function TreiaFunnelPage() {
 							priority
 						/>
 					</div>
-					<div className="font-mono text-[12px] md:text-[15px] text-[var(--treia-gold)] tracking-[6px] uppercase mb-10">
+					<div className="font-mono text-[11px] md:text-[13px] text-[#c8a84b] tracking-[8px] uppercase mb-12 opacity-80 font-bold">
 						Treia Gold Algorithm Engine
 					</div>
-					<div className="text-[var(--treia-gold)] font-medium tracking-[3px] mb-10 text-sm md:text-lg border border-[var(--treia-gold)]/20 px-6 py-2 rounded-full bg-[var(--treia-gold)]/5 uppercase font-mono">
-						Algorithm Engine v3.0
+					<div className="impeccable-card px-8 py-2.5 mb-14 bg-black/40 border-white/10">
+						<span className="text-[#c8a84b] font-bold tracking-[4px] text-xs md:text-sm uppercase font-mono">
+							Algorithm Engine v3.0
+						</span>
 					</div>
-					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-light leading-[1.3] tracking-tighter text-[var(--treia-text)] mb-10">
+					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[72px] font-black leading-[1.1] tracking-[-0.04em] text-[var(--treia-text)] mb-12 impeccable-gradient-text px-4">
 						투자는 당신의 일상을 <br className="hidden md:block" /> 지키기 위한
 						수단이어야 합니다.
 					</h1>
@@ -647,7 +651,7 @@ export default function TreiaFunnelPage() {
 					</div>
 
 					<div className="reveal opacity-0 translate-y-12 transition-all duration-1000 delay-200 w-full">
-						<div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-[32px] p-10 md:p-14 shadow-2xl relative overflow-visible">
+						<div className="impeccable-card p-10 md:p-14 relative overflow-visible">
 							<div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#ef4444]/5 blur-[80px] rounded-full pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
 
 							<h3 className="text-[var(--treia-sub)] font-mono text-sm tracking-widest uppercase mb-16 text-center lg:text-left relative z-10">
