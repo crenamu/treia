@@ -2,8 +2,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-// totp-generator 모듈 구조 차이를 방지하기 위해 가장 안전한 방식으로 임포트
-import totp from "totp-generator"; 
+// totp-generator v2는 Named Export인 TOTP를 사용합니다.
+import { TOTP } from "totp-generator"; 
 
 const SECRET_KEY = new TextEncoder().encode(process.env.ADMIN_SESSION_SECRET || "treia_default_secret_key_2026");
 
@@ -24,12 +24,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: "비밀번호가 일치하지 않습니다." }, { status: 401 });
     }
 
-    // 2. OTP Check (totp 함수 호출 방식 검증)
+    // 2. OTP Check
     try {
       const secret = process.env.ADMIN_OTP_SECRET;
-      // totp-generator v2는 함수 자체이거나 .default 일 수 있음
-      const generateTotp = (typeof totp === "function" ? totp : (totp as any).default) as (s: string) => string;
-      const serverOtp = generateTotp(secret);
+      // v2 버전의 다양한 임포트 방식 유연하게 대응
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const serverOtp = (TOTP as any)(secret); 
 
       if (otp !== serverOtp) {
         return NextResponse.json({ success: false, message: "OTP 코드가 유효하지 않습니다." }, { status: 401 });
