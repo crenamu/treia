@@ -9,10 +9,11 @@ import {
   Plus, Trash2, Shield, ShieldOff, Key, Users, Activity,
   TrendingUp, TrendingDown, Wifi, WifiOff, RefreshCw
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import LayoutWrapper from "@/app/components/LayoutWrapper";
 import { db } from "@/lib/firebase";
+import { onSnapshot, collection, query as firestoreQuery } from "firebase/firestore";
 import { ThemeToggle } from "@/app/components/ThemeToggle";
 import { useTheme } from "next-themes";
 
@@ -518,31 +519,39 @@ function MonitorTab() {
   const [selected, setSelected] = useState<License | null>(null);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
 
-  const fetchAll = async () => {
-    setIsLoading(true);
-    try {
-      const snap = await getDocs(collection(db, "treia_licenses"));
-      const data = snap.docs.map(d => ({ id: d.id, ...d.data() } as License));
-      setLicenses(data);
-      setLastRefresh(new Date());
-      if (selected) {
-        const updated = data.find(l => l.id === selected.id);
-        if (updated) setSelected(updated);
-      }
-    } catch (e) { console.error(e); }
-    finally { setIsLoading(false); }
-  };
+  const selectedIdRef = useRef<string | null>(null);
 
   useEffect(() => {
-    fetchAll();
-    const interval = setInterval(fetchAll, 60000); // 1분마다 자동 갱신
-    return () => clearInterval(interval);
+    setIsLoading(true);
+    const q = firestoreQuery(collection(db, "treia_licenses"));
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as License));
+      setLicenses(data);
+      setLastRefresh(new Date());
+      setIsLoading(false);
+
+      if (selectedIdRef.current) {
+        const updated = data.find(l => l.id === selectedIdRef.current);
+        if (updated) setSelected(updated);
+      }
+    }, (error) => {
+      console.error("Monitor Snapshot Error:", error);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
+
+  const handleSelect = (lic: License) => {
+    setSelected(lic);
+    selectedIdRef.current = lic.id;
+  };
 
   const isOnline = (lic: License) => {
     if (!lic.lastUpdate) return false;
     const last = new Date(lic.lastUpdate);
-    return Date.now() - last.getTime() < 70 * 60 * 1000; // 70분 이내
+    return Date.now() - last.getTime() < 10 * 60 * 1000; // 10분 이내 (기존 70분에서 강화)
   };
 
   const fmtTime = (iso: string) => {
@@ -563,11 +572,9 @@ function MonitorTab() {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <p className="text-[#555] text-sm">마지막 갱신: {lastRefresh.toLocaleTimeString("ko-KR")}</p>
-          <span className="text-[#10b981] text-xs animate-pulse">● 1분 자동갱신</span>
+          <span className="text-[#10b981] text-xs animate-pulse">● 실시간 스트리밍 중</span>
         </div>
-        <button onClick={fetchAll} className="bg-[#111] text-[#ccc] px-4 py-2 rounded-lg border border-[#333] text-sm flex items-center gap-2 hover:bg-[#1a1a1a]">
-          <RefreshCw size={15} /> 새로고침
-        </button>
+        <div className="text-[var(--treia-sub)] text-xs">데이터 변경 시 즉시 반영됩니다</div>
       </div>
 
       {isLoading ? (
@@ -584,7 +591,7 @@ function MonitorTab() {
               const profit = lic.profit ?? 0;
               return (
                 <div key={lic.id}
-                  onClick={() => setSelected(lic)}
+                  onClick={() => handleSelect(lic)}
                   className={`bg-[var(--treia-card)] border rounded-xl p-4 cursor-pointer transition ${
                     selected?.id === lic.id ? "border-[#3b82f6]" : "border-[var(--treia-card-border)] hover:border-[var(--treia-sub)]"
                   }`}>
