@@ -1227,9 +1227,11 @@ export default function TreiaFunnelPage() {
 							<div className="md:pl-10 text-[16px] md:text-[17px] text-[var(--treia-sub)] leading-[1.9] font-light space-y-4 break-keep">
 								<p>
 									<strong className="text-[var(--treia-text)] font-medium block mb-2">
-										A. 안정적인 방어력을 위한 최소 권장 자금은 $5,000 이상이며, 시스템의 밸런스를 위해 수동 개입은 권장하지 않습니다.
+										A. 안정적인 방어력을 위한 최소 권장 자금은 $5,000 이상입니다.
 									</strong>
-									알고리즘에 대한 신뢰가 충분히 쌓였을 때 자본을 늘려가시는 것을 권장하며, 투자의 판단은 시스템에 온전히 맡기시길 당부드립니다.
+									시장의 흐름을 읽을 줄 아는 분이라면 리스크 최소화와 수익 최대화를 위해 적절히 수동 개입을 하셔도 괜찮습니다. 
+									다만, 시스템의 훌륭한 밸런스를 고려하여 알고리즘에 대한 신뢰가 충분히 쌓였을 때 자본을 점진적으로 늘려가시는 것을 권장하며, 
+									기본적인 운용 판단은 시스템에 맡기시길 당부드립니다.
 								</p>
 							</div>
 						</div>
