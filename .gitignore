@@ -54,3 +54,10 @@ mt5_scripts/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# agents & skills
+/.ada/
+/.agents/
+/.planning/
+/.ada_backup/
+*.md.bak

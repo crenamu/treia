@@ -273,11 +273,11 @@ function LeadsTab() {
       {isLoading ? (
         <div className="flex justify-center py-20"><Loader2 className="animate-spin text-[#c8a84b]" size={40} /></div>
       ) : (
-        <div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-[var(--treia-bg)] border-b border-[var(--treia-card-border)]">
+        <div className="impeccable-card p-8">
+        <div className="overflow-x-auto scrollbar-hide">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-[var(--treia-card-border)] pb-4">
                   <th className="p-4 w-10">
                     <input type="checkbox" className="accent-[#c8a84b]"
                       checked={selectedIds.length === leads.length && leads.length > 0}
@@ -708,20 +708,16 @@ function MonitorTab() {
                 왼쪽에서 계좌를 선택하면 상세 정보가 표시됩니다.
               </div>
             ) : (
-              <div className="space-y-4">
-                {/* 계좌 요약 */}
-                <div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl p-6 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+              <div className="space-y-6">
+                {/* 계좌 요약 (Impeccable 스타일) */}
+                <div className="impeccable-card p-8">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 border-b border-white/5 pb-6">
                     <div>
-                      <h3 className="text-[var(--treia-text)] font-medium text-lg">{selected.name}</h3>
-                      <p className="font-mono text-[#10b981] text-sm">{selected.accountId}</p>
+                      <h3 className="text-2xl font-bold impeccable-gradient-text mb-1">{selected.name}</h3>
+                      <p className="font-mono text-[#10b981] text-sm tracking-widest">{selected.accountId}</p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-4 py-1.5 bg-black/20 rounded-full border border-white/5">
                       {isOnline(selected)
-                        ? <span className="flex items-center gap-1.5 text-[#10b981] text-xs"><Wifi size={13} /> Online</span>
-                        : <span className="flex items-center gap-1.5 text-[#555] text-xs"><WifiOff size={13} /> Offline</span>}
-                    </div>
-                  </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {[
                       { label: "잔고", value: selected.balance !== undefined ? `$${selected.balance.toFixed(2)}` : "-", color: "text-white" },
