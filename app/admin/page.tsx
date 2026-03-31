@@ -341,8 +341,15 @@ function LicensesTab() {
     catch { alert("삭제 실패"); }
   };
 
-  const isExpired = (d: string) => d ? new Date(d) < new Date() : false;
-  const daysLeft = (d: string) => d ? Math.ceil((new Date(d).getTime() - Date.now()) / 86400000) : null;
+  const isExpired = (d: string) => {
+    if (!d || d === "9999-12-31") return false;
+    return new Date(d) < new Date();
+  };
+
+  const daysLeft = (d: string) => {
+    if (!d || d === "9999-12-31") return null;
+    return Math.ceil((new Date(d).getTime() - Date.now()) / 86400000);
+  };
 
   return (
     <div>
@@ -456,6 +463,7 @@ function LicensesTab() {
               <tbody className="divide-y divide-[#1a1a1a]">
                 {licenses.map((lic) => {
                   const expired = isExpired(lic.expireDate);
+                  const isLifetime = lic.expireDate === "9999-12-31";
                   const days = daysLeft(lic.expireDate);
                   const isLive = lic.active && !expired;
                   return (
@@ -470,8 +478,10 @@ function LicensesTab() {
                       </td>
                       <td className="p-4 font-mono text-[#c8a84b] text-sm">{lic.maxLot}</td>
                       <td className="p-4 text-sm">
-                        <div className={expired ? "text-[#e05252]" : "text-[#aaa]"}>{lic.expireDate}</div>
-                        {days !== null && (
+                        <div className={expired ? "text-[#e05252]" : isLifetime ? "text-[#c8a84b] font-bold" : "text-[#aaa]"}>
+                          {isLifetime ? "무기한 (Lifetime)" : lic.expireDate}
+                        </div>
+                        {!isLifetime && days !== null && (
                           <div className={`text-xs mt-0.5 ${expired ? "text-[#e05252]" : days <= 7 ? "text-[#c8a84b]" : "text-[#555]"}`}>
                             {expired ? "만료됨" : `D-${days}`}
                           </div>
@@ -552,7 +562,8 @@ function MonitorTab() {
   const isOnline = (lic: License) => {
     if (!lic.lastUpdate) return false;
     const last = new Date(lic.lastUpdate);
-    return Date.now() - last.getTime() < 10 * 60 * 1000; // 10분 이내 (기존 70분에서 강화)
+    // EA 전송 주기가 10분이므로, 15분 정도로 넉넉하게 잡아서 서버 핑 누락 방지
+    return Date.now() - last.getTime() < 15 * 60 * 1000; 
   };
 
   const fmtTime = (iso: string) => {
@@ -661,7 +672,10 @@ function MonitorTab() {
                     ))}
                   </div>
                   <div className="text-[var(--treia-sub)] text-xs mt-3">
-                    마지막 업데이트: {fmtTime(selected.lastUpdate || "")} · 만료일: {selected.expireDate}
+                    마지막 업데이트: {fmtTime(selected.lastUpdate || "")} · 
+                    라이선스: <span className={selected.expireDate === "9999-12-31" ? "text-[#c8a84b] font-bold" : ""}>
+                      {selected.expireDate === "9999-12-31" ? "무기한(Lifetime)" : selected.expireDate}
+                    </span>
                   </div>
                 </div>
 
