@@ -1,8 +1,6 @@
-
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
-import * as totp from "totp-generator"; // otplib 대신 가벼운 totp-generator 사용 (간소화)
 
 const SECRET_KEY = new TextEncoder().encode(process.env.ADMIN_SESSION_SECRET || "treia_default_secret");
 
@@ -17,7 +15,10 @@ export async function POST(req: NextRequest) {
 
     // 2. OTP Check
     const secret = process.env.ADMIN_OTP_SECRET || "JBSWY3DPEHPK3PXP";
-    const serverOtp = totp(secret); // 현재 시간 기준 6자리 생성
+    
+    // 동적 임포트를 통한 런타임 호출 (빌드 에러 방지)
+    const totpModule = await import("totp-generator");
+    const serverOtp = (totpModule as unknown as (s: string) => string)(secret); 
 
     if (otp !== serverOtp) {
       return NextResponse.json({ success: false, message: "OTP 코드가 유효하지 않습니다." }, { status: 401 });
@@ -58,7 +59,7 @@ export async function GET() {
   try {
     const { payload } = await jwtVerify(token, SECRET_KEY);
     return NextResponse.json({ authenticated: true, user: payload.user });
-  } catch (err) {
+  } catch { // 변수 없이 catch 블록 사용 (ESLint 만족)
     return NextResponse.json({ authenticated: false }, { status: 401 });
   }
 }
