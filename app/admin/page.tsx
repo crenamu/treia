@@ -718,24 +718,32 @@ function MonitorTab() {
                     </div>
                     <div className="flex items-center gap-2 px-4 py-1.5 bg-black/20 rounded-full border border-white/5">
                       {isOnline(selected)
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        ? <span className="flex items-center gap-1.5 text-[#10b981] text-xs font-bold"><Wifi size={13} className="animate-pulse" /> ONLINE</span>
+                        : <span className="flex items-center gap-1.5 text-[var(--treia-sub)] text-xs font-bold"><WifiOff size={13} /> OFFLINE</span>
+                      }
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
-                      { label: "잔고", value: selected.balance !== undefined ? `$${selected.balance.toFixed(2)}` : "-", color: "text-white" },
-                      { label: "평가금", value: selected.equity !== undefined ? `$${selected.equity.toFixed(2)}` : "-", color: "text-white" },
+                      { label: "실시간 잔고", value: selected.balance !== undefined ? `$${selected.balance.toLocaleString(undefined, {minimumFractionDigits:2})}` : "-", color: "text-white" },
+                      { label: "평가 금액 (Equity)", value: selected.equity !== undefined ? `$${selected.equity.toLocaleString(undefined, {minimumFractionDigits:2})}` : "-", color: "text-[#c8a84b]" },
                       { label: "미실현 수익", value: selected.profit !== undefined ? `${selected.profit >= 0 ? "+" : ""}$${selected.profit.toFixed(2)}` : "-", color: (selected.profit ?? 0) >= 0 ? "text-[#10b981]" : "text-[#e05252]" },
-                      { label: "Max Lot", value: String(selected.maxLot), color: "text-[#c8a84b]" },
+                      { label: "최대 랏 (Max Lot)", value: String(selected.maxLot || "-"), color: "text-[var(--treia-sub)]" },
                     ].map(item => (
-                      <div key={item.label} className="bg-[var(--treia-bg)] border border-[var(--treia-card-border)] rounded-lg p-3">
-                        <div className="text-[var(--treia-sub)] text-xs mb-1">{item.label}</div>
-                        <div className={`font-mono text-sm font-bold ${item.color.includes('white') ? 'text-[var(--treia-text)]' : item.color}`}>{item.value}</div>
+                      <div key={item.label} className="bg-white/5 border border-white/5 rounded-2xl p-4 group hover:border-[#c8a84b]/30 transition-all">
+                        <div className="text-[var(--treia-sub)] text-[11px] mb-2 font-medium tracking-tight uppercase">{item.label}</div>
+                        <div className={`font-bold text-lg tracking-tight ${item.color.includes('white') ? 'text-[var(--treia-text)]' : item.color}`}>{item.value}</div>
                       </div>
                     ))}
                   </div>
-                  <div className="text-[var(--treia-sub)] text-xs mt-3">
-                    마지막 업데이트: {fmtTime(selected.lastUpdate || "")} · 
-                    라이선스: <span className={selected.expireDate === "9999-12-31" ? "text-[#c8a84b] font-bold" : ""}>
+                  
+                  <div className="text-[var(--treia-sub)] text-[11px] mt-6 flex items-center gap-3 border-t border-white/5 pt-4">
+                    <span>마지막 업데이트: <strong className="text-[var(--treia-text)]">{fmtTime(selected.lastUpdate || "")}</strong></span>
+                    <span className="w-1 h-1 bg-[var(--treia-sub)] rounded-full opacity-30"></span>
+                    <span>라이선스: <strong className={selected.expireDate === "9999-12-31" ? "text-[#c8a84b]" : "text-[var(--treia-text)]"}>
                       {selected.expireDate === "9999-12-31" ? "무기한(Lifetime)" : selected.expireDate}
-                    </span>
+                    </strong></span>
                   </div>
                 </div>
 
