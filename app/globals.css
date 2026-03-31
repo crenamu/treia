@@ -202,7 +202,9 @@
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
-		filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		display: inline-block;
 	}
 
 	.impeccable-button {

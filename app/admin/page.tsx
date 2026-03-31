@@ -713,8 +713,8 @@ function MonitorTab() {
                 <div className="impeccable-card p-8">
                   <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 border-b border-white/5 pb-6">
                     <div>
-                      <h3 className="text-2xl font-bold impeccable-gradient-text mb-1">{selected.name}</h3>
-                      <p className="font-mono text-[#10b981] text-sm tracking-widest">{selected.accountId}</p>
+                      <h3 className="text-3xl font-black text-[#b8963d] dark:text-[#c8a84b] mb-1 tracking-tight">{selected.name}</h3>
+                      <p className="font-mono text-[#10b981] text-sm tracking-widest font-bold">{selected.accountId}</p>
                     </div>
                     <div className="flex items-center gap-2 px-4 py-1.5 bg-black/20 rounded-full border border-white/5">
                       {isOnline(selected)
