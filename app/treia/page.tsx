@@ -297,10 +297,10 @@ export default function TreiaFunnelPage() {
 							Algorithm Engine v3.0
 						</span>
 					</div>
-					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-black leading-[1.2] tracking-[-0.04em] text-[var(--treia-text)] mb-12 px-4 whitespace-nowrap">
+					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-black leading-[1.2] tracking-[-0.04em] text-[var(--treia-text)] mb-12 px-4">
 						<span className="text-[var(--treia-gold)]">투자는</span>{" "}
-						<span className="bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">당신의 일상을</span> <br className="hidden md:block" />
-						<span className="bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] inline-block mt-2">지키기 위한 수단</span>
+						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">당신의 일상을</span> <br className="hidden md:block" />
+						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] mt-2">지키기 위한 수단</span>
 						<span className="text-[var(--treia-gold)]">이어야 합니다.</span>
 					</h1>
 					<p className="text-[17px] md:text-[24px] text-[var(--treia-sub)] max-w-3xl leading-[1.8] font-light">
