@@ -39,10 +39,10 @@ export default function EducationListPage() {
 			<div className="bg-[#14161B] border-b border-gray-800 pt-20 pb-12">
 				<div className="container mx-auto px-6 max-w-7xl">
 					<Link
-						href="/"
-						className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-500 mb-8 transition-colors text-sm font-bold"
+						href="/treia"
+						className="inline-flex items-center gap-2 text-gray-500 hover:text-amber-500 mb-8 transition-colors text-xs font-mono uppercase tracking-[3px]"
 					>
-						<ArrowLeft size={16} /> 매매 대시보드로 돌아가기
+						<ArrowLeft size={14} /> Back to Dashboard
 					</Link>
 
 					<div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -53,11 +53,11 @@ export default function EducationListPage() {
 									Treia Academy
 								</span>
 							</div>
-							<h1 className="text-4xl font-black tracking-tighter">
-								트레이아 인사이트
+							<h1 className="text-4xl md:text-5xl font-light tracking-tight text-white mb-4">
+								Treia <span className="text-amber-500">Insights</span>
 							</h1>
-							<p className="text-gray-500 mt-2 font-medium">
-								데이터와 통계로 증명하는 프리미엄 트레이딩 교육 자료
+							<p className="text-gray-500 font-medium max-w-xl leading-relaxed break-keep">
+								데이터와 통계로 증명하는 프리미엄 트레이딩 전략 및 자산 관리 교육 자료
 							</p>
 						</div>
 
@@ -132,10 +132,10 @@ function CategorySection({
 				</h2>
 				<div className="flex items-center gap-6">
 					<Link
-						href={`/education?category=${encodeURIComponent(category)}`}
-						className="text-sm font-bold text-amber-500 hover:text-white transition-colors"
+						href={`/treia/education?category=${encodeURIComponent(category)}`}
+						className="text-[11px] font-mono uppercase tracking-[3px] text-amber-500/60 hover:text-amber-500 transition-all"
 					>
-						모두 보기
+						Explore All
 					</Link>
 				</div>
 			</div>
@@ -145,9 +145,9 @@ function CategorySection({
 				{articles.map((article) => (
 					<div
 						key={article.id}
-						className="min-w-[300px] w-[300px] md:min-w-[350px] md:w-[350px] snap-start shrink-0"
+						className="w-[340px] md:w-[400px] shrink-0"
 					>
-						<Link href={`/education/${article.id}`} className="block h-full">
+						<Link href={`/treia/education?id=${article.id}`} className="block h-full">
 							<ArticleCard
 								title={article.title}
 								category={article.category}

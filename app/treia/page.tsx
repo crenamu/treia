@@ -12,6 +12,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Script from 'next/script';
 import { ThemeToggle } from "@/app/components/ThemeToggle";
 import { useTheme } from "next-themes";
+import ArticleCard from "@/components/ArticleCard";
+import InsightCarousel from "@/components/InsightCarousel";
 
 export default function TreiaFunnelPage() {
 	const { theme, setTheme } = useTheme();
@@ -35,6 +37,23 @@ export default function TreiaFunnelPage() {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState("");
+	const [blogArticles, setBlogArticles] = useState<any[]>([]);
+
+	// Fetch blog data
+	useEffect(() => {
+		const fetchBlog = async () => {
+			try {
+				const res = await fetch("/api/education");
+				const data = await res.json();
+				if (Array.isArray(data)) {
+					setBlogArticles(data.slice(0, 8)); // Show up to 8 latest
+				}
+			} catch (err) {
+				console.error("Failed to fetch blog articles:", err);
+			}
+		};
+		fetchBlog();
+	}, []);
 
 	useEffect(() => {
 		document.documentElement.style.scrollBehavior = "smooth";
@@ -175,6 +194,12 @@ export default function TreiaFunnelPage() {
 							Proof
 						</Link>
 						<Link
+							href="/treia/education"
+							className="hover:text-[var(--treia-gold)] transition-colors"
+						>
+							Blog
+						</Link>
+						<Link
 							href="#faq"
 							className="hover:text-[var(--treia-gold)] transition-colors"
 						>
@@ -246,6 +271,13 @@ export default function TreiaFunnelPage() {
 							className="hover:text-[#c8a84b]"
 						>
 							Proof
+						</Link>
+						<Link
+							href="/treia/education"
+							onClick={() => setIsNavOpen(false)}
+							className="hover:text-[#c8a84b]"
+						>
+							Blog
 						</Link>
 						<Link
 							href="#faq"
@@ -1530,6 +1562,61 @@ export default function TreiaFunnelPage() {
 								</p>
 							</div>
 						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Blog Section (Latest Insights) */}
+			<section id="blog" className="py-32 relative overflow-hidden bg-[var(--treia-bg)]">
+				<div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#c8a84b]/5 blur-[120px] rounded-full pointer-events-none" />
+				<div className="max-w-7xl mx-auto px-6">
+					<motion.div 
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						className="mb-16"
+					>
+						<p className="font-mono text-[11px] text-[#c8a84b] uppercase tracking-[6px] mb-4">Educational Resources</p>
+						<h2 className="text-4xl md:text-5xl font-light tracking-tight text-[var(--treia-text)]">
+							Latest <span className="text-[#c8a84b]">Insights</span>
+						</h2>
+					</motion.div>
+
+					{blogArticles.length > 0 ? (
+						<InsightCarousel>
+							{blogArticles.map((article) => (
+								<div key={article.id} className="w-[340px] md:w-[400px] shrink-0">
+									<Link href={`/treia/education?id=${article.id}`}>
+										<ArticleCard 
+											title={article.title}
+											source="Treia Academy"
+											summary={article.summary || article.content?.substring(0, 100) + "..."}
+											difficulty={article.difficulty || "입문"}
+											category={article.category || "CFD 기초"}
+											imageUrl={article.thumbnail}
+											date={article.createdAt ? new Date(article.createdAt).toLocaleDateString() : "2026.04.03"}
+											isAI={true}
+										/>
+									</Link>
+								</div>
+							))}
+						</InsightCarousel>
+					) : (
+						<div className="flex justify-center items-center h-[400px] border border-white/5 rounded-[40px] bg-white/5 backdrop-blur-xl">
+							<p className="text-[var(--treia-sub)] font-mono uppercase tracking-widest text-[11px] animate-pulse">Loading Academy Data...</p>
+						</div>
+					)}
+
+					<div className="mt-12 flex justify-center">
+						<Link 
+							href="/treia/education"
+							className="group flex items-center gap-3 text-[11px] font-mono uppercase tracking-[4px] text-[var(--treia-sub)] hover:text-[#c8a84b] transition-all"
+						>
+							View All Articles
+							<div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#c8a84b]/50 group-hover:bg-[#c8a84b]/5 transition-all">
+								<ChevronRight size={14} />
+							</div>
+						</Link>
 					</div>
 				</div>
 			</section>
