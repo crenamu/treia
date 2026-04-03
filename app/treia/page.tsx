@@ -335,9 +335,15 @@ export default function TreiaFunnelPage() {
 						/>
 					</motion.div>
 					
-					{/* Logo & Headline Section */}
-					<div className="relative w-32 h-10 md:w-48 md:h-16 mb-8 flex items-center justify-center">
-						<Image src={logo_src} alt="Treia Gold Logo" fill className="object-contain" priority />
+					{/* Logo & Headline Section - Maintain Aspect Ratio */}
+					<div className="relative w-28 h-20 md:w-44 md:h-28 mb-12 flex items-center justify-center overflow-hidden">
+						<Image 
+							src={logo_src} 
+							alt="Treia Gold Logo" 
+							fill 
+							className="object-contain" 
+							priority 
+						/>
 					</div>
 
 					<div className="font-mono text-[11px] md:text-[13px] text-[#c8a84b] tracking-[8px] uppercase mb-12 opacity-80 font-bold">
