@@ -1,6 +1,10 @@
+"use client";
+import { ArrowLeft, Filter, GraduationCap, Search } from "lucide-react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState, useMemo, Suspense } from "react";
 import ArticleCard from "@/components/ArticleCard";
 import InsightCarousel from "@/components/InsightCarousel";
-import { Suspense } from "react";
 
 interface InsightArticle {
 	id: string;
