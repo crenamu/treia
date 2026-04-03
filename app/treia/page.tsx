@@ -321,30 +321,47 @@ export default function TreiaFunnelPage() {
 						/>
 					</div>
 
-					{/* Premium Engine Box Visual - Hero Section Anchor */}
-					<motion.div 
-						initial={{ opacity: 0, scale: 0.9, y: 30 }}
-						animate={{ 
-							opacity: 1, 
-							scale: 1, 
-							y: [0, -20, 0],
-						}}
-						transition={{ 
-							opacity: { duration: 1.5, delay: 0.5 },
-							scale: { duration: 1.5, delay: 0.5 },
-							y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
-						}}
-						className="relative w-48 h-32 md:w-80 md:h-56 mb-16 flex items-center justify-center"
-					>
-						<div className="absolute inset-0 bg-[#c8a84b]/10 blur-[80px] rounded-full scale-125 animate-pulse" />
-						<Image
-							src="/box-engine.png"
-							alt="Treia No.1 Engine"
-							fill
-							className="object-contain drop-shadow-[0_20px_50px_rgba(200,168,75,0.2)]"
-							priority
+					{/* Premium Engine Box Visual - Hero Section Anchor with Dynamic Shadow */}
+					<div className="relative mb-16 flex flex-col items-center">
+						<motion.div 
+							initial={{ opacity: 0, scale: 0.9, y: 30 }}
+							animate={{ 
+								opacity: 1, 
+								scale: 1, 
+								y: [0, -20, 0],
+							}}
+							transition={{ 
+								opacity: { duration: 1.5, delay: 0.5 },
+								scale: { duration: 1.5, delay: 0.5 },
+								y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+							}}
+							className="relative w-48 h-32 md:w-80 md:h-56 z-10 flex items-center justify-center"
+						>
+							<div className="absolute inset-0 bg-[#c8a84b]/10 blur-[80px] rounded-full scale-125 animate-pulse" />
+							<Image
+								src="/box-engine.png"
+								alt="Treia No.1 Engine"
+								fill
+								className="object-contain drop-shadow-[0_20px_50px_rgba(200,168,75,0.2)]"
+								priority
+							/>
+						</motion.div>
+						
+						{/* Realistic Reactive Shadow */}
+						<motion.div
+							animate={{
+								scale: [1, 1.2, 1],
+								opacity: [0.3, 0.15, 0.3],
+								filter: ["blur(15px)", "blur(25px)", "blur(15px)"]
+							}}
+							transition={{
+								duration: 6,
+								repeat: Infinity,
+								ease: "easeInOut"
+							}}
+							className="w-32 h-4 md:w-64 md:h-8 bg-black/60 rounded-[100%] mt-[-10px] z-0 shadow-[0_0_30px_rgba(0,0,0,0.8)]"
 						/>
-					</motion.div>
+					</div>
 					
 					{/* Headline & Badge Section */}
 					<div className="font-mono text-[11px] md:text-[13px] text-[#c8a84b] tracking-[8px] uppercase mb-12 opacity-80 font-bold">
