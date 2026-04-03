@@ -161,55 +161,49 @@ export default function EducationDetailPage() {
 					{/* Main Content */}
 					<div className="lg:col-span-8">
 						<article className="max-w-none">
-							<div className="prose prose-invert prose-amber max-w-none space-y-12">
+							<div className="prose prose-invert prose-amber max-w-none space-y-16">
 							<ReactMarkdown
 								components={{
 									h2: ({ ...props }) => (
 										<h2
-											className="text-3xl md:text-4xl font-black text-white/95 mt-24 mb-10 pb-6 border-b-2 border-amber-500/30 tracking-tight leading-tight"
+											className="text-2xl md:text-3xl font-black text-white/90 mt-20 mb-10 pb-6 border-b border-white/5 tracking-tight leading-snug"
 											{...props}
 										/>
 									),
 									h3: ({ ...props }) => (
 										<h3
-											className="text-xl md:text-2xl font-black text-amber-500 mt-16 mb-8 flex items-center gap-3 tracking-tight"
+											className="text-lg md:text-xl font-extrabold text-amber-500/80 mt-14 mb-6 flex items-center gap-3 tracking-tight"
 											{...props}
 										>
-											<span className="w-1.5 h-7 bg-amber-500 rounded-full" />
+											<span className="w-1 h-5 bg-amber-500/40 rounded-full" />
 											{props.children}
 										</h3>
 									),
 									p: ({ ...props }) => (
 										<p
-											className="text-gray-300 leading-[2.2] text-base md:text-[1.15rem] mb-12 font-medium tracking-normal [word-break:keep-all] opacity-90"
+											className="text-gray-400/90 leading-[2.1] text-[15px] md:text-[17px] mb-10 font-medium tracking-normal [word-break:keep-all]"
 											{...props}
 										/>
 									),
 									ul: ({ ...props }) => (
-										<ul className="my-14 space-y-4 bg-[#111318] border border-white/5 rounded-[28px] p-8 md:p-12 shadow-2xl relative overflow-hidden" {...props}>
-											<div className="absolute top-0 left-0 w-1 h-full bg-amber-500/40" />
-											{props.children}
-										</ul>
+										<ul className="my-12 space-y-6 bg-[#0c0d11] border border-white/[0.03] rounded-[32px] p-10 md:p-14 shadow-2xl" {...props} />
 									),
 									ol: ({ ...props }) => (
-										<ol className="my-14 space-y-4 bg-[#111318] border border-white/5 rounded-[28px] p-8 md:p-12 shadow-2xl relative overflow-hidden list-decimal list-inside" {...props}>
-											<div className="absolute top-0 left-0 w-1 h-full bg-amber-500/40" />
-											{props.children}
-										</ol>
+										<ol className="my-12 space-y-6 bg-[#0c0d11] border border-white/[0.03] rounded-[32px] p-10 md:p-14 shadow-2xl list-decimal list-inside" {...props} />
 									),
 									li: ({ ...props }) => (
-										<li className="text-gray-200/90 text-sm md:text-[1.05rem] leading-[1.8] [word-break:keep-all] border-b border-white/[0.03] pb-4 last:border-0 last:pb-0">
+										<li className="text-gray-300 text-[14.5px] md:text-[16px] leading-[1.7] [word-break:keep-all] opacity-90 pl-1">
 											{props.children}
 										</li>
 									),
 									strong: ({ ...props }) => (
 										<strong
-											className="bg-amber-500/20 text-amber-400 font-black px-2 py-0.5 rounded-md mx-0.5 border border-amber-500/10"
+											className="text-amber-500/70 font-black border-b border-amber-500/30 px-0.5"
 											{...props}
 										/>
 									),
 									code: ({ ...props }) => (
-										<code className="bg-black/60 text-amber-500 px-3 py-1 rounded-lg font-mono text-[0.9em] border border-white/5 shadow-inner" {...props} />
+										<code className="bg-white/[0.03] text-amber-500/60 px-2.5 py-1 rounded-md font-mono text-[0.85em] border border-white/[0.05]" {...props} />
 									),
 								}}
 							>
