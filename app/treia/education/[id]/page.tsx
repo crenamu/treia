@@ -10,8 +10,19 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
+
+const FALLBACK: Record<string, string> = {
+	"CFD 기초": "https://images.unsplash.com/photo-1611974717482-58a00f7484d0?w=1600&q=80",
+	"골드 특화": "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1600&q=80",
+	"기술적 분석": "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=1600&q=80",
+	"리스크 관리": "https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=1600&q=80",
+	"자동매매": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1600&q=80",
+	"브로커": "https://images.unsplash.com/photo-1559526324-593bc073d938?w=1600&q=80",
+	"카피트레이딩": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600&q=80",
+	"사기 예방": "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=1600&q=80",
+};
 
 interface Article {
 	id: string;
@@ -30,6 +41,12 @@ export default function EducationDetailPage() {
 	const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [imageError, setImageError] = useState(false);
+
+	const backgroundImage = useMemo(() => {
+		if (!article) return "";
+		if (article.thumbnail && !imageError) return article.thumbnail;
+		return FALLBACK[article.category] || FALLBACK["CFD 기초"];
+	}, [article, imageError]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -76,22 +93,16 @@ export default function EducationDetailPage() {
 		<main className="min-h-screen bg-[#0A0B0F] text-white pb-24">
 			{/* Hero Header Selection */}
 			<div className="relative w-full h-[60vh] min-h-[500px] overflow-hidden bg-[#0A0B0F]">
-				{article.thumbnail && !imageError ? (
-					<div className="absolute inset-0">
-						<Image
-							src={article.thumbnail}
-							alt=""
-							fill
-							priority
-							className="object-cover opacity-50 transition-opacity duration-1000"
-							onError={() => setImageError(true)}
-						/>
-					</div>
-				) : (
-					<div className="absolute inset-0 opacity-10 flex items-center justify-center">
-						<GraduationCap size={120} className="text-amber-500" />
-					</div>
-				)}
+				<div className="absolute inset-0">
+					<Image
+						src={backgroundImage}
+						alt=""
+						fill
+						priority
+						className="object-cover opacity-40 transition-opacity duration-1000"
+						onError={() => setImageError(true)}
+					/>
+				</div>
 				<div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0F] via-[#0A0B0F]/40 to-transparent z-10"></div>
 
 				<div className="absolute bottom-0 left-0 w-full z-20">
