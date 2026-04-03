@@ -111,20 +111,6 @@ export default function EducationDetailPage() {
 							<span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-[10px] font-bold text-amber-500 uppercase tracking-widest">
 								{article.category}
 							</span>
-							<span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest flex items-center gap-1">
-								<Clock size={12} />{" "}
-								{article.createdAt
-									? (() => {
-											const c = article.createdAt;
-											if (typeof c === "string")
-												return new Date(c).toLocaleDateString("ko-KR");
-											const sec = (c as any)._seconds ?? (c as any).seconds;
-											return sec
-												? new Date(sec * 1000).toLocaleDateString("ko-KR")
-												: "";
-										})()
-									: ""}
-							</span>
 						</div>
 
 						<h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-tight mb-6 [word-break:keep-all]">
@@ -142,14 +128,16 @@ export default function EducationDetailPage() {
 							</div>
 							<div className="h-4 w-px bg-gray-800"></div>
 							<div className="flex gap-4">
-								<Share2
-									size={18}
-									className="text-gray-500 hover:text-white cursor-pointer transition-colors"
-								/>
-								<Bookmark
-									size={18}
-									className="text-gray-500 hover:text-white cursor-pointer transition-colors"
-								/>
+								<button 
+									onClick={() => {
+										navigator.clipboard.writeText(window.location.href);
+										alert("링크가 복사되었습니다.");
+									}}
+									className="group/share flex items-center gap-2 text-gray-500 hover:text-white transition-colors"
+								>
+									<Share2 size={18} />
+									<span className="text-[10px] font-bold uppercase tracking-widest hidden md:inline">Share</span>
+								</button>
 							</div>
 						</div>
 					</div>
