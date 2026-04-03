@@ -1783,12 +1783,12 @@ function MainBacktestInfographic() {
 
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 					<InfographicWinRing triggered={isTriggered} delay={3400} />
-					<InfographicProfitBar triggered={isTriggered} delay={3900} />
+					<InfographicProfitBar triggered={isTriggered} delay={4200} />
 				</div>
 
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-					<InfographicDirCard dir="매수 포지션 (Buy)" target={INFOGRAPHIC_TARGET.buy} sub="상승장 대응력" arrow="↑" triggered={isTriggered} delay={4400} />
-					<InfographicDirCard dir="매도 포지션 (Sell)" target={INFOGRAPHIC_TARGET.sell} sub="하락장 하방 수익" arrow="↓" triggered={isTriggered} delay={4900} />
+					<InfographicDirCard dir="매수 포지션 (Buy)" target={INFOGRAPHIC_TARGET.buy} sub="상승장 대응력" arrow="↑" triggered={isTriggered} delay={5000} />
+					<InfographicDirCard dir="매도 포지션 (Sell)" target={INFOGRAPHIC_TARGET.sell} sub="하락장 하방 수익" arrow="↓" triggered={isTriggered} delay={5600} />
 				</div>
                 
 			</div>
