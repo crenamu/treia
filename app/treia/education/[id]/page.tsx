@@ -160,54 +160,62 @@ export default function EducationDetailPage() {
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 					{/* Main Content */}
 					<div className="lg:col-span-8">
-						<article className="prose prose-invert prose-amber max-w-none">
+						<article className="max-w-none">
+							<div className="prose prose-invert prose-amber max-w-none space-y-12">
 							<ReactMarkdown
 								components={{
 									h2: ({ ...props }) => (
 										<h2
-											className="text-2xl md:text-3xl font-black text-white/90 mt-20 mb-12 pb-6 border-b border-white/5 tracking-tighter leading-tight"
+											className="text-3xl md:text-4xl font-black text-white/95 mt-24 mb-10 pb-6 border-b-2 border-amber-500/30 tracking-tight leading-tight"
 											{...props}
 										/>
 									),
 									h3: ({ ...props }) => (
 										<h3
-											className="text-xl md:text-2xl font-black text-white/80 mt-16 mb-8 flex items-center gap-3 tracking-tight"
+											className="text-xl md:text-2xl font-black text-amber-500 mt-16 mb-8 flex items-center gap-3 tracking-tight"
 											{...props}
 										>
-											<span className="w-1 h-6 bg-amber-500/60 rounded-full" />
+											<span className="w-1.5 h-7 bg-amber-500 rounded-full" />
 											{props.children}
 										</h3>
 									),
 									p: ({ ...props }) => (
 										<p
-											className="text-gray-400/90 leading-[1.9] text-base md:text-lg mb-10 font-medium tracking-tight [word-break:keep-all]"
+											className="text-gray-300 leading-[2.2] text-base md:text-[1.15rem] mb-12 font-medium tracking-normal [word-break:keep-all] opacity-90"
 											{...props}
 										/>
 									),
 									ul: ({ ...props }) => (
-										<ul className="mb-12 space-y-5 bg-[#0f1115] border border-white/[0.03] rounded-[24px] p-8 md:p-10 shadow-inner" {...props} />
+										<ul className="my-14 space-y-4 bg-[#111318] border border-white/5 rounded-[28px] p-8 md:p-12 shadow-2xl relative overflow-hidden" {...props}>
+											<div className="absolute top-0 left-0 w-1 h-full bg-amber-500/40" />
+											{props.children}
+										</ul>
 									),
 									ol: ({ ...props }) => (
-										<ol className="mb-12 space-y-5 bg-[#0f1115] border border-white/[0.03] rounded-[24px] p-8 md:p-10 shadow-inner list-decimal list-inside" {...props} />
+										<ol className="my-14 space-y-4 bg-[#111318] border border-white/5 rounded-[28px] p-8 md:p-12 shadow-2xl relative overflow-hidden list-decimal list-inside" {...props}>
+											<div className="absolute top-0 left-0 w-1 h-full bg-amber-500/40" />
+											{props.children}
+										</ol>
 									),
 									li: ({ ...props }) => (
-										<li className="text-gray-300/90 text-sm md:text-[15.5px] leading-relaxed [word-break:keep-all] pl-1">
+										<li className="text-gray-200/90 text-sm md:text-[1.05rem] leading-[1.8] [word-break:keep-all] border-b border-white/[0.03] pb-4 last:border-0 last:pb-0">
 											{props.children}
 										</li>
 									),
 									strong: ({ ...props }) => (
 										<strong
-											className="text-amber-500/90 font-black px-0.5"
+											className="bg-amber-500/20 text-amber-400 font-black px-2 py-0.5 rounded-md mx-0.5 border border-amber-500/10"
 											{...props}
 										/>
 									),
 									code: ({ ...props }) => (
-										<code className="bg-amber-500/[0.08] text-amber-500/80 px-2.5 py-1 rounded-md font-mono text-[0.9em] border border-amber-500/10" {...props} />
+										<code className="bg-black/60 text-amber-500 px-3 py-1 rounded-lg font-mono text-[0.9em] border border-white/5 shadow-inner" {...props} />
 									),
 								}}
 							>
 								{article.content}
 							</ReactMarkdown>
+							</div>
 						</article>
 
 						{/* Bottom Disclaimer 보정: 면책 고지 -> 투자 유의사항 */}
