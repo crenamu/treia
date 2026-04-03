@@ -165,42 +165,44 @@ export default function EducationDetailPage() {
 								components={{
 									h2: ({ ...props }) => (
 										<h2
-											className="text-3xl md:text-4xl font-black text-white mt-24 mb-10 pb-6 border-b border-gray-800 tracking-tighter leading-tight [word-break:keep-all]"
+											className="text-2xl md:text-3xl font-black text-white/90 mt-20 mb-12 pb-6 border-b border-white/5 tracking-tighter leading-tight"
 											{...props}
 										/>
 									),
 									h3: ({ ...props }) => (
 										<h3
-											className="text-2xl md:text-3xl font-black text-white mt-16 mb-8 flex items-center gap-4 tracking-tighter"
+											className="text-xl md:text-2xl font-black text-white/80 mt-16 mb-8 flex items-center gap-3 tracking-tight"
 											{...props}
 										>
-											<span className="w-1.5 h-8 bg-amber-500 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+											<span className="w-1 h-6 bg-amber-500/60 rounded-full" />
 											{props.children}
 										</h3>
 									),
 									p: ({ ...props }) => (
 										<p
-											className="text-gray-400 leading-[1.8] text-lg md:text-xl mb-12 font-medium tracking-tight opacity-90 [word-break:keep-all]"
+											className="text-gray-400/90 leading-[1.9] text-base md:text-lg mb-10 font-medium tracking-tight [word-break:keep-all]"
 											{...props}
 										/>
 									),
 									ul: ({ ...props }) => (
-										<ul className="mb-14 space-y-6 bg-white/[0.02] border border-white/5 rounded-[32px] p-10 backdrop-blur-3xl shadow-2xl" {...props} />
+										<ul className="mb-12 space-y-5 bg-[#0f1115] border border-white/[0.03] rounded-[24px] p-8 md:p-10 shadow-inner" {...props} />
+									),
+									ol: ({ ...props }) => (
+										<ol className="mb-12 space-y-5 bg-[#0f1115] border border-white/[0.03] rounded-[24px] p-8 md:p-10 shadow-inner list-decimal list-inside" {...props} />
 									),
 									li: ({ ...props }) => (
-										<li className="flex gap-4 text-gray-300 text-base md:text-lg leading-relaxed group/li list-none">
-											<span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)] shrink-0 transition-transform group-hover/li:scale-150" />
-											<span className="[word-break:keep-all]">{props.children}</span>
+										<li className="text-gray-300/90 text-sm md:text-[15.5px] leading-relaxed [word-break:keep-all] pl-1">
+											{props.children}
 										</li>
 									),
 									strong: ({ ...props }) => (
 										<strong
-											className="bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent font-black px-0.5"
+											className="text-amber-500/90 font-black px-0.5"
 											{...props}
 										/>
 									),
 									code: ({ ...props }) => (
-										<code className="bg-amber-500/10 text-amber-500 px-2.5 py-1 rounded-lg font-mono text-[0.85em] border border-amber-500/20 mx-1" {...props} />
+										<code className="bg-amber-500/[0.08] text-amber-500/80 px-2.5 py-1 rounded-md font-mono text-[0.9em] border border-amber-500/10" {...props} />
 									),
 								}}
 							>
