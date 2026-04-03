@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { ArrowUpRight, Bookmark, Clock, Sparkles } from "lucide-react";
 import { useState } from "react";
 
@@ -80,10 +80,7 @@ export default function ArticleCard({
 							</div>
 						)}
 					</div>
-					<Bookmark
-						size={15}
-						className="text-gray-700 hover:text-amber-500 cursor-pointer transition-all"
-					/>
+					</div>
 				</div>
 				<div className="flex flex-col gap-3.5">
 					<h3 className="font-bold text-lg text-white leading-[1.4] group-hover:text-amber-500 transition-colors line-clamp-2 tracking-tight [word-break:keep-all]">
@@ -95,10 +92,6 @@ export default function ArticleCard({
 				</div>
 				<div className="mt-auto pt-7 flex items-center justify-between border-t border-gray-800/60">
 					<div className="flex items-center gap-5 text-[10px] font-bold text-gray-600">
-						<div className="flex items-center gap-1.5">
-							<Clock size={12} className="text-amber-500/50" />
-							<span>{date || "Just now"}</span>
-						</div>
 						<span
 							className={`px-2.5 py-1 rounded-lg font-black text-[9px] uppercase tracking-tighter ${dc}`}
 						>
