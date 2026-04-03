@@ -2061,7 +2061,7 @@ function InfographicProfitBar({ triggered, delay = 800 }: { triggered: boolean; 
 		<motion.div 
 			initial={{ opacity: 0, x: 30 }}
 			animate={triggered ? { opacity: 1, x: 0 } : {}}
-			transition={{ duration: 0.8 }}
+			transition={{ duration: 0.8, delay: (delay ?? 0) / 1000 }}
 			className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-[40px] p-10 md:p-12 flex flex-col justify-center gap-12 shadow-2xl"
 		>
 			<div className="space-y-6">
