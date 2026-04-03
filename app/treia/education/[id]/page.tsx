@@ -222,26 +222,7 @@ export default function EducationDetailPage() {
 					{/* Sidebar */}
 					<aside className="lg:col-span-4 space-y-8">
 						<div className="sticky top-24">
-							<div className="p-8 rounded-3xl bg-amber-500 text-black">
-								<GraduationCap size={32} className="mb-4" />
-								<h3 className="text-xl font-black leading-tight mb-4">
-									나만의 자동매매
-									<br />
-									EA 로직 만들기
-								</h3>
-								<p className="text-sm font-bold opacity-80 mb-8">
-									검증된 템플릿과 AI 백테스트를 통해 지금 바로 전략을 설계해
-									보세요.
-								</p>
-								<Link
-									href="/ea/builder"
-									className="block w-full py-4 bg-black text-white text-center rounded-2xl font-black hover:bg-gray-900 transition-colors"
-								>
-									EA Builder 열기
-								</Link>
-							</div>
-
-							<div className="mt-8 p-8 rounded-3xl border border-gray-800 bg-[#14161B] shadow-lg shadow-black/20">
+							<div className="p-8 rounded-3xl border border-gray-800 bg-[#14161B] shadow-lg shadow-black/20">
 								<h4 className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em] mb-8 border-b border-gray-800/50 pb-4">
 									Related Insights
 								</h4>
