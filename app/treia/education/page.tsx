@@ -1,10 +1,6 @@
-"use client";
-import { ArrowLeft, Filter, GraduationCap, Search } from "lucide-react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState, useMemo } from "react";
 import ArticleCard from "@/components/ArticleCard";
 import InsightCarousel from "@/components/InsightCarousel";
+import { Suspense } from "react";
 
 interface InsightArticle {
 	id: string;
@@ -18,6 +14,18 @@ interface InsightArticle {
 }
 
 export default function EducationListPage() {
+	return (
+		<Suspense fallback={
+			<div className="min-h-screen bg-[#0A0B0F] flex items-center justify-center">
+				<div className="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
+			</div>
+		}>
+			<EducationListPageContent />
+		</Suspense>
+	);
+}
+
+function EducationListPageContent() {
 	const searchParams = useSearchParams();
 	const activeCategory = searchParams.get("category");
 	const [articles, setArticles] = useState<InsightArticle[]>([]);
