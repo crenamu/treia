@@ -194,16 +194,16 @@ export default function TreiaFunnelPage() {
 							Proof
 						</Link>
 						<Link
-							href="/treia/education"
-							className="hover:text-[var(--treia-gold)] transition-colors"
-						>
-							Blog
-						</Link>
-						<Link
 							href="#faq"
 							className="hover:text-[var(--treia-gold)] transition-colors"
 						>
 							FAQ
+						</Link>
+						<Link
+							href="/treia/education"
+							className="hover:text-[var(--treia-gold)] transition-colors"
+						>
+							Blog
 						</Link>
 						<div className="flex items-center gap-6">
 							<div className="bg-white/5 p-1 rounded-full border border-white/5">
@@ -273,18 +273,18 @@ export default function TreiaFunnelPage() {
 							Proof
 						</Link>
 						<Link
-							href="/treia/education"
-							onClick={() => setIsNavOpen(false)}
-							className="hover:text-[#c8a84b]"
-						>
-							Blog
-						</Link>
-						<Link
 							href="#faq"
 							onClick={() => setIsNavOpen(false)}
 							className="hover:text-[#c8a84b]"
 						>
 							FAQ
+						</Link>
+						<Link
+							href="/treia/education"
+							onClick={() => setIsNavOpen(false)}
+							className="hover:text-[#c8a84b]"
+						>
+							Blog
 						</Link>
 						<Link
 							href="#apply"
