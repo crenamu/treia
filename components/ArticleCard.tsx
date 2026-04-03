@@ -80,7 +80,6 @@ export default function ArticleCard({
 							</div>
 						)}
 					</div>
-					</div>
 				</div>
 				<div className="flex flex-col gap-3.5">
 					<h3 className="font-bold text-lg text-white leading-[1.4] group-hover:text-amber-500 transition-colors line-clamp-2 tracking-tight [word-break:keep-all]">
