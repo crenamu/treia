@@ -163,32 +163,44 @@ export default function EducationDetailPage() {
 						<article className="prose prose-invert prose-amber max-w-none">
 							<ReactMarkdown
 								components={{
-									h3: ({ ...props }) => (
-										<h3
-											className="text-2xl md:text-3xl font-black text-white mt-20 mb-10 border-l-8 border-amber-500 pl-6 leading-tight tracking-tighter"
+									h2: ({ ...props }) => (
+										<h2
+											className="text-3xl md:text-4xl font-black text-white mt-24 mb-10 pb-6 border-b border-gray-800 tracking-tighter leading-tight [word-break:keep-all]"
 											{...props}
 										/>
+									),
+									h3: ({ ...props }) => (
+										<h3
+											className="text-2xl md:text-3xl font-black text-white mt-16 mb-8 flex items-center gap-4 tracking-tighter"
+											{...props}
+										>
+											<span className="w-1.5 h-8 bg-amber-500 rounded-full shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+											{props.children}
+										</h3>
 									),
 									p: ({ ...props }) => (
 										<p
-											className="text-gray-400 leading-[1.8] text-lg md:text-xl mb-10 font-medium tracking-tight opacity-90"
-											{...props}
-										/>
-									),
-									li: ({ ...props }) => (
-										<li
-											className="text-gray-300 mb-4 text-base md:text-lg leading-relaxed list-disc marker:text-amber-500"
-											{...props}
-										/>
-									),
-									strong: ({ ...props }) => (
-										<strong
-											className="text-amber-400 font-black px-1"
+											className="text-gray-400 leading-[1.8] text-lg md:text-xl mb-12 font-medium tracking-tight opacity-90 [word-break:keep-all]"
 											{...props}
 										/>
 									),
 									ul: ({ ...props }) => (
-										<ul className="mb-10 pl-6 space-y-4" {...props} />
+										<ul className="mb-14 space-y-6 bg-white/[0.02] border border-white/5 rounded-[32px] p-10 backdrop-blur-3xl shadow-2xl" {...props} />
+									),
+									li: ({ ...props }) => (
+										<li className="flex gap-4 text-gray-300 text-base md:text-lg leading-relaxed group/li list-none">
+											<span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)] shrink-0 transition-transform group-hover/li:scale-150" />
+											<span className="[word-break:keep-all]">{props.children}</span>
+										</li>
+									),
+									strong: ({ ...props }) => (
+										<strong
+											className="bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent font-black px-0.5"
+											{...props}
+										/>
+									),
+									code: ({ ...props }) => (
+										<code className="bg-amber-500/10 text-amber-500 px-2.5 py-1 rounded-lg font-mono text-[0.85em] border border-amber-500/20 mx-1" {...props} />
 									),
 								}}
 							>
