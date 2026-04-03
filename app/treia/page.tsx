@@ -309,61 +309,62 @@ export default function TreiaFunnelPage() {
 						backgroundSize: "60px 60px",
 					}}
 				></div>
-					{/* Premium Engine Box Visual - Refined Placement to avoid Overlap */}
+				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32 w-full">
+					{/* Premium Engine Box Visual - Hero Section Centerpiece */}
 					<motion.div 
-						initial={{ opacity: 0, scale: 0.9, y: 20 }}
+						initial={{ opacity: 0, scale: 0.9, y: 30 }}
 						animate={{ 
-							opacity: 0.7, 
+							opacity: 1, 
 							scale: 1, 
-							y: [0, -15, 0],
+							y: [0, -20, 0],
 						}}
 						transition={{ 
-							opacity: { duration: 2 },
-							y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+							opacity: { duration: 1.5, delay: 0.5 },
+							scale: { duration: 1.5, delay: 0.5 },
+							y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
 						}}
-						className="relative w-48 h-32 md:w-80 md:h-56 mb-12 flex items-center justify-center"
+						className="relative w-48 h-32 md:w-80 md:h-56 mb-16 flex items-center justify-center"
 					>
-						<div className="absolute inset-0 bg-[#c8a84b]/5 blur-[60px] rounded-full scale-110" />
+						<div className="absolute inset-0 bg-[#c8a84b]/10 blur-[80px] rounded-full scale-125 animate-pulse" />
 						<Image
 							src="/box-engine.png"
 							alt="Treia No.1 Engine"
 							fill
-							className="object-contain drop-shadow-2xl"
+							className="object-contain drop-shadow-[0_20px_50px_rgba(200,168,75,0.2)]"
 							priority
 						/>
 					</motion.div>
 					
-					{/* Logo Section */}
-					<div className="relative w-32 h-10 md:w-48 md:h-16 mb-8 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
-						<Image
-							src={logo_src}
-							alt="Treia Gold Logo"
-							fill
-							className="object-contain opacity-80"
-							priority
-						/>
+					{/* Logo & Headline Section */}
+					<div className="relative w-32 h-10 md:w-48 md:h-16 mb-8 flex items-center justify-center">
+						<Image src={logo_src} alt="Treia Gold Logo" fill className="object-contain" priority />
 					</div>
+
 					<div className="font-mono text-[11px] md:text-[13px] text-[#c8a84b] tracking-[8px] uppercase mb-12 opacity-80 font-bold">
 						Treia Gold Algorithm Engine
 					</div>
-					<div className="impeccable-card px-8 py-2.5 mb-14 bg-black/40 border-white/10">
+
+					<div className="impeccable-card px-8 py-2.5 mb-14 bg-black/40 border-[#c8a84b]/20">
 						<span className="text-[#c8a84b] font-bold tracking-[4px] text-xs md:text-sm uppercase font-mono">
 							Algorithm Engine v3.0
 						</span>
 					</div>
-					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[72px] font-black leading-[1.3] tracking-[-0.03em] text-white/95 mb-14 px-4 relative z-20">
-						<span className="text-[#c8a84b]/80">투자는</span>{" "}
-						<span className="inline-block border-b-4 border-[#c8a84b]/40 pb-1 mx-1">당신의 일상을</span> <br className="hidden md:block" />
-						<span className="inline-block border-b-4 border-[#c8a84b]/40 pb-1 mx-1 mt-4">지키기 위한 수단</span>
-						<span className="text-[#c8a84b]/80">이어야 합니다.</span>
+
+					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-black leading-[1.2] tracking-[-0.04em] text-white mb-12 px-4 text-center">
+						<span className="text-[#c8a84b]">투자는</span>{" "}
+						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">당신의 일상을</span> <br className="hidden md:block" />
+						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] mt-2">지키기 위한 수단</span>
+						<span className="text-[#c8a84b]">이어야 합니다.</span>
 					</h1>
-					<p className="text-[17px] md:text-[24px] text-[var(--treia-sub)] max-w-3xl leading-[1.8] font-light">
+
+					<p className="text-[17px] md:text-[24px] text-gray-400 max-w-3xl leading-[1.8] font-light text-center break-keep">
 						모니터 앞에서 보내는 긴장된 시간들, 이제는 본업과 가족에게
 						돌려주십시오. <br className="hidden lg:block" />내 손가락의
 						뇌동매매를 잠그고, 시스템의 견고한 원칙만 남깁니다.{" "}
 						<br className="hidden lg:block" />
 						감정의 소모 없이 24시간 정교하게 작동하는 생존형 자산 관리 알고리즘.
 					</p>
+				</div>
 
 				<div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 reveal opacity-0 translate-y-4 transition-all duration-1000 delay-500">
 					<span className="font-mono text-[9px] tracking-[4px] uppercase text-[var(--treia-sub)]">
