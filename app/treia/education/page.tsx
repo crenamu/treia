@@ -1,7 +1,8 @@
 "use client";
 import { ArrowLeft, Filter, GraduationCap, Search } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState, useMemo } from "react";
 import ArticleCard from "@/components/ArticleCard";
 import InsightCarousel from "@/components/InsightCarousel";
 
@@ -17,8 +18,15 @@ interface InsightArticle {
 }
 
 export default function EducationListPage() {
+	const searchParams = useSearchParams();
+	const activeCategory = searchParams.get("category");
 	const [articles, setArticles] = useState<InsightArticle[]>([]);
 	const [loading, setLoading] = useState(true);
+
+	const categories = useMemo(() => {
+		if (activeCategory) return [activeCategory];
+		return Array.from(new Set(articles.map((a) => a.category)));
+	}, [articles, activeCategory]);
 
 	useEffect(() => {
 		// 정식 API를 통해 Firestore의 데이터를 가져옵니다.
@@ -94,7 +102,17 @@ export default function EducationListPage() {
 					</div>
 				) : articles.length > 0 ? (
 					<div className="flex flex-col gap-16">
-						{Array.from(new Set(articles.map((a) => a.category))).map(
+						{activeCategory && (
+							<div className="flex items-center justify-between mb-2">
+								<p className="text-amber-500 font-mono text-[11px] uppercase tracking-widest flex items-center gap-2">
+									<Filter size={14} /> Filtered by: {activeCategory}
+								</p>
+								<Link href="/treia/education" className="text-gray-500 hover:text-white text-xs font-bold transition-all underline underline-offset-4">
+									Clear Filter
+								</Link>
+							</div>
+						)}
+						{categories.map(
 							(category) => (
 								<CategorySection
 									key={category}

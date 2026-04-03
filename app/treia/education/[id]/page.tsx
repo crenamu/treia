@@ -93,17 +93,17 @@ export default function EducationDetailPage() {
 		<main className="min-h-screen bg-[#0A0B0F] text-white pb-24">
 			{/* Hero Header Selection */}
 			<div className="relative w-full h-[60vh] min-h-[500px] overflow-hidden bg-[#0A0B0F]">
-				<div className="absolute inset-0">
-					<Image
+				<div className="absolute inset-0 z-0 select-none pointer-events-none">
+					<img
 						src={backgroundImage}
 						alt=""
-						fill
-						priority
-						className="object-cover opacity-40 transition-opacity duration-1000"
+						className="w-full h-full object-cover opacity-30 transition-opacity duration-1000 scale-110"
 						onError={() => setImageError(true)}
+						loading="lazy"
 					/>
 				</div>
-				<div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0F] via-[#0A0B0F]/40 to-transparent z-10"></div>
+				<div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#0A0B0F] to-transparent z-10" />
+				<div className="absolute inset-0 bg-[#0A0B0F]/40 z-10" />
 
 				<div className="absolute bottom-0 left-0 w-full z-20">
 					<div className="container mx-auto px-6 pb-16 max-w-4xl">
