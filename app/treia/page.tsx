@@ -309,43 +309,37 @@ export default function TreiaFunnelPage() {
 						backgroundSize: "60px 60px",
 					}}
 				></div>
-				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#c8a84b]/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
-				
-				{/* Premium Engine Box Visual - Hero Section Centerpiece */}
-				<motion.div 
-					initial={{ opacity: 0, scale: 0.8, y: 40 }}
-					animate={{ 
-						opacity: 1, 
-						scale: 1, 
-						y: [0, -25, 0],
-					}}
-					transition={{ 
-						opacity: { duration: 1.5, delay: 0.5 },
-						scale: { duration: 1.5, delay: 0.5 },
-						y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
-					}}
-					className="absolute top-[28%] md:top-[32%] left-1/2 -translate-x-1/2 w-[320px] md:w-[600px] aspect-[4/3] z-[5] pointer-events-none"
-				>
-					<div className="relative w-full h-full">
-						{/* Back Glow Effect */}
-						<div className="absolute inset-0 bg-[#c8a84b]/10 blur-[100px] rounded-full scale-75 animate-pulse" />
-						<Image 
+					{/* Premium Engine Box Visual - Refined Placement to avoid Overlap */}
+					<motion.div 
+						initial={{ opacity: 0, scale: 0.9, y: 20 }}
+						animate={{ 
+							opacity: 0.7, 
+							scale: 1, 
+							y: [0, -15, 0],
+						}}
+						transition={{ 
+							opacity: { duration: 2 },
+							y: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+						}}
+						className="relative w-48 h-32 md:w-80 md:h-56 mb-12 flex items-center justify-center"
+					>
+						<div className="absolute inset-0 bg-[#c8a84b]/5 blur-[60px] rounded-full scale-110" />
+						<Image
 							src="/box-engine.png"
-							alt="Treia No.1 Algorithm Engine"
+							alt="Treia No.1 Engine"
 							fill
-							className="object-contain drop-shadow-[0_35px_60px_rgba(0,0,0,0.5)]"
+							className="object-contain drop-shadow-2xl"
 							priority
 						/>
-					</div>
-				</motion.div>
-
-				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32">
-					<div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
+					</motion.div>
+					
+					{/* Logo Section */}
+					<div className="relative w-32 h-10 md:w-48 md:h-16 mb-8 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
 						<Image
 							src={logo_src}
 							alt="Treia Gold Logo"
 							fill
-							className="object-contain"
+							className="object-contain opacity-80"
 							priority
 						/>
 					</div>
@@ -357,11 +351,11 @@ export default function TreiaFunnelPage() {
 							Algorithm Engine v3.0
 						</span>
 					</div>
-					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-black leading-[1.2] tracking-[-0.04em] text-[var(--treia-text)] mb-12 px-4 mix-blend-plus-lighter relative z-20">
-						<span className="text-[var(--treia-gold)]">투자는</span>{" "}
-						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">당신의 일상을</span> <br className="hidden md:block" />
-						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] mt-2">지키기 위한 수단</span>
-						<span className="text-[var(--treia-gold)]">이어야 합니다.</span>
+					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[72px] font-black leading-[1.3] tracking-[-0.03em] text-white/95 mb-14 px-4 relative z-20">
+						<span className="text-[#c8a84b]/80">투자는</span>{" "}
+						<span className="inline-block border-b-4 border-[#c8a84b]/40 pb-1 mx-1">당신의 일상을</span> <br className="hidden md:block" />
+						<span className="inline-block border-b-4 border-[#c8a84b]/40 pb-1 mx-1 mt-4">지키기 위한 수단</span>
+						<span className="text-[#c8a84b]/80">이어야 합니다.</span>
 					</h1>
 					<p className="text-[17px] md:text-[24px] text-[var(--treia-sub)] max-w-3xl leading-[1.8] font-light">
 						모니터 앞에서 보내는 긴장된 시간들, 이제는 본업과 가족에게
