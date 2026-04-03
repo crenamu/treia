@@ -97,7 +97,7 @@ export default function EducationDetailPage() {
 				<div className="absolute bottom-0 left-0 w-full z-20">
 					<div className="container mx-auto px-6 pb-16 max-w-4xl">
 						<Link
-							href="/education"
+							href="/treia/education"
 							className="inline-flex items-center gap-2 text-amber-500 hover:text-white mb-8 transition-all font-bold group"
 						>
 							<ArrowLeft
@@ -250,7 +250,7 @@ export default function EducationDetailPage() {
 										relatedArticles.map((rel) => (
 											<Link
 												key={rel.id}
-												href={`/education/${rel.id}`}
+												href={`/treia/education/${rel.id}`}
 												className="group/item flex flex-col gap-2 transition-all"
 											>
 												<span className="text-[9px] font-black text-amber-500/70 uppercase tracking-widest group-hover/item:text-amber-500 transition-colors">

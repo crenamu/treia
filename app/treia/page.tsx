@@ -1586,7 +1586,7 @@ export default function TreiaFunnelPage() {
 						<InsightCarousel>
 							{blogArticles.map((article) => (
 								<div key={article.id} className="w-[340px] md:w-[400px] shrink-0">
-									<Link href={`/treia/education?id=${article.id}`}>
+									<Link href={`/treia/education/${article.id}`}>
 										<ArticleCard 
 											title={article.title}
 											source="Treia Academy"

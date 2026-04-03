@@ -147,7 +147,7 @@ function CategorySection({
 						key={article.id}
 						className="w-[340px] md:w-[400px] shrink-0"
 					>
-						<Link href={`/treia/education?id=${article.id}`} className="block h-full">
+						<Link href={`/treia/education/${article.id}`} className="block h-full">
 							<ArticleCard
 								title={article.title}
 								category={article.category}
