@@ -299,7 +299,7 @@ export default function TreiaFunnelPage() {
 
 			<section
 				id="hero"
-				className="relative min-h-[100svh] flex flex-col justify-start items-center text-center px-6 pt-32 md:pt-48 scroll-mt-20"
+				className="relative min-h-[100svh] flex flex-col justify-start items-center text-center px-6 pt-16 md:pt-24 lg:pt-32 scroll-mt-20"
 			>
 				<div
 					className="absolute inset-0 pointer-events-none opacity-[0.01]"
@@ -309,7 +309,7 @@ export default function TreiaFunnelPage() {
 						backgroundSize: "60px 60px",
 					}}
 				></div>
-				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32 w-full">
+				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-12 md:mb-20 w-full">
 					{/* Logo Section - Top Priority */}
 					<div className="relative w-28 h-20 md:w-44 md:h-28 mb-8 flex items-center justify-center overflow-hidden">
 						<Image 
@@ -322,7 +322,7 @@ export default function TreiaFunnelPage() {
 					</div>
 
 					{/* Premium Engine Box Visual - Hero Section Anchor with Dynamic Shadow */}
-					<div className="relative mb-16 flex flex-col items-center">
+					<div className="relative mb-10 flex flex-col items-center">
 						<motion.div 
 							initial={{ opacity: 0, scale: 0.9, y: 30 }}
 							animate={{ 
@@ -374,7 +374,7 @@ export default function TreiaFunnelPage() {
 						</span>
 					</div>
 
-					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-black leading-[1.2] tracking-[-0.04em] text-white mb-12 px-4 text-center">
+					<h1 className="font-outfit text-3xl md:text-5xl lg:text-[68px] font-black leading-[1.2] tracking-[-0.04em] text-white mb-10 px-4 text-center">
 						<span className="text-[#c8a84b]">투자는</span>{" "}
 						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">당신의 일상을</span> <br className="hidden md:block" />
 						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] mt-2">지키기 위한 수단</span>
