@@ -310,7 +310,18 @@ export default function TreiaFunnelPage() {
 					}}
 				></div>
 				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32 w-full">
-					{/* Premium Engine Box Visual - Hero Section Centerpiece */}
+					{/* Logo Section - Top Priority */}
+					<div className="relative w-28 h-20 md:w-44 md:h-28 mb-8 flex items-center justify-center overflow-hidden">
+						<Image 
+							src={logo_src} 
+							alt="Treia Gold Logo" 
+							fill 
+							className="object-contain" 
+							priority 
+						/>
+					</div>
+
+					{/* Premium Engine Box Visual - Hero Section Anchor */}
 					<motion.div 
 						initial={{ opacity: 0, scale: 0.9, y: 30 }}
 						animate={{ 
@@ -335,17 +346,7 @@ export default function TreiaFunnelPage() {
 						/>
 					</motion.div>
 					
-					{/* Logo & Headline Section - Maintain Aspect Ratio */}
-					<div className="relative w-28 h-20 md:w-44 md:h-28 mb-12 flex items-center justify-center overflow-hidden">
-						<Image 
-							src={logo_src} 
-							alt="Treia Gold Logo" 
-							fill 
-							className="object-contain" 
-							priority 
-						/>
-					</div>
-
+					{/* Headline & Badge Section */}
 					<div className="font-mono text-[11px] md:text-[13px] text-[#c8a84b] tracking-[8px] uppercase mb-12 opacity-80 font-bold">
 						Treia Gold Algorithm Engine
 					</div>
