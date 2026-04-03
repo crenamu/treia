@@ -1775,20 +1775,20 @@ function MainBacktestInfographic() {
 
 				{/* 4 Multi-Stats Grid - 차트 이후 순차 노출 */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-					<InfographicCountCard label="Net Profit" target={INFOGRAPHIC_TARGET.profit} prefix="+$" sub={`+${INFOGRAPHIC_TARGET.pct.toFixed(1)}% Yield`} color="#10B981" triggered={isTriggered} delay={2500} />
-					<InfographicCountCard label="Profit Factor" target={INFOGRAPHIC_TARGET.pf} decimals={2} sub="Statistical Stability" color="#10B981" triggered={isTriggered} delay={3100} />
-					<InfographicCountCard label="Sharpe Ratio" target={INFOGRAPHIC_TARGET.sr} decimals={2} sub="Risk-Adj Return" color="#c8a84b" triggered={isTriggered} delay={3700} />
-					<InfographicCountCard label="Max Drawdown" target={INFOGRAPHIC_TARGET.dd} decimals={2} suffix="%" sub="Capital Safety" color="#e05252" triggered={isTriggered} delay={4300} />
+					<InfographicCountCard label="Net Profit" target={INFOGRAPHIC_TARGET.profit} prefix="+$" sub={`+${INFOGRAPHIC_TARGET.pct.toFixed(1)}% Yield`} color="#10B981" triggered={isTriggered} delay={1800} />
+					<InfographicCountCard label="Profit Factor" target={INFOGRAPHIC_TARGET.pf} decimals={2} sub="Statistical Stability" color="#10B981" triggered={isTriggered} delay={2200} />
+					<InfographicCountCard label="Sharpe Ratio" target={INFOGRAPHIC_TARGET.sr} decimals={2} sub="Risk-Adj Return" color="#c8a84b" triggered={isTriggered} delay={2600} />
+					<InfographicCountCard label="Max Drawdown" target={INFOGRAPHIC_TARGET.dd} decimals={2} suffix="%" sub="Capital Safety" color="#e05252" triggered={isTriggered} delay={3000} />
 				</div>
 
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-					<InfographicWinRing triggered={isTriggered} delay={5000} />
-					<InfographicProfitBar triggered={isTriggered} delay={5700} />
+					<InfographicWinRing triggered={isTriggered} delay={3400} />
+					<InfographicProfitBar triggered={isTriggered} delay={3900} />
 				</div>
 
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-					<InfographicDirCard dir="매수 포지션 (Buy)" target={INFOGRAPHIC_TARGET.buy} sub="상승장 대응력" arrow="↑" triggered={isTriggered} delay={6400} />
-					<InfographicDirCard dir="매도 포지션 (Sell)" target={INFOGRAPHIC_TARGET.sell} sub="하락장 하방 수익" arrow="↓" triggered={isTriggered} delay={7100} />
+					<InfographicDirCard dir="매수 포지션 (Buy)" target={INFOGRAPHIC_TARGET.buy} sub="상승장 대응력" arrow="↑" triggered={isTriggered} delay={4400} />
+					<InfographicDirCard dir="매도 포지션 (Sell)" target={INFOGRAPHIC_TARGET.sell} sub="하락장 하방 수익" arrow="↓" triggered={isTriggered} delay={4900} />
 				</div>
                 
 			</div>
@@ -1834,7 +1834,7 @@ function InfographicChartSection({ scriptLoaded, triggered }: { scriptLoaded: bo
 		if (animDone.current || !chartRef.current) return
 		animDone.current = true
 		
-		// 스크롤 후 시선 안착을 위한 300ms 추가 대기
+		// 스크롤 후 시선 안착을 위한 대기 시간 단축 (300ms -> 100ms)
 		setTimeout(() => {
 			let drawn = 0
 			function drawFrames() {
@@ -1852,7 +1852,7 @@ function InfographicChartSection({ scriptLoaded, triggered }: { scriptLoaded: bo
 				else setLiveVal(INFOGRAPHIC_TARGET.pct.toFixed(1))
 			}
 			requestAnimationFrame(drawFrames)
-		}, 300)
+		}, 100)
 	}, [rawData])
 
 	useEffect(() => {
