@@ -347,7 +347,7 @@ export default function TreiaFunnelPage() {
 							/>
 						</motion.div>
 						
-						{/* Realistic Reactive Shadow */}
+						{/* Realistic Reactive Shadow - Compact spacing */}
 						<motion.div
 							animate={{
 								scale: [1, 1.2, 1],
@@ -363,12 +363,12 @@ export default function TreiaFunnelPage() {
 						/>
 					</div>
 					
-					{/* Headline & Badge Section */}
-					<div className="font-mono text-[11px] md:text-[13px] text-[#c8a84b] tracking-[8px] uppercase mb-12 opacity-80 font-bold">
+					{/* Headline & Badge Section - Tightened Vertical Space */}
+					<div className="font-mono text-[11px] md:text-[13px] text-[#c8a84b] tracking-[8px] uppercase mb-8 opacity-80 font-bold">
 						Treia Gold Algorithm Engine
 					</div>
 
-					<div className="impeccable-card px-8 py-2.5 mb-14 bg-black/40 border-[#c8a84b]/20">
+					<div className="impeccable-card px-8 py-2 md:py-2.5 mb-10 bg-black/40 border-[#c8a84b]/20 scale-90 md:scale-100">
 						<span className="text-[#c8a84b] font-bold tracking-[4px] text-xs md:text-sm uppercase font-mono">
 							Algorithm Engine v3.0
 						</span>
