@@ -364,7 +364,6 @@ export default function TreiaFunnelPage() {
 						<br className="hidden lg:block" />
 						감정의 소모 없이 24시간 정교하게 작동하는 생존형 자산 관리 알고리즘.
 					</p>
-				</div>
 
 				<div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 reveal opacity-0 translate-y-4 transition-all duration-1000 delay-500">
 					<span className="font-mono text-[9px] tracking-[4px] uppercase text-[var(--treia-sub)]">
