@@ -310,6 +310,34 @@ export default function TreiaFunnelPage() {
 					}}
 				></div>
 				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#c8a84b]/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
+				
+				{/* Premium Engine Box Visual - Hero Section Centerpiece */}
+				<motion.div 
+					initial={{ opacity: 0, scale: 0.8, y: 40 }}
+					animate={{ 
+						opacity: 1, 
+						scale: 1, 
+						y: [0, -25, 0],
+					}}
+					transition={{ 
+						opacity: { duration: 1.5, delay: 0.5 },
+						scale: { duration: 1.5, delay: 0.5 },
+						y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+					}}
+					className="absolute top-[28%] md:top-[32%] left-1/2 -translate-x-1/2 w-[320px] md:w-[600px] aspect-[4/3] z-[5] pointer-events-none"
+				>
+					<div className="relative w-full h-full">
+						{/* Back Glow Effect */}
+						<div className="absolute inset-0 bg-[#c8a84b]/10 blur-[100px] rounded-full scale-75 animate-pulse" />
+						<Image 
+							src="/box-engine.png"
+							alt="Treia No.1 Algorithm Engine"
+							fill
+							className="object-contain drop-shadow-[0_35px_60px_rgba(0,0,0,0.5)]"
+							priority
+						/>
+					</div>
+				</motion.div>
 
 				<div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-[1500ms] mb-20 md:mb-32">
 					<div className="relative w-48 h-20 md:w-80 md:h-40 mb-6 reveal opacity-0 scale-95 transition-all duration-1000 flex items-center justify-center">
@@ -329,7 +357,7 @@ export default function TreiaFunnelPage() {
 							Algorithm Engine v3.0
 						</span>
 					</div>
-					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-black leading-[1.2] tracking-[-0.04em] text-[var(--treia-text)] mb-12 px-4">
+					<h1 className="font-outfit text-4xl md:text-6xl lg:text-[76px] font-black leading-[1.2] tracking-[-0.04em] text-[var(--treia-text)] mb-12 px-4 mix-blend-plus-lighter relative z-20">
 						<span className="text-[var(--treia-gold)]">투자는</span>{" "}
 						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">당신의 일상을</span> <br className="hidden md:block" />
 						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] mt-2">지키기 위한 수단</span>
