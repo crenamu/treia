@@ -400,6 +400,252 @@ export default function TreiaFunnelPage() {
 				</div>
 			</section>
 
+			{/* Market Evolution: Phase 1 - Global Dominance */}
+			<section
+				id="market-dominance"
+				className="relative py-24 md:py-32 px-6 border-t border-[var(--treia-section-border)] bg-[var(--treia-bg)] overflow-hidden"
+			>
+				<div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#c8a84b]/30 to-transparent" />
+				
+				<div className="max-w-7xl mx-auto relative z-10">
+					<motion.div 
+						initial={{ opacity: 0, y: 30 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						className="text-center mb-20"
+					>
+						<span className="text-[#c8a84b] font-mono text-sm tracking-[5px] uppercase block mb-6">
+							Market Dominance
+						</span>
+						<h2 className="text-4xl md:text-6xl font-black text-[var(--treia-text)] mb-8 tracking-tighter leading-[1.1]">
+							알고리즘이 이미 <br className="md:hidden" />
+							<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">시장을 지배</span>
+							하고 있습니다.
+						</h2>
+						<p className="text-[var(--treia-sub)] text-lg md:text-xl font-light max-w-3xl mx-auto break-keep">
+							우리가 감정에 휩쓸려 매수 버튼을 고민할 때, <br className="hidden md:block" /> 
+							글로벌 금융 공룡들은 이미 0.001초의 오차도 없는 알고리즘으로 수익을 확정 짓습니다.
+						</p>
+					</motion.div>
+
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+						{[
+							{
+								value: "61%",
+								label: "미국 기관 투자자 점유율",
+								source: "Mordor Intelligence (2025 전망)",
+								sub: "인간 트레이더가 설 자리는 40% 미만으로 좁아졌습니다."
+							},
+							{
+								value: "85%",
+								label: "미국 주식 거래량 비중",
+								source: "TABB Group (2027 전망)",
+								sub: "시장의 흐름 자체가 이미 전산화된 수식으로 움직입니다."
+							},
+							{
+								value: "$43.6B",
+								label: "글로벌 시장 규모",
+								source: "Market Data Forecast (2033)",
+								sub: "연간 2배 이상의 자금이 알고리즘 시장으로 몰리고 있습니다."
+							}
+						].map((item, idx) => (
+							<motion.div 
+								key={idx}
+								initial={{ opacity: 0, scale: 0.95 }}
+								whileInView={{ opacity: 1, scale: 1 }}
+								transition={{ delay: idx * 0.2 }}
+								viewport={{ once: true }}
+								className="impeccable-card p-10 flex flex-col items-center text-center group hover:border-[#c8a84b]/50 transition-all duration-500"
+							>
+								<div className="text-5xl md:text-6xl font-black text-[#c8a84b] mb-6 tracking-tighter font-mono">
+									{item.value}
+								</div>
+								<div className="text-lg font-bold text-[var(--treia-text)] mb-2">{item.label}</div>
+								<div className="text-[11px] font-mono text-[var(--treia-sub)] uppercase tracking-widest mb-6 py-1 px-3 bg-white/5 rounded-full border border-white/5">
+									{item.source}
+								</div>
+								<p className="text-sm text-[var(--treia-sub)] leading-relaxed font-light">
+									{item.sub}
+								</p>
+							</motion.div>
+						))}
+					</div>
+
+					<div className="flex flex-col lg:flex-row items-center gap-16 mt-32 p-8 md:p-16 rounded-[40px] bg-white/5 border border-white/10 backdrop-blur-xl relative overflow-hidden">
+						<div className="absolute top-0 right-0 w-96 h-96 bg-[#c8a84b]/5 blur-[120px] rounded-full" />
+						
+						<div className="lg:w-1/2 flex flex-col gap-8 relative z-10">
+							<h3 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+								"월가 거래의 60%는 <br className="hidden md:block" />
+								<span className="text-[#c8a84b]">이미 사람이 아닙니다</span>"
+							</h3>
+							<p className="text-lg text-[var(--treia-sub)] leading-relaxed font-light break-keep">
+								글로벌 금융 시장의 심장부, 월스트리트의 현실입니다. <br />
+								인간은 지치고, 두려워하며, 욕심을 부립니다. <br /><br />
+								하지만 알고리즘은 24시간 피로를 느끼지 않으며, <br />
+								오직 데이터에 기반한 <strong className="text-white font-medium">'수학적 기댓값'</strong>만을 추구합니다. <br />
+								우리가 감정으로 매매하는 동안, 그들은 시스템으로 승리합니다.
+							</p>
+							
+							<div className="flex flex-col gap-4 mt-4">
+								<div className="flex items-center gap-3">
+									<div className="w-1.5 h-1.5 rounded-full bg-[#c8a84b]" />
+									<span className="text-sm text-[var(--treia-sub)]">BlackRock: $20조 자산을 알고리즘으로 운용</span>
+								</div>
+								<div className="flex items-center gap-3">
+									<div className="w-1.5 h-1.5 rounded-full bg-[#c8a84b]" />
+									<span className="text-sm text-[var(--treia-sub)]">Renaissance Tech: 알고리즘 하나로 연평균 70% 수익</span>
+								</div>
+							</div>
+						</div>
+
+						<div className="lg:w-1/2 relative h-[300px] md:h-[450px] w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+							<Image 
+								src="/images/market/market-outlook.png" 
+								alt="Market Dominance Analysis" 
+								fill 
+								className="object-contain bg-[#111]"
+							/>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Market Scale: Phase 2 - Exploding Growth */}
+			<section
+				id="market-scale"
+				className="relative py-24 md:py-32 px-6 border-t border-[var(--treia-section-border)] bg-[var(--treia-bg)]"
+			>
+				<div className="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row-reverse items-center gap-16">
+					<div className="lg:w-1/2 flex flex-col gap-8 text-left">
+						<span className="text-[#c8a84b] font-mono text-sm tracking-[5px] uppercase block mb-4">
+							Exponential Growth
+						</span>
+						<h2 className="text-3xl md:text-5xl font-black text-[var(--treia-text)] leading-tight tracking-tight">
+							글로벌 알고리즘 시장은 <br />
+							<span className="text-[#c8a84b]">폭발적으로 팽창</span> 중입니다.
+						</h2>
+						<p className="text-[var(--treia-sub)] text-lg leading-relaxed font-light break-keep">
+							2024년 169억 달러에서 2033년 436억 달러까지. <br />
+							이는 단순히 시장이 커지는 것이 아니라, 투자의 '표준'이 <br />
+							수동 매매에서 알고리즘으로 완전히 넘어가고 있음을 의미합니다.
+						</p>
+
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+							<div className="impeccable-card p-6 border-white/5 bg-white/2 backdrop-blur-sm">
+								<div className="text-xs font-mono text-[var(--treia-sub)] uppercase tracking-widest mb-3">Est. Market 2024</div>
+								<div className="text-3xl font-bold text-white">$16.9B</div>
+							</div>
+							<div className="impeccable-card p-6 border-[#c8a84b]/30 bg-[#c8a84b]/5 backdrop-blur-sm">
+								<div className="text-xs font-mono text-[#c8a84b] uppercase tracking-widest mb-3">Projected Market 2033</div>
+								<div className="text-3xl font-bold text-[#c8a84b]">$43.6B</div>
+							</div>
+						</div>
+					</div>
+
+					<div className="lg:w-1/2 relative h-[300px] md:h-[500px] w-full rounded-3xl overflow-hidden shadow-[0_0_80px_rgba(200,168,75,0.05)] border border-white/10 group">
+						<div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-[#c8a84b] to-transparent z-20" />
+						<Image 
+							src="/images/market/market-size.png" 
+							alt="Market Size Projection" 
+							fill 
+							className="object-contain bg-[#0a0a0c] group-hover:scale-105 transition-transform duration-[2000ms]"
+						/>
+					</div>
+				</div>
+			</section>
+
+			{/* Institutional Power: Phase 3 - The Giants' Secret */}
+			<section
+				id="institutional-case"
+				className="relative py-24 md:py-32 px-6 border-t border-[var(--treia-section-border)] bg-[var(--treia-bg)] overflow-hidden"
+			>
+				<div className="absolute -top-40 -right-40 w-96 h-96 bg-[#c8a84b]/5 blur-[150px] rounded-full" />
+				<div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-900/5 blur-[150px] rounded-full" />
+				
+				<div className="max-w-6xl mx-auto relative z-10">
+					<div className="text-center mb-24">
+						<span className="text-[#c8a84b] font-mono text-sm tracking-[5px] uppercase block mb-6">
+							The Wall Street Giants
+						</span>
+						<h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-white leading-tight mb-8">
+							월가의 거물들이 <br className="md:hidden" />
+							<span className="text-[#c8a84b]">알고리즘을 선택한 이유</span>
+						</h2>
+						<p className="text-[var(--treia-sub)] text-lg md:text-2xl font-light">
+							그들이 증명한 숫자는 우연이 아닌 정교한 시스템의 필연입니다.
+						</p>
+					</div>
+
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+						{/* Renaissance Tech Case */}
+						<motion.div 
+							initial={{ opacity: 0, x: -30 }}
+							whileInView={{ opacity: 1, x: 0 }}
+							viewport={{ once: true }}
+							className="impeccable-card p-10 md:p-14 border-[#c8a84b]/20 bg-gradient-to-br from-white/5 to-transparent relative overflow-hidden"
+						>
+							<div className="absolute top-0 right-0 p-8 opacity-5">
+								<TrendingUp size={120} />
+							</div>
+							<div className="relative z-10">
+								<div className="text-[#c8a84b] font-mono text-sm tracking-widest uppercase mb-6">Legendary Performance</div>
+								<h3 className="text-2xl md:text-4xl font-bold text-white mb-8">Renaissance Technologies</h3>
+								<div className="flex items-baseline gap-2 mb-10">
+									<span className="text-6xl md:text-7xl font-black text-[#c8a84b] font-mono">70%</span>
+									<span className="text-xl text-[var(--treia-sub)] font-light">연평균 수익률</span>
+								</div>
+								<p className="text-[var(--treia-sub)] leading-relaxed text-lg font-light break-keep">
+									전설적인 '메달리온 펀드'는 사람이 아닌 수학자·물리학자들이 설계한 
+									알고리즘 하나로 30년 넘게 시장을 지배했습니다. <br /><br />
+									인간의 직관을 배제하고 오직 <strong>패턴과 데이터</strong>만을 신뢰한 
+									그들의 방식은 투자의 새로운 패러다임을 열었습니다.
+								</p>
+							</div>
+						</motion.div>
+
+						{/* BlackRock Case */}
+						<motion.div 
+							initial={{ opacity: 0, x: 30 }}
+							whileInView={{ opacity: 1, x: 0 }}
+							viewport={{ once: true }}
+							className="impeccable-card p-10 md:p-14 border-white/10 bg-gradient-to-bl from-white/2 to-transparent relative overflow-hidden"
+						>
+							<div className="absolute top-0 right-0 p-8 opacity-5">
+								<Layers size={120} />
+							</div>
+							<div className="relative z-10">
+								<div className="text-[var(--treia-sub)] font-mono text-sm tracking-widest uppercase mb-6">Infrastructural AI</div>
+								<h3 className="text-2xl md:text-4xl font-bold text-white mb-8">BlackRock Aladdin</h3>
+								<div className="flex items-baseline gap-2 mb-10">
+									<span className="text-6xl md:text-7xl font-black text-white/90 font-mono">$20T</span>
+									<span className="text-xl text-[var(--treia-sub)] font-light">AUM (운용 자산)</span>
+								</div>
+								<p className="text-[var(--treia-sub)] leading-relaxed text-lg font-light break-keep">
+									세계 최대 자산 운용사 블랙록은 'Aladdin'이라는 AI 엔진을 통해 
+									$20조(한화 약 2.7경 원) 이상의 자산을 관리합니다. <br /><br />
+									개인의 감정이나 편향된 정보가 아닌, <strong>초거대 알고리즘의 리스크 통제</strong>만이 
+									지속 가능한 성장을 보장한다는 것을 입증하고 있습니다.
+								</p>
+							</div>
+						</motion.div>
+					</div>
+
+					<div className="mt-24 text-center">
+						<motion.div
+							initial={{ opacity: 0 }}
+							whileInView={{ opacity: 1 }}
+							className="inline-block px-10 py-6 rounded-2xl bg-[#c8a84b] text-black"
+						>
+							<div className="text-xl md:text-2xl font-black tracking-tight mb-1">
+								"우리가 감정으로 매매하는 동안, 그들은 시스템을 완성했습니다."
+							</div>
+						</motion.div>
+					</div>
+				</div>
+			</section>
+
+
 			{/* Screen 2: The Philosophy */}
 			<section
 				id="philosophy"
