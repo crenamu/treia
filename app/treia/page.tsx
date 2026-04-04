@@ -499,13 +499,18 @@ export default function TreiaFunnelPage() {
 							</div>
 						</div>
 
-						<div className="lg:w-1/2 relative h-[300px] md:h-[450px] w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-							<Image 
-								src="/images/market/market-outlook.png" 
-								alt="Market Dominance Analysis" 
-								fill 
-								className="object-contain bg-[#111]"
-							/>
+						<div className="lg:w-1/2 flex flex-col gap-4">
+							<div className="relative h-[300px] md:h-[450px] w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+								<Image 
+									src="/images/market/market-outlook.png" 
+									alt="Market Dominance Analysis" 
+									fill 
+									className="object-contain bg-[#111]"
+								/>
+							</div>
+							<p className="text-[11px] font-mono text-[var(--treia-sub)] text-center opacity-60">
+								Source: <a href="https://www.marketdataforecast.com/market-reports/algorithmic-trading-market" target="_blank" rel="noopener noreferrer" className="hover:text-[#c8a84b] underline underline-offset-4 decoration-[#c8a84b]/30">Market Data Forecast</a>
+							</p>
 						</div>
 					</div>
 				</div>
@@ -543,14 +548,19 @@ export default function TreiaFunnelPage() {
 						</div>
 					</div>
 
-					<div className="lg:w-1/2 relative h-[300px] md:h-[500px] w-full rounded-3xl overflow-hidden shadow-[0_0_80px_rgba(200,168,75,0.05)] border border-white/10 group">
-						<div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-[#c8a84b] to-transparent z-20" />
-						<Image 
-							src="/images/market/market-size.png" 
-							alt="Market Size Projection" 
-							fill 
-							className="object-contain bg-[#0a0a0c] group-hover:scale-105 transition-transform duration-[2000ms]"
-						/>
+					<div className="lg:w-1/2 flex flex-col gap-4 w-full">
+						<div className="relative h-[300px] md:h-[500px] w-full rounded-3xl overflow-hidden shadow-[0_0_80px_rgba(200,168,75,0.05)] border border-white/10 group">
+							<div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-[#c8a84b] to-transparent z-20" />
+							<Image 
+								src="/images/market/market-size.png" 
+								alt="Market Size Projection" 
+								fill 
+								className="object-contain bg-[#0a0a0c] group-hover:scale-105 transition-transform duration-[2000ms]"
+							/>
+						</div>
+						<p className="text-[11px] font-mono text-[var(--treia-sub)] text-center opacity-60">
+							Source: <a href="https://www.mordorintelligence.com/industry-reports/algorithmic-trading-market" target="_blank" rel="noopener noreferrer" className="hover:text-[#c8a84b] underline underline-offset-4 decoration-[#c8a84b]/30">Mordor Intelligence</a>
+						</p>
 					</div>
 				</div>
 			</section>
