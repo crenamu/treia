@@ -20,7 +20,7 @@ interface InsightArticle {
 export default function EducationListPage() {
 	return (
 		<Suspense fallback={
-			<div className="min-h-screen bg-[#0A0B0F] flex items-center justify-center">
+			<div className="min-h-screen bg-[var(--treia-bg)] flex items-center justify-center">
 				<div className="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
 			</div>
 		}>
@@ -54,13 +54,13 @@ function EducationListPageContent() {
 	}, []);
 
 	return (
-		<div className="min-h-screen bg-[#0A0B0F] text-white pb-24">
+		<div className="min-h-screen bg-[var(--treia-bg)] text-[var(--treia-text)] pb-24">
 			{/* Header */}
-			<div className="bg-[#14161B] border-b border-gray-800 pt-20 pb-12">
+			<div className="bg-[var(--treia-card)] border-b border-[var(--treia-card-border)] pt-20 pb-12">
 				<div className="container mx-auto px-6 max-w-7xl">
 					<Link
 						href="/treia"
-						className="inline-flex items-center gap-2 text-gray-500 hover:text-amber-500 mb-8 transition-colors text-xs font-mono uppercase tracking-[3px]"
+						className="inline-flex items-center gap-2 text-[var(--treia-sub)] hover:text-amber-500 mb-8 transition-colors text-xs font-mono uppercase tracking-[3px]"
 					>
 						<ArrowLeft size={14} /> Back to Dashboard
 					</Link>
@@ -73,10 +73,10 @@ function EducationListPageContent() {
 									Treia Academy
 								</span>
 							</div>
-							<h1 className="text-4xl md:text-5xl font-light tracking-tight text-white mb-4">
+							<h1 className="text-4xl md:text-5xl font-light tracking-tight text-[var(--treia-text)] mb-4">
 								Treia <span className="text-amber-500">Insights</span>
 							</h1>
-							<p className="text-gray-500 font-medium max-w-xl leading-relaxed break-keep">
+							<p className="text-[var(--treia-sub)] font-medium max-w-xl leading-relaxed break-keep">
 								데이터와 통계로 증명하는 프리미엄 트레이딩 전략 및 자산 관리 교육 자료
 							</p>
 						</div>
@@ -84,16 +84,16 @@ function EducationListPageContent() {
 						<div className="flex items-center gap-4">
 							<div className="relative">
 								<Search
-									className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+									className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--treia-sub)]"
 									size={18}
 								/>
 								<input
 									type="text"
 									placeholder="관심 있는 주제 검색..."
-									className="bg-black/40 border border-gray-800 rounded-2xl py-3 pl-12 pr-6 text-sm focus:border-amber-500 outline-none w-full md:w-[300px] transition-all"
+									className="bg-[var(--treia-bg)] border border-[var(--treia-card-border)] rounded-2xl py-3 pl-12 pr-6 text-sm focus:border-amber-500 outline-none w-full md:w-[300px] transition-all"
 								/>
 							</div>
-							<button className="p-3 bg-gray-800 rounded-2xl text-gray-400 hover:text-white transition-colors">
+							<button className="p-3 bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl text-[var(--treia-sub)] hover:text-amber-500 transition-colors">
 								<Filter size={20} />
 							</button>
 						</div>
@@ -108,7 +108,7 @@ function EducationListPageContent() {
 						{[1, 2, 3, 4, 5, 6].map((i) => (
 							<div
 								key={i}
-								className="bg-gray-900/40 border border-gray-800 rounded-3xl h-[400px] animate-pulse"
+								className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-3xl h-[400px] animate-pulse"
 							></div>
 						))}
 					</div>
@@ -119,7 +119,7 @@ function EducationListPageContent() {
 								<p className="text-amber-500 font-mono text-[11px] uppercase tracking-widest flex items-center gap-2">
 									<Filter size={14} /> Filtered by: {activeCategory}
 								</p>
-								<Link href="/treia/education" className="text-gray-500 hover:text-white text-xs font-bold transition-all underline underline-offset-4">
+								<Link href="/treia/education" className="text-[var(--treia-sub)] hover:text-amber-500 text-xs font-bold transition-all underline underline-offset-4">
 									Clear Filter
 								</Link>
 							</div>
@@ -136,7 +136,7 @@ function EducationListPageContent() {
 					</div>
 				) : (
 					<div className="col-span-full py-20 text-center">
-						<p className="text-gray-500 font-bold">
+						<p className="text-[var(--treia-sub)] font-bold">
 							등록된 교육 자료가 없습니다.
 						</p>
 					</div>
@@ -156,7 +156,7 @@ function CategorySection({
 	return (
 		<section className="flex flex-col gap-6">
 			<div className="flex items-center justify-between">
-				<h2 className="text-2xl font-black text-white flex items-center gap-3">
+				<h2 className="text-2xl font-black text-[var(--treia-text)] flex items-center gap-3">
 					<span className="w-2 h-8 bg-amber-500 rounded-r-xl inline-block -ml-6"></span>
 					{category}
 				</h2>

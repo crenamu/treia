@@ -72,7 +72,7 @@ export default function EducationDetailPage() {
 
 	if (loading) {
 		return (
-			<div className="min-h-screen bg-[#0A0B0F] flex items-center justify-center">
+			<div className="min-h-screen bg-[var(--treia-bg)] flex items-center justify-center">
 				<div className="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
 			</div>
 		);
@@ -80,7 +80,7 @@ export default function EducationDetailPage() {
 
 	if (!article) {
 		return (
-			<div className="min-h-screen bg-[#0A0B0F] text-white flex flex-col items-center justify-center gap-4">
+			<div className="min-h-screen bg-[var(--treia-bg)] text-[var(--treia-text)] flex flex-col items-center justify-center gap-4">
 				<h1 className="text-2xl font-bold">글을 찾을 수 없습니다.</h1>
 				<Link href="/" className="text-amber-500 flex items-center gap-2">
 					<ArrowLeft size={16} /> 홈으로 돌아가기
@@ -90,9 +90,9 @@ export default function EducationDetailPage() {
 	}
 
 	return (
-		<main className="min-h-screen bg-[#0A0B0F] text-white pb-24">
+		<main className="min-h-screen bg-[var(--treia-bg)] text-[var(--treia-text)] pb-24">
 			{/* Hero Header Selection */}
-			<div className="relative w-full h-[60vh] min-h-[500px] overflow-hidden bg-[#0A0B0F]">
+			<div className="relative w-full h-[60vh] min-h-[500px] overflow-hidden bg-[var(--treia-bg)]">
 				<div className="absolute inset-0 z-0 select-none pointer-events-none">
 					<img
 						src={backgroundImage}
@@ -102,14 +102,14 @@ export default function EducationDetailPage() {
 						loading="lazy"
 					/>
 				</div>
-				<div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#0A0B0F] to-transparent z-10" />
-				<div className="absolute inset-0 bg-[#0A0B0F]/40 z-10" />
+				<div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[var(--treia-bg)] to-transparent z-10" />
+				<div className="absolute inset-0 bg-[var(--treia-bg)]/40 z-10" />
 
 				<div className="absolute bottom-0 left-0 w-full z-20">
 					<div className="container mx-auto px-6 pb-16 max-w-4xl">
 						<Link
 							href="/treia/education"
-							className="inline-flex items-center gap-2 text-amber-500 hover:text-white mb-8 transition-all font-bold group"
+							className="inline-flex items-center gap-2 text-amber-500 hover:text-[var(--treia-text)] mb-8 transition-all font-bold group"
 						>
 							<ArrowLeft
 								size={18}
@@ -133,7 +133,7 @@ export default function EducationDetailPage() {
 								<div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-black font-black text-xs">
 									T
 								</div>
-								<span className="text-xs font-bold text-gray-300">
+								<span className="text-xs font-bold text-[var(--treia-sub)]">
 									{article.source || "Treia Official"}
 								</span>
 							</div>
@@ -161,12 +161,12 @@ export default function EducationDetailPage() {
 					{/* Main Content */}
 					<div className="lg:col-span-8">
 						<article className="max-w-none">
-							<div className="prose prose-invert prose-amber max-w-none space-y-16">
+							<div className="prose dark:prose-invert prose-amber max-w-none space-y-16">
 							<ReactMarkdown
 								components={{
 									h2: ({ ...props }) => (
 										<h2
-											className="text-2xl md:text-3xl font-black text-white/90 mt-20 mb-10 pb-6 border-b border-white/5 tracking-tight leading-snug"
+											className="text-2xl md:text-3xl font-black text-[var(--treia-text)] opacity-90 mt-20 mb-10 pb-6 border-b border-[var(--treia-card-border)] tracking-tight leading-snug"
 											{...props}
 										/>
 									),
@@ -186,10 +186,10 @@ export default function EducationDetailPage() {
 										/>
 									),
 									ul: ({ ...props }) => (
-										<ul className="my-12 space-y-6 bg-[#0c0d11] border border-white/[0.03] rounded-[32px] p-10 md:p-14 shadow-2xl" {...props} />
+										<ul className="my-12 space-y-6 bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-[32px] p-10 md:p-14 shadow-2xl" {...props} />
 									),
 									ol: ({ ...props }) => (
-										<ol className="my-12 space-y-6 bg-[#0c0d11] border border-white/[0.03] rounded-[32px] p-10 md:p-14 shadow-2xl list-decimal list-inside" {...props} />
+										<ol className="my-12 space-y-6 bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-[32px] p-10 md:p-14 shadow-2xl list-decimal list-inside" {...props} />
 									),
 									li: ({ ...props }) => (
 										<li className="text-gray-300 text-[14.5px] md:text-[16px] leading-[1.7] [word-break:keep-all] opacity-90 pl-1">
@@ -213,16 +213,16 @@ export default function EducationDetailPage() {
 						</article>
 
 						{/* Bottom Disclaimer 보정: 면책 고지 -> 투자 유의사항 */}
-						<div className="mt-20 p-8 rounded-3xl bg-[#14161B] border border-gray-800 flex gap-5 shadow-2xl shadow-black/40 outline outline-1 outline-amber-500/10">
+						<div className="mt-20 p-8 rounded-3xl bg-[var(--treia-card)] border border-[var(--treia-card-border)] flex gap-5 shadow-2xl outline outline-1 outline-amber-500/10">
 							<AlertTriangle
 								className="text-amber-500 shrink-0 mt-1"
 								size={28}
 							/>
 							<div>
-								<h4 className="text-lg font-black text-white mb-3 tracking-tight">
+								<h4 className="text-lg font-black text-[var(--treia-text)] mb-3 tracking-tight">
 									투자 유의사항 (Investment Disclaimer)
 								</h4>
-								<p className="text-sm text-gray-500 leading-relaxed font-medium [word-break:keep-all] opacity-80">
+								<p className="text-sm text-[var(--treia-sub)] leading-relaxed font-medium [word-break:keep-all] opacity-80">
 									트레이아에서 제공하는 모든 인사이트는 정보 제공 및 교육 목적을
 									위해 작성되었으며, 특정 금융 상품의 매수·매도를 권유하지
 									않습니다. 모든 투자의 책임은 투자자 본인에게 있으며, 과거의
@@ -237,8 +237,8 @@ export default function EducationDetailPage() {
 					{/* Sidebar */}
 					<aside className="lg:col-span-4 space-y-8">
 						<div className="sticky top-24">
-							<div className="p-8 rounded-3xl border border-gray-800 bg-[#14161B] shadow-lg shadow-black/20">
-								<h4 className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em] mb-8 border-b border-gray-800/50 pb-4">
+							<div className="p-8 rounded-3xl border border-[var(--treia-card-border)] bg-[var(--treia-card)] shadow-lg shadow-black/5">
+								<h4 className="text-[10px] font-black text-[var(--treia-sub)] uppercase tracking-[0.2em] mb-8 border-b border-[var(--treia-card-border)] pb-4">
 									Related Insights
 								</h4>
 								<div className="flex flex-col gap-8">
@@ -252,7 +252,7 @@ export default function EducationDetailPage() {
 												<span className="text-[9px] font-black text-amber-500/70 uppercase tracking-widest group-hover/item:text-amber-500 transition-colors">
 													{rel.category}
 												</span>
-												<span className="text-[15px] font-bold text-gray-400 group-hover/item:text-white leading-snug transition-all line-clamp-2 [word-break:keep-all] tracking-tight">
+												<span className="text-[15px] font-bold text-[var(--treia-sub)] group-hover/item:text-[var(--treia-text)] leading-snug transition-all line-clamp-2 [word-break:keep-all] tracking-tight">
 													{rel.title}
 												</span>
 											</Link>

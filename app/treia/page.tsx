@@ -219,11 +219,11 @@ export default function TreiaFunnelPage() {
 					</nav>
 
 					{/* Mobile Menu Toggle */}
-					<div className="flex md:hidden items-center gap-4 text-white">
+					<div className="flex md:hidden items-center gap-4 text-[var(--treia-text)]">
 						<ThemeToggle />
 						<button
 							type="button"
-							className="text-white"
+							className="text-[var(--treia-text)]"
 							onClick={() => setIsNavOpen(!isNavOpen)}
 							aria-label="Toggle Menu"
 						>
@@ -374,7 +374,7 @@ export default function TreiaFunnelPage() {
 						</span>
 					</div>
 
-					<h1 className="font-outfit text-3xl md:text-5xl lg:text-[68px] font-black leading-[1.2] tracking-[-0.04em] text-white mb-10 px-4 text-center">
+					<h1 className="font-outfit text-3xl md:text-5xl lg:text-[68px] font-black leading-[1.2] tracking-[-0.04em] text-[var(--treia-text)] mb-10 px-4 text-center">
 						<span className="text-[#c8a84b]">투자는</span>{" "}
 						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">당신의 일상을</span> <br className="hidden md:block" />
 						<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 mx-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] mt-2">지키기 위한 수단</span>
@@ -475,15 +475,15 @@ export default function TreiaFunnelPage() {
 						<div className="absolute top-0 right-0 w-96 h-96 bg-[#c8a84b]/5 blur-[120px] rounded-full" />
 						
 						<div className="lg:w-1/2 flex flex-col gap-8 relative z-10">
-							<h3 className="text-3xl md:text-4xl font-bold text-white leading-tight">
-								"월가 거래의 60%는 <br className="hidden md:block" />
-								<span className="text-[#c8a84b]">이미 사람이 아닙니다</span>"
+							<h3 className="text-3xl md:text-4xl font-bold text-[var(--treia-text)] leading-tight">
+								<span className="inline-block bg-[#c8a84b] text-black px-4 py-1 rounded-sm shadow-[4px_4px_0px_rgba(0,0,0,0.1)] mb-2">"월가 거래의 60%는</span> <br className="hidden md:block" />
+								<span className="text-[#c8a84b]">이미 사람이 아닙니다"</span>
 							</h3>
 							<p className="text-lg text-[var(--treia-sub)] leading-relaxed font-light break-keep">
 								글로벌 금융 시장의 심장부, 월스트리트의 현실입니다. <br />
 								인간은 지치고, 두려워하며, 욕심을 부립니다. <br /><br />
 								하지만 알고리즘은 24시간 피로를 느끼지 않으며, <br />
-								오직 데이터에 기반한 <strong className="text-white font-medium">'수학적 기댓값'</strong>만을 추구합니다. <br />
+								오직 데이터에 기반한 <strong className="text-[var(--treia-text)] font-medium">'수학적 기댓값'</strong>만을 추구합니다. <br />
 								우리가 감정으로 매매하는 동안, 그들은 시스템으로 승리합니다.
 							</p>
 							
@@ -534,7 +534,7 @@ export default function TreiaFunnelPage() {
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
 							<div className="impeccable-card p-6 border-white/5 bg-white/2 backdrop-blur-sm">
 								<div className="text-xs font-mono text-[var(--treia-sub)] uppercase tracking-widest mb-3">Est. Market 2024</div>
-								<div className="text-3xl font-bold text-white">$16.9B</div>
+								<div className="text-3xl font-bold text-[var(--treia-text)]">$16.9B</div>
 							</div>
 							<div className="impeccable-card p-6 border-[#c8a84b]/30 bg-[#c8a84b]/5 backdrop-blur-sm">
 								<div className="text-xs font-mono text-[#c8a84b] uppercase tracking-widest mb-3">Projected Market 2033</div>
@@ -568,7 +568,7 @@ export default function TreiaFunnelPage() {
 						<span className="text-[#c8a84b] font-mono text-sm tracking-[5px] uppercase block mb-6">
 							The Wall Street Giants
 						</span>
-						<h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-white leading-tight mb-8">
+						<h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-[var(--treia-text)] leading-tight mb-8">
 							월가의 거물들이 <br className="md:hidden" />
 							<span className="text-[#c8a84b]">알고리즘을 선택한 이유</span>
 						</h2>
@@ -590,7 +590,7 @@ export default function TreiaFunnelPage() {
 							</div>
 							<div className="relative z-10">
 								<div className="text-[#c8a84b] font-mono text-sm tracking-widest uppercase mb-6">Legendary Performance</div>
-								<h3 className="text-2xl md:text-4xl font-bold text-white mb-8">Renaissance Technologies</h3>
+								<h3 className="text-2xl md:text-4xl font-bold text-[var(--treia-text)] mb-8">Renaissance Technologies</h3>
 								<div className="flex items-baseline gap-2 mb-10">
 									<span className="text-6xl md:text-7xl font-black text-[#c8a84b] font-mono">70%</span>
 									<span className="text-xl text-[var(--treia-sub)] font-light">연평균 수익률</span>
@@ -616,9 +616,9 @@ export default function TreiaFunnelPage() {
 							</div>
 							<div className="relative z-10">
 								<div className="text-[var(--treia-sub)] font-mono text-sm tracking-widest uppercase mb-6">Infrastructural AI</div>
-								<h3 className="text-2xl md:text-4xl font-bold text-white mb-8">BlackRock Aladdin</h3>
+								<h3 className="text-2xl md:text-4xl font-bold text-[var(--treia-text)] mb-8">BlackRock Aladdin</h3>
 								<div className="flex items-baseline gap-2 mb-10">
-									<span className="text-6xl md:text-7xl font-black text-white/90 font-mono">$20T</span>
+									<span className="text-6xl md:text-7xl font-black text-[var(--treia-text)] opacity-90 font-mono">$20T</span>
 									<span className="text-xl text-[var(--treia-sub)] font-light">AUM (운용 자산)</span>
 								</div>
 								<p className="text-[var(--treia-sub)] leading-relaxed text-lg font-light break-keep">
@@ -1187,7 +1187,7 @@ export default function TreiaFunnelPage() {
 									<Counter value={80.95} decimals={2} />
 									<span className="text-xl ml-1 font-bold opacity-80">%</span>
 								</div>
-								<div className="bg-white/10 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest mt-2 border border-white/5">Superior</div>
+								<div className="bg-[#10B981]/10 text-[#10B981] text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest mt-2 border border-[#10B981]/20">Superior</div>
 							</div>
 							<div className="flex flex-col items-center pt-8 md:pt-0 group">
 								<div className="text-[var(--treia-sub)] font-mono text-[10px] uppercase tracking-[4px] mb-6 opacity-60">

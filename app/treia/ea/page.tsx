@@ -97,7 +97,7 @@ export default function EAPage() {
 						<div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center">
 							<Bot size={20} />
 						</div>
-						<h1 className="text-3xl font-outfit font-extrabold text-white tracking-tight italic uppercase">
+						<h1 className="text-3xl font-outfit font-extrabold text-[var(--treia-text)] tracking-tight italic uppercase">
 							EA 프리미엄 스토어
 						</h1>
 					</div>
@@ -168,10 +168,10 @@ export default function EAPage() {
 							<ShieldCheck size={28} />
 						</div>
 						<div className="flex flex-col">
-							<h4 className="font-outfit font-black text-2xl text-white tracking-tight uppercase">
+							<h4 className="font-outfit font-black text-2xl text-[var(--treia-text)] tracking-tight uppercase">
 								TREIA 검증 시스템
 							</h4>
-							<p className="text-[10px] text-gray-500 font-bold tracking-[.2em] uppercase italic">
+							<p className="text-[10px] text-[var(--treia-sub)] font-bold tracking-[.2em] uppercase italic">
 								Verified by AI Analysis
 							</p>
 						</div>
@@ -202,10 +202,10 @@ export default function EAPage() {
 					</div>
 				</div>
 
-				<div className="lg:col-span-5 p-10 rounded-[40px] bg-[#14161B] border border-gray-800 flex flex-col gap-8">
+				<div className="lg:col-span-5 p-10 rounded-[40px] bg-[var(--treia-card)] border border-[var(--treia-card-border)] flex flex-col gap-8 shadow-xl">
 					<div className="flex items-center gap-3">
-						<Monitor size={20} className="text-gray-400" />
-						<h4 className="font-outfit font-black text-xl text-white uppercase tracking-tight">
+						<Monitor size={20} className="text-[var(--treia-sub)]" />
+						<h4 className="font-outfit font-black text-xl text-[var(--treia-text)] uppercase tracking-tight">
 							퀵 스타트 가이드
 						</h4>
 					</div>
@@ -247,13 +247,13 @@ function EACard(ea: EADevice) {
 				</span>
 				<div className="flex items-center gap-1">
 					<Star size={10} className="text-amber-500 fill-amber-500" />
-					<span className="text-[10px] font-black text-white">{ea.stars}</span>
+					<span className="text-[10px] font-black text-[var(--treia-text)]">{ea.stars}</span>
 				</div>
 			</div>
 
 			{/* Title & Desc */}
 			<div className="flex flex-col gap-3 mb-6">
-				<h3 className="text-lg font-bold text-white group-hover:text-amber-500 transition-colors leading-tight line-clamp-1">
+				<h3 className="text-lg font-bold text-[var(--treia-text)] group-hover:text-amber-500 transition-colors leading-tight line-clamp-1">
 					{ea.name}
 				</h3>
 				<p className="text-xs text-gray-500 leading-relaxed line-clamp-2 font-medium">
@@ -345,11 +345,11 @@ function StepItem({
 }) {
 	return (
 		<div className="flex items-start gap-4">
-			<span className="text-2xl font-outfit font-black text-gray-800 leading-none">
+			<span className="text-2xl font-outfit font-black text-[var(--treia-section-border)] leading-none">
 				{num}
 			</span>
 			<div className="flex flex-col gap-1">
-				<h5 className="text-sm font-bold text-gray-200">{title}</h5>
+				<h5 className="text-sm font-bold text-[var(--treia-text)]">{title}</h5>
 				<p className="text-[11px] text-gray-600 leading-relaxed font-medium">
 					{desc}
 				</p>

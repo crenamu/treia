@@ -67,10 +67,10 @@ export default function Ticker() {
 	}, []);
 
 	return (
-		<div className="w-full bg-[#12141a] border-b border-gray-800 flex flex-col relative z-50">
+		<div className="w-full bg-[var(--treia-bg)] border-b border-[var(--treia-section-border)] flex flex-col relative z-50">
 			{/* Prices Row (TradingView - Top Quality Data) */}
 			<div
-				className="h-10 border-b border-gray-900 overflow-hidden"
+				className="h-10 border-b border-[var(--treia-section-border)] overflow-hidden"
 				ref={containerRef}
 			>
 				{/* TradingView Widget Inject */}
@@ -78,7 +78,7 @@ export default function Ticker() {
 
 			{/* Events Row (Custom - Only if upcoming high impact) */}
 			{calendarItems.length > 0 && (
-				<div className="h-8 bg-[#0a0a0c] flex items-center overflow-hidden">
+				<div className="h-8 bg-[var(--treia-card)] flex items-center overflow-hidden">
 					<div className="flex animate-ticker whitespace-nowrap gap-12 px-6 items-center">
 						{[...calendarItems, ...calendarItems].map((item, idx) => (
 							<div
@@ -89,8 +89,8 @@ export default function Ticker() {
 									<AlertCircle size={10} className="text-red-500" />
 								)}
 								<div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-								<span className="text-gray-500">{item.label}</span>
-								<span className="text-white bg-gray-800 px-1.5 py-0.5 rounded opacity-80">
+								<span className="text-[var(--treia-sub)]">{item.label}</span>
+								<span className="text-[var(--treia-text)] bg-[var(--treia-card)] px-1.5 py-0.5 rounded opacity-80 border border-[var(--treia-card-border)] shadow-sm">
 									{item.value} KST
 								</span>
 							</div>

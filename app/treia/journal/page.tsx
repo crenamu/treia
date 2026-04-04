@@ -143,13 +143,13 @@ export default function JournalPage() {
 	return (
 		<div className="container mx-auto px-6 py-12 flex flex-col gap-12 max-w-7xl">
 			<div className="flex flex-col gap-2">
-				<h1 className="text-4xl font-outfit font-black text-white tracking-tighter uppercase italic flex items-center gap-3">
+				<h1 className="text-4xl font-outfit font-black text-[var(--treia-text)] tracking-tighter uppercase italic flex items-center gap-3">
 					<ScanIcon /> AI Trade Journal{" "}
 					<span className="text-[10px] bg-amber-500/20 text-amber-500 px-2 py-1 rounded-md not-italic tracking-widest">
 						VISION OCR
 					</span>
 				</h1>
-				<p className="text-gray-400 font-medium max-w-2xl">
+				<p className="text-[var(--treia-sub)] font-medium max-w-2xl">
 					단 1초! MT4/MT5 매매 내역 스크린샷을 올리기만 하세요. AI가 브로커
 					시간을 KST로 환산하고 완벽한 통계형 매매일지로 자동 기록해 줍니다.
 				</p>
@@ -158,7 +158,7 @@ export default function JournalPage() {
 			<div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
 				{/* 업로드 & 프리뷰 섹션 */}
 				<div className="col-span-1 lg:col-span-5 flex flex-col gap-6">
-					<div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-8 flex flex-col gap-6 text-center">
+					<div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-3xl p-8 flex flex-col gap-6 text-center shadow-xl">
 						{preview ? (
 							<div className="relative w-full aspect-video rounded-xl overflow-hidden border border-gray-800 bg-black flex items-center justify-center">
 								<Image
@@ -177,7 +177,7 @@ export default function JournalPage() {
 								)}
 							</div>
 						) : (
-							<label className="border-2 border-dashed border-gray-700 hover:border-amber-500/50 bg-[#14161B] rounded-2xl p-12 cursor-pointer transition-all flex flex-col items-center justify-center group overflow-hidden relative">
+							<label className="border-2 border-dashed border-[var(--treia-card-border)] hover:border-amber-500/50 bg-[var(--treia-card)] rounded-2xl p-12 cursor-pointer transition-all flex flex-col items-center justify-center group overflow-hidden relative shadow-inner">
 								<div className="absolute inset-0 bg-amber-500/0 group-hover:bg-amber-500/5 transition-all"></div>
 								<UploadCloud
 									size={48}
@@ -253,9 +253,9 @@ export default function JournalPage() {
 							</div>
 
 							{/* 거래 내역 테이블 */}
-							<div className="bg-[#0F1115] border border-[#2B303B] rounded-3xl p-6 overflow-hidden">
+							<div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-3xl p-6 overflow-hidden shadow-xl">
 								<div className="flex items-center justify-between mb-6 pl-2">
-									<h3 className="text-xl font-bold text-white tracking-tight">
+									<h3 className="text-xl font-bold text-[var(--treia-text)] tracking-tight">
 										상세 거래 로그
 									</h3>
 
@@ -277,23 +277,23 @@ export default function JournalPage() {
 								</div>
 								<div className="overflow-x-auto overflow-y-auto max-h-[400px] custom-scrollbar pb-2">
 									<table className="w-full text-left border-collapse min-w-[600px] relative">
-										<thead className="sticky top-0 bg-[#0F1115] z-10 shadow-md">
+										<thead className="sticky top-0 bg-[var(--treia-card)] z-10 shadow-sm">
 											<tr className="border-b border-gray-800 text-[10px] text-gray-500 font-black uppercase tracking-widest">
 												<th className="p-4 font-bold text-blue-400">SYM</th>
 												<th className="p-4">Type/Lot</th>
 												<th className="p-4 text-center">Open Date (KST)</th>
 												<th className="p-4 text-right">진입가</th>
-												<th className="p-4 text-right">청산가</th>
-												<th className="p-4 text-right">Profit</th>
+												<th className="p-4 text-right text-[var(--treia-sub)]">청산가</th>
+												<th className="p-4 text-right text-[var(--treia-sub)]">Profit</th>
 											</tr>
 										</thead>
 										<tbody className="text-sm font-medium">
 											{result.trades.map((t, i) => (
 												<tr
 													key={i}
-													className="border-b border-gray-800/50 hover:bg-[#14161B] transition-colors"
+													className="border-b border-[var(--treia-card-border)]/50 hover:bg-[var(--treia-card-border)]/10 transition-colors"
 												>
-													<td className="p-4 text-gray-200 font-bold">
+													<td className="p-4 text-[var(--treia-text)] font-bold">
 														{t.symbol}
 													</td>
 													<td className="p-4">
@@ -309,10 +309,10 @@ export default function JournalPage() {
 													<td className="p-4 text-center text-[11px] text-gray-400 font-mono tracking-tighter">
 														{t.openTimeKST}
 													</td>
-													<td className="p-4 text-right text-gray-300 font-mono">
+													<td className="p-4 text-right text-[var(--treia-text)] font-mono opacity-80">
 														{t.openPrice.toFixed(2)}
 													</td>
-													<td className="p-4 text-right text-gray-300 font-mono">
+													<td className="p-4 text-right text-[var(--treia-text)] font-mono opacity-80">
 														{t.closePrice.toFixed(2)}
 													</td>
 													<td
@@ -357,13 +357,13 @@ function StatCard({
 	color?: string;
 }) {
 	return (
-		<div className="bg-[#14161B] border border-gray-800 rounded-2xl p-5 flex flex-col gap-3">
+		<div className="bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-2xl p-5 flex flex-col gap-3 shadow-md">
 			<div className="flex items-center justify-between">
-				<span className="text-[10px] font-bold text-gray-500 tracking-widest uppercase">
+				<span className="text-[10px] font-bold text-[var(--treia-sub)] tracking-widest uppercase">
 					{label}
 				</span>
 				<div
-					className={`w-6 h-6 rounded-md flex items-center justify-center ${color.includes("bg-") ? "" : "bg-[#2B303B]"} ${color}`}
+					className={`w-6 h-6 rounded-md flex items-center justify-center ${color.includes("bg-") ? "" : "bg-[var(--treia-card-border)]/30"} ${color}`}
 				>
 					{React.cloneElement(icon, {
 						size: 12,
