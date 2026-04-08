@@ -1837,11 +1837,11 @@ export default function TreiaFunnelPage() {
 						투명한 &apos;가치&apos;를 <br className="hidden md:block" /> 추후 테스트가 완료된 후 관전자 계정을 공유해 드릴 예정입니다.
 					</h2>
 					<p className="text-[17px] md:text-[22px] text-[var(--treia-sub)] leading-[1.8] font-light max-w-3xl mb-16">
-						Treia의 기술력과 가치를 더욱 많은 분들과 투명하게 나누고자 합니다. <br />
-						아래 양식을 통해 신청해 주시면, 확인 후 등록하신 연락처로 <br />
-						<strong className="text-[var(--treia-text)] font-medium">관전자 계정 및 접속 가이드</strong>를 정중하게 안내해 드립니다. <br />
+						Treia의 기술력과 가치를 투명하게 나누고자 합니다. <br />
+						테스트가 완료된 후 선정된 분들께 등록하신 이메일로 <br />
+						<strong className="text-[var(--treia-text)] font-medium">관전자 계정 및 접속 가이드</strong>를 보내드리겠습니다. <br />
 						<br />
-						Treia와 함께 성숙한 투자 여정을 시작할 파트너가 되어주십시오.
+					
 					</p>
 
 					<div className="w-full bg-[var(--treia-card)] backdrop-blur-xl border border-[#c8a84b]/20 p-8 md:p-12 lg:p-16 rounded-[32px] shadow-2xl text-left">
