@@ -5,17 +5,30 @@ import { db } from "@/lib/firebase";
 
 export async function POST(req: Request) {
 	try {
-		const { leadId, email, name, notionUrl, templateId = "intro" } = await req.json();
+		const {
+			leadId,
+			email,
+			name,
+			notionUrl,
+			templateId = "intro",
+		} = await req.json();
 
 		if (!leadId || !email || !name) {
-			return NextResponse.json({ success: false, message: "필수 정보 누락" }, { status: 400 });
+			return NextResponse.json(
+				{ success: false, message: "필수 정보 누락" },
+				{ status: 400 },
+			);
 		}
 
 		if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-			return NextResponse.json({ 
-				success: false, 
-				message: ".env.local에 SMTP_USER와 SMTP_PASS 설정이 필요합니다. (Gmail 앱 비밀번호 등)" 
-			}, { status: 500 });
+			return NextResponse.json(
+				{
+					success: false,
+					message:
+						".env.local에 SMTP_USER와 SMTP_PASS 설정이 필요합니다. (Gmail 앱 비밀번호 등)",
+				},
+				{ status: 500 },
+			);
 		}
 
 		const transporter = nodemailer.createTransport({
@@ -58,7 +71,9 @@ export async function POST(req: Request) {
         <div style="padding:40px 30px;">
             <p style="font-size:16px;line-height:1.8;color:#a1a1aa;margin-top:0;">안녕하세요, <strong>${name}</strong>님.<br>Treia 팀입니다.</p>
             <p style="font-size:16px;line-height:1.8;color:#a1a1aa;margin-bottom:30px;">${content}</p>
-            ${showInfoBox ? `
+            ${
+							showInfoBox
+								? `
             <div style="background-color:#1a1a1a;border-radius:8px;padding:25px;margin-bottom:30px;border-left:4px solid #c8a84b;">
                 <p style="margin:0 0 15px 0;font-size:14px;color:#7a7f8e;">[관전자 접속 정보]</p>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:16px;">
@@ -66,7 +81,9 @@ export async function POST(req: Request) {
                     <tr><td style="padding:8px 0;color:#a1a1aa;">로그인 ID</td><td style="padding:8px 0;color:#fff;font-weight:bold;">100106281</td></tr>
                     <tr><td style="padding:8px 0;color:#a1a1aa;">비밀번호</td><td style="padding:8px 0;color:#c8a84b;font-weight:bold;">Vrt27710!!</td></tr>
                 </table>
-            </div>` : ""}
+            </div>`
+								: ""
+						}
             <div style="text-align:center;margin-top:40px;">
                 <a href="${notionUrl || "#"}" target="_blank" style="display:inline-block;background-color:#c8a84b;color:#000;text-decoration:none;padding:18px 30px;border-radius:8px;font-weight:bold;font-size:16px;">공식 가이드 확인하기</a>
             </div>
@@ -91,9 +108,15 @@ export async function POST(req: Request) {
 			approvedAt: new Date(),
 		});
 
-		return NextResponse.json({ success: true, message: "발송에 성공했습니다." });
+		return NextResponse.json({
+			success: true,
+			message: "발송에 성공했습니다.",
+		});
 	} catch (error: any) {
 		console.error("Email sending error:", error);
-		return NextResponse.json({ success: false, message: error.message || "발송 중 오류 발생" }, { status: 500 });
+		return NextResponse.json(
+			{ success: false, message: error.message || "발송 중 오류 발생" },
+			{ status: 500 },
+		);
 	}
 }
