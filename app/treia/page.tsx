@@ -733,7 +733,7 @@ export default function TreiaFunnelPage() {
 							원칙을 감정 없이 매번 그대로 지켜내는 것입니다. <br />
 							<br />
 							제가 속한 커뮤니티에는 2,000명의 실계좌 트레이더가 있습니다. 같은
-							교육을 받고, 같은 방식으로 매매하지만 결과는 극명합니다.{" "}
+							교육을 받고, 같은 방식으로 매매하지만 결과는 극명한 차이를 보입니다.{" "}
 							<strong className="text-[var(--treia-text)] font-medium">
 								6억 손실 후 폐관수련을 거쳐 매일 1억 이상을 버는 천재
 							</strong>
