@@ -40,7 +40,7 @@ export default function TreiaFunnelPage() {
 	const [blogArticles, setBlogArticles] = useState<any[]>([]);
 	const mobileVideoRef = useRef<HTMLVideoElement>(null);
 	const isMobileVideoInView = useInView(mobileVideoRef as any, { amount: 0.5 });
-	const [isMuted, setIsMuted] = useState(true);
+	const [isMuted, setIsMuted] = useState(false);
 
 	useEffect(() => {
 		if (mobileVideoRef.current) {
@@ -1523,6 +1523,7 @@ export default function TreiaFunnelPage() {
 										loop 
 										playsInline 
 										controls={false}
+										preload="auto"
 									>
 										<source src="/videos/mobile-trading.mp4" type="video/mp4" />
 									</video>
