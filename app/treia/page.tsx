@@ -1771,8 +1771,7 @@ export default function TreiaFunnelPage() {
 
 				<div className="max-w-3xl w-full mx-auto relative z-10 text-center flex flex-col items-center reveal opacity-0 translate-y-12 transition-all duration-1000">
 					<h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-[var(--treia-text)] mb-8 tracking-tight leading-[1.3]">
-						투명한 &apos;가치&apos;를 <br className="hidden md:block" /> 선별된
-						소수에게만 개방합니다.
+						투명한 &apos;가치&apos;를 <br className="hidden md:block" /> 추후 테스트가 완료된 후 관전자 계정을 공유해 드릴 예정입니다.
 					</h2>
 					<p className="text-[17px] md:text-[22px] text-[var(--treia-sub)] leading-[1.8] font-light max-w-3xl mb-16">
 						Treia의 기술력과 가치를 더욱 많은 분들과 투명하게 나누고자 합니다. <br />
