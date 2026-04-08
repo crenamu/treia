@@ -3,7 +3,7 @@ import {
 	ArrowUpRight, ArrowLeft, Download, ShieldCheck,
 	TrendingUp, BarChart3, Clock, Zap, Target,
 	Info, CheckCircle2, AlertCircle, ChevronRight,
-	PlayCircle, Globe, Layers, Lock, Menu, X
+	PlayCircle, Globe, Layers, Lock, Menu, X, Calculator
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -1560,6 +1560,59 @@ export default function TreiaFunnelPage() {
 								</div>
 								<div className="text-[10px] font-mono text-[var(--treia-sub)] uppercase tracking-widest opacity-60">
 									Smartphone App View
+								</div>
+							</div>
+						</div>
+
+						{/* Compound Simulation Section */}
+						<div className="mt-24 pt-24 border-t border-white/5 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-500">
+							<div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+								<div className="lg:w-1/2 relative group">
+									<div className="absolute -inset-4 bg-gradient-to-r from-[#c8a84b]/20 to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+									<div className="relative rounded-[32px] overflow-hidden border border-white/10 shadow-2xl bg-[#0a0a0c]">
+										<Image 
+											src="/images/simulation/compound-simulation.png" 
+											alt="Compound Interest Simulation" 
+											width={800} 
+											height={1200} 
+											className="w-full h-auto object-contain hover:scale-105 transition-transform duration-[2000ms]"
+										/>
+									</div>
+								</div>
+								
+								<div className="lg:w-1/2 flex flex-col gap-8 text-left">
+									<div className="space-y-4">
+										<span className="text-[#c8a84b] font-mono text-[10px] tracking-[4px] uppercase block">
+											Financial Projection
+										</span>
+										<h4 className="text-2xl md:text-4xl font-black text-[var(--treia-text)] leading-tight tracking-tight">
+											누군가에겐 꿈, <br />
+											<span className="text-[#c8a84b]">시스템에겐 수학적 결과</span>
+										</h4>
+										<p className="text-[var(--treia-sub)] text-lg leading-relaxed font-light break-keep">
+											최초 자금 <strong className="text-[var(--treia-text)]">5,000불</strong>로 시작하여 하루 <strong className="text-[#c8a84b]">1%</strong>의 수익을 목표로 할 때, 
+											내년 크리스마스 이브에는 약 <strong className="text-[var(--treia-text)]">8,700불(한화 약 1,300만원)</strong>의 출금이 가능해집니다.
+											<br /> (매주 목요일 출금 원칙 적용 시)
+										</p>
+									</div>
+
+									<div className="flex flex-col gap-6">
+										<Link 
+											href="/simulation/compound-calculator.html" 
+											target="_blank" 
+											className="impeccable-button inline-flex gap-3 py-4 px-8 text-[11px] uppercase tracking-[3px] items-center justify-center"
+										>
+											<Calculator size={16} />
+											나만의 복리 시뮬레이션 계산하기
+										</Link>
+										
+										<div className="p-4 rounded-xl bg-red-500/5 border border-red-500/10">
+											<p className="text-[10px] md:text-[11px] text-red-500/60 leading-relaxed font-light flex gap-2">
+												<span className="shrink-0 text-red-500">※</span>
+												<span>본 시각화 자료는 일 1% 수익을 기준으로 한 가상 시뮬레이션이며, 실제 투자 결과는 시장 상황에 따라 달라질 수 있음에 유의하십시오.</span>
+											</p>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
