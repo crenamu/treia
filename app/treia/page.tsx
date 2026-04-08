@@ -39,13 +39,23 @@ export default function TreiaFunnelPage() {
 	const [errorMsg, setErrorMsg] = useState("");
 	const [blogArticles, setBlogArticles] = useState<any[]>([]);
 	const mobileVideoRef = useRef<HTMLVideoElement>(null);
-	const isMobileVideoInView = useInView(mobileVideoRef as any, { amount: 0.5 });
-	const [isMuted, setIsMuted] = useState(false);
+	const isMobileVideoInView = useInView(mobileVideoRef as any, { amount: 0.2 });
+	const [isMuted, setIsMuted] = useState(true);
 
 	useEffect(() => {
 		if (mobileVideoRef.current) {
 			if (isMobileVideoInView) {
-				mobileVideoRef.current.play().catch(() => {});
+				const playPromise = mobileVideoRef.current.play();
+				if (playPromise !== undefined) {
+					playPromise.catch(() => {
+						// Autoplay blocked (usually because of sound). Fallback to muted.
+						if (mobileVideoRef.current) {
+							mobileVideoRef.current.muted = true;
+							setIsMuted(true);
+							mobileVideoRef.current.play();
+						}
+					});
+				}
 			} else {
 				mobileVideoRef.current.pause();
 			}
