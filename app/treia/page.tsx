@@ -38,6 +38,19 @@ export default function TreiaFunnelPage() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState("");
 	const [blogArticles, setBlogArticles] = useState<any[]>([]);
+	const mobileVideoRef = useRef<HTMLVideoElement>(null);
+	const isMobileVideoInView = useInView(mobileVideoRef as any, { amount: 0.5 });
+	const [isMuted, setIsMuted] = useState(true);
+
+	useEffect(() => {
+		if (mobileVideoRef.current) {
+			if (isMobileVideoInView) {
+				mobileVideoRef.current.play().catch(() => {});
+			} else {
+				mobileVideoRef.current.pause();
+			}
+		}
+	}, [isMobileVideoInView]);
 
 	// Fetch blog data
 	useEffect(() => {
@@ -1494,7 +1507,7 @@ export default function TreiaFunnelPage() {
 
 							{/* Mobile View */}
 							<div className="lg:col-span-4 flex flex-col items-center gap-6">
-								<div className="relative w-full max-w-[300px] aspect-[9/19] bg-[#050505] border-[8px] border-[#1a1a1c] rounded-[48px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] group ring-1 ring-white/10">
+								<div className="relative w-full max-w-[340px] aspect-[9/19] bg-[#050505] border-[10px] border-[#1a1a1c] rounded-[48px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] group ring-1 ring-white/10">
 									{/* iPhone Notch Style */}
 									<div className="absolute top-0 inset-x-0 h-7 flex justify-center z-30">
 										<div className="w-24 h-5 bg-[#1a1a1c] rounded-b-2xl flex items-center justify-center">
@@ -1503,15 +1516,28 @@ export default function TreiaFunnelPage() {
 									</div>
 
 									<video 
-										className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+										ref={mobileVideoRef}
+										className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity bg-black"
 										autoPlay 
-										muted 
+										muted={isMuted}
 										loop 
 										playsInline 
-										controls
+										controls={false}
 									>
 										<source src="/videos/mobile-trading.mp4" type="video/mp4" />
 									</video>
+
+									{/* Mute/Unmute Toggle Overlay */}
+									<button 
+										onClick={() => setIsMuted(!isMuted)}
+										className="absolute bottom-20 right-6 z-40 p-3 bg-black/60 backdrop-blur-md rounded-full border border-white/10 text-white/80 hover:scale-110 active:scale-95 transition-all"
+									>
+										{isMuted ? (
+											<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+										) : (
+											<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+										)}
+									</button>
 
 									<div className="absolute bottom-8 inset-x-0 flex justify-center z-20">
 										<div className="bg-black/80 backdrop-blur-lg px-4 py-1.5 rounded-full border border-[var(--treia-gold)]/20 shadow-2xl">
