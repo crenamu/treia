@@ -172,16 +172,16 @@ export default function EducationDetailPage() {
 									),
 									h3: ({ ...props }) => (
 										<h3
-											className="text-lg md:text-xl font-extrabold text-amber-500/80 mt-14 mb-6 flex items-center gap-3 tracking-tight"
+											className="text-lg md:text-xl font-extrabold text-[var(--treia-gold)] mt-14 mb-6 flex items-center gap-3 tracking-tight"
 											{...props}
 										>
-											<span className="w-1 h-5 bg-amber-500/40 rounded-full" />
+											<span className="w-1 h-5 bg-[var(--treia-gold)]/40 rounded-full" />
 											{props.children}
 										</h3>
 									),
 									p: ({ ...props }) => (
 										<p
-											className="text-gray-400/90 leading-[2.1] text-[15px] md:text-[17px] mb-10 font-medium tracking-normal [word-break:keep-all]"
+											className="text-[var(--treia-text)] opacity-80 leading-[2.1] text-[15px] md:text-[17px] mb-10 font-medium tracking-normal [word-break:keep-all]"
 											{...props}
 										/>
 									),
@@ -192,18 +192,18 @@ export default function EducationDetailPage() {
 										<ol className="my-12 space-y-6 bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-[32px] p-10 md:p-14 shadow-2xl list-decimal list-inside" {...props} />
 									),
 									li: ({ ...props }) => (
-										<li className="text-gray-300 text-[14.5px] md:text-[16px] leading-[1.7] [word-break:keep-all] opacity-90 pl-1">
+										<li className="text-[var(--treia-text)] opacity-70 text-[14.5px] md:text-[16px] leading-[1.7] [word-break:keep-all] pl-1">
 											{props.children}
 										</li>
 									),
 									strong: ({ ...props }) => (
 										<strong
-											className="text-amber-500/70 font-black border-b border-amber-500/30 px-0.5"
+											className="text-[var(--treia-gold)] font-black border-b border-[var(--treia-gold)]/30 px-0.5"
 											{...props}
 										/>
 									),
 									code: ({ ...props }) => (
-										<code className="bg-white/[0.03] text-amber-500/60 px-2.5 py-1 rounded-md font-mono text-[0.85em] border border-white/[0.05]" {...props} />
+										<code className="bg-[var(--treia-card-border)]/20 text-[var(--treia-gold)] px-2.5 py-1 rounded-md font-mono text-[0.85em] border border-[var(--treia-card-border)]/30" {...props} />
 									),
 								}}
 							>

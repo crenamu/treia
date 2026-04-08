@@ -67,14 +67,14 @@ function EducationListPageContent() {
 
 					<div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
 						<div>
-							<div className="flex items-center gap-2 text-amber-500 mb-2">
+							<div className="flex items-center gap-2 text-[var(--treia-gold)] mb-2">
 								<GraduationCap size={20} />
 								<span className="text-xs font-black uppercase tracking-[0.2em]">
 									Treia Academy
 								</span>
 							</div>
 							<h1 className="text-4xl md:text-5xl font-light tracking-tight text-[var(--treia-text)] mb-4">
-								Treia <span className="text-amber-500">Insights</span>
+								Treia <span className="text-[var(--treia-gold)]">Insights</span>
 							</h1>
 							<p className="text-[var(--treia-sub)] font-medium max-w-xl leading-relaxed break-keep">
 								데이터와 통계로 증명하는 프리미엄 트레이딩 전략 및 자산 관리 교육 자료
@@ -116,7 +116,7 @@ function EducationListPageContent() {
 					<div className="flex flex-col gap-16">
 						{activeCategory && (
 							<div className="flex items-center justify-between mb-2">
-								<p className="text-amber-500 font-mono text-[11px] uppercase tracking-widest flex items-center gap-2">
+								<p className="text-[var(--treia-gold)] font-mono text-[11px] uppercase tracking-widest flex items-center gap-2">
 									<Filter size={14} /> Filtered by: {activeCategory}
 								</p>
 								<Link href="/treia/education" className="text-[var(--treia-sub)] hover:text-amber-500 text-xs font-bold transition-all underline underline-offset-4">
@@ -163,7 +163,7 @@ function CategorySection({
 				<div className="flex items-center gap-6">
 					<Link
 						href={`/treia/education?category=${encodeURIComponent(category)}`}
-						className="text-[11px] font-mono uppercase tracking-[3px] text-amber-500/60 hover:text-amber-500 transition-all"
+						className="text-[11px] font-mono uppercase tracking-[3px] text-[var(--treia-gold)]/70 hover:text-[var(--treia-gold)] transition-all"
 					>
 						Explore All
 					</Link>
