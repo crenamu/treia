@@ -1440,34 +1440,90 @@ export default function TreiaFunnelPage() {
 						</div>
 					</div>
 
-					{/* New: MT5 Trading Session Video */}
-					<div className="max-w-4xl w-full mx-auto mt-16 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-300">
-						<div className="text-center mb-8">
+					{/* MT5 Trading Session Videos */}
+					<div className="max-w-7xl w-full mx-auto mt-16 reveal opacity-0 translate-y-12 transition-all duration-1000 delay-300">
+						<div className="text-center mb-12">
 							<span className="text-[#c8a84b] font-mono text-[10px] tracking-[4px] uppercase block mb-3">
 								Live Execution
 							</span>
-							<h4 className="text-xl md:text-2xl font-light text-[var(--treia-text)] mb-6">
+							<h4 className="text-2xl md:text-4xl font-black text-[var(--treia-text)] mb-6 tracking-tight">
 								실제 MT5 매매 구동 세션 확인
 							</h4>
+							<p className="text-[var(--treia-sub)] text-sm md:text-base font-light max-w-2xl mx-auto">
+								데스크톱과 모바일 어디서든 인공지능 엔드진의 <br className="md:hidden" />
+								실시간 대응 과정을 투명하게 지켜볼 수 있습니다.
+							</p>
 						</div>
-						<div className="relative aspect-video w-full bg-[var(--treia-card)] border border-[var(--treia-card-border)] rounded-3xl overflow-hidden shadow-2xl group">
-							<video 
-								className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-								autoPlay 
-								muted 
-								loop 
-								playsInline 
-								controls
-							>
-								<source src="/trading_demo.mp4" type="video/mp4" />
-								브라우저가 비디오 재생을 지원하지 않습니다.
-							</video>
-							
-							<div className="absolute top-6 left-6 flex items-center gap-3 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
-								<div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
-								<span className="text-[10px] font-mono tracking-widest uppercase text-white/80">
-									Actual Trading Logic v3.0
-								</span>
+
+						<div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+							{/* Desktop View */}
+							<div className="lg:col-span-8 space-y-4">
+								<div className="relative aspect-video w-full bg-[#0a0a0c] border border-white/10 rounded-[32px] overflow-hidden shadow-[0_0_100px_rgba(200,168,75,0.1)] group">
+									<div className="absolute top-0 inset-x-0 h-12 bg-gradient-to-b from-black/80 to-transparent z-20 flex items-center px-6 gap-2">
+										<div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+										<div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+										<div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+										<div className="ml-4 px-3 py-1 bg-white/5 border border-white/5 rounded-md text-[9px] font-mono text-white/40 tracking-widest uppercase">
+											Treia No.1 Engine Desktop v3.0
+										</div>
+									</div>
+
+									<video 
+										className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+										autoPlay 
+										muted 
+										loop 
+										playsInline 
+										controls
+									>
+										<source src="/trading_demo.mp4" type="video/mp4" />
+									</video>
+									
+									<div className="absolute bottom-6 left-6 flex items-center gap-3 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+										<div className="w-1.5 h-1.5 bg-[#c8a84b] rounded-full animate-pulse"></div>
+										<span className="text-[10px] font-mono tracking-widest uppercase text-white/80">
+											Actual Algorithmic Data Stream
+										</span>
+									</div>
+								</div>
+								<div className="px-4 py-2 flex justify-between items-center text-[10px] font-mono text-[var(--treia-sub)] uppercase tracking-widest opacity-60">
+									<span>PC Terminal View</span>
+									<span>Real-time Monitoring</span>
+								</div>
+							</div>
+
+							{/* Mobile View */}
+							<div className="lg:col-span-4 flex flex-col items-center gap-6">
+								<div className="relative w-full max-w-[300px] aspect-[9/19] bg-[#050505] border-[8px] border-[#1a1a1c] rounded-[48px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] group ring-1 ring-white/10">
+									{/* iPhone Notch Style */}
+									<div className="absolute top-0 inset-x-0 h-7 flex justify-center z-30">
+										<div className="w-24 h-5 bg-[#1a1a1c] rounded-b-2xl flex items-center justify-center">
+											<div className="w-10 h-1 bg-white/5 rounded-full" />
+										</div>
+									</div>
+
+									<video 
+										className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+										autoPlay 
+										muted 
+										loop 
+										playsInline 
+										controls
+									>
+										<source src="/videos/mobile-trading.mp4" type="video/mp4" />
+									</video>
+
+									<div className="absolute bottom-8 inset-x-0 flex justify-center z-20">
+										<div className="bg-black/80 backdrop-blur-lg px-4 py-1.5 rounded-full border border-[var(--treia-gold)]/20 shadow-2xl">
+											<span className="text-[9px] font-black text-[var(--treia-gold)] tracking-[3px] uppercase">
+												Mobile Ready
+											</span>
+										</div>
+									</div>
+								</div>
+								<div className="text-[10px] font-mono text-[var(--treia-sub)] uppercase tracking-widest opacity-60">
+									Smartphone App View
+								</div>
 							</div>
 						</div>
 					</div>
